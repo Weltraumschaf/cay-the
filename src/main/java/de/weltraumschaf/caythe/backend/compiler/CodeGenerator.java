@@ -15,8 +15,8 @@ public class CodeGenerator extends Backend {
 
     @Override
     public void process(IntermediateCode iCode, SymbolTable symTab) throws Exception {
-        long startTime = System.currentTimeMillis();
-        float elapsedTime = (System.currentTimeMillis() - startTime) / 1000f;
+        long startTime       = System.currentTimeMillis();
+        float elapsedTime    = (System.currentTimeMillis() - startTime) / 1000f;
         int instructionCount = 0;
 
         sendMessage(new Message(MessageType.COMPILER_SUMMARY, new Number[] {

@@ -6,5 +6,5 @@ package de.weltraumschaf.caythe.message;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public interface MessageListener {
-    public void messageReceived(Message mssage);
+    public void messageReceived(Message message);
 }

@@ -24,9 +24,10 @@ public class Source implements MessageProducer {
     private int currentPos;
 
     public Source(BufferedReader reader) throws IOException {
-        this.reader = reader;
-        lineNum     = 0;
-        currentPos  = -2;
+        this.reader    = reader;
+        lineNum        = 0;
+        currentPos     = -2;
+        messageHandler = new MessageHandler();
     }
 
     public int getCurrentPos() {

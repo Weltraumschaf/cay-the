@@ -13,20 +13,20 @@ import de.weltraumschaf.caythe.message.MessageHandler;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public abstract class Parser implements MessageProducer {
-    protected static SymbolTable symTab;
+    protected static SymbolTable symbolTable;
     protected static MessageHandler messageHandler;
 
     static {
-        symTab         = null;
-        messageHandler = null;
+        symbolTable    = null;
+        messageHandler = new MessageHandler();
     }
 
     protected Scanner scanner;
-    protected IntermediateCode iCode;
+    protected IntermediateCode intermediateCode;
 
     public Parser(Scanner scanner) {
         this.scanner = scanner;
-        this.iCode   = null;
+        this.intermediateCode   = null;
     }
 
     public abstract void parse() throws Exception;
@@ -55,5 +55,12 @@ public abstract class Parser implements MessageProducer {
         messageHandler.sendMessage(message);
     }
 
+    public IntermediateCode getIntermediateCode() {
+        return intermediateCode;
+    }
+
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
 
 }
