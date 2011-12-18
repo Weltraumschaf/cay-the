@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>60</x>
+      <y>50</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Parser
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>180</x>
+      <y>50</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Scanner
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>60</x>
+      <y>130</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Token
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>180</x>
+      <y>130</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Source
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>330</x>
+      <y>50</y>
+      <w>110</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ICode
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>330</x>
+      <y>130</y>
+      <w>110</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>SymbolTable
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>480</x>
+      <y>50</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Backend
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>460</x>
+      <y>10</y>
+      <w>140</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>backend
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>40</x>
+      <y>10</y>
+      <w>260</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>frontend
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>310</x>
+      <y>10</y>
+      <w>140</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>intermediate
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
