@@ -4,7 +4,7 @@ import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
-import de.weltraumschaf.caythe.message.MessageType;
+import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -83,7 +83,7 @@ public class Source implements MessageProducer {
         currentPos = -1;
 
         if (null != line) {
-            sendMessage(new Message(MessageType.SOURCE_LINE, new Object[] {lineNum, line}));
+            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNum, line}));
         }
     }
 
