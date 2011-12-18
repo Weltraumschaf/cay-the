@@ -23,6 +23,14 @@ public class Source {
         currentPos  = -2;
     }
 
+    public int getCurrentPos() {
+        return currentPos;
+    }
+
+    public int getLineNum() {
+        return lineNum;
+    }
+
     public char currentChar() throws Exception {
         // First time?
         if (-2 == currentPos) {
