@@ -1,5 +1,10 @@
 package de.weltraumschaf.caythe.frontend;
 
+import de.weltraumschaf.caythe.message.Message;
+import de.weltraumschaf.caythe.message.MessageHandler;
+import de.weltraumschaf.caythe.message.MessageListener;
+import de.weltraumschaf.caythe.message.MessageProducer;
+import de.weltraumschaf.caythe.message.MessageType;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -8,10 +13,11 @@ import java.io.IOException;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
-public class Source {
+public class Source implements MessageProducer {
     public static final char EOL = '\n';
     public static final char EOF = (char) 0;
 
+    protected MessageHandler messageHandler;
     private BufferedReader reader;
     private String line;
     private int lineNum;
@@ -77,7 +83,7 @@ public class Source {
         currentPos = -1;
 
         if (null != line) {
-            ++lineNum;
+            sendMessage(new Message(MessageType.SOURCE_LINE, new Object[] {lineNum, line}));
         }
     }
 
@@ -91,4 +97,21 @@ public class Source {
             }
         }
     }
+
+    @Override
+    public void addMessageListener(MessageListener listener) {
+        messageHandler.addListener(listener);
+    }
+
+    @Override
+    public void removeMessageListener(MessageListener listener) {
+        messageHandler.removeListener(listener);
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        messageHandler.sendMessage(message);
+    }
+
+
 }
