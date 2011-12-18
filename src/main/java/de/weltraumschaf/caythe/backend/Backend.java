@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.intermediate.ICode;
+import de.weltraumschaf.caythe.intermediate.IntermediateCode;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
@@ -21,9 +21,9 @@ public abstract class Backend implements MessageProducer {
     }
 
     protected SymbolTable symTab;
-    protected ICode iCode;
+    protected IntermediateCode iCode;
 
-    public abstract void process(ICode iCode, SymbolTable symTab) throws Exception;
+    public abstract void process(IntermediateCode iCode, SymbolTable symTab) throws Exception;
 
     @Override
     public void addMessageListener(MessageListener listener) {

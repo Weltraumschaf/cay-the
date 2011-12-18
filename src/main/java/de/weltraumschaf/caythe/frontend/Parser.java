@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.intermediate.ICode;
+import de.weltraumschaf.caythe.intermediate.IntermediateCode;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageProducer;
@@ -22,7 +22,7 @@ public abstract class Parser implements MessageProducer {
     }
 
     protected Scanner scanner;
-    protected ICode iCode;
+    protected IntermediateCode iCode;
 
     public Parser(Scanner scanner) {
         this.scanner = scanner;
