@@ -6,11 +6,30 @@ package de.weltraumschaf.caythe.frontend;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public abstract class Scanner {
-    public Token currentToken() {
-        return null;
+
+    protected Source source;
+    private Token currentToken;
+
+    public Scanner(Source source) {
+        this.source = source;
     }
 
-    public Token nextToken() {
-        return null;
+    public Token currentToken() {
+        return currentToken;
+    }
+
+    public Token nextToken() throws Exception {
+        currentToken = extractToken();
+        return currentToken;
+    }
+
+    protected abstract Token extractToken() throws Exception;
+
+    public char currentChar() throws Exception {
+        return source.currentChar();
+    }
+
+    public char nextChar() throws Exception {
+        return source.nextChar();
     }
 }
