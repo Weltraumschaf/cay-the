@@ -7,8 +7,8 @@
     <artifactId>caythe</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <name>Plaing around with compiler and interp[reter stuff.</name>
-    <description>Playground code.</description>
+    <name>Playing around with compiler and interp[reter stuff.</name>
+    <description>Bought a book about writing compilers and interpreters and here are my exercises..</description>
 
 
     <organization>
@@ -98,4 +98,14 @@
             </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>config/sun_checks.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
