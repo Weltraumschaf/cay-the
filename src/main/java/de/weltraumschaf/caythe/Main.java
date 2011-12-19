@@ -85,6 +85,7 @@ public class Main {
             flags += args[i].substring(1);
         }
 
+        // @todo fix -h option
         if (flags.indexOf('h') > -1) {
             help();
             return;

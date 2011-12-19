@@ -3,8 +3,15 @@ package de.weltraumschaf.caythe.frontend.pascal;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Source;
-import static de.weltraumschaf.caythe.frontend.Source.EOF;
 import de.weltraumschaf.caythe.frontend.Token;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalErrorToken;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalNumberToken;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalSpecialSymbolToken;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalStringToken;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalWordToken;
+
+import static de.weltraumschaf.caythe.frontend.Source.EOF;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 
 /**
  *
@@ -19,6 +26,8 @@ public class PascalScanner extends Scanner {
 
     @Override
     protected Token extractToken() throws Exception {
+	skipWhitespace();
+
         Token token;
         char currentChar = currentChar();
 
@@ -26,12 +35,41 @@ public class PascalScanner extends Scanner {
         // The current character determines the token type.
         if (EOF == currentChar) {
             token = new EofToken(source);
+	} else if (Character.isLetter(currentChar)) {
+	    token = new PascalWordToken(source);
+	} else if (Character.isDigit(currentChar)) {
+	    token = new PascalNumberToken(source);
+	} else if ('\'' == currentChar) {
+	    token = new PascalStringToken(source);
+	} else if (PascalTokenType.SPECIAL_SYMBOLS.containsKey(Character.toString(currentChar))) {
+	    token = new PascalSpecialSymbolToken(source);
         } else {
-            token = new Token(source);
+            token = new PascalErrorToken(source, INVALID_CHARACTER, Character.toString(currentChar));
         }
 
         return token;
     }
 
+    private void skipWhitespace() throws Exception {
+	char currentChar = currentChar();
+
+	while (Character.isWhitespace(currentChar) || ('{' == currentChar)) {
+	    // Start of a comment?
+	    if ('{' == currentChar) {
+		do {
+		    currentChar = nextChar(); // Consume comment chars.
+		} while (('}' != currentChar) && (EOF != currentChar));
+
+		// Found closing '}'?
+		if ('}' == currentChar) {
+		    currentChar = nextChar(); // Consumes the '}'.
+		}
+	    }
+	    // Not a comment.
+	    else {
+		currentChar = nextChar();
+	    }
+	}
+    }
 
 }

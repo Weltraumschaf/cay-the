@@ -11,12 +11,12 @@ public class Token {
     protected String    text;
     protected Object    value;
     protected Source    source;
-    protected int       lineNum;
+    protected int       lineNumber;
     protected int       position;
 
     public Token(Source source) throws Exception {
         this.source = source;
-        lineNum     = source.getLineNum();
+        lineNumber  = source.getLineNum();
         position    = source.getCurrentPos();
         extract();
     }
@@ -39,8 +39,24 @@ public class Token {
         return source.peekChar();
     }
 
-    public int getLineNum() {
-        return lineNum;
+    public int getLineNumber() {
+        return lineNumber;
     }
-    
+
+    public TokenType getType() {
+        return type;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
 }

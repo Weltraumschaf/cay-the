@@ -1,7 +1,9 @@
 package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
-import de.weltraumschaf.caythe.frontend.Source;
-import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
+import de.weltraumschaf.caythe.frontend.*;
+import de.weltraumschaf.caythe.frontend.pascal.*;
+
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 
 /**
  *
@@ -10,8 +12,16 @@ import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
  */
 public class PascalErrorToken extends PascalToken {
 
-    public PascalErrorToken(Source source) throws Exception {
+    public PascalErrorToken(Source source, PascalErrorCode errorCode, String tokenText) throws Exception {
         super(source);
+	this.text  = tokenText;
+	this.type  = ERROR;
+	this.value = errorCode;
     }
-    
+
+    @Override
+    protected void extract() throws Exception {
+
+    }
+
 }
