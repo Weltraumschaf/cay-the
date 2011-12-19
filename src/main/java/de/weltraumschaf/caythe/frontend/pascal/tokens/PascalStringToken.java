@@ -3,6 +3,10 @@ package de.weltraumschaf.caythe.frontend.pascal.tokens;
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
 
+import static de.weltraumschaf.caythe.frontend.Source.EOF;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
@@ -12,6 +16,50 @@ public class PascalStringToken extends PascalToken {
 
     public PascalStringToken(Source source) throws Exception {
         super(source);
+    }
+
+    @Override
+    protected void extract() throws Exception {
+	StringBuilder textBuffer  = new StringBuilder();
+	StringBuilder valueBuffer = new StringBuilder();
+
+	char currentChar = nextChar(); // consume initial quote.
+	textBuffer.append('\'');
+
+	// Get string characters.
+	do {
+	    // Replace any white space character wit ha blank.
+	    if (Character.isWhitespace(currentChar)) {
+		currentChar = ' ';
+	    }
+
+	    if (('\'' != currentChar) && (EOF != currentChar)) {
+		textBuffer.append(currentChar);
+		valueBuffer.append(currentChar);
+		currentChar = nextChar(); // Consume character.
+	    }
+
+	    // Quote? Each pair of adjacent quotes represents a single-quote.
+	    if ('\'' == currentChar) {
+		while (('\'' == currentChar) && (peekChar() == '\'')) {
+		    textBuffer.append("''");
+		    valueBuffer.append(currentChar);
+		    currentChar = nextChar(); // Consume pair of quotes.
+		    currentChar = nextChar();
+		}
+	    }
+	} while (('\'' != currentChar) && (EOF != currentChar));
+
+	if ('\'' == currentChar) {
+	    nextChar(); // Consume final quote.
+	    textBuffer.append('\'');
+
+	    type  = STRING;
+	    value = valueBuffer.toString();
+	} else {
+	    type = ERROR;
+	    value = UNEXPECTED_EOF;
+	}
     }
 
 }

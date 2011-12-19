@@ -106,14 +106,19 @@ public class Pascal {
                     String tokenText    = (String) body[3];
                     Object tokenValue   = body[4];
 
-                    System.out.println(String.format(TOKEN_FORMAT, tokenType, line, position, tokenValue));
+                    System.out.println(String.format(TOKEN_FORMAT,
+						     tokenType,
+						     line,
+						     position,
+						     tokenText));
 
                     if (null != tokenValue) {
                         if (STRING == tokenType) {
                             tokenValue = "\"" + tokenValue + "\"";
                         }
 
-                        System.out.println(String.format(VALUE_FORMAT, tokenValue));
+                        System.out.println(String.format(VALUE_FORMAT,
+							 tokenValue));
                     }
 
                     break;

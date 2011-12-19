@@ -20,12 +20,12 @@ public class Source implements MessageProducer {
     protected MessageHandler messageHandler;
     private BufferedReader reader;
     private String line;
-    private int lineNum;
+    private int lineNumber;
     private int currentPos;
 
     public Source(BufferedReader reader) throws IOException {
         this.reader    = reader;
-        lineNum        = 0;
+        lineNumber     = 0;
         currentPos     = -2;
         messageHandler = new MessageHandler();
     }
@@ -34,8 +34,8 @@ public class Source implements MessageProducer {
         return currentPos;
     }
 
-    public int getLineNum() {
-        return lineNum;
+    public int getLineNumber() {
+        return lineNumber;
     }
 
     public char currentChar() throws Exception {
@@ -83,8 +83,12 @@ public class Source implements MessageProducer {
         line       = reader.readLine(); // Null when at end of the source.
         currentPos = -1;
 
+	if (line != null) {
+            ++lineNumber;
+        }
+
         if (null != line) {
-            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNum, line}));
+            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNumber, line}));
         }
     }
 

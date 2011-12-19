@@ -34,5 +34,5 @@ source lines.'
 
 {Bad tokens}
 123e99  123456789012345  1234.56E.  3.  5..  .14  314.e-2
-What?
 'String not closed
+What?

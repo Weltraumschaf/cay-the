@@ -37,7 +37,11 @@ public class PascalParserTD extends Parser {
                 if (tokenType != ERROR) {
                     // Format each token
                     sendMessage(new Message(MessageType.TOKEN, new Object[] {
-
+			token.getLineNumber(),
+			token.getPosition(),
+			tokenType,
+			token.getText(),
+			token.getValue()
                     }));
                 } else {
                     errorHandler.flag(token, (PascalErrorCode) token.getValue(), this);
