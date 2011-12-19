@@ -25,5 +25,5 @@ public class Error extends Throwable {
     public int getCode() {
         return code;
     }
-    
+
 }

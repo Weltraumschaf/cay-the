@@ -20,6 +20,9 @@ import java.io.FileReader;
  */
 public class Pascal {
 
+    private BackendFactory.Operation operation;
+    private String filePath;
+    private String flags;
     private Parser parser;
     private Source source;
     private IntermediateCode iCode;
@@ -27,70 +30,36 @@ public class Pascal {
     private Backend backend;
 
     public Pascal(BackendFactory.Operation operation, String filePath, String flags) {
-        try {
-             boolean intermediate = flags.indexOf('i') > -1;
-             boolean xref         = flags.indexOf('x') > -1;
-
-             source = new Source(new BufferedReader(new FileReader(filePath)));
-             source.addMessageListener(new SourceMessageListener());
-
-             parser = FrontendFactory.createParser(
-                 FrontendFactory.Language.PASCAL,
-                 FrontendFactory.Type.TOP_DOWN,
-                 source
-             );
-             parser.addMessageListener(new ParserMessageListener());
-
-             backend = BackendFactory.createBackend(operation);
-             backend.addMessageListener(new BackendMessageListener());
-
-             parser.parse();
-             source.close();
-
-             iCode  = parser.getIntermediateCode();
-             symTab = parser.getSymbolTable();
-
-             backend.process(iCode, symTab);
-        } catch (Exception ex ) {
-            System.out.println("FATAL: Internal translator error!");
-            ex.printStackTrace();
-        }
+        this.operation = operation;
+        this.filePath  = filePath;
+        this.flags     = flags;
     }
 
-    private static final String FLAGS = "[-ix]";
-    private static final String USAGE = "Usage: Pascal execute|compile " + FLAGS + " <source file path>";
 
-    public static void main(String args[]) {
-        try {
-            BackendFactory.Operation operation;
+    public void execute() throws Exception {
+        boolean intermediate = flags.indexOf('i') > -1;
+        boolean xref         = flags.indexOf('x') > -1;
 
-            // Operation.
-            if (args[0].equalsIgnoreCase("compile")) {
-                operation = BackendFactory.Operation.COMPILE;
-            } else if (args[0].equalsIgnoreCase("execute")) {
-                operation = BackendFactory.Operation.EXECUTE;
-            } else {
-                throw new Exception(String.format("Bad operation '%s' given!", args[0]));
-            }
+        source = new Source(new BufferedReader(new FileReader(filePath)));
+        source.addMessageListener(new SourceMessageListener());
 
-            int i = 0;
-            String flags = "";
+        parser = FrontendFactory.createParser(
+            FrontendFactory.Language.PASCAL,
+            FrontendFactory.Type.TOP_DOWN,
+            source
+        );
+        parser.addMessageListener(new ParserMessageListener());
 
-            // Flags.
-            while ((++i < args.length) && (args[i].charAt(0) == '-')) {
-                flags += args[i].substring(1);
-            }
+        backend = BackendFactory.createBackend(operation);
+        backend.addMessageListener(new BackendMessageListener());
 
-            // Source path.
-            if (i < args.length) {
-                String path = args[i];
-                Pascal p = new Pascal(operation, path, flags);
-            } else {
-                throw new Exception("No source file given!");
-            }
-        } catch (Exception ex) {
-            System.out.println(USAGE);
-        }
+        parser.parse();
+        source.close();
+
+        iCode  = parser.getIntermediateCode();
+        symTab = parser.getSymbolTable();
+
+        backend.process(iCode, symTab);
     }
 
     private static final String SOURCE_LINE_FORMAT = "%03d %s";
@@ -156,9 +125,9 @@ public class Pascal {
                     int runtimeErrors  = (Integer) body[1];
                     float elapsedTime  = (Float) body[2];
 
-                    System.out.println(
-                        String.format(INTERPRETER_SUMMARY_FORMAT, executionCount, runtimeErrors, elapsedTime)
-                    );
+//                    System.out.println(
+//                        String.format(INTERPRETER_SUMMARY_FORMAT, executionCount, runtimeErrors, elapsedTime)
+//                    );
                     break;
                 }
                 case COMPILER_SUMMARY: {

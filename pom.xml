@@ -87,7 +87,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.weltraumschaf.caythe.Pascal</mainClass>
+                            <mainClass>de.weltraumschaf.caythe.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
