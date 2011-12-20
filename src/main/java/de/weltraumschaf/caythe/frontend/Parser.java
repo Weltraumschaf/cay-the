@@ -1,7 +1,8 @@
 package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.IntermediateCode;
-import de.weltraumschaf.caythe.intermediate.SymbolTable;
+import de.weltraumschaf.caythe.intermediate.SymbolTableFactory;
+import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageProducer;
 import de.weltraumschaf.caythe.message.MessageListener;
@@ -13,12 +14,12 @@ import de.weltraumschaf.caythe.message.MessageHandler;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public abstract class Parser implements MessageProducer {
-    protected static SymbolTable symbolTable;
+    protected static SymbolTableStack symbolTableStack;
     protected static MessageHandler messageHandler;
 
     static {
-        symbolTable    = null;
-        messageHandler = new MessageHandler();
+        symbolTableStack = SymbolTableFactory.createSymbolTableStack();
+        messageHandler   = new MessageHandler();
     }
 
     protected Scanner scanner;
@@ -59,8 +60,8 @@ public abstract class Parser implements MessageProducer {
         return intermediateCode;
     }
 
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
+    public SymbolTableStack getSymbolTableStack() {
+        return symbolTableStack;
     }
 
 }
