@@ -2,7 +2,7 @@ package de.weltraumschaf.caythe.backend.compiler;
 
 import de.weltraumschaf.caythe.backend.Backend;
 import de.weltraumschaf.caythe.intermediate.IntermediateCode;
-import de.weltraumschaf.caythe.intermediate.SymbolTable;
+import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 
@@ -14,7 +14,7 @@ import de.weltraumschaf.caythe.message.MessageType;
 public class CodeGenerator extends Backend {
 
     @Override
-    public void process(IntermediateCode iCode, SymbolTable symTab) throws Exception {
+    public void process(IntermediateCode iintermediateCode, SymbolTableStack symbolTableStack) throws Exception {
         long startTime       = System.currentTimeMillis();
         float elapsedTime    = (System.currentTimeMillis() - startTime) / 1000f;
         int instructionCount = 0;

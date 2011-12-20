@@ -1,10 +1,12 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
+import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.TokenType;
+import de.weltraumschaf.caythe.intermediate.SymbolTable;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 import java.io.IOException;
@@ -34,16 +36,19 @@ public class PascalParserTD extends Parser {
             while ( ! ((token = nextToken()) instanceof EofToken)) {
                 TokenType tokenType = token.getType();
 
-                if (tokenType != ERROR) {
-                    // Format each token
-                    sendMessage(new Message(MessageType.TOKEN, new Object[] {
-			token.getLineNumber(),
-			token.getPosition(),
-			tokenType,
-			token.getText(),
-			token.getValue()
-                    }));
-                } else {
+                if (IDENTIFIER == tokenType) {
+                    String name = token.getText().toLowerCase();
+                    // If it's not already in the symbol table,
+                    // create and enter a new entry for the identifier.
+                    SymbolTableEntry entry = symbolTableStack.lookup(name);
+
+                    if (null == entry) {
+                        entry = symbolTableStack.enterLocal(name);
+                    }
+
+                    // Append current line number to the entry.
+                    entry.appendLineNumber(token.getLineNumber());
+                } else if (ERROR == tokenType) {
                     errorHandler.flag(token, (PascalErrorCode) token.getValue(), this);
                 }
             }

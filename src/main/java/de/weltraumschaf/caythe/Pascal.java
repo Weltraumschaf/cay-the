@@ -8,9 +8,11 @@ import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.intermediate.IntermediateCode;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
+import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageType;
+import de.weltraumschaf.caythe.util.CrossReferencer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -28,8 +30,8 @@ public class Pascal {
     private String flags;
     private Parser parser;
     private Source source;
-    private IntermediateCode iCode;
-    private SymbolTable symTab;
+    private IntermediateCode intermediateCode;
+    private SymbolTableStack symbolTableStack;
     private Backend backend;
 
     public Pascal(BackendFactory.Operation operation, String filePath, String flags) {
@@ -59,10 +61,15 @@ public class Pascal {
         parser.parse();
         source.close();
 
-        iCode  = parser.getIntermediateCode();
-        symTab = parser.getSymbolTable();
+        intermediateCode = parser.getIntermediateCode();
+        symbolTableStack = parser.getSymbolTableStack();
 
-        backend.process(iCode, symTab);
+        if (xref) {
+            CrossReferencer crossReferencer = new CrossReferencer();
+            crossReferencer.print(symbolTableStack);
+        }
+
+        backend.process(intermediateCode, symbolTableStack);
     }
 
     private static final String SOURCE_LINE_FORMAT = "%03d %s";
