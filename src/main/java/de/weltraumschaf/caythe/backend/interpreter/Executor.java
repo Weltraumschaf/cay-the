@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
 import de.weltraumschaf.caythe.backend.Backend;
-import de.weltraumschaf.caythe.intermediate.IntermediateCode;
+import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
@@ -14,7 +14,7 @@ import de.weltraumschaf.caythe.message.MessageType;
 public class Executor extends Backend {
 
     @Override
-    public void process(IntermediateCode intermediateCode, SymbolTableStack symbolTableStack) throws Exception {
+    public void process(Code intermediateCode, SymbolTableStack symbolTableStack) throws Exception {
         long startTime     = System.currentTimeMillis();
         float elapsedTime  = (System.currentTimeMillis() - startTime) / 1000f;
         int executionCount = 0;

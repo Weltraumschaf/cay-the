@@ -6,7 +6,7 @@ import de.weltraumschaf.caythe.frontend.FrontendFactory;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.TokenType;
-import de.weltraumschaf.caythe.intermediate.IntermediateCode;
+import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
@@ -30,7 +30,7 @@ public class Pascal {
     private String flags;
     private Parser parser;
     private Source source;
-    private IntermediateCode intermediateCode;
+    private Code intermediateCode;
     private SymbolTableStack symbolTableStack;
     private Backend backend;
 
