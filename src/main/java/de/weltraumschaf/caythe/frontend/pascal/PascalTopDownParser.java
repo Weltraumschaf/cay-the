@@ -1,12 +1,15 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
+import de.weltraumschaf.caythe.frontend.pascal.parsers.StatementParser;
+import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.TokenType;
-import de.weltraumschaf.caythe.intermediate.SymbolTable;
+import de.weltraumschaf.caythe.intermediate.CodeFactory;
+import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 import java.io.IOException;
@@ -19,38 +22,44 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
-public class PascalParserTD extends Parser {
+public class PascalTopDownParser extends Parser {
 
     protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
 
-    public PascalParserTD(Scanner scanner) {
+    public PascalTopDownParser(Scanner scanner) {
         super(scanner);
+    }
+
+    public PascalTopDownParser(PascalTopDownParser parent) {
+        super(parent.getScanner());
     }
 
     @Override
     public void parse() throws Exception {
-        Token token;
         long startTime = System.currentTimeMillis();
+        intermediateCode = CodeFactory.createCode();
 
         try {
-            while ( ! ((token = nextToken()) instanceof EofToken)) {
-                TokenType tokenType = token.getType();
+            Token token = nextToken();
+            CodeNode rootNode = null;
 
-                if (IDENTIFIER == tokenType) {
-                    String name = token.getText().toLowerCase();
-                    // If it's not already in the symbol table,
-                    // create and enter a new entry for the identifier.
-                    SymbolTableEntry entry = symbolTableStack.lookup(name);
+            if (BEGIN == token.getType()) {
+                StatementParser statementParser = new StatementParser(this);
+                rootNode = statementParser.parse(token);
+                token = currentToken();
+            } else {
+                errorHandler.flag(token, UNEXPECTED_TOKEN, this);
+            }
 
-                    if (null == entry) {
-                        entry = symbolTableStack.enterLocal(name);
-                    }
+            // Look for the final period.
+            if (token.getType() != DOT) {
+                errorHandler.flag(token, MISSING_PERIOD, this);
+            }
+            token = currentToken();
 
-                    // Append current line number to the entry.
-                    entry.appendLineNumber(token.getLineNumber());
-                } else if (ERROR == tokenType) {
-                    errorHandler.flag(token, (PascalErrorCode) token.getValue(), this);
-                }
+            // Set the parse tree root node.
+            if (rootNode != null) {
+                intermediateCode.setRoot(rootNode);
             }
 
             // Send the parser summary message.

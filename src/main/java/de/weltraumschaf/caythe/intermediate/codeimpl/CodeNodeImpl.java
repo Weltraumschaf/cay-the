@@ -40,7 +40,7 @@ public class CodeNodeImpl extends HashMap<CodeKey, Object> implements CodeNode {
     @Override
     public CodeNode copy() {
         // Create a copy with the same type.
-        CodeNodeImpl copy = (CodeNodeImpl) CodeFactory.createICodeNode(type);
+        CodeNodeImpl copy = (CodeNodeImpl) CodeFactory.createCodeNode(type);
 
         Set<Map.Entry<CodeKey, Object>> attributes = entrySet();
         Iterator<Map.Entry<CodeKey, Object>> it = attributes.iterator();

@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.frontend.pascal.PascalParserTD;
+import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.frontend.pascal.PascalScanner;
 
 /**
@@ -20,7 +20,7 @@ public class FrontendFactory {
     public static Parser createParser(Language lang, Type type, Source source) throws Exception {
         if (Language.PASCAL == lang && Type.TOP_DOWN == type) {
             Scanner scanner = new PascalScanner(source);
-            return new PascalParserTD(scanner);
+            return new PascalTopDownParser(scanner);
         } else {
             throw new Exception(String.format("Invalid language %s or type %s!", lang, type));
         }

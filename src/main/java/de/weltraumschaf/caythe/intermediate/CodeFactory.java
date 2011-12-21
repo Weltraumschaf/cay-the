@@ -10,11 +10,11 @@ import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeImpl;
  */
 public class CodeFactory {
 
-    public static Code createICode() {
+    public static Code createCode() {
         return new CodeImpl();
     }
 
-    public static CodeNode createICodeNode(CodeNodeType type) {
+    public static CodeNode createCodeNode(CodeNodeType type) {
         return new CodeNodeImpl(type);
     }
 }

@@ -22,7 +22,7 @@ public abstract class Parser implements MessageProducer {
         messageHandler   = new MessageHandler();
     }
 
-    protected Scanner scanner;
+    private Scanner scanner;
     protected Code intermediateCode;
 
     public Parser(Scanner scanner) {
@@ -62,6 +62,10 @@ public abstract class Parser implements MessageProducer {
 
     public SymbolTableStack getSymbolTableStack() {
         return symbolTableStack;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 
 }
