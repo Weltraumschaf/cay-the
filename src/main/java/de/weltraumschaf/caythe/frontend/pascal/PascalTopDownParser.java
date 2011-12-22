@@ -14,6 +14,7 @@ import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 import java.io.IOException;
 
+import java.util.EnumSet;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 
@@ -72,6 +73,22 @@ public class PascalTopDownParser extends Parser {
         } catch (IOException ex) {
             errorHandler.abortTranslation(IO_ERROR, this);
         }
+    }
+
+    public Token synchronize(EnumSet syncSet) throws Exception {
+        Token token = currentToken();
+
+        // If the current token is not in the synchronisation set set,
+        // then it is unexpected and the parser must recover.
+        if (!syncSet.contains(token.getType())) {
+            errorHandler.flag(token, UNEXPECTED_TOKEN, this);
+            // Recover by skipping tokens that are not in the sync set.
+            do {
+                token = nextToken();
+            } while (!(token instanceof EofToken) && !syncSet.contains(token.getType()));
+        }
+
+        return token;
     }
 
     @Override
