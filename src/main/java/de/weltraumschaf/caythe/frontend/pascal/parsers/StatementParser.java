@@ -38,14 +38,14 @@ public class StatementParser extends PascalTopDownParser {
         switch ((PascalTokenType) token.getType()) {
 
             case BEGIN: {
-                CompoundStatementParser parse = new CompoundStatementParser(this);
+                CompoundStatementParser parser = new CompoundStatementParser(this);
                 statementNode = parser.parse(token);
                 break;
             }
 
             // An assignment statement begins with a variable's identifier.
             case IDENTIFIER: {
-                AssignmentStatementParser parse = new AssignmentStatementParser(this);
+                AssignmentStatementParser parser = new AssignmentStatementParser(this);
                 statementNode = parser.parse(token);
                 break;
             }
