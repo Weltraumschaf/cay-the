@@ -79,4 +79,9 @@ public class CodeNodeImpl extends HashMap<CodeKey, Object> implements CodeNode {
         put(key, value);
     }
 
+    @Override
+    public String toString() {
+        return type.toString();
+    }
+
 }

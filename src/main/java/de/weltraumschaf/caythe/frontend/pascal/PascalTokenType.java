@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
 import de.weltraumschaf.caythe.frontend.TokenType;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 
 /**
  *
@@ -58,8 +58,8 @@ public enum PascalTokenType implements TokenType {
 
     // Hash table of Pascal special symbols. Each special symbol's text
     // is the key to its Pascal token type.
-    public static final Hashtable<String, PascalTokenType> SPECIAL_SYMBOLS =
-	new Hashtable<String, PascalTokenType>();
+    public static final HashMap<String, PascalTokenType> SPECIAL_SYMBOLS =
+	new HashMap<String, PascalTokenType>();
     static {
         PascalTokenType values[] = PascalTokenType.values();
         for (int i = FIRST_SPECIAL_INDEX; i <= LAST_SPECIAL_INDEX; ++i) {

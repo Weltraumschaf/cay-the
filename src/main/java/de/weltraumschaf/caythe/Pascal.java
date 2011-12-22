@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.caythe.util.ParseTreePrinter;
 import de.weltraumschaf.caythe.backend.Backend;
 import de.weltraumschaf.caythe.backend.BackendFactory;
 import de.weltraumschaf.caythe.frontend.FrontendFactory;
@@ -65,8 +66,14 @@ public class Pascal {
         symbolTableStack = parser.getSymbolTableStack();
 
         if (xref) {
+            // TODO refactor to stream printer like ParseTreePrinter
             CrossReferencer crossReferencer = new CrossReferencer();
             crossReferencer.print(symbolTableStack);
+        }
+
+        if (intermediate) {
+            ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
+            treePrinter.print(intermediateCode);
         }
 
         backend.process(intermediateCode, symbolTableStack);
