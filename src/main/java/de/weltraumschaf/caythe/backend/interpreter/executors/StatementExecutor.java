@@ -27,14 +27,32 @@ public class StatementExecutor extends Executor {
 
         switch (nodeType) {
             case COMPOUND: {
-                CompundExecutor compundExecutr = new CompundExecutor(this);
-                return compundExecutr.execute(node);
+                CompundExecutor executr = new CompundExecutor(this);
+                return executr.execute(node);
             }
+
             case ASSIGN: {
-                AssignmentExecutor assignementExecutor = new AssignmentExecutor(this);
-                return assignementExecutor.execute(node);
+                AssignmentExecutor executor = new AssignmentExecutor(this);
+                return executor.execute(node);
             }
+
+            case LOOP: {
+                LoopExecutor executor = new LoopExecutor(this);
+                return executor.execute(node);
+            }
+
+            case IF: {
+                IfExecutor executor = new IfExecutor(this);
+                return executor.execute(node);
+            }
+
+            case SELECT: {
+                SelectExecutor executor = new SelectExecutor(this);
+                return executor.execute(node);
+            }
+
             case NO_OP: return null;
+
             default: {
                 errorHandler.flag(node, UNIMPLEMENTED_FEATURE, this);
                 return null;
