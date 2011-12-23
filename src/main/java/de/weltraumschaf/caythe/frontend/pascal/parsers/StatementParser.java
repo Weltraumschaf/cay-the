@@ -99,11 +99,13 @@ public class StatementParser extends PascalTopDownParser {
     }
 
     protected void parseList(Token token, CodeNode parentNode, PascalTokenType terminator, PascalErrorCode errorCode) throws Exception {
+        // Sync set for the terminator.
+        EnumSet<PascalTokenType> terminatorSet = STATEMENT_START_SET.clone();
+        terminatorSet.add(terminator);
+
         // Loop to parse each statement until the END token
         // or the end of the source file.
-        while (!( token instanceof EofToken )
-                && ( token.getType() != terminator )) {
-
+        while (!(token instanceof EofToken) && (token.getType() != terminator)) {
             // Parse a statement.  The parent node adopts the statement node.
             CodeNode statementNode = parse(token);
             parentNode.addChild(statementNode);
@@ -114,15 +116,14 @@ public class StatementParser extends PascalTopDownParser {
             // Look for the semicolon between statements.
             if (tokenType == SEMICOLON) {
                 token = nextToken();  // consume the ;
-            } // If at the start of the next assignment statement,
-            // then missing a semicolon.
-            else if (tokenType == IDENTIFIER) {
-                errorHandler.flag(token, MISSING_SEMICOLON, this);
-            } // Unexpected token.
-            else if (tokenType != terminator) {
-                errorHandler.flag(token, UNEXPECTED_TOKEN, this);
-                token = nextToken();  // consume the unexpected token
             }
+            // If at the start of the next assignment statement, then missing a semicolon.
+            else if (STATEMENT_START_SET.contains(tokenType)) {
+                errorHandler.flag(token, MISSING_SEMICOLON, this);
+            }
+
+            // Sync at start of next statement or at terminator.
+            token = synchronize(terminatorSet);
         }
 
         // Look for the terminator token.

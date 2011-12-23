@@ -2,10 +2,12 @@ package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.frontend.Token;
+import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 
+import java.util.EnumSet;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
@@ -22,6 +24,13 @@ public class AssignmentStatementParser extends StatementParser {
         super(parent);
     }
 
+    private static final EnumSet<PascalTokenType> COLON_EQUALS_SET =
+            ExpressionParser.EXPRESSION_START_SET.clone();
+
+    static {
+
+    }
+
     @Override
     public CodeNode parse(Token token) throws Exception {
         // Create the ASSIGN node.
@@ -35,8 +44,8 @@ public class AssignmentStatementParser extends StatementParser {
         if (targetId == null) {
             targetId = symbolTableStack.enterLocal(targetName);
         }
-        targetId.appendLineNumber(token.getLineNumber());
 
+        targetId.appendLineNumber(token.getLineNumber());
         token = nextToken();  // consume the identifier token
 
         // Create the variable node and set its name attribute.
@@ -45,6 +54,7 @@ public class AssignmentStatementParser extends StatementParser {
 
         // The ASSIGN node adopts the variable node as its first child.
         assignNode.addChild(variableNode);
+        token = synchronize(COLON_EQUALS_SET);
 
         // Look for the := token.
         if (token.getType() == COLON_EQUALS) {

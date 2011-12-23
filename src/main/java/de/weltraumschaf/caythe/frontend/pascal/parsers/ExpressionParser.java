@@ -49,8 +49,10 @@ public class ExpressionParser extends StatementParser {
         REL_OPS_MAP.put(GREATER_EQUALS, GE);
     }
 
-    ;
-
+    // Synchronization set for starting an expression.
+    static final EnumSet<PascalTokenType> EXPRESSION_START_SET =
+        EnumSet.of(PLUS, MINUS, IDENTIFIER, INTEGER, REAL, STRING,
+                   PascalTokenType.NOT, LEFT_PAREN);
     /**
      * Parse an expression.
      * @param token the initial token.
@@ -88,18 +90,15 @@ public class ExpressionParser extends StatementParser {
         return rootNode;
     }
     // Set of additive operators.
-    private static final EnumSet<PascalTokenType> ADD_OPS =
-            EnumSet.of(PLUS, MINUS, PascalTokenType.OR);
+    private static final EnumSet<PascalTokenType> ADD_OPS = EnumSet.of(PLUS, MINUS, PascalTokenType.OR);
     // Map additive operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeTypeImpl> ADD_OPS_OPS_MAP = new HashMap<PascalTokenType, CodeNodeTypeImpl>();
+    private static final HashMap<PascalTokenType, CodeNodeTypeImpl> ADD_OPS_MAP = new HashMap<PascalTokenType, CodeNodeTypeImpl>();
 
     static {
-        ADD_OPS_OPS_MAP.put(PLUS, ADD);
-        ADD_OPS_OPS_MAP.put(MINUS, SUBTRACT);
-        ADD_OPS_OPS_MAP.put(PascalTokenType.OR, CodeNodeTypeImpl.OR);
+        ADD_OPS_MAP.put(PLUS, ADD);
+        ADD_OPS_MAP.put(MINUS, SUBTRACT);
+        ADD_OPS_MAP.put(PascalTokenType.OR, CodeNodeTypeImpl.OR);
     }
-
-    ;
 
     /**
      * Parse a simple expression.
@@ -139,7 +138,7 @@ public class ExpressionParser extends StatementParser {
 
             // Create a new operator node and adopt the current tree
             // as its first child.
-            CodeNodeType nodeType = ADD_OPS_OPS_MAP.get(tokenType);
+            CodeNodeType nodeType = ADD_OPS_MAP.get(tokenType);
             CodeNode opNode = CodeFactory.createCodeNode(nodeType);
             opNode.addChild(rootNode);
 
@@ -162,17 +161,15 @@ public class ExpressionParser extends StatementParser {
     private static final EnumSet<PascalTokenType> MULT_OPS =
             EnumSet.of(STAR, SLASH, DIV, PascalTokenType.MOD, PascalTokenType.AND);
     // Map multiplicative operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeType> MULT_OPS_OPS_MAP = new HashMap<PascalTokenType, CodeNodeType>();
+    private static final HashMap<PascalTokenType, CodeNodeType> MULT_OPS_MAP = new HashMap<PascalTokenType, CodeNodeType>();
 
     static {
-        MULT_OPS_OPS_MAP.put(STAR, MULTIPLY);
-        MULT_OPS_OPS_MAP.put(SLASH, FLOAT_DIVIDE);
-        MULT_OPS_OPS_MAP.put(DIV, INTEGER_DIVIDE);
-        MULT_OPS_OPS_MAP.put(PascalTokenType.MOD, CodeNodeTypeImpl.MOD);
-        MULT_OPS_OPS_MAP.put(PascalTokenType.AND, CodeNodeTypeImpl.AND);
-    }
-
-    ;
+        MULT_OPS_MAP.put(STAR, MULTIPLY);
+        MULT_OPS_MAP.put(SLASH, FLOAT_DIVIDE);
+        MULT_OPS_MAP.put(DIV, INTEGER_DIVIDE);
+        MULT_OPS_MAP.put(PascalTokenType.MOD, CodeNodeTypeImpl.MOD);
+        MULT_OPS_MAP.put(PascalTokenType.AND, CodeNodeTypeImpl.AND);
+    };
 
     /**
      * Parse a term.
@@ -193,7 +190,7 @@ public class ExpressionParser extends StatementParser {
 
             // Create a new operator node and adopt the current tree
             // as its first child.
-            CodeNodeType nodeType = MULT_OPS_OPS_MAP.get(tokenType);
+            CodeNodeType nodeType = MULT_OPS_MAP.get(tokenType);
             CodeNode opNode = CodeFactory.createCodeNode(nodeType);
             opNode.addChild(rootNode);
 
