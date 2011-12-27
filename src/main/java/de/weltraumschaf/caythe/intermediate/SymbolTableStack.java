@@ -17,4 +17,13 @@ public interface SymbolTableStack {
 
     public SymbolTableEntry lookup(String name);
 
+    public void setProgramId(SymbolTableEntry entry);
+
+    public SymbolTableEntry getProgramId();
+
+    public SymbolTable push();
+
+    public SymbolTable push(SymbolTable symbolTable);
+
+    public SymbolTable pop();
 }

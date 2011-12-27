@@ -1,8 +1,10 @@
 package de.weltraumschaf.caythe.intermediate.symboltableimpl;
 
+import de.weltraumschaf.caythe.intermediate.Definition;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.SymbolTableKey;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +18,8 @@ public class SymbolTableEntryImpl extends HashMap<SymbolTableKey, Object> implem
     private String name;                     // entry name
     private SymbolTable symbolTable;              // parent symbol table
     private ArrayList<Integer> lineNumbers;  // source line numbers
+    private Definition definition;
+    private TypeSpecification typeSpecification;
 
     public SymbolTableEntryImpl(String name, SymbolTable symTab) {
 	this.name	 = name;
@@ -56,5 +60,26 @@ public class SymbolTableEntryImpl extends HashMap<SymbolTableKey, Object> implem
     public SymbolTable getSymbolTable() {
 	return symbolTable;
     }
-    
+
+    @Override
+    public Definition getDefinition() {
+        return definition;
+    }
+
+    @Override
+    public TypeSpecification getTypeSpec() {
+        return typeSpecification;
+    }
+
+    @Override
+    public void setDefinition(Definition definition) {
+        this.definition = definition;
+    }
+
+    @Override
+    public void setTypeSpecification(TypeSpecification typeSpec) {
+        this.typeSpecification = typeSpec;
+    }
+
+
 }

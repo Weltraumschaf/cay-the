@@ -14,10 +14,21 @@ import java.util.ArrayList;
 public class SymbolTableStackImpl extends ArrayList<SymbolTable> implements SymbolTableStack {
 
     private int currentNestingLevel;  // current scope nesting level
+    private SymbolTableEntry programId;
 
     public SymbolTableStackImpl() {
 	this.currentNestingLevel = 0;
 	add(SymbolTableFactory.createSymbolTable(currentNestingLevel));
+    }
+
+    @Override
+    public SymbolTableEntry getProgramId() {
+        return programId;
+    }
+
+    @Override
+    public void setProgramId(SymbolTableEntry programId) {
+        this.programId = programId;
     }
 
     @Override
@@ -42,6 +53,35 @@ public class SymbolTableStackImpl extends ArrayList<SymbolTable> implements Symb
 
     @Override
     public SymbolTableEntry lookup(String name) {
-	return lookupLocal(name);
+        SymbolTableEntry foundEntry = null;
+
+        for (int i = currentNestingLevel; (i >= 0) && (foundEntry == null); --i) {
+            foundEntry = get(i).lookup(name);
+        }
+
+	return foundEntry;
     }
+
+    @Override
+    public SymbolTable pop() {
+        SymbolTable symbolTable = get(currentNestingLevel);
+        remove(currentNestingLevel--);
+        return symbolTable;
+    }
+
+    @Override
+    public SymbolTable push() {
+        SymbolTable symbolTable= SymbolTableFactory.createSymbolTable(++currentNestingLevel);
+        add(symbolTable);
+        return symbolTable;
+    }
+
+    @Override
+    public SymbolTable push(SymbolTable symbolTable) {
+        ++currentNestingLevel;
+        add(symbolTable);
+        return symbolTable;
+    }
+
+
 }

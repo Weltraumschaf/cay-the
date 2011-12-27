@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.intermediate;
 
-import de.weltraumschaf.caythe.intermediate.typeimpl.TypeSpecImpl;
+import de.weltraumschaf.caythe.intermediate.typeimpl.TypeSpecificationImpl;
 
 /**
  *
@@ -9,11 +9,11 @@ import de.weltraumschaf.caythe.intermediate.typeimpl.TypeSpecImpl;
  */
 public class TypeFactory {
 
-    public static TypeSpecImpl createType(TypeForm form) {
-        return new TypeSpecImpl(form);
+    public static TypeSpecificationImpl createType(TypeForm form) {
+        return new TypeSpecificationImpl(form);
     }
 
-    public static TypeSpecImpl createType(String value) {
-        return new TypeSpecImpl(value);
+    public static TypeSpecificationImpl createType(String value) {
+        return new TypeSpecificationImpl(value);
     }
 }
