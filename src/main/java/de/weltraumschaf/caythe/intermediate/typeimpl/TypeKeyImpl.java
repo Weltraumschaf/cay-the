@@ -9,7 +9,7 @@ import de.weltraumschaf.caythe.intermediate.TypeKey;
  */
 public enum TypeKeyImpl implements TypeKey {
     // Enumeration
-    ENMUMERATION_CONSTANTS,
+    ENUMERATION_CONSTANTS,
 
     // Subrange
     SUBRANGE_BASE_TYPE, SUBRANGE_MIN_VALUE, SUBRANGE_MAX_VALUE,

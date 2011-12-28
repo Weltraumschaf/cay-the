@@ -1,22 +1,23 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
-import de.weltraumschaf.caythe.frontend.pascal.parsers.StatementParser;
-import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
-import de.weltraumschaf.caythe.frontend.TokenType;
+import de.weltraumschaf.caythe.frontend.pascal.parsers.BlockParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 import java.io.IOException;
-
 import java.util.EnumSet;
+
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
 
 /**
  *
@@ -26,6 +27,7 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 public class PascalTopDownParser extends Parser {
 
     protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
+    private SymbolTableEntry routineId;
 
     public PascalTopDownParser(Scanner scanner) {
         super(scanner);
@@ -39,29 +41,34 @@ public class PascalTopDownParser extends Parser {
     public void parse() throws Exception {
         long startTime = System.currentTimeMillis();
         intermediateCode = CodeFactory.createCode();
+        Predefined.initialize(symbolTableStack);
+
+        // Create a dummy program identifier symbol table entry.
+        routineId = symbolTableStack.enterLocal("DummyProgramName".toLowerCase());
+        routineId.setDefinition(DefinitionImpl.PROGRAM);
+        symbolTableStack.setProgramId(routineId);
+
+        // Push a new symbol table onto the symbol table stac and set
+        // the routine's symbol table and intermediate code.
+        routineId.setAttribute(ROUTINE_SYMTAB, symbolTableStack.push());
+        routineId.setAttribute(ROUTINE_ICODE, intermediateCode);
+
+        BlockParser blockParser = new BlockParser(this);
 
         try {
             Token token = nextToken();
-            CodeNode rootNode = null;
-
-            if (BEGIN == token.getType()) {
-                StatementParser statementParser = new StatementParser(this);
-                rootNode = statementParser.parse(token);
-                token = currentToken();
-            } else {
-                errorHandler.flag(token, UNEXPECTED_TOKEN, this);
-            }
+            CodeNode rootNode = blockParser.parse(token, routineId);
+            intermediateCode.setRoot(rootNode);
+            symbolTableStack.pop();
 
             // Look for the final period.
-            if (token.getType() != DOT) {
-                errorHandler.flag(token, MISSING_PERIOD, this);
-            }
             token = currentToken();
 
-            // Set the parse tree root node.
-            if (rootNode != null) {
-                intermediateCode.setRoot(rootNode);
+            if (DOT != token.getType()) {
+                errorHandler.flag(token, MISSING_PERIOD, this);
             }
+
+            token = currentToken();
 
             // Send the parser summary message.
             float elapsedTime = (System.currentTimeMillis() - startTime) / 1000f;

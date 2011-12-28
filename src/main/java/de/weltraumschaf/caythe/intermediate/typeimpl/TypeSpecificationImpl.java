@@ -65,7 +65,7 @@ public class TypeSpecificationImpl extends HashMap<TypeKey, Object> implements T
     }
 
     @Override
-    public void setIdentifer(SymbolTableEntry identifer) {
+    public void setIdentifier(SymbolTableEntry identifer) {
         this.identifer = identifer;
     }
 

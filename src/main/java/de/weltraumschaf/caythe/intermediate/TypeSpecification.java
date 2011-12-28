@@ -7,7 +7,7 @@ package de.weltraumschaf.caythe.intermediate;
  */
 public interface TypeSpecification {
     public TypeForm getForm();
-    public void setIdentifer(SymbolTableEntry identifer);
+    public void setIdentifier(SymbolTableEntry identifer);
     public SymbolTableEntry getIdentifier();
     public void setAttribute(TypeKey key, Object value);
     public Object getAttribute(TypeKey key);

@@ -38,28 +38,28 @@ public class Predefined {
         // Type integer.
         integerId   = symbolTableStack.enterLocal("integer");
         integerType = TypeFactory.createType(SCALAR);
-        integerType.setIdentifer(integerId);
+        integerType.setIdentifier(integerId);
         integerId.setDefinition(DefinitionImpl.TYPE);
         integerId.setTypeSpecification(integerType);
 
         // Type real.
         realId   = symbolTableStack.enterLocal("real");
         realType = TypeFactory.createType(SCALAR);
-        realType.setIdentifer(realId);
+        realType.setIdentifier(realId);
         realId.setDefinition(DefinitionImpl.TYPE);
         realId.setTypeSpecification(realType);
 
         // Type boolean.
         booleanId   = symbolTableStack.enterLocal("boolean");
         booleanType = TypeFactory.createType(ENUMERATION);
-        booleanType.setIdentifer(booleanId);
+        booleanType.setIdentifier(booleanId);
         booleanId.setDefinition(DefinitionImpl.TYPE);
         booleanId.setTypeSpecification(booleanType);
 
         // Type char.
         charId   = symbolTableStack.enterLocal("char");
         charType = TypeFactory.createType(SCALAR);
-        charType.setIdentifer(charId);
+        charType.setIdentifier(charId);
         charId.setDefinition(DefinitionImpl.TYPE);
         charId.setTypeSpecification(charType);
 
@@ -84,6 +84,6 @@ public class Predefined {
         ArrayList<SymbolTableEntry> constants = new ArrayList<SymbolTableEntry>();
         constants.add(falseId);
         constants.add(trueId);
-        booleanType.setAttribute(ENMUMERATION_CONSTANTS, constants);
+        booleanType.setAttribute(ENUMERATION_CONSTANTS, constants);
     }
 }
