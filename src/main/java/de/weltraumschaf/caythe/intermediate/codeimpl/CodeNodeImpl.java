@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeKey;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.intermediate.CodeNodeType;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,14 +18,25 @@ import java.util.Set;
  */
 public class CodeNodeImpl extends HashMap<CodeKey, Object> implements CodeNode {
 
-    private CodeNodeType type;             // node type
-    private CodeNode parent;               // parent node
-    private ArrayList<CodeNode> children;  // children array list
+    private CodeNodeType type;
+    private CodeNode parent;
+    private ArrayList<CodeNode> children;
+    private TypeSpecification typeSpecification;
 
     public CodeNodeImpl(CodeNodeType type) {
         this.type     = type;
         this.parent   = null;
         this.children = new ArrayList<CodeNode>();
+    }
+
+    @Override
+    public TypeSpecification getTypeSpecification() {
+        return typeSpecification;
+    }
+
+    @Override
+    public void setTypeSpecification(TypeSpecification type) {
+        typeSpecification = type;
     }
 
     @Override

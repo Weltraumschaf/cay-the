@@ -23,4 +23,7 @@ public interface CodeNode {
 
     public CodeNode copy();
 
+    public void setTypeSpecification(TypeSpecification type);
+
+    public TypeSpecification getTypeSpecification();
 }
