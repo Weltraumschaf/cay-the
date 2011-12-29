@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.util;
 
+import java.io.PrintStream;
 import de.weltraumschaf.caythe.intermediate.TypeForm;
 import de.weltraumschaf.caythe.intermediate.Definition;
 import de.weltraumschaf.caythe.intermediate.SymbolTable;
@@ -35,19 +36,25 @@ public class CrossReferencer {
         }
     }
 
+    private PrintStream ps;      // output print stream
+
+    public CrossReferencer(PrintStream ps) {
+        this.ps = ps;
+    }
+
     /**
      * Print the cross-reference table.
      * @param symbolTableStack the symbol table stack.
      */
     public void print(SymbolTableStack symbolTableStack) {
-        System.out.println("\n===== CROSS-REFERENCE TABLE =====");
+        ps.println("\n===== CROSS-REFERENCE TABLE =====");
         SymbolTableEntry programId = symbolTableStack.getProgramId();
         printRoutine(programId);
     }
 
     private void printRoutine(SymbolTableEntry routineId) {
         Definition definition = routineId.getDefinition();
-        System.out.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***");
+        ps.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***");
         printColumnHeadings();
 
         // Print the entries int the routine's symbol table.
@@ -74,10 +81,10 @@ public class CrossReferencer {
      * Print column headings.
      */
     private void printColumnHeadings() {
-        System.out.println();
-        System.out.println(String.format(NAME_FORMAT, "Identifier")
+        ps.println();
+        ps.println(String.format(NAME_FORMAT, "Identifier")
                 + NUMBERS_LABEL + "Type specification");
-        System.out.println(String.format(NAME_FORMAT, "----------")
+        ps.println(String.format(NAME_FORMAT, "----------")
                 + NUMBERS_UNDERLINE + "------------------");
     }
 
@@ -90,15 +97,15 @@ public class CrossReferencer {
 
             // For each entry, print the identifier name
             // followed by the line numbers.
-            System.out.print(String.format(NAME_FORMAT, entry.getName()));
+            ps.print(String.format(NAME_FORMAT, entry.getName()));
 
             if (null != lineNumbers) {
                 for (Integer lineNumber : lineNumbers) {
-                    System.out.print(String.format(NUMBER_FORMAT, lineNumber));
+                    ps.print(String.format(NUMBER_FORMAT, lineNumber));
                 }
             }
 
-            System.out.println();
+            ps.println();
             printEntry(entry, recordType);
         }
     }
@@ -107,7 +114,7 @@ public class CrossReferencer {
         for (TypeSpecification recordType : recordTypes) {
             SymbolTableEntry recordId = recordType.getIdentifier();
             String name = recordId != null ? recordId.getName() : "<unnamed>";
-            System.out.println("\n--- Record " + name + " ---");
+            ps.println("\n--- Record " + name + " ---");
             printColumnHeadings();
             SymbolTable symTab = (SymbolTable) recordType.getAttribute(RECORD_SYMBOL_TABLE);
             ArrayList<TypeSpecification> newRecordTypes = new ArrayList<TypeSpecification>();
@@ -123,8 +130,8 @@ public class CrossReferencer {
     private void printEntry(SymbolTableEntry entry, ArrayList<TypeSpecification> recordType) {
         Definition definition = entry.getDefinition();
         int nestingLevel = entry.getSymbolTable().getNestingLevel();
-        System.out.println(INDENT + "Defined as: " + definition.getTetx());
-        System.out.println(INDENT + "Scope nesting level: " + nestingLevel);
+        ps.println(INDENT + "Defined as: " + definition.getTetx());
+        ps.println(INDENT + "Scope nesting level: " + nestingLevel);
 
         // Print the type specification.
         TypeSpecification type = entry.getTypeSpecification();
@@ -133,7 +140,7 @@ public class CrossReferencer {
         switch ((DefinitionImpl) definition) {
             case CONSTANT: {
                 Object value = entry.getAttribute(CONSTANT_VALUE);
-                System.out.println(INDENT + "Value = " + toString(value));
+                ps.println(INDENT + "Value = " + toString(value));
 
                 // PRint the type details only if the type is unamed.
                 if (type.getIdentifier() == null) {
@@ -145,7 +152,7 @@ public class CrossReferencer {
 
             case ENUMERATION_CONSTANT: {
                 Object value = entry.getAttribute(CONSTANT_VALUE);
-                System.out.println(INDENT + "Value = " + toString(value));
+                ps.println(INDENT + "Value = " + toString(value));
                 break;
             }
 
@@ -174,7 +181,7 @@ public class CrossReferencer {
             TypeForm form = type.getForm();
             SymbolTableEntry typeId = type.getIdentifier();
             String typeName = typeId != null ? typeId.getName() : "<unnamed>";
-            System.out.println(INDENT + "Type form = " + form + ", Type id = " + typeName);
+            ps.println(INDENT + "Type form = " + form + ", Type id = " + typeName);
         }
     }
 
@@ -191,12 +198,12 @@ public class CrossReferencer {
         switch ((TypeFormImpl) form) {
             case ENUMERATION: {
                 ArrayList<SymbolTableEntry> constantIds = (ArrayList<SymbolTableEntry>) type.getAttribute(ENUMERATION_CONSTANTS);
-                System.out.println(INDENT + "--- Enumeration constants ---");
+                ps.println(INDENT + "--- Enumeration constants ---");
 
                 for (SymbolTableEntry constantId: constantIds) {
                     String name = constantId.getName();
                     Object value = constantId.getAttribute(CONSTANT_VALUE);
-                    System.out.println(INDENT + String.format(ENUM_CONST_FORMAT, name, value));
+                    ps.println(INDENT + String.format(ENUM_CONST_FORMAT, name, value));
                 }
 
                 break;
@@ -206,7 +213,7 @@ public class CrossReferencer {
                 Object minValue = type.getAttribute(SUBRANGE_MIN_VALUE);
                 Object maxValue = type.getAttribute(SUBRANGE_MAX_VALUE);
                 TypeSpecification baseTypeSpec = (TypeSpecification) type.getAttribute(SUBRANGE_BASE_TYPE);
-                System.out.println(INDENT + "--- Base type ---");
+                ps.println(INDENT + "--- Base type ---");
                 printType(baseTypeSpec);
 
                 // Print the base type details only if the type is unamed.
@@ -214,7 +221,7 @@ public class CrossReferencer {
                     printTypeDetails(baseTypeSpec, recordType);
                 }
 
-                System.out.println(INDENT + "Range = " + toString(minValue) + ".." + toString(maxValue));
+                ps.println(INDENT + "Range = " + toString(minValue) + ".." + toString(maxValue));
 
                 break;
             }
@@ -223,16 +230,16 @@ public class CrossReferencer {
                 TypeSpecification indexType = (TypeSpecification) type.getAttribute(ARRAY_INDEX_TYPE);
                 TypeSpecification elementType = (TypeSpecification) type.getAttribute(ARRAY_ELEMENT_TYPE);
                 int count = (Integer) type.getAttribute(ARRAY_ELEMENT_COUNT);
-                System.out.println(INDENT + "--- Index type ---");
+                ps.println(INDENT + "--- Index type ---");
                 printType(indexType);
 
                 if (indexType.getIdentifier() == null) {
                     printTypeDetails(indexType, recordType);
                 }
 
-                System.out.println(INDENT + "--- Element type ---");
+                ps.println(INDENT + "--- Element type ---");
                 printType(elementType);
-                System.out.println(INDENT.toString() + count + " elements");
+                ps.println(INDENT.toString() + count + " elements");
 
                 if (elementType.getIdentifier() == null) {
                     printTypeDetails(elementType, recordType);

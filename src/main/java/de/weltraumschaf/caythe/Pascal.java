@@ -72,8 +72,7 @@ public class Pascal {
             intermediateCode = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
 
             if (xref) {
-                // TODO refactor to stream printer like ParseTreePrinter
-                CrossReferencer crossReferencer = new CrossReferencer();
+                CrossReferencer crossReferencer = new CrossReferencer(System.out);
                 crossReferencer.print(symbolTableStack);
             }
 
