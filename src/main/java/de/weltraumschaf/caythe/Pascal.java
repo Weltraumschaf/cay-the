@@ -8,7 +8,7 @@ import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.intermediate.Code;
-import de.weltraumschaf.caythe.intermediate.SymbolTable;
+import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageListener;
@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
 
 /**
  *
@@ -63,17 +64,23 @@ public class Pascal {
         source.close();
 
         intermediateCode = parser.getIntermediateCode();
-        symbolTableStack = parser.getSymbolTableStack();
 
-        if (xref) {
-            // TODO refactor to stream printer like ParseTreePrinter
-            CrossReferencer crossReferencer = new CrossReferencer();
-            crossReferencer.print(symbolTableStack);
-        }
 
-        if (intermediate) {
-            ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
-            treePrinter.print(intermediateCode);
+        if (parser.getErrorCount() == 0) {
+            symbolTableStack = parser.getSymbolTableStack();
+            SymbolTableEntry programId = symbolTableStack.getProgramId();
+            intermediateCode = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
+
+            if (xref) {
+                // TODO refactor to stream printer like ParseTreePrinter
+                CrossReferencer crossReferencer = new CrossReferencer();
+                crossReferencer.print(symbolTableStack);
+            }
+
+            if (intermediate) {
+                ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
+                treePrinter.print(intermediateCode);
+            }
         }
 
         backend.process(intermediateCode, symbolTableStack);

@@ -27,5 +27,5 @@ public interface SymbolTableEntry {
 
     public void setTypeSpecification(TypeSpecification typeSpec);
 
-    public TypeSpecification getTypeSpec();
+    public TypeSpecification getTypeSpecification();
 }

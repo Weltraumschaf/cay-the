@@ -12,7 +12,7 @@ public enum SymbolTableKeyImpl implements SymbolTableKey {
     CONSTANT_VALUE,
 
     // Procedure or function.
-    ROUTINE_CODE, ROUTINE_SYMTAB, ROUTINE_ICODE,
+    ROUTINE_CODE, ROUTINE_SYMBOL_TABLE, ROUTINE_INTERMEDIATE_CODE,
     ROUTINE_PARMS, ROUTINE_ROUTINES,
 
     // Variable or record field value.

@@ -249,7 +249,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
         Definition definition = id.getDefinition();
 
         if (( definition == CONSTANT ) || ( definition == ENUMERATION_CONSTANT )) {
-            return id.getTypeSpec();
+            return id.getTypeSpecification();
         } else {
             return null;
         }

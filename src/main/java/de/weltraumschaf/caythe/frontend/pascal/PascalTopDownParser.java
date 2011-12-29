@@ -50,8 +50,8 @@ public class PascalTopDownParser extends Parser {
 
         // Push a new symbol table onto the symbol table stac and set
         // the routine's symbol table and intermediate code.
-        routineId.setAttribute(ROUTINE_SYMTAB, symbolTableStack.push());
-        routineId.setAttribute(ROUTINE_ICODE, intermediateCode);
+        routineId.setAttribute(ROUTINE_SYMBOL_TABLE, symbolTableStack.push());
+        routineId.setAttribute(ROUTINE_INTERMEDIATE_CODE, intermediateCode);
 
         BlockParser blockParser = new BlockParser(this);
 

@@ -38,7 +38,7 @@ public class RecordTypeParser extends TypeSpecificationParser {
         token = nextToken();  // consume RECORD
 
         // Push a symbol table for the RECORD type specification.
-        recordType.setAttribute(TypeKeyImpl.RECORD_SYMTAB, symbolTableStack.push());
+        recordType.setAttribute(TypeKeyImpl.RECORD_SYMBOL_TABLE, symbolTableStack.push());
 
         // Parse the field declarations.
         VariableDeclarationsParser variableDeclarationsParser =

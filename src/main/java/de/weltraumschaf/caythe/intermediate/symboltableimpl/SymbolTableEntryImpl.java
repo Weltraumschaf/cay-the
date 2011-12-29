@@ -67,7 +67,7 @@ public class SymbolTableEntryImpl extends HashMap<SymbolTableKey, Object> implem
     }
 
     @Override
-    public TypeSpecification getTypeSpec() {
+    public TypeSpecification getTypeSpecification() {
         return typeSpecification;
     }
 
