@@ -63,9 +63,6 @@ public class Pascal {
         parser.parse();
         source.close();
 
-        intermediateCode = parser.getIntermediateCode();
-
-
         if (parser.getErrorCount() == 0) {
             symbolTableStack = parser.getSymbolTableStack();
             SymbolTableEntry programId = symbolTableStack.getProgramId();
@@ -78,7 +75,7 @@ public class Pascal {
 
             if (intermediate) {
                 ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
-                treePrinter.print(intermediateCode);
+                treePrinter.print(symbolTableStack);
             }
         }
 

@@ -3,13 +3,17 @@ package de.weltraumschaf.caythe.util;
 import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.CodeKey;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
+import de.weltraumschaf.caythe.intermediate.Definition;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
+import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeImpl;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
 
 /**
  *
@@ -47,12 +51,12 @@ public class ParseTreePrinter {
 
     /**
      * Print the intermediate code as a parse tree.
-     * @param iCode the intermediate code.
+     * @param intermediateCode the intermediate code.
      */
-    public void print(Code iCode) {
+    public void print(SymbolTableStack symbolTableStack) {
         ps.println("\n===== INTERMEDIATE CODE =====\n");
-        printNode((CodeNodeImpl) iCode.getRoot());
-        printLine();
+        SymbolTableEntry programId = symbolTableStack.getProgramId();
+        printRoutine(programId);
     }
 
     /**
@@ -183,6 +187,24 @@ public class ParseTreePrinter {
             ps.println(line);
             line.setLength(0);
             length = 0;
+        }
+    }
+
+    private void printRoutine(SymbolTableEntry routineId) {
+        Definition definition = routineId.getDefinition();
+        ps.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***\n");
+        Code intermediateCode = (Code) routineId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
+
+        if (intermediateCode.getRoot() != null) {
+            printNode((CodeNodeImpl) intermediateCode.getRoot());
+        }
+
+        ArrayList<SymbolTableEntry> routineIds = (ArrayList<SymbolTableEntry>) routineId.getAttribute(ROUTINE_ROUTINES);
+
+        if (routineIds != null) {
+            for (SymbolTableEntry rtnId : routineIds) {
+                printRoutine(rtnId);
+            }
         }
     }
 }
