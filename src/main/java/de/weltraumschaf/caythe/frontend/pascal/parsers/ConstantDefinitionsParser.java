@@ -26,29 +26,28 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
     public ConstantDefinitionsParser(PascalTopDownParser parent) {
         super(parent);
     }
-
     // Synchronization set for a constant identifier.
     private static final EnumSet<PascalTokenType> IDENTIFIER_SET =
-        DeclarationsParser.TYPE_START_SET.clone();
+            DeclarationsParser.TYPE_START_SET.clone();
+
     static {
         IDENTIFIER_SET.add(IDENTIFIER);
     }
-
     // Synchronization set for starting a constant.
     static final EnumSet<PascalTokenType> CONSTANT_START_SET =
-        EnumSet.of(IDENTIFIER, INTEGER, REAL, PLUS, MINUS, STRING, SEMICOLON);
-
+            EnumSet.of(IDENTIFIER, INTEGER, REAL, PLUS, MINUS, STRING, SEMICOLON);
     // Synchronization set for the = token.
     private static final EnumSet<PascalTokenType> EQUALS_SET =
-        CONSTANT_START_SET.clone();
+            CONSTANT_START_SET.clone();
+
     static {
         EQUALS_SET.add(EQUALS);
         EQUALS_SET.add(SEMICOLON);
     }
-
     // Synchronization set for the start of the next definition or declaration.
     private static final EnumSet<PascalTokenType> NEXT_START_SET =
-        DeclarationsParser.TYPE_START_SET.clone();
+            DeclarationsParser.TYPE_START_SET.clone();
+
     static {
         NEXT_START_SET.add(SEMICOLON);
         NEXT_START_SET.add(IDENTIFIER);
@@ -69,8 +68,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
             if (constantId == null) {
                 constantId = symbolTableStack.enterLocal(name);
                 constantId.appendLineNumber(token.getLineNumber());
-            }
-            else {
+            } else {
                 errorHandler.flag(token, IDENTIFIER_REDEFINED, this);
                 constantId = null;
             }
@@ -81,8 +79,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
             token = synchronize(EQUALS_SET);
             if (token.getType() == EQUALS) {
                 token = nextToken();  // consume the =
-            }
-            else {
+            } else {
                 errorHandler.flag(token, MISSING_EQUALS, this);
             }
 
@@ -96,10 +93,14 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
                 constantId.setAttribute(CONSTANT_VALUE, value);
 
                 // Set the constant's type.
-                TypeSpecification constantType =
-                    constantToken.getType() == IDENTIFIER
-                        ? getConstantType(constantToken)
-                        : getConstantType(value);
+                TypeSpecification constantType;
+
+                if (constantToken.getType() == IDENTIFIER) {
+                    constantType = getConstantType(constantToken);
+                } else {
+                    constantType = getConstantType(value);
+                }
+
                 constantId.setTypeSpecification(constantType);
             }
 
@@ -111,8 +112,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
                 while (token.getType() == SEMICOLON) {
                     token = nextToken();  // consume the ;
                 }
-            }
-            // If at the start of the next definition or declaration,
+            } // If at the start of the next definition or declaration,
             // then missing a semicolon.
             else if (NEXT_START_SET.contains(tokenType)) {
                 errorHandler.flag(token, MISSING_SEMICOLON, this);
@@ -130,7 +130,7 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
         TokenType tokenType = token.getType();
 
         // Plus or minus sign?
-        if ((tokenType == PLUS) || (tokenType == MINUS)) {
+        if (( tokenType == PLUS ) || ( tokenType == MINUS )) {
             sign = tokenType;
             token = nextToken();  // consume sign
         }
@@ -190,23 +190,19 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
             id.appendLineNumber(token.getLineNumber());
 
             if (value instanceof Integer) {
-                return sign == MINUS ? -((Integer) value) : value;
-            }
-            else if (value instanceof Float) {
-                return sign == MINUS ? -((Float) value) : value;
-            }
-            else if (value instanceof String) {
+                return sign == MINUS ? -( (Integer) value ) : value;
+            } else if (value instanceof Float) {
+                return sign == MINUS ? -( (Float) value ) : value;
+            } else if (value instanceof String) {
                 if (sign != null) {
                     errorHandler.flag(token, INVALID_CONSTANT, this);
                 }
 
                 return value;
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        else if (definition == ENUMERATION_CONSTANT) {
+        } else if (definition == ENUMERATION_CONSTANT) {
             Object value = id.getAttribute(CONSTANT_VALUE);
             id.appendLineNumber(token.getLineNumber());
 
@@ -215,12 +211,10 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
             }
 
             return value;
-        }
-        else if (definition == null) {
+        } else if (definition == null) {
             errorHandler.flag(token, NOT_CONSTANT_IDENTIFIER, this);
             return null;
-        }
-        else {
+        } else {
             errorHandler.flag(token, INVALID_CONSTANT, this);
             return null;
         }
@@ -231,15 +225,12 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
         if (value instanceof Integer) {
             constantType = Predefined.integerType;
-        }
-        else if (value instanceof Float) {
+        } else if (value instanceof Float) {
             constantType = Predefined.realType;
-        }
-        else if (value instanceof String) {
-            if (((String) value).length() == 1) {
+        } else if (value instanceof String) {
+            if (( (String) value ).length() == 1) {
                 constantType = Predefined.charType;
-            }
-            else {
+            } else {
                 constantType = TypeFactory.createType((String) value);
             }
         }
@@ -257,10 +248,9 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
         Definition definition = id.getDefinition();
 
-        if ((definition == CONSTANT) || (definition == ENUMERATION_CONSTANT)) {
+        if (( definition == CONSTANT ) || ( definition == ENUMERATION_CONSTANT )) {
             return id.getTypeSpec();
-        }
-        else {
+        } else {
             return null;
         }
     }
