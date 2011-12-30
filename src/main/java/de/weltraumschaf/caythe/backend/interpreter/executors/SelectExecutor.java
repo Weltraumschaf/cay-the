@@ -5,7 +5,9 @@ import de.weltraumschaf.caythe.intermediate.CodeNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
+import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.VALUE;
+import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.STRING_CONSTANT;
+
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
@@ -59,16 +61,21 @@ public class SelectExecutor extends StatementExecutor {
         // Loop over children that are SELECT_BRANCH nodes.
         ArrayList<CodeNode> selectChildren = node.getChildren();
         for (int i = 1; i < selectChildren.size(); ++i) {
-            CodeNode branchNode = selectChildren.get(i);
+            CodeNode branchNode    = selectChildren.get(i);
             CodeNode constantsNode = branchNode.getChildren().get(0);
             CodeNode statementNode = branchNode.getChildren().get(1);
 
             // Loop over the constants children of the branch's CONSTANTS_NODE.
             ArrayList<CodeNode> constantsList = constantsNode.getChildren();
             for (CodeNode constantNode : constantsList) {
-
                 // Create a jump table entry.
+                // Convert a single-character string constant to a character.
                 Object value = constantNode.getAttribute(VALUE);
+
+                if (constantNode.getType() == STRING_CONSTANT) {
+                    value = ((String)value).charAt(0);
+                }
+
                 jumpTable.put(value, statementNode);
             }
         }
