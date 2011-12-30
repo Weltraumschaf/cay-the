@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.intermediate.Definition;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeImpl;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class ParseTreePrinter {
         append("<" + node.toString());
 
         printAttributes(node);
-        printTypeSpec(node);
+        printTypeSpecification(node);
 
         ArrayList<CodeNode> childNodes = node.getChildren();
 
@@ -153,7 +154,27 @@ public class ParseTreePrinter {
      * Print a parse tree node's type specification.
      * @param node the parse tree node.
      */
-    private void printTypeSpec(CodeNodeImpl node) {
+    private void printTypeSpecification(CodeNodeImpl node) {
+        TypeSpecification typeSpec = node.getTypeSpecification();
+
+        if (null != typeSpec) {
+            String saveMargin = indent;
+            String TypeName;
+            SymbolTableEntry typeId = typeSpec.getIdentifier();
+
+            // Named type: Print the type identifier's name.
+            if (null != typeId) {
+                TypeName = typeId.getName();
+            }
+            // Unnamed type:  Print an artificial type identifier name.
+            else {
+                int code = typeSpec.hashCode() + typeSpec.getForm().hashCode();
+                TypeName = "$anon_" + Integer.toHexString(code);
+            }
+
+            printAttribute("TYPE_ID", TypeName);
+            indent = saveMargin;
+        }
     }
 
     /**
