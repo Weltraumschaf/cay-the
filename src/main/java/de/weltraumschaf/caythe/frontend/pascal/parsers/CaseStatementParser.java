@@ -245,7 +245,11 @@ public class CaseStatementParser extends StatementParser {
         }
 
         nextToken();  // consume the constant
-        constantNode.setTypeSpecification(constantType);
+
+        if (null != constantNode) {
+            constantNode.setTypeSpecification(constantType);
+        }
+
         return constantNode;
     }
 
