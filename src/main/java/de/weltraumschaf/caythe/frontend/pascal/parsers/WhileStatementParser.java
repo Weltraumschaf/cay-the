@@ -1,11 +1,14 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
+import de.weltraumschaf.caythe.intermediate.typeimpl.TypeChecker;
 import java.util.EnumSet;
 
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
@@ -55,7 +58,17 @@ public class WhileStatementParser extends StatementParser {
         // Parse the expression.
         // The NOT node adopts the expression subtree as its only child.
         ExpressionParser expressionParser = new ExpressionParser(this);
-        notNode.addChild(expressionParser.parse(token));
+        CodeNode exprNode = expressionParser.parse(token);
+        notNode.addChild(exprNode);
+
+        // Type check: The test expression must be boolean.
+        TypeSpecification exprType = null != exprNode
+                ? exprNode.getTypeSpecification()
+                : Predefined.undefinedType;
+
+        if (!TypeChecker.isBoolean(exprType)) {
+            errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+        }
 
         // Synchronize at the DO.
         token = synchronize(DO_SET);

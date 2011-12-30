@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
@@ -8,6 +9,8 @@ import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
+import de.weltraumschaf.caythe.intermediate.typeimpl.TypeChecker;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 
@@ -41,7 +44,17 @@ public class IfStatementParser extends StatementParser {
         // Parse the expression.
         // The IF node adopts the expression subtree as its first child.
         ExpressionParser expressionParser = new ExpressionParser(this);
-        ifNode.addChild(expressionParser.parse(token));
+        CodeNode exprNode = expressionParser.parse(token);
+        ifNode.addChild(exprNode);
+
+        // Type check: The expression type must be boolean.
+        TypeSpecification exprType = null != exprNode
+                ? exprNode.getTypeSpecification()
+                : Predefined.undefinedType;
+
+        if (!TypeChecker.isBoolean(exprType)) {
+            errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+        }
 
         // Synchronize at the THEN.
         token = synchronize(THEN_SET);

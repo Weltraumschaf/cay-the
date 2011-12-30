@@ -1,10 +1,13 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
+import de.weltraumschaf.caythe.intermediate.typeimpl.TypeChecker;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
@@ -36,9 +39,20 @@ public class RepeatStatementParser extends StatementParser {
 
         // Parse the expression.
         // The TEST node adopts the expression subtree as its only child.
-        // The LOOP node adopts the TEST node.
         ExpressionParser expressionParser = new ExpressionParser(this);
-        testNode.addChild(expressionParser.parse(token));
+        CodeNode exprNode = expressionParser.parse(token);
+        testNode.addChild(exprNode);
+
+        // Type check: The test expesion must be boolean.
+        TypeSpecification exprType = exprNode != null
+                ? exprNode.getTypeSpecification()
+                : Predefined.undefinedType;
+
+        if (!TypeChecker.isBoolean(exprType)) {
+            errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+        }
+
+        // The LOOP node adopts the TEST node.
         loopNode.addChild(testNode);
 
         return loopNode;

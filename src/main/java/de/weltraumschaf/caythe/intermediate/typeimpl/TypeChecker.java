@@ -47,7 +47,7 @@ public class TypeChecker {
         return (type != null) && (type.baseType() == Predefined.charType);
     }
 
-    public static boolean areAssignementCompatible(TypeSpecification targetType, TypeSpecification valueType) {
+    public static boolean areAssignmentCompatible(TypeSpecification targetType, TypeSpecification valueType) {
         if (null == targetType || null == valueType) {
             return false;
         }

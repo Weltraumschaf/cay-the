@@ -1,5 +1,8 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
+import de.weltraumschaf.caythe.intermediate.Definition;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.intermediate.CodeNodeType;
@@ -11,11 +14,15 @@ import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
+import de.weltraumschaf.caythe.intermediate.TypeFactory;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
+import de.weltraumschaf.caythe.intermediate.typeimpl.TypeChecker;
 
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
 
 /**
  *
@@ -59,18 +66,18 @@ public class ExpressionParser extends StatementParser {
      * @return the root of the generated parse subtree.
      * @throws Exception if an error occurred.
      */
-    private CodeNode parseExpression(Token token)
-            throws Exception {
+    private CodeNode parseExpression(Token token) throws Exception {
         // Parse a simple expression and make the root of its tree
         // the root node.
         CodeNode rootNode = parseSimpleExpression(token);
-
+        TypeSpecification resultType = rootNode != null
+                ? rootNode.getTypeSpecification()
+                : Predefined.undefinedType;
         token = currentToken();
         TokenType tokenType = token.getType();
 
         // Look for a relational operator.
         if (REL_OPS.contains(tokenType)) {
-
             // Create a new operator node and adopt the current tree
             // as its first child.
             CodeNodeType nodeType = REL_OPS_MAP.get(tokenType);
@@ -81,14 +88,33 @@ public class ExpressionParser extends StatementParser {
 
             // Parse the second simple expression.  The operator node adopts
             // the simple expression's tree as its second child.
-            opNode.addChild(parseSimpleExpression(token));
+            CodeNode simExprNode = parseSimpleExpression(token);
+            opNode.addChild(simExprNode);
 
             // The operator node becomes the new root node.
             rootNode = opNode;
+
+            // Type check: The operands must be comparison compatible.
+            TypeSpecification simExprType = simExprNode != null
+                    ? simExprNode.getTypeSpecification()
+                    : Predefined.undefinedType;
+
+            if (TypeChecker.areComparisonCompatible(resultType, simExprType)) {
+                resultType = Predefined.booleanType;
+            } else {
+                errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                resultType = Predefined.undefinedType;
+            }
+
+        }
+
+        if (null != rootNode) {
+            rootNode.setTypeSpecification(resultType);
         }
 
         return rootNode;
     }
+
     // Set of additive operators.
     private static final EnumSet<PascalTokenType> ADD_OPS = EnumSet.of(PLUS, MINUS, PascalTokenType.OR);
     // Map additive operator tokens to node types.
@@ -106,36 +132,46 @@ public class ExpressionParser extends StatementParser {
      * @return the root of the generated parse subtree.
      * @throws Exception if an error occurred.
      */
-    private CodeNode parseSimpleExpression(Token token)
-            throws Exception {
+    private CodeNode parseSimpleExpression(Token token) throws Exception {
+        Token signToken    = null;
         TokenType signType = null;  // type of leading sign (if any)
 
         // Look for a leading + or - sign.
         TokenType tokenType = token.getType();
+
         if (( tokenType == PLUS ) || ( tokenType == MINUS )) {
-            signType = tokenType;
-            token = nextToken();  // consume the + or -
+            signType  = tokenType;
+            signToken = token;
+            token     = nextToken();  // consume the + or -
         }
 
         // Parse a term and make the root of its tree the root node.
         CodeNode rootNode = parseTerm(token);
+        TypeSpecification resultType = rootNode != null
+                ? rootNode.getTypeSpecification()
+                : Predefined.undefinedType;
+
+        // Type check: Leading sign.
+        if ((signType != null) && (!TypeChecker.isIntegerOrReal(resultType))) {
+            errorHandler.flag(signToken, INCOMPATIBLE_TYPES, this);
+        }
 
         // Was there a leading - sign?
         if (signType == MINUS) {
-
             // Create a NEGATE node and adopt the current tree
             // as its child. The NEGATE node becomes the new root node.
             CodeNode negateNode = CodeFactory.createCodeNode(NEGATE);
             negateNode.addChild(rootNode);
+            negateNode.setTypeSpecification(rootNode.getTypeSpecification());
             rootNode = negateNode;
         }
 
-        token = currentToken();
+        token     = currentToken();
         tokenType = token.getType();
 
         // Loop over additive operators.
         while (ADD_OPS.contains(tokenType)) {
-
+            TokenType operator = tokenType;
             // Create a new operator node and adopt the current tree
             // as its first child.
             CodeNodeType nodeType = ADD_OPS_MAP.get(tokenType);
@@ -146,17 +182,53 @@ public class ExpressionParser extends StatementParser {
 
             // Parse another term.  The operator node adopts
             // the term's tree as its second child.
-            opNode.addChild(parseTerm(token));
+            CodeNode termNode = parseTerm(token);
+            opNode.addChild(termNode);
+            TypeSpecification termType = termNode != null
+                    ? termNode.getTypeSpecification()
+                    : Predefined.undefinedType;
 
             // The operator node becomes the new root node.
             rootNode = opNode;
 
-            token = currentToken();
+            //Determine the result type.
+            switch ((PascalTokenType) operator) {
+                case PLUS: case MINUS: {
+                    // Both operands integer ==> integer result.
+                    if (TypeChecker.areBothInteger(resultType, termType)) {
+                        resultType = Predefined.integerType;
+                    }
+                    // Both real operands or one real and one integr operand
+                    // ==> real result.
+                    else if (TypeChecker.isAtLeastOneReal(resultType, termType)) {
+                        resultType = Predefined.realType;
+                    }
+                    else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+                case OR: {
+                    // Both operands boolean ==> boolean result.
+                    if (TypeChecker.areBothBoolean(resultType, termType)) {
+                        resultType = Predefined.booleanType;
+                    } else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+            }
+
+            rootNode.setTypeSpecification(resultType);
+            token     = currentToken();
             tokenType = token.getType();
         }
 
         return rootNode;
     }
+
     // Set of multiplicative operators.
     private static final EnumSet<PascalTokenType> MULT_OPS =
             EnumSet.of(STAR, SLASH, DIV, PascalTokenType.MOD, PascalTokenType.AND);
@@ -177,17 +249,18 @@ public class ExpressionParser extends StatementParser {
      * @return the root of the generated parse subtree.
      * @throws Exception if an error occurred.
      */
-    private CodeNode parseTerm(Token token)
-            throws Exception {
+    private CodeNode parseTerm(Token token) throws Exception {
         // Parse a factor and make its node the root node.
         CodeNode rootNode = parseFactor(token);
-
+        TypeSpecification resultType = rootNode != null
+                ? rootNode.getTypeSpecification()
+                : Predefined.undefinedType;
         token = currentToken();
         TokenType tokenType = token.getType();
 
         // Loop over multiplicative operators.
         while (MULT_OPS.contains(tokenType)) {
-
+            TokenType operator = tokenType;
             // Create a new operator node and adopt the current tree
             // as its first child.
             CodeNodeType nodeType = MULT_OPS_MAP.get(tokenType);
@@ -198,12 +271,68 @@ public class ExpressionParser extends StatementParser {
 
             // Parse another factor.  The operator node adopts
             // the term's tree as its second child.
-            opNode.addChild(parseFactor(token));
+            CodeNode factorNode = parseFactor(token);
+            opNode.addChild(factorNode);
+            TypeSpecification factorType = factorNode != null
+                    ? factorNode.getTypeSpecification()
+                    : Predefined.undefinedType;
 
             // The operator node becomes the new root node.
             rootNode = opNode;
 
-            token = currentToken();
+            switch ((PascalTokenType) operator) {
+                case STAR: {
+                    // Both operands integer ==> integer result.
+                    if (TypeChecker.areBothInteger(resultType, factorType)) {
+                        resultType = Predefined.realType;
+                    } else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+
+                case SLASH: {
+                     // All integer and real operand combinations
+                    // ==> real result.
+                    if (TypeChecker.areBothInteger(resultType, factorType) || TypeChecker.isAtLeastOneReal(resultType, factorType)) {
+                        resultType = Predefined.realType;
+                    }
+                    else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+
+                case DIV: case MOD: {
+                    // Both operands integer ==> integer result.
+                    if (TypeChecker.areBothInteger(resultType, factorType)) {
+                        resultType = Predefined.integerType;
+                    } else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+
+                case AND: {
+                    // Both operands boolean ==> boolean result.
+                    if (TypeChecker.areBothBoolean(resultType, factorType)) {
+                        resultType = Predefined.booleanType;
+                    } else {
+                        errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                    }
+
+                    break;
+                }
+            }
+
+            if (null != rootNode) {
+                rootNode.setTypeSpecification(resultType);
+            }
+
+            token     = currentToken();
             tokenType = token.getType();
         }
 
@@ -216,37 +345,22 @@ public class ExpressionParser extends StatementParser {
      * @return the root of the generated parse subtree.
      * @throws Exception if an error occurred.
      */
-    private CodeNode parseFactor(Token token)
-            throws Exception {
+    private CodeNode parseFactor(Token token) throws Exception {
         TokenType tokenType = token.getType();
         CodeNode rootNode = null;
 
         switch ((PascalTokenType) tokenType) {
 
             case IDENTIFIER: {
-                // Look up the identifier in the symbol table stack.
-                // Flag the identifier as undefined if it's not found.
-                String name = token.getText().toLowerCase();
-                SymbolTableEntry id = symbolTableStack.lookup(name);
-                if (id == null) {
-                    errorHandler.flag(token, IDENTIFIER_UNDEFINED, this);
-                    id = symbolTableStack.enterLocal(name);
-                }
-
-                rootNode = CodeFactory.createCodeNode(VARIABLE);
-                rootNode.setAttribute(ID, id);
-                id.appendLineNumber(token.getLineNumber());
-
-                token = nextToken();  // consume the identifier
-                break;
+                return parseIdentifier(token);
             }
 
             case INTEGER: {
                 // Create an INTEGER_CONSTANT node as the root node.
                 rootNode = CodeFactory.createCodeNode(INTEGER_CONSTANT);
                 rootNode.setAttribute(VALUE, token.getValue());
-
                 token = nextToken();  // consume the number
+                rootNode.setTypeSpecification(Predefined.integerType);
                 break;
             }
 
@@ -254,40 +368,52 @@ public class ExpressionParser extends StatementParser {
                 // Create an REAL_CONSTANT node as the root node.
                 rootNode = CodeFactory.createCodeNode(REAL_CONSTANT);
                 rootNode.setAttribute(VALUE, token.getValue());
-
                 token = nextToken();  // consume the number
+                rootNode.setTypeSpecification(Predefined.realType);
                 break;
             }
 
             case STRING: {
                 String value = (String) token.getValue();
-
                 // Create a STRING_CONSTANT node as the root node.
                 rootNode = CodeFactory.createCodeNode(STRING_CONSTANT);
                 rootNode.setAttribute(VALUE, value);
-
+                TypeSpecification resultType = value.length() == 1
+                        ? Predefined.charType
+                        : TypeFactory.createType(value);
                 token = nextToken();  // consume the string
+                rootNode.setTypeSpecification(resultType);
                 break;
             }
 
             case NOT: {
                 token = nextToken();  // consume the NOT
-
                 // Create a NOT node as the root node.
                 rootNode = CodeFactory.createCodeNode(CodeNodeTypeImpl.NOT);
-
                 // Parse the factor.  The NOT node adopts the
                 // factor node as its child.
-                rootNode.addChild(parseFactor(token));
+                CodeNode factorNode = parseFactor(token);
+                rootNode.addChild(factorNode);
+                // Type check: The factor must be boolean.
+                TypeSpecification factorType = factorNode != null
+                                          ? factorNode.getTypeSpecification()
+                                          : Predefined.undefinedType;
 
+                if (!TypeChecker.isBoolean(factorType)) {
+                    errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
+                }
+
+                rootNode.setTypeSpecification(Predefined.booleanType);
                 break;
             }
 
             case LEFT_PAREN: {
                 token = nextToken();      // consume the (
-
                 // Parse an expression and make its node the root node.
                 rootNode = parseExpression(token);
+                TypeSpecification resultType = rootNode != null
+                                          ? rootNode.getTypeSpecification()
+                                          : Predefined.undefinedType;
 
                 // Look for the matching ) token.
                 token = currentToken();
@@ -297,11 +423,81 @@ public class ExpressionParser extends StatementParser {
                     errorHandler.flag(token, MISSING_RIGHT_PAREN, this);
                 }
 
+                rootNode.setTypeSpecification(resultType);
                 break;
             }
 
             default: {
                 errorHandler.flag(token, UNEXPECTED_TOKEN, this);
+                break;
+            }
+        }
+
+        return rootNode;
+    }
+
+    private CodeNode parseIdentifier(Token token) throws Exception {
+        CodeNode rootNode = null;
+        // Look up the identifier in the symbol table stack.
+        String name = token.getText().toLowerCase();
+        SymbolTableEntry id = symbolTableStack.lookup(name);
+
+        // Undefined.
+        if (id == null) {
+            errorHandler.flag(token, IDENTIFIER_UNDEFINED, this);
+            id = symbolTableStack.enterLocal(name);
+            id.setDefinition(DefinitionImpl.UNDEFINED);
+            id.setTypeSpecification(Predefined.undefinedType);
+        }
+
+        Definition defnCode = id.getDefinition();
+
+        switch ((DefinitionImpl) defnCode) {
+
+            case CONSTANT: {
+                Object value = id.getAttribute(CONSTANT_VALUE);
+                TypeSpecification type = id.getTypeSpecification();
+
+                if (value instanceof Integer) {
+                    rootNode = CodeFactory.createCodeNode(INTEGER_CONSTANT);
+                    rootNode.setAttribute(VALUE, value);
+                }
+                else if (value instanceof Float) {
+                    rootNode = CodeFactory.createCodeNode(REAL_CONSTANT);
+                    rootNode.setAttribute(VALUE, value);
+                }
+                else if (value instanceof String) {
+                    rootNode = CodeFactory.createCodeNode(STRING_CONSTANT);
+                    rootNode.setAttribute(VALUE, value);
+                }
+
+                id.appendLineNumber(token.getLineNumber());
+                token = nextToken();  // consume the constant identifier
+
+                if (rootNode != null) {
+                    rootNode.setTypeSpecification(type);
+                }
+
+                break;
+            }
+
+            case ENUMERATION_CONSTANT: {
+                Object value = id.getAttribute(CONSTANT_VALUE);
+                TypeSpecification type = id.getTypeSpecification();
+
+                rootNode = CodeFactory.createCodeNode(INTEGER_CONSTANT);
+                rootNode.setAttribute(VALUE, value);
+
+                id.appendLineNumber(token.getLineNumber());
+                token = nextToken();  // consume the enum constant identifier
+
+                rootNode.setTypeSpecification(type);
+                break;
+            }
+
+            default: {
+                VariableParser variableParser = new VariableParser(this);
+                rootNode = variableParser.parse(token, id);
                 break;
             }
         }
