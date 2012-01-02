@@ -272,6 +272,7 @@ public class CaseStatementParser extends StatementParser {
             id.setDefinition(UNDEFINED);
             id.setTypeSpecification(Predefined.undefinedType);
             errorHandler.flag(token, IDENTIFIER_UNDEFINED, this);
+            return null;
         }
 
         Definition defnCode = id.getDefinition();
@@ -296,7 +297,7 @@ public class CaseStatementParser extends StatementParser {
             constantNode.setTypeSpecification(constantType);
         }
 
-        return null;
+        return constantNode;
     }
 
     /**
