@@ -31,7 +31,8 @@ public class AssignmentStatementParser extends StatementParser {
             ExpressionParser.EXPRESSION_START_SET.clone();
 
     static {
-
+        COLON_EQUALS_SET.add(COLON_EQUALS);
+        COLON_EQUALS_SET.addAll(StatementParser.STATEMENT_FOLLOW_SET);
     }
 
     @Override
