@@ -29,9 +29,9 @@ public class BlockParser extends PascalTopDownParser {
 
     public CodeNode parse(Token token, SymbolTableEntry routineId) throws Exception {
         DeclarationsParser declarationsParser = new DeclarationsParser(this);
-        StatementParser statementParser = new StatementParser(this);
+        StatementParser statementParser       = new StatementParser(this);
         // Parse any declarations.
-        declarationsParser.parse(token);
+        declarationsParser.parse(token, routineId);
         token = synchronize(StatementParser.STATEMENT_START_SET);
         TokenType tokenType = token.getType();
         CodeNode rootNode = null;

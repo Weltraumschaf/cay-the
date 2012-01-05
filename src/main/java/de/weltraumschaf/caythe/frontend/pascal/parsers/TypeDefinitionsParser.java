@@ -50,7 +50,6 @@ public class TypeDefinitionsParser extends DeclarationsParser {
         NEXT_START_SET.add(IDENTIFIER);
     }
 
-    @Override
     public void parse(Token token) throws Exception {
         token = synchronize(IDENTIFIER_SET);
 

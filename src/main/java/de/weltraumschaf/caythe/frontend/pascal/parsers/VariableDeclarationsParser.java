@@ -8,6 +8,7 @@ import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.Definition;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
 import java.util.EnumSet;
 
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
@@ -47,7 +48,6 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         NEXT_START_SET.add(SEMICOLON);
     }
 
-    @Override
     public void parse(Token token) throws Exception {
         token = synchronize(IDENTIFIER_SET);
 
@@ -56,7 +56,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         while (token.getType() == IDENTIFIER) {
 
             // Parse the identifier sublist and its type specification.
-            parseIdentifierSublist(token);
+            parseIdentifierSublist(token, IDENTIFIER_FOLLOW_SET, COMMA_SET);
 
             token = currentToken();
             TokenType tokenType = token.getType();
@@ -92,7 +92,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
     private static final EnumSet<PascalTokenType> COMMA_SET =
         EnumSet.of(COMMA, COLON, IDENTIFIER, SEMICOLON);
 
-    protected ArrayList<SymbolTableEntry> parseIdentifierSublist(Token token) throws Exception {
+    protected ArrayList<SymbolTableEntry> parseIdentifierSublist(Token token, EnumSet<PascalTokenType> followSet, EnumSet<PascalTokenType> commaSet) throws Exception {
         ArrayList<SymbolTableEntry> sublist = new ArrayList<SymbolTableEntry>();
 
         do {
@@ -103,28 +103,30 @@ public class VariableDeclarationsParser extends DeclarationsParser {
                 sublist.add(id);
             }
 
-            token = synchronize(COMMA_SET);
+            token = synchronize(commaSet);
             TokenType tokenType = token.getType();
 
             // Look for the comma.
             if (tokenType == COMMA) {
                 token = nextToken();  // consume the comma
 
-                if (IDENTIFIER_FOLLOW_SET.contains(token.getType())) {
+                if (followSet.contains(token.getType())) {
                     errorHandler.flag(token, MISSING_IDENTIFIER, this);
                 }
             }
             else if (IDENTIFIER_START_SET.contains(tokenType)) {
                 errorHandler.flag(token, MISSING_COMMA, this);
             }
-        } while (!IDENTIFIER_FOLLOW_SET.contains(token.getType()));
+        } while (!followSet.contains(token.getType()));
 
-        // Parse the type specification.
-        TypeSpecification type = parseTypeSpec(token);
+        if (definition != DefinitionImpl.PROGRAM_PARM) {
+            // Parse the type specification.
+            TypeSpecification type = parseTypeSpec(token);
 
-        // Assign the type specification to each identifier in the list.
-        for (SymbolTableEntry variableId : sublist) {
-            variableId.setTypeSpecification(type);
+            // Assign the type specification to each identifier in the list.
+            for (SymbolTableEntry variableId : sublist) {
+                variableId.setTypeSpecification(type);
+            }
         }
 
         return sublist;
@@ -177,4 +179,5 @@ public class VariableDeclarationsParser extends DeclarationsParser {
 
         return type;
     }
+
 }

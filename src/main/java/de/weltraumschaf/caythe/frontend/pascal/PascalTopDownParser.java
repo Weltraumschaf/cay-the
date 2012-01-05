@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.pascal.parsers.BlockParser;
+import de.weltraumschaf.caythe.frontend.pascal.parsers.ProgramParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
@@ -40,27 +41,12 @@ public class PascalTopDownParser extends Parser {
     @Override
     public void parse() throws Exception {
         long startTime = System.currentTimeMillis();
-        intermediateCode = CodeFactory.createCode();
         Predefined.initialize(symbolTableStack);
-
-        // Create a dummy program identifier symbol table entry.
-        routineId = symbolTableStack.enterLocal("DummyProgramName".toLowerCase());
-        routineId.setDefinition(DefinitionImpl.PROGRAM);
-        symbolTableStack.setProgramId(routineId);
-
-        // Push a new symbol table onto the symbol table stac and set
-        // the routine's symbol table and intermediate code.
-        routineId.setAttribute(ROUTINE_SYMBOL_TABLE, symbolTableStack.push());
-        routineId.setAttribute(ROUTINE_INTERMEDIATE_CODE, intermediateCode);
-
-        BlockParser blockParser = new BlockParser(this);
 
         try {
             Token token = nextToken();
-            CodeNode rootNode = blockParser.parse(token, routineId);
-            intermediateCode.setRoot(rootNode);
-            symbolTableStack.pop();
-
+            ProgramParser programParser = new ProgramParser(this);
+            programParser.parse(token, null);
             // Look for the final period.
             token = currentToken();
 

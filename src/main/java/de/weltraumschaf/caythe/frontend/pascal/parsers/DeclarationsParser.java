@@ -1,8 +1,10 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
 import de.weltraumschaf.caythe.frontend.Token;
+import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
+import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
 import java.util.EnumSet;
 
@@ -40,7 +42,7 @@ public class DeclarationsParser extends PascalTopDownParser {
         ROUTINE_START_SET.remove(VAR);
     }
 
-    public void parse(Token token) throws Exception {
+    public SymbolTableEntry parse(Token token, SymbolTableEntry parentId) throws Exception {
         token = synchronize(DECLARATION_START_SET);
 
         if (token.getType() == CONST) {
@@ -48,7 +50,7 @@ public class DeclarationsParser extends PascalTopDownParser {
 
             ConstantDefinitionsParser constantDefinitionsParser =
                 new ConstantDefinitionsParser(this);
-            constantDefinitionsParser.parse(token);
+            constantDefinitionsParser.parse(token, null);
         }
 
         token = synchronize(TYPE_START_SET);
@@ -58,7 +60,7 @@ public class DeclarationsParser extends PascalTopDownParser {
 
             TypeDefinitionsParser typeDefinitionsParser =
                 new TypeDefinitionsParser(this);
-            typeDefinitionsParser.parse(token);
+            typeDefinitionsParser.parse(token, null);
         }
 
         token = synchronize(VAR_START_SET);
@@ -69,10 +71,28 @@ public class DeclarationsParser extends PascalTopDownParser {
             VariableDeclarationsParser variableDeclarationsParser =
                 new VariableDeclarationsParser(this);
             variableDeclarationsParser.setDefinition(DefinitionImpl.VARIABLE);
-            variableDeclarationsParser.parse(token);
+            variableDeclarationsParser.parse(token, null);
         }
 
         token = synchronize(ROUTINE_START_SET);
+        TokenType tokenType = token.getType();
+
+        while ((tokenType == PROCEDURE) || (tokenType == FUNCTION)) {
+            DeclaredRoutineParser routineParser = new DeclaredRoutineParser(this);
+            routineParser.parse(token, parentId);
+
+            // Look for one or more semicolons after a definition.
+            if (token.getType() == SEMICOLON) {
+                while (token.getType() == SEMICOLON) {
+                    token = nextToken(); // consume the ;
+                }
+            }
+
+            token = synchronize(ROUTINE_START_SET);
+            tokenType = token.getType();
+        }
+
+        return null;
     }
 
 }
