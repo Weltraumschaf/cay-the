@@ -53,7 +53,8 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
         NEXT_START_SET.add(IDENTIFIER);
     }
 
-    public void parse(Token token) throws Exception {
+    @Override
+    public SymbolTableEntry parse(Token token, SymbolTableEntry parentId) throws Exception {
         token = synchronize(IDENTIFIER_SET);
 
         // Loop to parse a sequence of constant definitions
@@ -119,6 +120,8 @@ public class ConstantDefinitionsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
 
     protected Object parseConstant(Token token) throws Exception {

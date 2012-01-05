@@ -48,7 +48,8 @@ public class VariableDeclarationsParser extends DeclarationsParser {
         NEXT_START_SET.add(SEMICOLON);
     }
 
-    public void parse(Token token) throws Exception {
+    @Override
+    public SymbolTableEntry parse(Token token, SymbolTableEntry parentId) throws Exception {
         token = synchronize(IDENTIFIER_SET);
 
         // Loop to parse a sequence of variable declarations
@@ -75,6 +76,8 @@ public class VariableDeclarationsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
 
     // Synchronization set to start a sublist identifier.

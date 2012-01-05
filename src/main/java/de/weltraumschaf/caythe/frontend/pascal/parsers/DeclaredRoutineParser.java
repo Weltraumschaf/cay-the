@@ -91,7 +91,8 @@ public class DeclaredRoutineParser extends DeclarationsParser {
         // Program: Set the program identifier in the symbol table stack.
         if (routineDefn == DefinitionImpl.PROGRAM) {
             symbolTableStack.setProgramId(routineId);
-        } // Non-forwarded procedure or function: Append to the parent's list
+        }
+        // Non-forwarded procedure or function: Append to the parent's list
         //                                      of routines.
         else if (routineId.getAttribute(ROUTINE_CODE) != FORWARD) {
             ArrayList<SymbolTableEntry> subroutines = (ArrayList<SymbolTableEntry>) parentId.getAttribute(ROUTINE_ROUTINES);

@@ -50,7 +50,8 @@ public class TypeDefinitionsParser extends DeclarationsParser {
         NEXT_START_SET.add(IDENTIFIER);
     }
 
-    public void parse(Token token) throws Exception {
+    @Override
+    public SymbolTableEntry parse(Token token, SymbolTableEntry parentId) throws Exception {
         token = synchronize(IDENTIFIER_SET);
 
         // Loop to parse a sequence of type definitions
@@ -121,5 +122,7 @@ public class TypeDefinitionsParser extends DeclarationsParser {
 
             token = synchronize(IDENTIFIER_SET);
         }
+
+        return null;
     }
 }
