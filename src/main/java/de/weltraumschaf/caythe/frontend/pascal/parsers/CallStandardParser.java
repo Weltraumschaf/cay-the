@@ -71,7 +71,7 @@ public class CallStandardParser extends CallParser {
         }
     }
 
-    private CodeNode parseReadReadln(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseReadReadln(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, true, false);
         callNode.addChild(parmsNode);
 
@@ -83,7 +83,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseWriteWriteln(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseWriteWriteln(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, true);
         callNode.addChild(parmsNode);
 
@@ -95,7 +95,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseEofEoln(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseEofEoln(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -108,7 +108,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseAbsSqr(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseAbsSqr(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -127,7 +127,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseArctanConExpLnSinSqrt(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseArctanConExpLnSinSqrt(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -146,7 +146,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parsePredSucc(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parsePredSucc(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -165,7 +165,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseChr(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseChr(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -184,7 +184,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseOdd(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseOdd(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -203,7 +203,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseOrd(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseOrd(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -222,7 +222,7 @@ public class CallStandardParser extends CallParser {
         return callNode;
     }
 
-    private CodeNode parseRoundTrunc(Token token, CodeNode callNode, SymbolTableEntry pfId) {
+    private CodeNode parseRoundTrunc(Token token, CodeNode callNode, SymbolTableEntry pfId) throws Exception {
         CodeNode parmsNode = parseActualParameters(token, pfId, false, false, false);
         callNode.addChild(parmsNode);
 
@@ -249,7 +249,7 @@ public class CallStandardParser extends CallParser {
         if (parmsNode.getChildren().size() == count) {
             return true;
         }
-        
+
         errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
         return false;
     }
