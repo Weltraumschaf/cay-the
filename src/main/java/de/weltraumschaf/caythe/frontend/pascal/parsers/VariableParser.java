@@ -65,12 +65,17 @@ public class VariableParser extends StatementParser {
      * @return the root node of the generated parse tree.
      * @throws Exception if an error occurred.
      */
-    public CodeNode parse(Token token, SymbolTableEntry variableId)
-            throws Exception {
+    public CodeNode parse(Token token, SymbolTableEntry variableId) throws Exception {
         // Check how the variable is defined.
         Definition defnCode = variableId.getDefinition();
 
-        if (( defnCode != DefinitionImpl.VARIABLE ) && ( defnCode != DefinitionImpl.VALUE_PARM ) && ( defnCode != DefinitionImpl.VAR_PARM )) {
+        if (! ( (defnCode == DefinitionImpl.VARIABLE) ||
+                (defnCode == DefinitionImpl.VALUE_PARM) ||
+                (defnCode == DefinitionImpl.VAR_PARM) ||
+                (isFunctionTarget && (defnCode == DefinitionImpl.FUNCTION) )
+              )
+            )
+        {
             errorHandler.flag(token, INVALID_IDENTIFIER_USAGE, this);
         }
 
@@ -80,22 +85,23 @@ public class VariableParser extends StatementParser {
         variableNode.setAttribute(ID, variableId);
 
         token = nextToken();  // consume the identifier
-
         // Parse array subscripts or record fields.
         TypeSpecification variableType = variableId.getTypeSpecification();
 
-        while (SUBSCRIPT_FIELD_START_SET.contains(token.getType())) {
-            CodeNode subFldNode = token.getType() == LEFT_BRACKET
-                    ? parseSubscripts(variableType)
-                    : parseField(variableType);
-            token = currentToken();
+        if (!isFunctionTarget) {
+            while (SUBSCRIPT_FIELD_START_SET.contains(token.getType())) {
+                CodeNode subFldNode = token.getType() == LEFT_BRACKET
+                                      ? parseSubscripts(variableType)
+                                      : parseField(variableType);
+                token = currentToken();
 
-            // Update the variable's type.
-            // The variable node adopts the SUBSCRIPTS or FIELD node.
-            variableType = subFldNode.getTypeSpecification();
-            variableNode.addChild(subFldNode);
+                // Update the variable's type.
+                // The variable node adopts the SUBSCRIPTS or FIELD node.
+                variableType = subFldNode.getTypeSpecification();
+                variableNode.addChild(subFldNode);
+            }
         }
-
+        
         variableNode.setTypeSpecification(variableType);
         return variableNode;
     }
@@ -200,5 +206,12 @@ public class VariableParser extends StatementParser {
 
         fieldNode.setTypeSpecification(variableType);
         return fieldNode;
+    }
+
+    private boolean isFunctionTarget = false;
+
+    public CodeNode parseFunctionNameTarget(Token token) throws Exception {
+        isFunctionTarget = true;
+        return parse(token);
     }
 }

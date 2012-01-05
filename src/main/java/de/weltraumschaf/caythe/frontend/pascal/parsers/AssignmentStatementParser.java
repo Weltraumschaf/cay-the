@@ -41,10 +41,12 @@ public class AssignmentStatementParser extends StatementParser {
         CodeNode assignNode = CodeFactory.createCodeNode(ASSIGN);
         // Parse the target variable.
         VariableParser variableParser = new VariableParser(this);
-        CodeNode targetNode = variableParser.parse(token);
+        CodeNode targetNode = isFunctionTarget
+                              ? variableParser.parseFunctionNameTarget(token)
+                              : variableParser.parse(token);
         TypeSpecification targetType = targetNode != null
-                ? targetNode.getTypeSpecification()
-                : Predefined.undefinedType;
+                                       ? targetNode.getTypeSpecification()
+                                       : Predefined.undefinedType;
         // The ASSIGN node adopts the variable node as its first child.
         assignNode.addChild(targetNode);
         // Synchronize on the := token.
@@ -74,6 +76,13 @@ public class AssignmentStatementParser extends StatementParser {
 
         assignNode.setTypeSpecification(targetType);
         return assignNode;
+    }
+
+    private boolean isFunctionTarget = false;
+
+    public CodeNode parseFunctionNameAssignement(Token token) throws Exception {
+        isFunctionTarget = true;
+        return parse(token);
     }
 
 }

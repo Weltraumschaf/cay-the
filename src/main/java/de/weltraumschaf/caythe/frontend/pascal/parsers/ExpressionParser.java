@@ -495,6 +495,12 @@ public class ExpressionParser extends StatementParser {
                 break;
             }
 
+            case FUNCTION: {
+                CallParser callParser = new CallParser(this);
+                rootNode = callParser.parse(token);
+                break;
+            }
+
             default: {
                 VariableParser variableParser = new VariableParser(this);
                 rootNode = variableParser.parse(token, id);

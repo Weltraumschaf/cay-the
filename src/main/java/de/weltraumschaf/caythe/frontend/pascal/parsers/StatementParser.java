@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
+import com.sun.tools.internal.ws.wsdl.framework.Defining;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode;
@@ -9,6 +10,9 @@ import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 
+import de.weltraumschaf.caythe.intermediate.Definition;
+import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
 import java.util.EnumSet;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
@@ -45,8 +49,40 @@ public class StatementParser extends PascalTopDownParser {
 
             // An assignment statement begins with a variable's identifier.
             case IDENTIFIER: {
-                AssignmentStatementParser parser = new AssignmentStatementParser(this);
-                statementNode = parser.parse(token);
+                String name         = token.getText().toLowerCase();
+                SymbolTableEntry id = symbolTableStack.lookup(name);
+                Definition idDefn   = id != null ? id.getDefinition() : DefinitionImpl.UNDEFINED;
+
+
+                // Assignement statement or procedure call.
+                switch ((DefinitionImpl) idDefn) {
+                    case VARIABLE:
+                    case VALUE_PARM:
+                    case VAR_PARM:
+                    case UNDEFINED: {
+                        AssignmentStatementParser parser = new AssignmentStatementParser(this);
+                        statementNode = parser.parse(token);
+                        break;
+                    }
+
+                    case FUNCTION: {
+                        AssignmentStatementParser parser = new AssignmentStatementParser(this);
+                        statementNode = parser.parseFunctionNameAssignement(token);
+                        break;
+                    }
+
+                    case PROCEDURE: {
+                        CallParser parser = new CallParser(this);
+                        statementNode = parser.parse(token);
+                        break;
+                    }
+
+                    default: {
+                        errorHandler.flag(token, UNEXPECTED_TOKEN, this);
+                        token = nextToken(); // consume identifier
+                    }
+                }
+
                 break;
             }
 
