@@ -216,7 +216,7 @@ public class ParseTreePrinter {
         ps.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***\n");
         Code intermediateCode = (Code) routineId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
 
-        if (intermediateCode.getRoot() != null) {
+        if (intermediateCode != null && intermediateCode.getRoot() != null) {
             printNode((CodeNodeImpl) intermediateCode.getRoot());
         }
 
