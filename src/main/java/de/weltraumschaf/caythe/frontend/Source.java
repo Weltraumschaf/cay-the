@@ -4,9 +4,10 @@ import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
-import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 import java.io.BufferedReader;
 import java.io.IOException;
+
+import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Source implements MessageProducer {
         return lineNumber;
     }
 
-    public char currentChar() throws Exception {
+    public char currentChar() throws IOException {
         // First time?
         if (-2 == currentPos) {
             readLine();
@@ -63,12 +64,12 @@ public class Source implements MessageProducer {
         }
     }
 
-    public char nextChar() throws Exception {
+    public char nextChar() throws IOException {
         ++currentPos;
         return currentChar();
     }
 
-    public char peekChar() throws Exception {
+    public char peekChar() throws IOException {
         currentChar();
 
         if (null == line) {
@@ -88,18 +89,16 @@ public class Source implements MessageProducer {
         }
 
         if (null != line) {
-            sendMessage(new Message(SOURCE_LINE, new Object[] {lineNumber, line}));
+            sendMessage(new Message(
+                SOURCE_LINE,
+                new Object[] {lineNumber, line}
+            ));
         }
     }
 
-    public void close() throws Exception {
+    public void close() throws IOException {
         if (null != reader) {
-            try {
-                reader.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                throw ex;
-            }
+            reader.close();
         }
     }
 
@@ -117,6 +116,5 @@ public class Source implements MessageProducer {
     public void sendMessage(Message message) {
         messageHandler.sendMessage(message);
     }
-
 
 }
