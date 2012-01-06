@@ -45,6 +45,12 @@ public class PascalTopDownParser extends Parser {
 
         try {
             Token token = nextToken();
+
+            if (null == token.getType()) {
+                errorHandler.abortTranslation(EMPTY_INPUT_ERROR, this);
+                return;
+            }
+
             ProgramParser programParser = new ProgramParser(this);
             programParser.parse(token, null);
             // Look for the final period.
