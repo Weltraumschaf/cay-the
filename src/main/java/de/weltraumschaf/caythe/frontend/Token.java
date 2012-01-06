@@ -14,6 +14,24 @@ public class Token {
     protected int       lineNumber;
     protected int       position;
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("<");
+
+        if (null != type) {
+            sb.append(type.toString())
+              .append(", ");
+        }
+
+        if (null == text) {
+            sb.append("null");
+        } else {
+            sb.append(String.format("'%s'", text));
+        }
+
+        return sb.append(">").toString();
+    }
+
     public Token(Source source) throws Exception {
         this.source = source;
         lineNumber  = source.getLineNumber();
