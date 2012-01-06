@@ -66,7 +66,8 @@ public enum PascalErrorCode {
 
     // Fatal errors.
     IO_ERROR(-101, "Object I/O error"),
-    TOO_MANY_ERRORS(-102, "Too many syntax errors");
+    TOO_MANY_ERRORS(-102, "Too many syntax errors"),
+    EMPTY_INPUT_ERROR(-103, "Empty source file given");
 
     private int status;
     private String message;
@@ -88,5 +89,5 @@ public enum PascalErrorCode {
     public String toString() {
 	return message;
     }
-    
+
 }
