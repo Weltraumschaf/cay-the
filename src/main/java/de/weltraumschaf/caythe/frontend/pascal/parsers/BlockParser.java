@@ -23,10 +23,6 @@ public class BlockParser extends PascalTopDownParser {
         super(parent);
     }
 
-    public BlockParser(Scanner scanner) {
-        super(scanner);
-    }
-
     public CodeNode parse(Token token, SymbolTableEntry routineId) throws Exception {
         DeclarationsParser declarationsParser = new DeclarationsParser(this);
         StatementParser statementParser       = new StatementParser(this);
