@@ -23,13 +23,15 @@ public class Main {
 
     private static String formatError(Throwable t, boolean withMessage) {
         StringBuilder sb = new StringBuilder("DEBUG:\n");
+        sb.append("Exception thrown");
 
-        if (withMessage) {
-            sb.append("Message: ");
-            sb.append(t.getMessage());
+        if (withMessage && null != t.getMessage()) {
+            sb.append("wit message: ")
+              .append(t.getMessage());
         }
 
-        sb.append("Trace:\n");
+        sb.append("!\n")
+          .append("Stack trace:\n");
         StringWriter sw = new StringWriter();
         PrintWriter pw  = new PrintWriter(sw);
         t.printStackTrace(pw);
@@ -41,7 +43,9 @@ public class Main {
         try {
             run(args);
         } catch (Error err) {
-            System.out.println(err.getMessage());
+            if (null != err.getMessage()) {
+                System.out.println(err.getMessage());
+            }
 
             if (debug) {
                 System.out.println(formatError(err));
