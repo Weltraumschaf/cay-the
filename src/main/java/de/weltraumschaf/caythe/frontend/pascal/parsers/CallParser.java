@@ -59,19 +59,20 @@ public class CallParser extends StatementParser {
     }
 
     protected CodeNode parseActualParameters(Token token, SymbolTableEntry pfId, boolean isDecalred, boolean isReadReadln, boolean isWriteWriteln) throws Exception {
-        ExpressionParser expressionParser = new ExpressionParser(this);
-        CodeNode parmsNode = CodeFactory.createCodeNode(PARAMETERS);
-        ArrayList<SymbolTableEntry> formalParms = null;
+        ExpressionParser            expressionParser = new ExpressionParser(this);
+        CodeNode                    parmsNode        = CodeFactory.createCodeNode(PARAMETERS);
+        ArrayList<SymbolTableEntry> formalParms      = null;
         int parmCount = 0;
         int parmIndex = -1;
 
         if (isDecalred) {
-            formalParms = (ArrayList<SymbolTableEntry>) pfId.getAttribute(ROUTINE_PARMS);
+            formalParms = (ArrayList<SymbolTableEntry>) pfId.getAttribute(ROUTINE_PARAMS);
             parmCount = formalParms != null ? formalParms.size() : 0;
         }
 
         if (token.getType() != PascalTokenType.LEFT_PAREN) {
             if (parmCount != 0) {
+                errorHandler.flag(token, "foo 1", this);
                 errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
             }
 
@@ -91,6 +92,7 @@ public class CallParser extends StatementParser {
                     SymbolTableEntry formalId = formalParms.get(parmIndex);
                     checkActualParameter(token, formalId, actualNode);
                 } else if (parmIndex == parmCount) {
+                    errorHandler.flag(token, "foo 2", this);
                     errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
                 }
             } // read or readln: Each actual variable must be a variable that is
@@ -144,7 +146,13 @@ public class CallParser extends StatementParser {
 
             token = nextToken(); // Consume closing )
 
-            if (parmsNode.getChildren().isEmpty() || ( isDecalred && ( parmIndex != parmCount - 1 ) )) {
+            if (parmsNode.getChildren().isEmpty()) {
+                errorHandler.flag(token, "foo 3", this);
+                errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+            }
+
+            if (( isDecalred && ( parmIndex != parmCount - 1 ) )) {
+                errorHandler.flag(token, "foo 4", this);
                 errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
             }
         }

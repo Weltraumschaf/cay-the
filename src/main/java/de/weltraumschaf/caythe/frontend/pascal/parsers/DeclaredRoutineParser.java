@@ -262,7 +262,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
                 errorHandler.flag(token, MISSING_RIGHT_PAREN, this);
             }
 
-            routineId.setAttribute(ROUTINE_PARMS, parms);
+            routineId.setAttribute(ROUTINE_PARAMS, parms);
         }
     }
     // Synchronization set to follow a formal parameter identifier.
