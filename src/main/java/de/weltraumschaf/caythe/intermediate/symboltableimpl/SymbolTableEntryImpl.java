@@ -28,6 +28,30 @@ public class SymbolTableEntryImpl extends HashMap<SymbolTableKey, Object> implem
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("$ '")
+          .append(name)
+          .append("' lines:");
+
+        if (lineNumbers.size() > 0) {
+            int i = 0;
+            for (Integer lineNumber : lineNumbers) {
+                if (i > 0) {
+                    sb.append(", ");
+                }
+
+                sb.append(lineNumber);
+                ++i;
+            }
+        } else {
+            sb.append(" nowhere?");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
     public String getName() {
 	return name;
     }
