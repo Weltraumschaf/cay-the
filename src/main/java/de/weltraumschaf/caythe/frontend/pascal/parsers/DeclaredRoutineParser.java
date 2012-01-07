@@ -291,20 +291,20 @@ public class DeclaredRoutineParser extends DeclarationsParser {
             SymbolTableEntry routineId)
             throws Exception {
         boolean isProgram = routineId.getDefinition() == DefinitionImpl.PROGRAM;
-        Definition parmDefn = isProgram ? PROGRAM_PARM : null;
+        Definition parmDefn = isProgram ? PROGRAM_PARAM : null;
         TokenType tokenType = token.getType();
 
         // VAR or value parameter?
         if (tokenType == VAR) {
             if (!isProgram) {
-                parmDefn = VAR_PARM;
+                parmDefn = VAR_PARAM;
             } else {
                 errorHandler.flag(token, INVALID_VAR_PARAM, this);
             }
 
             token = nextToken();  // consume VAR
         } else if (!isProgram) {
-            parmDefn = VALUE_PARM;
+            parmDefn = VALUE_PARAM;
         }
 
         // Parse the parameter sublist and its type specification.

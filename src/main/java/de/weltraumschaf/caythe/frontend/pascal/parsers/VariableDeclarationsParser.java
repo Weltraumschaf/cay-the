@@ -122,7 +122,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
             }
         } while (!followSet.contains(token.getType()));
 
-        if (definition != DefinitionImpl.PROGRAM_PARM) {
+        if (definition != DefinitionImpl.PROGRAM_PARAM) {
             // Parse the type specification.
             TypeSpecification type = parseTypeSpec(token);
 

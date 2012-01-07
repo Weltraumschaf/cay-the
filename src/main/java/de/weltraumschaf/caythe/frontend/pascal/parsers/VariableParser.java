@@ -70,8 +70,8 @@ public class VariableParser extends StatementParser {
         Definition defnCode = variableId.getDefinition();
 
         if (! ( (defnCode == DefinitionImpl.VARIABLE) ||
-                (defnCode == DefinitionImpl.VALUE_PARM) ||
-                (defnCode == DefinitionImpl.VAR_PARM) ||
+                (defnCode == DefinitionImpl.VALUE_PARAM) ||
+                (defnCode == DefinitionImpl.VAR_PARAM) ||
                 (isFunctionTarget && (defnCode == DefinitionImpl.FUNCTION) )
               )
             )
@@ -101,7 +101,7 @@ public class VariableParser extends StatementParser {
                 variableNode.addChild(subFldNode);
             }
         }
-        
+
         variableNode.setTypeSpecification(variableType);
         return variableNode;
     }

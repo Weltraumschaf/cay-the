@@ -57,8 +57,8 @@ public class StatementParser extends PascalTopDownParser {
                 // Assignement statement or procedure call.
                 switch ((DefinitionImpl) idDefn) {
                     case VARIABLE:
-                    case VALUE_PARM:
-                    case VAR_PARM:
+                    case VALUE_PARAM:
+                    case VAR_PARAM:
                     case UNDEFINED: {
                         AssignmentStatementParser parser = new AssignmentStatementParser(this);
                         statementNode = parser.parse(token);

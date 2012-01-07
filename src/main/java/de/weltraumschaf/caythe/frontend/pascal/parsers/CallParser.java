@@ -163,7 +163,7 @@ public class CallParser extends StatementParser {
 
         // VAR parameter: The actual parameter must be a variable of the same
         //                type as the formal parameter.
-        if (formalDefn == DefinitionImpl.VAR_PARM) {
+        if (formalDefn == DefinitionImpl.VAR_PARAM) {
             if (( actualNode.getType() != CodeNodeTypeImpl.VARIABLE )
                     || ( actualType != formalType )) {
                 errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARAM, this);
