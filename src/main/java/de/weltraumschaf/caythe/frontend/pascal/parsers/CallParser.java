@@ -100,7 +100,9 @@ public class CallParser extends StatementParser {
             //                 a scalar, boolean or subrange of integer,
             else if (isReadReadln) {
                 TypeSpecification type = actualNode.getTypeSpecification();
-                TypeForm form = type.getForm();
+                TypeForm          form = type != null
+                                         ? type.getForm()
+                                         : null;
 
                 if (!( ( actualNode.getType() == CodeNodeTypeImpl.VARIABLE )
                         && ( ( form == TypeFormImpl.SCALAR )
