@@ -30,40 +30,40 @@ public class DeclaredRoutineParser extends DeclarationsParser {
 
     @Override
     public SymbolTableEntry parse(Token token, SymbolTableEntry parentId) throws Exception {
-        Definition routineDefn = null;
-        String dummyName = null;
-        SymbolTableEntry routineId = null;
-        TokenType routineType = token.getType();
+        Definition       routineDefn = null;
+        String           dummyName   = null;
+        SymbolTableEntry routineId   = null;
+        TokenType        routineType = token.getType();
 
         // Initialize.
         switch ((PascalTokenType) routineType) {
 
             case PROGRAM: {
-                token = nextToken();  // consume PROGRAM
+                token       = nextToken();  // consume PROGRAM
                 routineDefn = DefinitionImpl.PROGRAM;
-                dummyName = "DummyProgramName".toLowerCase();
+                dummyName   = "DummyProgramName".toLowerCase();
                 break;
             }
 
             case PROCEDURE: {
-                token = nextToken();  // consume PROCEDURE
+                token       = nextToken();  // consume PROCEDURE
                 routineDefn = DefinitionImpl.PROCEDURE;
-                dummyName = "DummyProcedureName_".toLowerCase()
-                        + String.format("%03d", ++dummyCounter);
+                dummyName   = "DummyProcedureName_".toLowerCase()
+                            + String.format("%03d", ++dummyCounter);
                 break;
             }
 
             case FUNCTION: {
-                token = nextToken();  // consume FUNCTION
+                token       = nextToken();  // consume FUNCTION
                 routineDefn = DefinitionImpl.FUNCTION;
-                dummyName = "DummyFunctionName_".toLowerCase()
-                        + String.format("%03d", ++dummyCounter);
+                dummyName   = "DummyFunctionName_".toLowerCase()
+                            + String.format("%03d", ++dummyCounter);
                 break;
             }
 
             default: {
                 routineDefn = DefinitionImpl.PROGRAM;
-                dummyName = "DummyProgramName".toLowerCase();
+                dummyName   = "DummyProgramName".toLowerCase();
                 break;
             }
         }
@@ -75,8 +75,8 @@ public class DeclaredRoutineParser extends DeclarationsParser {
         token = currentToken();
 
         // Create new intermediate code for the routine.
-        Code iCode = CodeFactory.createCode();
-        routineId.setAttribute(ROUTINE_CODE, iCode);
+        Code intermediateCode = CodeFactory.createCode();
+        routineId.setAttribute(ROUTINE_INTERMEDIATE_CODE, intermediateCode);
         routineId.setAttribute(ROUTINE_ROUTINES, new ArrayList<SymbolTableEntry>());
 
         // Push the routine's new symbol table onto the stack.
@@ -132,7 +132,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
 
             BlockParser blockParser = new BlockParser(this);
             CodeNode rootNode = blockParser.parse(token, routineId);
-            iCode.setRoot(rootNode);
+            intermediateCode.setRoot(rootNode);
         }
 
         // Pop the routine's symbol table off the stack.

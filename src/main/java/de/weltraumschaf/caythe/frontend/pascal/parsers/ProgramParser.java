@@ -21,7 +21,8 @@ public class ProgramParser extends DeclarationsParser {
         super(parent);
     }
 
-    static final EnumSet<PascalTokenType> PROGRAM_SART_SET = EnumSet.of(PROGRAM, SEMICOLON);
+    static final EnumSet<PascalTokenType> PROGRAM_SART_SET =
+        EnumSet.of(PROGRAM, SEMICOLON);
 
     static {
         PROGRAM_SART_SET.addAll(DeclarationsParser.DECLARATION_START_SET);
