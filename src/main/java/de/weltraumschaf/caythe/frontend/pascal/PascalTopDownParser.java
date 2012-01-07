@@ -5,11 +5,7 @@ import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
-import de.weltraumschaf.caythe.frontend.pascal.parsers.BlockParser;
 import de.weltraumschaf.caythe.frontend.pascal.parsers.ProgramParser;
-import de.weltraumschaf.caythe.intermediate.CodeFactory;
-import de.weltraumschaf.caythe.intermediate.CodeNode;
-import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
@@ -18,7 +14,6 @@ import java.util.EnumSet;
 
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
-import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
 
 /**
  *
@@ -28,7 +23,6 @@ import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKe
 public class PascalTopDownParser extends Parser {
 
     protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
-    private SymbolTableEntry routineId;
 
     public PascalTopDownParser(Scanner scanner) {
         super(scanner);
