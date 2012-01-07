@@ -299,7 +299,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
             if (!isProgram) {
                 parmDefn = VAR_PARM;
             } else {
-                errorHandler.flag(token, INVALID_VAR_PARM, this);
+                errorHandler.flag(token, INVALID_VAR_PARAM, this);
             }
 
             token = nextToken();  // consume VAR

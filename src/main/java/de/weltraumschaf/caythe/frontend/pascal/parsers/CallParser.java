@@ -107,7 +107,7 @@ public class CallParser extends StatementParser {
                         || ( type == Predefined.booleanType )
                         || ( ( form == TypeFormImpl.SUBRANGE )
                         && ( type.baseType() == Predefined.integerType ) ) ) )) {
-                    errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARM, this);
+                    errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARAM, this);
                 }
             }
             // write or writeln: The type of each actual parameter must be a
@@ -166,7 +166,7 @@ public class CallParser extends StatementParser {
         if (formalDefn == DefinitionImpl.VAR_PARM) {
             if (( actualNode.getType() != CodeNodeTypeImpl.VARIABLE )
                     || ( actualType != formalType )) {
-                errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARM, this);
+                errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARAM, this);
             }
         } // Value parameter: The actual parameter must be assignment-compatible
         //                  with the formal parameter.
