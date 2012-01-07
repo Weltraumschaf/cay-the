@@ -62,7 +62,7 @@ public enum PascalErrorCode {
     UNEXPECTED_TOKEN("Unexpected token"),
     UNIMPLEMENTED("Unimplemented feature"),
     UNRECOGNIZABLE("Unrecognizable input"),
-    WRONG_NUMBER_OF_PARMS("Wrong number of actual parameters"),
+    WRONG_NUMBER_OF_PARAMS("Wrong number of actual parameters"),
 
     // Fatal errors.
     IO_ERROR(-101, "Object I/O error"),

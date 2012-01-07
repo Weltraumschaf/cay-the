@@ -74,7 +74,7 @@ public class CallParser extends StatementParser {
 
         if (token.getType() != PascalTokenType.LEFT_PAREN) {
             if (paramCount != 0) {
-                errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+                errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
             }
 
             return null;
@@ -93,7 +93,7 @@ public class CallParser extends StatementParser {
                     SymbolTableEntry formalId = formalParms.get(paramIndex);
                     checkActualParameter(token, formalId, actualNode);
                 } else if (paramIndex == paramCount) {
-                    errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+                    errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
                 }
             }
             // read or readln: Each actual variable must be a variable that is
@@ -152,7 +152,7 @@ public class CallParser extends StatementParser {
         token = nextToken(); // Consume closing )
 
         if (parmsNode.getChildren().isEmpty() || ( isDecalred && ( paramIndex != paramCount - 1 ) )) {
-            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
         }
 
         return parmsNode;

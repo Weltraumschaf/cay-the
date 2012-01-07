@@ -77,7 +77,7 @@ public class CallStandardParser extends CallParser {
 
         // Read must have parameters
         if ((pfId == Predefined.readId) && callNode.getChildren().isEmpty()) {
-            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
         }
 
         return callNode;
@@ -89,7 +89,7 @@ public class CallStandardParser extends CallParser {
 
         // Write must have parameters.
         if ((pfId == Predefined.writeId) && callNode.getChildren().isEmpty()) {
-            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
         }
 
         return callNode;
@@ -250,7 +250,7 @@ public class CallStandardParser extends CallParser {
             return true;
         }
 
-        errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
+        errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARAMS, this);
         return false;
     }
 
