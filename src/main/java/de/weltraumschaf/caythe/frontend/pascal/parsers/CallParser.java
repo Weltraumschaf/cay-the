@@ -62,17 +62,18 @@ public class CallParser extends StatementParser {
         ExpressionParser            expressionParser = new ExpressionParser(this);
         CodeNode                    parmsNode        = CodeFactory.createCodeNode(PARAMETERS);
         ArrayList<SymbolTableEntry> formalParms      = null;
-        int parmCount = 0;
-        int parmIndex = -1;
+        int paramCount = 0;
+        int paramIndex = -1;
 
         if (isDecalred) {
             formalParms = (ArrayList<SymbolTableEntry>) pfId.getAttribute(ROUTINE_PARAMS);
-            parmCount = formalParms != null ? formalParms.size() : 0;
+            paramCount  = formalParms != null
+                          ? formalParms.size()
+                          : 0;
         }
 
         if (token.getType() != PascalTokenType.LEFT_PAREN) {
-            if (parmCount != 0) {
-                errorHandler.flag(token, "foo 1", this);
+            if (paramCount != 0) {
                 errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
             }
 
@@ -88,14 +89,14 @@ public class CallParser extends StatementParser {
             // parameters, and check each actual parameter against the
             // corresponding formal parameter.
             if (isDecalred) {
-                if (++parmIndex < parmCount) {
-                    SymbolTableEntry formalId = formalParms.get(parmIndex);
+                if (++paramIndex < paramCount) {
+                    SymbolTableEntry formalId = formalParms.get(paramIndex);
                     checkActualParameter(token, formalId, actualNode);
-                } else if (parmIndex == parmCount) {
-                    errorHandler.flag(token, "foo 2", this);
+                } else if (paramIndex == paramCount) {
                     errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
                 }
-            } // read or readln: Each actual variable must be a variable that is
+            }
+            // read or readln: Each actual variable must be a variable that is
             //                 a scalar, boolean or subrange of integer,
             else if (isReadReadln) {
                 TypeSpecification type = actualNode.getTypeSpecification();
@@ -108,7 +109,8 @@ public class CallParser extends StatementParser {
                         && ( type.baseType() == Predefined.integerType ) ) ) )) {
                     errorHandler.flag(token, PascalErrorCode.INVALID_VAR_PARM, this);
                 }
-            } // write or writeln: The type of each actual parameter must be a
+            }
+            // write or writeln: The type of each actual parameter must be a
             //                   scalar, boolean, or a Pascal string. Parse any field
             //                   width and precision.
             else if (isWriteWriteln) {
@@ -143,18 +145,12 @@ public class CallParser extends StatementParser {
             } else if (tokenType != PascalTokenType.RIGHT_PAREN) {
                 token = synchronize(ExpressionParser.EXPRESSION_START_SET);
             }
+        }
 
-            token = nextToken(); // Consume closing )
+        token = nextToken(); // Consume closing )
 
-            if (parmsNode.getChildren().isEmpty()) {
-                errorHandler.flag(token, "foo 3", this);
-                errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
-            }
-
-            if (( isDecalred && ( parmIndex != parmCount - 1 ) )) {
-                errorHandler.flag(token, "foo 4", this);
-                errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
-            }
+        if (parmsNode.getChildren().isEmpty() || ( isDecalred && ( paramIndex != paramCount - 1 ) )) {
+            errorHandler.flag(token, PascalErrorCode.WRONG_NUMBER_OF_PARMS, this);
         }
 
         return parmsNode;
