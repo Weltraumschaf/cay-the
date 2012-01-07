@@ -47,13 +47,6 @@ public class PascalTopDownParser extends Parser {
 
             ProgramParser programParser = new ProgramParser(this);
             programParser.parse(token, null);
-            // Look for the final period.
-            token = currentToken();
-
-            if (DOT != token.getType()) {
-                errorHandler.flag(token, MISSING_PERIOD, this);
-            }
-
             token = currentToken();
 
             // Send the parser summary message.
@@ -78,7 +71,8 @@ public class PascalTopDownParser extends Parser {
             // Recover by skipping tokens that are not in the sync set.
             do {
                 token = nextToken();
-            } while (!(token instanceof EofToken) && !syncSet.contains(token.getType()));
+            } while (!(token instanceof EofToken) &&
+                     !syncSet.contains(token.getType()));
         }
 
         return token;
@@ -87,6 +81,10 @@ public class PascalTopDownParser extends Parser {
     @Override
     public int getErrorCount() {
         return errorHandler.getErrorCount();
+    }
+
+    public PascalErrorHandler getErrorHandler() {
+        return errorHandler;
     }
 
 }
