@@ -45,7 +45,8 @@ public class ExpressionParser extends StatementParser {
             EnumSet.of(EQUALS, NOT_EQUALS, LESS_THAN, LESS_EQUALS,
             GREATER_THAN, GREATER_EQUALS);
     // Map relational operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeType> REL_OPS_MAP = new HashMap<PascalTokenType, CodeNodeType>();
+    private static final HashMap<PascalTokenType, CodeNodeType> REL_OPS_MAP
+            = new HashMap<PascalTokenType, CodeNodeType>();
 
     static {
         REL_OPS_MAP.put(EQUALS, EQ);
@@ -284,8 +285,14 @@ public class ExpressionParser extends StatementParser {
                 case STAR: {
                     // Both operands integer ==> integer result.
                     if (TypeChecker.areBothInteger(resultType, factorType)) {
+                        resultType = Predefined.integerType;
+                    }
+                    // Both real operands or one real and one integer operand
+                    // ==> real result.
+                    else if (TypeChecker.isAtLeastOneReal(resultType, factorType)) {
                         resultType = Predefined.realType;
-                    } else {
+                    }
+                    else {
                         errorHandler.flag(token, INCOMPATIBLE_TYPES, this);
                     }
 
