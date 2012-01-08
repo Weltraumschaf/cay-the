@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public interface MemoryMap {
 
-    public Cell getCall();
+    public Cell getCall(String name);
 
-    public ArrayList getAllNames();
+    public ArrayList<String> getAllNames();
 }

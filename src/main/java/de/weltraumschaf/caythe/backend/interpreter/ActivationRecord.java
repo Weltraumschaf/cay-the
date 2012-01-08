@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
+import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +10,15 @@ import java.util.ArrayList;
  */
 public interface ActivationRecord {
 
-    public Cell getCell();
+    public SymbolTableEntry getRuntineId();
 
-    public ArrayList getAllNames();
+    public Cell getCell(String name);
+
+    public ArrayList<String> getAllNames();
 
     public int getNestingLevel();
 
     public ActivationRecord linkedTo();
 
-    public ActivationRecord makeLinkTo(ActivationRecord previous);
+    public ActivationRecord makeLinkTo(ActivationRecord ar);
 }
