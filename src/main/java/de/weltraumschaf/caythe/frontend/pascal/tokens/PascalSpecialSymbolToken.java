@@ -19,76 +19,88 @@ public class PascalSpecialSymbolToken extends PascalToken {
 
     @Override
     protected void extract() throws Exception {
-	char currentChar = currentChar();
+        char currentChar = currentChar();
 
-	text = Character.toString(currentChar);
-	type = null;
+        text = Character.toString(currentChar);
+        type = null;
 
-	switch (currentChar) {
-	    // Single-character special symbols.
-	    case '+': case '-': case '*': case '/': case ',':
-	    case ';': case '\'': case '=': case '(': case ')':
-	    case '[': case ']': case '{': case '}': case '^': {
-		nextChar();
-		break;
-	    }
+        switch (currentChar) {
+            // Single-character special symbols.
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+            case ',':
+            case ';':
+            case '\'':
+            case '=':
+            case '(':
+            case ')':
+            case '[':
+            case ']':
+            case '{':
+            case '}':
+            case '^': {
+                nextChar();
+                break;
+            }
 
-	    // : or :=
-	    case ':': {
-		currentChar = nextChar(); // consumes :
+            // : or :=
+            case ':': {
+                currentChar = nextChar(); // consumes :
 
-		if ('=' == currentChar) {
-		    text += currentChar;
-		    nextChar(); // consumes =
-		}
-	    }
-	    // < or <= or <>
-	    case '<': {
-		currentChar = nextChar(); // consumes <
+                if ('=' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes =
+                }
 
-		if ('=' == currentChar) {
-		    text += currentChar;
-		    nextChar(); // consumes =
-		}
-		else if ('>' == currentChar) {
-		    text += currentChar;
-		    nextChar(); // consumes >
-		}
+                break;
+            }
+            // < or <= or <>
+            case '<': {
+                currentChar = nextChar(); // consumes <
 
-		break;
-	    }
-	    // > or >=
-	    case '>': {
-		currentChar = nextChar(); // consumes >
+                if ('=' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes =
+                } else if ('>' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes >
+                }
 
-		if ('=' == currentChar) {
-		    text += currentChar;
-		    nextChar(); // consumes =
-		}
+                break;
+            }
+            // > or >=
+            case '>': {
+                currentChar = nextChar(); // consumes >
 
-		break;
-	    }
-	    // . or ..
-	    case '.': {
-		currentChar = nextChar(); // consumes .
+                if ('=' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes =
+                }
 
-		if ('.' == currentChar) {
-		    text += currentChar;
-		    nextChar(); // consumes .
-		}
+                break;
+            }
+            // . or ..
+            case '.': {
+                currentChar = nextChar(); // consumes .
 
-		break;
-	    }
-	    default: {
-		nextChar();
-		type  = ERROR;
-		value = INVALID_CHARACTER;
-	    }
-	}
+                if ('.' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes .
+                }
 
-	if (null == type) {
-	    type = SPECIAL_SYMBOLS.get(text);
-	}
+                break;
+            }
+            default: {
+                nextChar();
+                type = ERROR;
+                value = INVALID_CHARACTER;
+            }
+        }
+
+        if (null == type) {
+            type = SPECIAL_SYMBOLS.get(text);
+        }
     }
-
 }
