@@ -1,5 +1,9 @@
 package de.weltraumschaf.caythe.frontend;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
@@ -25,11 +29,21 @@ public abstract class Scanner {
 
     protected abstract Token extractToken() throws Exception;
 
-    public char currentChar() throws Exception {
-        return source.currentChar();
+    public char currentChar() {
+        try {
+            return source.currentChar();
+        }
+        catch (IOException ex) {
+            return Source.EOF;
+        }
     }
 
-    public char nextChar() throws Exception {
-        return source.nextChar();
+    public char nextChar() {
+        try {
+            return source.nextChar();
+        }
+        catch (IOException ex) {
+            return Source.EOF;
+        }
     }
 }
