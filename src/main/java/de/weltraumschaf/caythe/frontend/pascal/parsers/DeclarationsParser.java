@@ -82,6 +82,7 @@ public class DeclarationsParser extends PascalTopDownParser {
             routineParser.parse(token, parentId);
 
             // Look for one or more semicolons after a definition.
+            token = currentToken();
             if (token.getType() == SEMICOLON) {
                 while (token.getType() == SEMICOLON) {
                     token = nextToken(); // consume the ;
