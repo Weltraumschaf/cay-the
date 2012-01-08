@@ -2,9 +2,10 @@ package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
-
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.RESERVED_WORDS;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.IDENTIFIER;
 
 /**
  *
