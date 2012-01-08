@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.intermediate.CodeNodeType;
+import java.util.EnumMap;
 import java.util.HashMap;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import java.util.EnumSet;
@@ -45,8 +46,8 @@ public class ExpressionParser extends StatementParser {
             EnumSet.of(EQUALS, NOT_EQUALS, LESS_THAN, LESS_EQUALS,
             GREATER_THAN, GREATER_EQUALS);
     // Map relational operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeType> REL_OPS_MAP
-            = new HashMap<PascalTokenType, CodeNodeType>();
+    private static final EnumMap<PascalTokenType, CodeNodeType> REL_OPS_MAP
+            = new EnumMap<PascalTokenType, CodeNodeType>(PascalTokenType.class);
 
     static {
         REL_OPS_MAP.put(EQUALS, EQ);
@@ -78,10 +79,10 @@ public class ExpressionParser extends StatementParser {
         TokenType tokenType = token.getType();
 
         // Look for a relational operator.
-        if (REL_OPS.contains(tokenType)) {
+        if (REL_OPS.contains((PascalTokenType)tokenType)) {
             // Create a new operator node and adopt the current tree
             // as its first child.
-            CodeNodeType nodeType = REL_OPS_MAP.get(tokenType);
+            CodeNodeType nodeType = REL_OPS_MAP.get((PascalTokenType)tokenType);
             CodeNode opNode = CodeFactory.createCodeNode(nodeType);
             opNode.addChild(rootNode);
 
@@ -119,7 +120,7 @@ public class ExpressionParser extends StatementParser {
     // Set of additive operators.
     private static final EnumSet<PascalTokenType> ADD_OPS = EnumSet.of(PLUS, MINUS, PascalTokenType.OR);
     // Map additive operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeTypeImpl> ADD_OPS_MAP = new HashMap<PascalTokenType, CodeNodeTypeImpl>();
+    private static final EnumMap<PascalTokenType, CodeNodeTypeImpl> ADD_OPS_MAP = new EnumMap<PascalTokenType, CodeNodeTypeImpl>(PascalTokenType.class);
 
     static {
         ADD_OPS_MAP.put(PLUS, ADD);
@@ -171,11 +172,11 @@ public class ExpressionParser extends StatementParser {
         tokenType = token.getType();
 
         // Loop over additive operators.
-        while (ADD_OPS.contains(tokenType)) {
+        while (ADD_OPS.contains((PascalTokenType)tokenType)) {
             TokenType operator = tokenType;
             // Create a new operator node and adopt the current tree
             // as its first child.
-            CodeNodeType nodeType = ADD_OPS_MAP.get(tokenType);
+            CodeNodeType nodeType = ADD_OPS_MAP.get((PascalTokenType)tokenType);
             CodeNode opNode = CodeFactory.createCodeNode(nodeType);
             opNode.addChild(rootNode);
 
@@ -234,7 +235,7 @@ public class ExpressionParser extends StatementParser {
     private static final EnumSet<PascalTokenType> MULT_OPS =
             EnumSet.of(STAR, SLASH, DIV, PascalTokenType.MOD, PascalTokenType.AND);
     // Map multiplicative operator tokens to node types.
-    private static final HashMap<PascalTokenType, CodeNodeType> MULT_OPS_MAP = new HashMap<PascalTokenType, CodeNodeType>();
+    private static final EnumMap<PascalTokenType, CodeNodeType> MULT_OPS_MAP = new EnumMap<PascalTokenType, CodeNodeType>(PascalTokenType.class);
 
     static {
         MULT_OPS_MAP.put(STAR, MULTIPLY);
@@ -260,11 +261,11 @@ public class ExpressionParser extends StatementParser {
         TokenType tokenType = token.getType();
 
         // Loop over multiplicative operators.
-        while (MULT_OPS.contains(tokenType)) {
+        while (MULT_OPS.contains((PascalTokenType)tokenType)) {
             TokenType operator = tokenType;
             // Create a new operator node and adopt the current tree
             // as its first child.
-            CodeNodeType nodeType = MULT_OPS_MAP.get(tokenType);
+            CodeNodeType nodeType = MULT_OPS_MAP.get((PascalTokenType)tokenType);
             CodeNode opNode = CodeFactory.createCodeNode(nodeType);
             opNode.addChild(rootNode);
 

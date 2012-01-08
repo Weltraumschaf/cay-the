@@ -142,7 +142,7 @@ public class CallParser extends StatementParser {
             // Look for the comma.
             if (tokenType == PascalTokenType.COMMA) {
                 token = nextToken();
-            } else if (ExpressionParser.EXPRESSION_START_SET.contains(tokenType)) {
+            } else if (ExpressionParser.EXPRESSION_START_SET.contains((PascalTokenType)tokenType)) {
                 errorHandler.flag(token, PascalErrorCode.MISSING_COMMA, this);
             } else if (tokenType != PascalTokenType.RIGHT_PAREN) {
                 token = synchronize(ExpressionParser.EXPRESSION_START_SET);
