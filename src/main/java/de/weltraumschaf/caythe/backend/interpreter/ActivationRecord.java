@@ -17,5 +17,5 @@ public interface ActivationRecord {
 
     public ActivationRecord linkedTo();
 
-    public ActivationRecord makeLinkTo();
+    public ActivationRecord makeLinkTo(ActivationRecord previous);
 }
