@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
-import com.sun.tools.internal.ws.wsdl.framework.Defining;
 import de.weltraumschaf.caythe.frontend.TokenType;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode;
@@ -9,11 +8,11 @@ import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
-
 import de.weltraumschaf.caythe.intermediate.Definition;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
 import java.util.EnumSet;
+
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
@@ -31,10 +30,9 @@ public class StatementParser extends PascalTopDownParser {
     }
 
     protected static final EnumSet<PascalTokenType> STATEMENT_START_SET =
-        EnumSet.of(BEGIN, CASE, FOR, PascalTokenType.IF, REPEAT, WHILE, IDENTIFIER, SEMICOLON);
-
+            EnumSet.of(BEGIN, CASE, FOR, PascalTokenType.IF, REPEAT, WHILE, IDENTIFIER, SEMICOLON);
     protected static final EnumSet<PascalTokenType> STATEMENT_FOLLOW_SET =
-        EnumSet.of(SEMICOLON, END, ELSE, UNTIL, DOT);
+            EnumSet.of(SEMICOLON, END, ELSE, UNTIL, DOT);
 
     public CodeNode parse(Token token) throws Exception {
         CodeNode statementNode = null;
@@ -49,9 +47,9 @@ public class StatementParser extends PascalTopDownParser {
 
             // An assignment statement begins with a variable's identifier.
             case IDENTIFIER: {
-                String name         = token.getText().toLowerCase();
+                String name = token.getText().toLowerCase();
                 SymbolTableEntry id = symbolTableStack.lookup(name);
-                Definition idDefn   = id != null ? id.getDefinition() : DefinitionImpl.UNDEFINED;
+                Definition idDefn = id != null ? id.getDefinition() : DefinitionImpl.UNDEFINED;
 
 
                 // Assignement statement or procedure call.
@@ -141,7 +139,7 @@ public class StatementParser extends PascalTopDownParser {
 
         // Loop to parse each statement until the END token
         // or the end of the source file.
-        while (!(token instanceof EofToken) && (token.getType() != terminator)) {
+        while (!( token instanceof EofToken ) && ( token.getType() != terminator )) {
             // Parse a statement.  The parent node adopts the statement node.
             CodeNode statementNode = parse(token);
             parentNode.addChild(statementNode);
@@ -152,9 +150,8 @@ public class StatementParser extends PascalTopDownParser {
             // Look for the semicolon between statements.
             if (tokenType == SEMICOLON) {
                 token = nextToken();  // consume the ;
-            }
-            // If at the start of the next assignment statement, then missing a semicolon.
-            else if (STATEMENT_START_SET.contains(tokenType)) {
+            } // If at the start of the next assignment statement, then missing a semicolon.
+            else if (STATEMENT_START_SET.contains((PascalTokenType)tokenType)) {
                 errorHandler.flag(token, MISSING_SEMICOLON, this);
             }
 

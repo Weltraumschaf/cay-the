@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.frontend.pascal.parsers;
 
-import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
 import de.weltraumschaf.caythe.frontend.TokenType;
+import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTopDownParser;
 import de.weltraumschaf.caythe.intermediate.CodeFactory;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.BEGIN;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.END;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeTypeImpl.*;
 
@@ -40,7 +41,7 @@ public class BlockParser extends PascalTopDownParser {
         else {
             errorHandler.flag(token, MISSING_BEGIN, this);
 
-            if (StatementParser.STATEMENT_START_SET.contains(tokenType)) {
+            if (StatementParser.STATEMENT_START_SET.contains((PascalTokenType)tokenType)) {
                 rootNode = CodeFactory.createCodeNode(COMPOUND);
                 statementParser.parseList(token, rootNode, END, MISSING_END);
             }
