@@ -75,7 +75,7 @@ public class DeclaredRoutineParser extends DeclarationsParser {
         token = currentToken();
 
         // Create new intermediate code for the routine.
-        Code intermediateCode = CodeFactory.createCode();
+        Code intermediateCode = CodeFactory.createCode(); // FIXME Don't shadow!
         routineId.setAttribute(ROUTINE_INTERMEDIATE_CODE, intermediateCode);
         routineId.setAttribute(ROUTINE_ROUTINES, new ArrayList<SymbolTableEntry>());
 
