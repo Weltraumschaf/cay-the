@@ -24,8 +24,8 @@ public class Source implements MessageProducer {
     private int lineNumber;
     private int currentPos;
 
-    public Source(BufferedReader reader) throws IOException {
-        this.reader    = reader;
+    public Source(BufferedReader r) {
+        reader         = r;
         lineNumber     = 0;
         currentPos     = -2;
         messageHandler = new MessageHandler();
