@@ -17,4 +17,8 @@ public class MemoryFactory {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    public static Cell createCell(Object o) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }
