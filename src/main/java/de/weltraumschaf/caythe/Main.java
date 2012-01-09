@@ -44,7 +44,7 @@ public class Main {
             run(args);
         } catch (Error err) {
             if (null != err.getMessage()) {
-                System.out.println(err.getMessage());
+                System.out.println(err.getMessage() + "\n");
             }
 
             if (debug) {
@@ -53,7 +53,7 @@ public class Main {
 
             System.exit(err.getCode());
         } catch (Exception ex) {
-            System.out.println(USAGE);
+            System.out.println(USAGE + "\n");
 
             if (debug) {
                 System.out.println(formatError(ex, true));
@@ -67,7 +67,7 @@ public class Main {
 
     public static void run(String[] args) throws Exception, Error {
         if (args.length == 0) {
-            throw new Error("Too few arguments.\n" + USAGE, 1);
+            throw new Error("Too few arguments!\n" + USAGE, 1);
         }
 
         BackendFactory.Operation operation = null;
