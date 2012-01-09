@@ -102,7 +102,7 @@ public class Main {
         // Source path.
         if (i < args.length) {
             String path = args[i];
-            Pascal pascal = new Pascal(operation, path, flags);
+            App pascal = new App(operation, path, flags);
             pascal.execute();
         } else {
             throw new Exception("No source file given!");
