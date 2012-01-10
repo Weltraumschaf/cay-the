@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import java.util.Arrays;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class AppTest {
         parser.accepts("h");
         parser.accepts("d");
 
-        String[] args1 = {"-l", "pascal", "--execute", "-i", "-x", "-h"};
+        String[] args1 = {"-l", "pascal", "--execute", "-i", "-x", "-h", "hello.pas"};
         OptionSet opts1 = parser.parse(args1);
         assertTrue(opts1.has("l"));
         assertEquals("pascal", opts1.valueOf("l"));
@@ -35,8 +36,9 @@ public class AppTest {
         assertTrue(opts1.has("x"));
         assertTrue(opts1.has("h"));
         assertFalse(opts1.has("d"));
+        assertEquals(Arrays.asList("hello.pas"), opts1.nonOptionArguments());
 
-        String[] args2 = {"-l", "caythe", "--compile", "-i", "-d"};
+        String[] args2 = {"-l", "caythe", "--compile", "-i", "-d", "hello.pas"};
         OptionSet opts2 = parser.parse(args2);
         assertTrue(opts2.has("l"));
         assertEquals("caythe", opts2.valueOf("l"));
@@ -46,8 +48,9 @@ public class AppTest {
         assertFalse(opts2.has("x"));
         assertFalse(opts2.has("h"));
         assertTrue(opts2.has("d"));
+        assertEquals(Arrays.asList("hello.pas"), opts1.nonOptionArguments());
 
-        String[] args3 = {"-l", "caythe", "--compile", "-ixhd"};
+        String[] args3 = {"-l", "caythe", "--compile", "-ixhd", "hello.pas"};
         OptionSet opts3 = parser.parse(args3);
         assertTrue(opts3.has("l"));
         assertEquals("caythe", opts3.valueOf("l"));
@@ -56,5 +59,6 @@ public class AppTest {
         assertTrue(opts3.has("x"));
         assertTrue(opts3.has("h"));
         assertTrue(opts3.has("d"));
+        assertEquals(Arrays.asList("hello.pas"), opts1.nonOptionArguments());
     }
 }

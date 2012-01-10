@@ -1,5 +1,10 @@
 package de.weltraumschaf.caythe;
 
+import java.util.List;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import de.weltraumschaf.caythe.util.ParseTreePrinter;
 import de.weltraumschaf.caythe.backend.Backend;
 import de.weltraumschaf.caythe.backend.BackendFactory;
@@ -27,30 +32,133 @@ import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKe
  */
 public class App {
 
-    private BackendFactory.Operation operation;
-    private String filePath;
-    private String flags;
-    private Parser parser;
-    private Source source;
+    private static final String USAGE = "Usage: java -jar caythe.jar -l <language> --execute|--compile [-ixdh] <source file path>";
+
+    private String[] args;
+    private OptionSet options;
     private Code intermediateCode;
     private SymbolTableStack symbolTableStack;
     private Backend backend;
 
-    public App(BackendFactory.Operation operation, String filePath, String flags) {
-        this.operation = operation;
-        this.filePath  = filePath;
-        this.flags     = flags;
+    public App(String[] args) {
+        this.args   = args;
     }
 
+    public static void main(String[] args) {
+        App app = new App(args);
+        System.exit(app.run());
+    }
 
-    public void execute() throws Exception {
-        boolean intermediate = flags.indexOf('i') > -1;
-        boolean xref         = flags.indexOf('x') > -1;
+    private static String formatError(Throwable t) {
+        return formatError(t, false);
+    }
 
-        source = new Source(new BufferedReader(new FileReader(filePath)));
+    private static String formatError(Throwable t, boolean withMessage) {
+        StringBuilder sb = new StringBuilder("DEBUG:\n");
+        sb.append("Exception thrown");
+
+        if (withMessage && null != t.getMessage()) {
+            sb.append("wit message: ")
+              .append(t.getMessage());
+        }
+
+        sb.append("!\n")
+          .append("Stack trace:\n");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw  = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        sb.append(sw.toString());
+        return sb.toString();
+    }
+
+    private static void help() {
+        StringBuilder sb = new StringBuilder(USAGE);
+        sb.append("\n\n");
+        sb.append("  --compile      Compile to java bytecode.\n");
+        sb.append("  --execute      Interpret the code.\n");
+        sb.append("\n\n");
+        sb.append("  -l <language>  Language to parse: pascal, caythe.\n");
+        sb.append("  -i             Intermediate code tree.\n");
+        sb.append("  -x             Show variable cross reference\n");
+        sb.append("  -d             Show debug output.\n");
+        sb.append("  -h             Show this help.\n");
+        System.out.println(sb);
+    }
+
+    private int run() {
+        OptionParser parser = new OptionParser();
+        parser.accepts("execute");
+        parser.accepts("compile");
+        parser.accepts("l").withRequiredArg();
+        parser.accepts("i");
+        parser.accepts("x");
+        parser.accepts("h");
+        parser.accepts("d");
+        options = parser.parse(args);
+
+        boolean debug = options.has("d");
+        int exitCode = 0;
+
+        if (options.has("h")) {
+            help();
+            return exitCode;
+        }
+
+        try {
+            execute();
+        } catch (Error err) {
+            if (null != err.getMessage()) {
+                System.out.println(err.getMessage());
+                System.out.println();
+            }
+
+            if (debug) {
+                System.out.println(formatError(err));
+            }
+
+            exitCode = err.getCode();
+        } catch (Exception ex) {
+            System.out.println(USAGE);
+            System.out.println();
+
+            if (debug) {
+                System.out.println(formatError(ex, true));
+            }
+
+            exitCode = -1;
+        }
+
+        return exitCode;
+    }
+
+    public void execute() throws Error, Exception {
+        if (args.length == 0) {
+            throw new Error("Too few arguments!\n" + USAGE, 1);
+        }
+
+        BackendFactory.Operation operation = null;
+
+        if (options.has("execute")) {
+            operation = BackendFactory.Operation.EXECUTE;
+        } else if (options.has("compile")) {
+            operation = BackendFactory.Operation.COMPILE;
+        } else {
+            throw new Error("Specify either --compile or --execute!", 2);
+        }
+
+        boolean intermediate  = options.has("i");
+        boolean xref          = options.has("x");
+        List<String> noOpArgs = options.nonOptionArguments();
+
+        if (noOpArgs.size() != 1) {
+            throw new Error("Specify one source file to process!", 3);
+        }
+
+        String filePath = noOpArgs.get(0);
+        Source source   = new Source(new BufferedReader(new FileReader(filePath)));
         source.addMessageListener(new SourceMessageListener());
 
-        parser = FrontendFactory.createParser(
+        Parser parser = FrontendFactory.createParser(
             FrontendFactory.Language.PASCAL,
             FrontendFactory.Type.TOP_DOWN,
             source
