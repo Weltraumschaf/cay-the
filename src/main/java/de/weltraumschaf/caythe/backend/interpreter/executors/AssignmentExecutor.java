@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.backend.interpreter.executors;
 
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
+import de.weltraumschaf.caythe.backend.interpreter.Cell;
 import de.weltraumschaf.caythe.backend.interpreter.Executor;
 import de.weltraumschaf.caythe.intermediate.CodeNode;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
-import de.weltraumschaf.caythe.message.Message;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 import java.util.ArrayList;
 
 import static de.weltraumschaf.caythe.intermediate.codeimpl.CodeKeyImpl.*;
-import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
-import static de.weltraumschaf.caythe.message.MessageType.*;
+import static de.weltraumschaf.caythe.intermediate.typeimpl.TypeKeyImpl.ARRAY_ELEMENT_COUNT;
 
 /**
  *
@@ -27,26 +28,71 @@ public class AssignmentExecutor extends StatementExecutor {
         ArrayList<CodeNode> children = node.getChildren();
         CodeNode variableNode   = children.get(0);
         CodeNode expressionNode = children.get(1);
-
-        // Execute expresion and get its value.
-        ExpressionExecutor expresionExecutor = new ExpressionExecutor(this);
-        Object value = expresionExecutor.execute(expressionNode);
         SymbolTableEntry variableId = (SymbolTableEntry) variableNode.getAttribute(ID);
-        variableId.setAttribute(DATA_VALUE, value);
-        sendMessage(node, variableId.getName(), value);
+
+        // Execute the target variable to get its reference and
+        // execute the expression to get its value.
+        ExpressionExecutor expresionExecutor = new ExpressionExecutor(this);
+        Cell targetCell = (Cell) expresionExecutor.executeVariable(variableNode);
+        TypeSpecification targetType = variableNode.getTypeSpecification();
+        TypeSpecification valueType  = expressionNode.getTypeSpecification().baseType();
+        Object value = expresionExecutor.execute(expressionNode);
+
+        assignValue(node, variableId, targetCell, targetType, value, valueType);
         ++executionCount;
         return null;
     }
 
-    private void sendMessage(CodeNode node, String varibleName, Object value) {
-        Object lineNumber = node.getAttribute(LINE);
+    protected void assignValue(CodeNode node, SymbolTableEntry targetId,
+                               Cell targetCell, TypeSpecification targetType,
+                               Object value, TypeSpecification valueType)
+    {
+        // Range check.
+        value = checkRange(node, targetType, value);
 
-        if (null != lineNumber) {
-            sendMessage(new Message(ASSIGN, new Object[] {
-                lineNumber,
-                varibleName,
-                value
-            }));
+        // Set the target's value.
+        // Convert an integer value to real if necessary.
+        if ((targetType == Predefined.realType) &&
+            (valueType  == Predefined.integerType))
+        {
+            targetCell.setValue(new Float(((Integer) value).intValue()));
         }
+
+        // String assignment:
+        //   target length < value length: truncate the value
+        //   target length > value length: blank pad the value
+        else if (targetType.isPascalString()) {
+            int targetLength =
+                    (Integer) targetType.getAttribute(ARRAY_ELEMENT_COUNT);
+            int valueLength =
+                    (Integer) valueType.getAttribute(ARRAY_ELEMENT_COUNT);
+            String stringValue = (String) value;
+
+            // Truncate the value string.
+            if (targetLength < valueLength) {
+                stringValue = stringValue.substring(0, targetLength);
+            }
+
+            // Pad the value string with blanks at the right end.
+            else if (targetLength > valueLength) {
+                StringBuilder buffer = new StringBuilder(stringValue);
+
+                for (int i = valueLength; i < targetLength; ++i) {
+                    buffer.append(" ");
+                }
+
+                stringValue = buffer.toString();
+            }
+
+            targetCell.setValue(copyOf(toPascal(targetType, stringValue),
+                                       node));
+        }
+
+        // Simple assignment.
+        else {
+            targetCell.setValue(copyOf(toPascal(targetType, value), node));
+        }
+
+        sendAssignMessage(node, targetId.getName(), value);
     }
 }
