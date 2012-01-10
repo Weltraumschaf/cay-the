@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.caythe.backend.compiler.CodeGenerator;
 import de.weltraumschaf.caythe.backend.interpreter.Executor;
+import de.weltraumschaf.caythe.intermediate.TypeSpecification;
 
 /**
  *
@@ -13,6 +14,10 @@ public class BackendFactory {
     public enum Operation {
         COMPILE,
         EXECUTE
+    }
+
+    public static Object defaultValue(TypeSpecification variableType) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public static Backend createBackend(Operation operation) throws Exception {
