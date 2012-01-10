@@ -46,4 +46,16 @@ public abstract class Scanner {
             return Source.EOF;
         }
     }
+
+    public boolean atEol() throws Exception {
+        return source.atEol();
+    }
+
+    public boolean atEof() throws Exception {
+        return source.atEof();
+    }
+
+    public void skipToNextLine() throws Exception {
+        source.skipToNextLine();
+    }
 }

@@ -15,9 +15,9 @@ import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class Source implements MessageProducer {
+
     public static final char EOL = '\n';
     public static final char EOF = (char) 0;
-
     protected MessageHandler messageHandler;
     private BufferedReader reader;
     private String line;
@@ -25,9 +25,9 @@ public class Source implements MessageProducer {
     private int currentPos;
 
     public Source(BufferedReader r) {
-        reader         = r;
-        lineNumber     = 0;
-        currentPos     = -2;
+        reader = r;
+        lineNumber = 0;
+        currentPos = -2;
         messageHandler = new MessageHandler();
     }
 
@@ -44,21 +44,17 @@ public class Source implements MessageProducer {
         if (-2 == currentPos) {
             readLine();
             return nextChar();
-        }
-        // At end of file?
+        } // At end of file?
         else if (null == line) {
             return EOF;
-        }
-        // At end of line?
-        else if ( (-1 == currentPos) || (line.length() == currentPos) ){
+        } // At end of line?
+        else if (( -1 == currentPos ) || ( line.length() == currentPos )) {
             return EOL;
-        }
-        // Need to read the next line?
+        } // Need to read the next line?
         else if (currentPos > line.length()) {
             readLine();
             return nextChar();
-        }
-        // REturn th character at the current position.
+        } // REturn th character at the current position.
         else {
             return line.charAt(currentPos);
         }
@@ -81,18 +77,17 @@ public class Source implements MessageProducer {
     }
 
     private void readLine() throws IOException {
-        line       = reader.readLine(); // Null when at end of the source.
+        line = reader.readLine(); // Null when at end of the source.
         currentPos = -1;
 
-	if (line != null) {
+        if (line != null) {
             ++lineNumber;
         }
 
         if (null != line) {
             sendMessage(new Message(
-                SOURCE_LINE,
-                new Object[] {lineNumber, line}
-            ));
+                    SOURCE_LINE,
+                    new Object[]{lineNumber, line}));
         }
     }
 
@@ -117,4 +112,22 @@ public class Source implements MessageProducer {
         messageHandler.sendMessage(message);
     }
 
+    public boolean atEol() throws Exception {
+        return ( line != null ) && ( currentPos == line.length() );
+    }
+
+    public boolean atEof() throws Exception {
+        // First time?
+        if (currentPos == -2) {
+            readLine();
+        }
+
+        return line == null;
+    }
+
+    public void skipToNextLine() throws Exception {
+        if (line != null) {
+            currentPos = line.length() + 1;
+        }
+    }
 }
