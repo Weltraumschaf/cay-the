@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.caythe.backend.compiler.CodeGenerator;
 import de.weltraumschaf.caythe.backend.interpreter.Executor;
 import de.weltraumschaf.caythe.intermediate.TypeSpecification;
+import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
 
 /**
  *
@@ -16,8 +17,20 @@ public class BackendFactory {
         EXECUTE
     }
 
-    public static Object defaultValue(TypeSpecification variableType) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static Object defaultValue(TypeSpecification type) {
+        type = type.baseType();
+
+        if (type == Predefined.integerType) {
+            return new Integer(0);
+        } else if (type == Predefined.realType) {
+            return new Float(0.0f);
+        } else if (type == Predefined.booleanType) {
+            return new Boolean(false);
+        } else if (type == Predefined.charType) {
+            return new Character('#');
+        } else /* strig */ {
+            return new String("#");
+        }
     }
 
     public static Backend createBackend(Operation operation) throws Exception {
