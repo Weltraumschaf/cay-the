@@ -35,8 +35,7 @@ public class App {
     private Code intermediateCode;
     private SymbolTableStack symbolTableStack;
     private Backend backend;
-
-    private Options opts;
+    private Options options;
 
     /**
      * @todo
@@ -50,7 +49,7 @@ public class App {
             throw new Error("Too few arguments!\n" + USAGE, 1);
         }
 
-        this.opts = new Options(Options.createParser().parse(args));
+        this.options = new Options(Options.createParser().parse(args));
     }
 
     public static void main(String[] args) {
@@ -108,7 +107,7 @@ public class App {
     private int run() {
         int exitCode = 0;
 
-        if (opts.isHelpEnabled()) {
+        if (options.isHelpEnabled()) {
             help();
             return exitCode;
         }
@@ -121,7 +120,7 @@ public class App {
                 System.out.println();
             }
 
-            if (opts.isDebugEnabled()) {
+            if (options.isDebugEnabled()) {
                 System.out.println(formatError(err));
             }
 
@@ -130,7 +129,7 @@ public class App {
             System.out.println("!!! FATAL ERROR");
             System.out.println();
 
-            if (opts.isDebugEnabled()) {
+            if (options.isDebugEnabled()) {
                 System.out.println(formatError(ex, true));
             }
 
@@ -143,15 +142,15 @@ public class App {
     public void execute() throws Error, Exception {
         BackendFactory.Operation operation = null;
 
-        if ("execute".equalsIgnoreCase(opts.getMode())) {
+        if ("execute".equalsIgnoreCase(options.getMode())) {
             operation = BackendFactory.Operation.EXECUTE;
-        } else if ("compile".equalsIgnoreCase(opts.getMode())) {
+        } else if ("compile".equalsIgnoreCase(options.getMode())) {
             operation = BackendFactory.Operation.COMPILE;
         } else {
             throw new Error("Specify either --compile or --execute!", 2);
         }
 
-        List<String> noOpArgs = opts.nonOptionArguments();
+        List<String> noOpArgs = options.nonOptionArguments();
 
         if (noOpArgs.size() != 1) {
             throw new Error("Specify one source file to process!", 3);
@@ -179,12 +178,12 @@ public class App {
             SymbolTableEntry programId = symbolTableStack.getProgramId();
             intermediateCode = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
 
-            if (opts.isCrossRefernecesEnabled()) {
+            if (options.isCrossRefernecesEnabled()) {
                 CrossReferencer crossReferencer = new CrossReferencer(System.out);
                 crossReferencer.print(symbolTableStack);
             }
 
-            if (opts.isIntermediateCodeEnabled()) {
+            if (options.isIntermediateCodeEnabled()) {
                 ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
                 treePrinter.print(symbolTableStack);
             }
@@ -314,7 +313,7 @@ public class App {
 
             switch (type) {
                 case SOURCE_LINE: {
-                    if (opts.isLineNumbersEnabled()) {
+                    if (options.isLineNumbersEnabled()) {
                         int lineNumber = (Integer) message.getBody();
                         System.out.printf(LINE_FORMAT, lineNumber);
                     }
@@ -323,7 +322,7 @@ public class App {
                 }
 
                 case ASSIGN: {
-                    if (opts.isVarAssignsEnabled()) {
+                    if (options.isVarAssignsEnabled()) {
                         Object body[] = (Object[]) message.getBody();
                         int lineNumber = (Integer) body[0];
                         String variableName = (String) body[1];
@@ -335,7 +334,7 @@ public class App {
                 }
 
                 case FETCH: {
-                    if (opts.isVarFetchesEnabled()) {
+                    if (options.isVarFetchesEnabled()) {
                         Object body[] = (Object[]) message.getBody();
                         int lineNumber      = (Integer) body[0];
                         String variableName = (String) body[1];
@@ -347,7 +346,7 @@ public class App {
                 }
 
                 case CALL: {
-                    if (opts.isFunctionCallsEnabled()) {
+                    if (options.isFunctionCallsEnabled()) {
                         Object body[] = (Object[]) message.getBody();
                         int lineNumber = (Integer) body[0];
                         String routineName = (String) body[1];
@@ -359,7 +358,7 @@ public class App {
                 }
 
                 case RETURN: {
-                    if (opts.isFunctionReturnsEnabled()) {
+                    if (options.isFunctionReturnsEnabled()) {
                         Object body[] = (Object[]) message.getBody();
                         int lineNumber = (Integer) body[0];
                         String routineName = (String) body[1];
