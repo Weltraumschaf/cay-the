@@ -1,8 +1,6 @@
 package de.weltraumschaf.caythe;
 
-import java.util.List;
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import java.util.List;;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import de.weltraumschaf.caythe.util.ParseTreePrinter;
@@ -32,21 +30,39 @@ import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKe
  */
 public class App {
 
-    private static final String USAGE = "Usage: java -jar caythe.jar -l <language> --execute|--compile [-ixdh] <source file path>";
+    private static final String USAGE = "Usage: java -jar caythe.jar --lang <language> --mode execute|compile [-ixlafcrdh] <source file path>";
 
-    private String[] args;
-    private OptionSet options;
     private Code intermediateCode;
     private SymbolTableStack symbolTableStack;
     private Backend backend;
 
-    public App(String[] args) {
-        this.args   = args;
+    private Options opts;
+
+    /**
+     * @todo
+     * - maybe -n for line numbers and -l for language
+     * - maybe -m for mode "compile" or "execute"
+     *
+     * @param args
+     */
+    public App(String[] args) throws Error {
+        if (args.length == 0) {
+            throw new Error("Too few arguments!\n" + USAGE, 1);
+        }
+
+        this.opts = new Options(Options.createParser().parse(args));
     }
 
     public static void main(String[] args) {
-        App app = new App(args);
-        System.exit(app.run());
+        try {
+            App app = new App(args);
+            System.exit(app.run());
+        }
+        catch (Error ex) {
+            System.out.println(ex.getMessage());
+            System.exit(ex.getCode());
+        }
+
     }
 
     private static String formatError(Throwable t) {
@@ -77,29 +93,22 @@ public class App {
         sb.append("  --compile      Compile to java bytecode.\n");
         sb.append("  --execute      Interpret the code.\n");
         sb.append("\n\n");
-        sb.append("  -l <language>  Language to parse: pascal, caythe.\n");
-        sb.append("  -i             Intermediate code tree.\n");
-        sb.append("  -x             Show variable cross reference\n");
-        sb.append("  -d             Show debug output.\n");
-        sb.append("  -h             Show this help.\n");
+        sb.append("  --lang <language>  Language to parse: pascal, caythe.\n");
+        sb.append("  -i                 Intermediate code tree.\n");
+        sb.append("  -x                 Show variable cross reference\n");
+        sb.append("  -d                 Show debug output.\n");
+        sb.append("  -l                 ....\n");
+        sb.append("  -a                 ....\n");
+        sb.append("  -f                 ....\n");
+        sb.append("  -c                 ....\n");
+        sb.append("  -r                 Show this help.\n");
         System.out.println(sb);
     }
 
     private int run() {
-        OptionParser parser = new OptionParser();
-        parser.accepts("execute");
-        parser.accepts("compile");
-        parser.accepts("l").withRequiredArg();
-        parser.accepts("i");
-        parser.accepts("x");
-        parser.accepts("h");
-        parser.accepts("d");
-        options = parser.parse(args);
-
-        boolean debug = options.has("d");
         int exitCode = 0;
 
-        if (options.has("h")) {
+        if (opts.isHelpEnabled()) {
             help();
             return exitCode;
         }
@@ -112,7 +121,7 @@ public class App {
                 System.out.println();
             }
 
-            if (debug) {
+            if (opts.isDebugEnabled()) {
                 System.out.println(formatError(err));
             }
 
@@ -121,7 +130,7 @@ public class App {
             System.out.println(USAGE);
             System.out.println();
 
-            if (debug) {
+            if (opts.isDebugEnabled()) {
                 System.out.println(formatError(ex, true));
             }
 
@@ -132,23 +141,17 @@ public class App {
     }
 
     public void execute() throws Error, Exception {
-        if (args.length == 0) {
-            throw new Error("Too few arguments!\n" + USAGE, 1);
-        }
-
         BackendFactory.Operation operation = null;
 
-        if (options.has("execute")) {
+        if ("execute".equalsIgnoreCase(opts.getMode())) {
             operation = BackendFactory.Operation.EXECUTE;
-        } else if (options.has("compile")) {
+        } else if ("compile".equalsIgnoreCase(opts.getMode())) {
             operation = BackendFactory.Operation.COMPILE;
         } else {
             throw new Error("Specify either --compile or --execute!", 2);
         }
 
-        boolean intermediate  = options.has("i");
-        boolean xref          = options.has("x");
-        List<String> noOpArgs = options.nonOptionArguments();
+        List<String> noOpArgs = opts.nonOptionArguments();
 
         if (noOpArgs.size() != 1) {
             throw new Error("Specify one source file to process!", 3);
@@ -176,12 +179,12 @@ public class App {
             SymbolTableEntry programId = symbolTableStack.getProgramId();
             intermediateCode = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
 
-            if (xref) {
+            if (opts.isCrossRefernecesEnabled()) {
                 CrossReferencer crossReferencer = new CrossReferencer(System.out);
                 crossReferencer.print(symbolTableStack);
             }
 
-            if (intermediate) {
+            if (opts.isIntermediateCodeEnabled()) {
                 ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
                 treePrinter.print(symbolTableStack);
             }
@@ -295,7 +298,12 @@ public class App {
                                                              "\n%,20.2f seconds total execution time.\n";
     private static final String COMPILER_SUMMARY_FORMAT = "\n%,20d instructions generated." +
                                                           "\n%,20.2f seconds total code generation time.\n";
-    private static final String ASSIGN_FORMAT = ">>> LINE %03d: %s = %s\n";
+    private static final String LINE_FORMAT   = ">>> AT LINE %03d\n";
+    private static final String ASSIGN_FORMAT = ">>> AT LINE %03d: %s = %s\n";
+
+    private static final String FETCH_FORMAT  = ">>> AT LINE %03d: %s : %s\n";
+    private static final String CALL_FORMAT   = ">>> AT LINE %03d: CALL %s\n";
+    private static final String RETUR_FORMAT  = ">>> AT LINE %03d: RETURN FROM %s\n";
 
     private class BackendMessageListener implements MessageListener {
         private boolean firstOutputMessage = true;
@@ -305,18 +313,59 @@ public class App {
             MessageType type = message.getType();
 
             switch (type) {
-                case ASSIGN: {
-                    if (firstOutputMessage) {
-                        System.out.println("\n===== OUTPUT =====\n");
-                        firstOutputMessage = false;
+                case SOURCE_LINE: {
+                    if (opts.isLineNumbersEnabled()) {
+                        int lineNumber = (Integer) message.getBody();
+                        System.out.printf(LINE_FORMAT, lineNumber);
                     }
 
-                    Object body[] = (Object[]) message.getBody();
-                    int lineNumber = (Integer) body[0];
-                    String variableName = (String) body[1];
-                    Object value = body[2];
+                    break;
+                }
 
-                    System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+                case ASSIGN: {
+                    if (opts.isVarAssignsEnabled()) {
+                        Object body[] = (Object[]) message.getBody();
+                        int lineNumber = (Integer) body[0];
+                        String variableName = (String) body[1];
+                        Object value = body[2];
+                        System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+                    }
+
+                    break;
+                }
+
+                case FETCH: {
+                    if (opts.isVarFetchesEnabled()) {
+                        Object body[] = (Object[]) message.getBody();
+                        int lineNumber      = (Integer) body[0];
+                        String variableName = (String) body[1];
+                        Object value        = body[2];
+                        System.out.printf(FETCH_FORMAT, lineNumber, variableName, value);
+                    }
+
+                    break;
+                }
+
+                case CALL: {
+                    if (opts.isFunctionCallsEnabled()) {
+                        Object body[] = (Object[]) message.getBody();
+                        int lineNumber = (Integer) body[0];
+                        String routineName = (String) body[1];
+                        System.out.printf(CALL_FORMAT, lineNumber, routineName);
+                    }
+
+                    break;
+
+                }
+
+                case RETURN: {
+                    if (opts.isFunctionReturnsEnabled()) {
+                        Object body[] = (Object[]) message.getBody();
+                        int lineNumber = (Integer) body[0];
+                        String routineName = (String) body[1];
+                        System.out.printf(RETUR_FORMAT, lineNumber, routineName);
+                    }
+
                     break;
                 }
 
