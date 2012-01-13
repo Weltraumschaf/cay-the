@@ -70,7 +70,7 @@ public class VariableDeclarationsParser extends DeclarationsParser {
             }
             // If at the start of the next definition or declaration,
             // then missing a semicolon.
-            else if (NEXT_START_SET.contains(tokenType)) {
+            else if (NEXT_START_SET.contains((PascalTokenType)tokenType)) {
                 errorHandler.flag(token, MISSING_SEMICOLON, this);
             }
 
@@ -113,14 +113,14 @@ public class VariableDeclarationsParser extends DeclarationsParser {
             if (tokenType == COMMA) {
                 token = nextToken();  // consume the comma
 
-                if (followSet.contains(token.getType())) {
+                if (followSet.contains((PascalTokenType)token.getType())) {
                     errorHandler.flag(token, MISSING_IDENTIFIER, this);
                 }
             }
-            else if (IDENTIFIER_START_SET.contains(tokenType)) {
+            else if (IDENTIFIER_START_SET.contains((PascalTokenType)tokenType)) {
                 errorHandler.flag(token, MISSING_COMMA, this);
             }
-        } while (!followSet.contains(token.getType()));
+        } while (!followSet.contains((PascalTokenType)token.getType()));
 
         if (definition != DefinitionImpl.PROGRAM_PARAM) {
             // Parse the type specification.
