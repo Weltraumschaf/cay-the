@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import java.util.List;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpecBuilder;
@@ -161,5 +162,9 @@ public class Options {
         }
 
         return "";
+    }
+
+    public List<String> nonOptionArguments() {
+        return opts.nonOptionArguments();
     }
 }

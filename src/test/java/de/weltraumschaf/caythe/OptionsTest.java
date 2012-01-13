@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import java.util.Arrays;
 import joptsimple.OptionSet;
 import joptsimple.OptionParser;
 import joptsimple.OptionException;
@@ -104,5 +105,13 @@ public class OptionsTest {
         opts = new Options(p.parse(new String[]{"--lang", "pascal", "--mode", "compile"}));
         assertEquals("pascal", opts.getLanguage());
         assertEquals("compile", opts.getMode());
+
+        opts = new Options(p.parse(new String[]{"--lang", "pascal", "--mode", "execute", "-ixn", "pascal/newton.pas"}));
+        assertEquals("pascal", opts.getLanguage());
+        assertEquals("execute", opts.getMode());
+        assertTrue(opts.isCrossRefernecesEnabled());
+        assertTrue(opts.isIntermediateCodeEnabled());
+        assertTrue(opts.isLineNumbersEnabled());
+        assertEquals(Arrays.asList("pascal/newton.pas"), opts.nonOptionArguments());
     }
 }
