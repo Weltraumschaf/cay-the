@@ -31,7 +31,6 @@ public class RuntimeDisplayImpl extends ArrayList<ActivationRecord> implements R
             ActivationRecord previousAr = get(nestingLevel);
             set(nestingLevel, ar.makeLinkTo(previousAr));
         }
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
