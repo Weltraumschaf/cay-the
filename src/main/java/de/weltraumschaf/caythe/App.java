@@ -32,8 +32,6 @@ public class App {
 
     private static final String USAGE = "Usage: java -jar caythe.jar --lang <language> --mode execute|compile [-ixlafcrdh] <source file path>";
 
-    private Code intermediateCode;
-    private SymbolTableStack symbolTableStack;
     private Backend backend;
     private Options options;
 
@@ -173,10 +171,11 @@ public class App {
         parser.parse();
         source.close();
 
+
         if (parser.getErrorCount() == 0) {
-            symbolTableStack = parser.getSymbolTableStack();
-            SymbolTableEntry programId = symbolTableStack.getProgramId();
-            intermediateCode = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
+            SymbolTableStack symbolTableStack = parser.getSymbolTableStack();
+            SymbolTableEntry programId        = symbolTableStack.getProgramId();
+            Code intermediateCode             = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);;
 
             if (options.isCrossRefernecesEnabled()) {
                 CrossReferencer crossReferencer = new CrossReferencer(System.out);
@@ -187,9 +186,9 @@ public class App {
                 ParseTreePrinter treePrinter = new ParseTreePrinter(System.out);
                 treePrinter.print(symbolTableStack);
             }
-        }
 
-        backend.process(intermediateCode, symbolTableStack);
+            backend.process(intermediateCode, symbolTableStack);
+        }
     }
 
     private static final String SOURCE_LINE_FORMAT = "%03d %s";
