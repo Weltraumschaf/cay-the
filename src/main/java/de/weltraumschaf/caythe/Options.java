@@ -30,6 +30,7 @@ public class Options {
         private String longOption;
         private String description;
         private boolean withRequiredArg;
+        private boolean required;
 
         Option(String shortOption) {
             this(shortOption, "");
@@ -44,10 +45,15 @@ public class Options {
         }
 
         Option(String shortOption, String longOption, String description, boolean withRequiredArg) {
+            this(shortOption, longOption, description, withRequiredArg, false);
+        }
+
+        Option(String shortOption, String longOption, String description, boolean withRequiredArg, boolean required) {
             this.shortOption     = shortOption;
             this.longOption      = longOption;
             this.description     = description;
             this.withRequiredArg = withRequiredArg;
+            this.required        = required;
         }
 
         public String getDescription() {
@@ -64,6 +70,10 @@ public class Options {
 
         public boolean isWithRequiredArg() {
             return withRequiredArg;
+        }
+
+        public boolean isRequired() {
+            return required;
         }
 
     }
@@ -167,4 +177,5 @@ public class Options {
     public List<String> nonOptionArguments() {
         return opts.nonOptionArguments();
     }
+
 }
