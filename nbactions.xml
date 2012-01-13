@@ -9,7 +9,7 @@
             <properties>
                 <exec.workingdir>/Users/sxs/src/java/cay-the</exec.workingdir>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.args>-classpath %classpath de.weltraumschaf.caythe.App compile -ix test.pas</exec.args>
+                <exec.args>-classpath %classpath de.weltraumschaf.caythe.App --lang pascal --mode execute test.pas</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -22,7 +22,7 @@
             <properties>
                 <exec.workingdir>/Users/sxs/src/java/cay-the</exec.workingdir>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath de.weltraumschaf.caythe.App compile -ix test.pas</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath de.weltraumschaf.caythe.App --lang pascal --mode execute test.pas</exec.args>
                 <jpda.listen>true</jpda.listen>
                 <exec.executable>java</exec.executable>
             </properties>
@@ -35,7 +35,7 @@
             </goals>
             <properties>
                 <exec.workingdir>/Users/sxs/src/java/cay-the</exec.workingdir>
-                <exec.args>${profiler.args} -classpath %classpath de.weltraumschaf.caythe.App compile -ix test.pas</exec.args>
+                <exec.args>${profiler.args} -classpath %classpath de.weltraumschaf.caythe.App --lang pascal --mode execute test.pas</exec.args>
                 <profiler.action>profile</profiler.action>
                 <exec.executable>${profiler.java}</exec.executable>
             </properties>
