@@ -74,7 +74,7 @@ public class App {
         sb.append("Exception thrown");
 
         if (withMessage && null != t.getMessage()) {
-            sb.append("wit message: ")
+            sb.append(" with message: ")
               .append(t.getMessage());
         }
 
@@ -127,7 +127,7 @@ public class App {
 
             exitCode = err.getCode();
         } catch (Exception ex) {
-            System.out.println(USAGE);
+            System.out.println("!!! FATAL ERROR");
             System.out.println();
 
             if (opts.isDebugEnabled()) {
