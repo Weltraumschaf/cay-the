@@ -1,8 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
