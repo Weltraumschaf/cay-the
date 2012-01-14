@@ -4,6 +4,7 @@ import java.util.Arrays;
 import joptsimple.OptionSet;
 import joptsimple.OptionParser;
 import joptsimple.OptionException;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
@@ -113,5 +114,22 @@ public class OptionsTest {
         assertTrue(opts.isIntermediateCodeEnabled());
         assertTrue(opts.isLineNumbersEnabled());
         assertEquals(Arrays.asList("pascal/newton.pas"), opts.nonOptionArguments());
+    }
+
+    @Test public void createHelpText() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" -l, --lang <name>              The language used.\n");
+        sb.append(" -m, --mode <execute|compile>   Either compile or execute.\n");
+        sb.append(" -x                             Show variable cross reference.\n");
+        sb.append(" -i                             Intermediate code tree.\n");
+        sb.append(" -n                             Show line numbers.\n");
+        sb.append(" -a                             Show variable asignemt infos.\n");
+        sb.append(" -f                             Show variable fetch infos.\n");
+        sb.append(" -c                             Show function call infos.\n");
+        sb.append(" -r                             SHow function return infos.\n");
+        sb.append(" -d                             Show debug output.\n");
+        sb.append(" -h                             Show this help.");
+
+        assertEquals(sb.toString(), Options.createHelpText());
     }
 }

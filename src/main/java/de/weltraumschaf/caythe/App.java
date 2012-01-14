@@ -87,18 +87,7 @@ public class App {
     private static void help() {
         StringBuilder sb = new StringBuilder(USAGE);
         sb.append("\n\n");
-        sb.append("  --compile      Compile to java bytecode.\n");
-        sb.append("  --execute      Interpret the code.\n");
-        sb.append("\n\n");
-        sb.append("  --lang <language>  Language to parse: pascal, caythe.\n");
-        sb.append("  -i                 Intermediate code tree.\n");
-        sb.append("  -x                 Show variable cross reference\n");
-        sb.append("  -d                 Show debug output.\n");
-        sb.append("  -l                 ....\n");
-        sb.append("  -a                 ....\n");
-        sb.append("  -f                 ....\n");
-        sb.append("  -c                 ....\n");
-        sb.append("  -r                 Show this help.\n");
+        sb.append(Options.createHelpText());
         System.out.println(sb);
     }
 

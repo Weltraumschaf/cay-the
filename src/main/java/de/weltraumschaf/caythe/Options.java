@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -13,24 +15,25 @@ import joptsimple.OptionSpecBuilder;
 public class Options {
 
     public enum Option {
-        LANGUAGE          ("l", "lang", "The language used.", true),
-        MODE              ("m", "mode", "Either compile or execute.", true),
+        LANGUAGE          ("l", "lang", "The language used.", true, true, Arrays.asList("name")),
+        MODE              ("m", "mode", "Either compile or execute.", true, true, Arrays.asList("execute", "compile")),
 
-        DEBUG             ("d", "Show debug output."),
-        HELP              ("h", "Show this help."),
         CROSS_REFERNCES   ("x", "Show variable cross reference."),
         INTERMEDIATE_CODE ("i", "Intermediate code tree."),
         LINE_NUMBERS      ("n", "Show line numbers."),
         VARIABLE_ASSIGNS  ("a", "Show variable asignemt infos."),
         VARIABLE_FETCHES  ("f", "Show variable fetch infos."),
         FUNCTION_CALLS    ("c", "Show function call infos."),
-        FUNCTION_RETURNS  ("r", "SHow function return infos.");
+        FUNCTION_RETURNS  ("r", "SHow function return infos."),
+        DEBUG             ("d", "Show debug output."),
+        HELP              ("h", "Show this help.");
 
         private String shortOption;
         private String longOption;
         private String description;
         private boolean withRequiredArg;
         private boolean required;
+        private List<String> possibleArgs;
 
         Option(String shortOption) {
             this(shortOption, "");
@@ -49,11 +52,16 @@ public class Options {
         }
 
         Option(String shortOption, String longOption, String description, boolean withRequiredArg, boolean required) {
+            this(shortOption, longOption, description, withRequiredArg, required, new ArrayList<String>());
+        }
+
+        Option(String shortOption, String longOption, String description, boolean withRequiredArg, boolean required, List<String> possibleArgs) {
             this.shortOption     = shortOption;
             this.longOption      = longOption;
             this.description     = description;
             this.withRequiredArg = withRequiredArg;
             this.required        = required;
+            this.possibleArgs    = possibleArgs;
         }
 
         public String getDescription() {
@@ -74,6 +82,10 @@ public class Options {
 
         public boolean isRequired() {
             return required;
+        }
+
+        public List<String> getPossibleArgs() {
+            return possibleArgs;
         }
 
     }
@@ -108,6 +120,71 @@ public class Options {
         }
 
         return p;
+    }
+
+    public static String createHelpText() {
+        StringBuilder sb = new StringBuilder();
+        int cnt = 0;
+
+        for (Option opt : Option.values()) {
+            if (cnt > 0) {
+                sb.append('\n');
+            }
+
+            formatOption(opt, sb);
+            ++cnt;
+        }
+
+        return sb.toString();
+    }
+
+    private static int ARG_DESC_PAD_SIZE = 32;
+
+    private static void formatOption(Option option, StringBuilder sb) {
+        StringBuilder line = new StringBuilder();
+        line.append(' ');
+
+        if (option.getShortOption() != null) {
+            line.append('-');
+            line.append(option.getShortOption());
+        }
+
+        if (option.getLongOption() != null) {
+            if (option.getShortOption() != null) {
+                line.append(", ");
+            }
+
+            line.append("--");
+            line.append(option.getLongOption());
+        }
+
+        if (option.getPossibleArgs().size() > 0) {
+            line.append(' ');
+            line.append('<');
+
+            int cnt = 0;
+            for (String arg : option.getPossibleArgs()) {
+                if (cnt > 0) {
+                    line.append('|');
+                }
+
+                line.append(arg);
+                ++cnt;
+            }
+
+            line.append('>');
+        }
+
+        // Description
+        int padSize = ARG_DESC_PAD_SIZE - line.length();
+        if (padSize > 0) {
+            for (int i = 0; i < padSize; ++i) {
+                line.append(' ');
+            }
+        }
+        line.append(option.getDescription());
+
+        sb.append(line);
     }
 
     private boolean isEnabled(Options.Option o) {
