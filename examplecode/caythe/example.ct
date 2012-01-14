@@ -1,0 +1,20 @@
+function foo() {
+    echo "foo"
+}
+
+function main(args) {
+    var a = 3
+        b = 4
+
+    const A  = 'A'
+          B  = 'B'
+          PI = 3.1415
+
+    if a == 3 && b == 4 {
+        foo();
+    }
+
+    for i = 0; i < a; i++ {
+        foo();
+    }
+}
