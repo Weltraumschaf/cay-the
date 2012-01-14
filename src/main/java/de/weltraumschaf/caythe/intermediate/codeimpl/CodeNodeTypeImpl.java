@@ -30,5 +30,5 @@ public enum CodeNodeTypeImpl implements CodeNodeType {
     STRING_CONSTANT, BOOLEAN_CONSTANT,
 
     // WRITE parameter
-    WRITE_PARM,
+    WRITE_PARAM,
 }

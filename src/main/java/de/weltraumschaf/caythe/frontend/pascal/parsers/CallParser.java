@@ -117,7 +117,7 @@ public class CallParser extends StatementParser {
             //                   width and precision.
             else if (isWriteWriteln) {
                 CodeNode exprNode = actualNode;
-                actualNode = CodeFactory.createCodeNode(WRITE_PARM);
+                actualNode = CodeFactory.createCodeNode(WRITE_PARAM);
                 actualNode.addChild(exprNode);
                 TypeSpecification type = exprNode.getTypeSpecification().baseType();
                 TypeForm form = type.getForm();

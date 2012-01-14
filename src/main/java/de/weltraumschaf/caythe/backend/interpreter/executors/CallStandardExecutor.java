@@ -232,7 +232,7 @@ public class CallStandardExecutor extends CallExecutor {
         if (parmsNode != null) {
             ArrayList<CodeNode> actuals = parmsNode.getChildren();
 
-            // Loop to process each WRITE_PARM actual parameter node.
+            // Loop to process each WRITE_PARAM actual parameter node.
             for (CodeNode writeParmNode : actuals) {
                 ArrayList<CodeNode> children = writeParmNode.getChildren();
                 CodeNode exprNode = children.get(0);
