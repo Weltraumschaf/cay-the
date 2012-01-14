@@ -160,19 +160,7 @@ public class Options {
 
         if (option.getPossibleArgs().size() > 0) {
             line.append(' ');
-            line.append('<');
-
-            int cnt = 0;
-            for (String arg : option.getPossibleArgs()) {
-                if (cnt > 0) {
-                    line.append('|');
-                }
-
-                line.append(arg);
-                ++cnt;
-            }
-
-            line.append('>');
+            formatOptionArgs(option, line);
         }
 
         // Description
@@ -185,6 +173,54 @@ public class Options {
         line.append(option.getDescription());
 
         sb.append(line);
+    }
+
+    private static String formatOptionArgs(Option option, StringBuilder sb) {
+        sb.append('<');
+
+        int cnt = 0;
+        for (String arg : option.getPossibleArgs()) {
+            if (cnt > 0) {
+                sb.append('|');
+            }
+
+            sb.append(arg);
+            ++cnt;
+        }
+
+        sb.append('>');
+        return sb.toString();
+    }
+
+    public static String createUsage() {
+        StringBuilder required = new StringBuilder();
+        StringBuilder optional = new StringBuilder();
+
+        for (Option opt : Option.values()) {
+            if (opt.isRequired()) {
+                if (null != opt.getLongOption()) {
+                    required.append("--");
+                    required.append(opt.getLongOption());
+                } else {
+                    required.append('-');
+                    required.append(opt.getShortOption());
+                }
+
+                if (opt.getPossibleArgs().size() > 0) {
+                    required.append(' ');
+                    formatOptionArgs(opt, required);
+                }
+
+                required.append(' ');
+            } else {
+                optional.append(opt.getShortOption());
+            }
+        }
+
+        required.append("[-");
+        required.append(optional);
+        required.append(']');
+        return required.toString();
     }
 
     private boolean isEnabled(Options.Option o) {

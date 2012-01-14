@@ -132,4 +132,8 @@ public class OptionsTest {
 
         assertEquals(sb.toString(), Options.createHelpText());
     }
+
+    @Test public void createUsage() {
+        assertEquals("--lang <name> --mode <execute|compile> [-xinafcrdh]", Options.createUsage());
+    }
 }

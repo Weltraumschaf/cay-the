@@ -30,7 +30,11 @@ import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKe
  */
 public class App {
 
-    private static final String USAGE = "Usage: java -jar caythe.jar --lang <language> --mode execute|compile [-ixlafcrdh] <source file path>";
+    private static final String USAGE;
+
+    static {
+        USAGE = "Usage: caythe " + Options.createUsage() + " <source file path>";
+    }
 
     private Backend backend;
     private Options options;
@@ -88,6 +92,7 @@ public class App {
         StringBuilder sb = new StringBuilder(USAGE);
         sb.append("\n\n");
         sb.append(Options.createHelpText());
+        sb.append('\n');
         System.out.println(sb);
     }
 
