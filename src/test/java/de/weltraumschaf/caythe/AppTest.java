@@ -3,8 +3,8 @@ package de.weltraumschaf.caythe;
 import java.util.Arrays;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *

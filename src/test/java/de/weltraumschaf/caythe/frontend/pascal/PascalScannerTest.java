@@ -1,15 +1,14 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
+import de.weltraumschaf.caythe.frontend.EofToken;
+import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalNumberToken;
 import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalSpecialSymbolToken;
 import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalWordToken;
-import de.weltraumschaf.caythe.frontend.EofToken;
-import de.weltraumschaf.caythe.frontend.Token;
-import java.io.StringReader;
-import de.weltraumschaf.caythe.frontend.Source;
 import java.io.BufferedReader;
-import org.junit.Test;
+import java.io.StringReader;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
@@ -119,7 +118,7 @@ public class PascalScannerTest {
     }
 
     @Test public void currentAndNextToken() throws Exception {
-        PascalScanner scanner = null;
+        PascalScanner scanner;
 
         scanner = new PascalScanner(generateSource(""));
         assertNull(scanner.currentToken());
