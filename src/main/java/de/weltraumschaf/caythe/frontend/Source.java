@@ -4,10 +4,9 @@ import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
+import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 import java.io.BufferedReader;
 import java.io.IOException;
-
-import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 
 /**
  *
@@ -25,10 +24,14 @@ public class Source implements MessageProducer {
     private int currentPos;
 
     public Source(BufferedReader r) {
+        this(r, new MessageHandler());
+    }
+
+    public Source(BufferedReader r, MessageHandler h) {
         reader = r;
         lineNumber = 0;
         currentPos = -2;
-        messageHandler = new MessageHandler();
+        messageHandler = h;
     }
 
     public int getCurrentPos() {
