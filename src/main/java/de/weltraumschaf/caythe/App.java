@@ -150,8 +150,7 @@ public class App {
         source.addMessageListener(new SourceMessageListener());
 
         Parser parser = FrontendFactory.createParser(
-            FrontendFactory.Language.PASCAL,
-            FrontendFactory.Type.TOP_DOWN,
+            Language.PASCAL,
             source
         );
         parser.addMessageListener(new ParserMessageListener());
