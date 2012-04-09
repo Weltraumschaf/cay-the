@@ -1,10 +1,9 @@
 package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
 import de.weltraumschaf.caythe.frontend.Source;
-import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 
 /**
  *
@@ -14,7 +13,7 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 public class PascalNumberToken extends PascalToken {
 
     private static final int MAX_EXPONENT = 37;
-    
+
     public PascalNumberToken(Source source) throws Exception {
         super(source);
     }

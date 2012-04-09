@@ -1,9 +1,9 @@
 package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
-import de.weltraumschaf.caythe.frontend.*;
-import de.weltraumschaf.caythe.frontend.pascal.*;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+import de.weltraumschaf.caythe.frontend.Source;
+import de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode;
+import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.ERROR;
 
 /**
  *
