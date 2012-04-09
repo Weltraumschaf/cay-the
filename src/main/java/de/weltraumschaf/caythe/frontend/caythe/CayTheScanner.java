@@ -1,9 +1,12 @@
 package de.weltraumschaf.caythe.frontend.caythe;
 
+import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Source;
 import static de.weltraumschaf.caythe.frontend.Source.EOF;
 import de.weltraumschaf.caythe.frontend.Token;
+import static de.weltraumschaf.caythe.frontend.caythe.CayTheErrorCode.INVALID_CHARACTER;
+import de.weltraumschaf.caythe.frontend.caythe.tokens.*;
 
 /**
  *
@@ -18,7 +21,28 @@ public class CayTheScanner extends Scanner {
 
     @Override
     protected Token extractToken() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        skipWhitespace();
+
+        Token token;
+        char currentChar = currentChar();
+
+        if (EOF == currentChar) {
+            token = new EofToken(getSource());
+        } else if (Character.isLetter(currentChar)) {
+            token = new CayTheWordToken(getSource());
+        } else if (Character.isDigit(currentChar)) {
+            token = new CayTheNumberToken(getSource());
+        } else if ('\'' == currentChar) {
+            token = new CayTheCharacterToken(getSource());
+        } else if ('"' == currentChar) {
+            token = new CayTheStringToken(getSource());
+        } else if (CayTheTokenType.SPECIAL_SYMBOLS.containsKey(Character.toString(currentChar))) {
+            token = new CayTheSpecialSymbolToken(getSource());
+        } else {
+            token = new CayTheErrorToken(getSource(), INVALID_CHARACTER, Character.toString(currentChar));
+        }
+
+        return token;
     }
 
     /**
