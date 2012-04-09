@@ -29,17 +29,17 @@ public class PascalScanner extends Scanner {
         // Construct the next token.
         // The current character determines the token type.
         if (EOF == currentChar) {
-            token = new EofToken(source);
+            token = new EofToken(getSource());
         } else if (Character.isLetter(currentChar)) {
-            token = new PascalWordToken(source);
+            token = new PascalWordToken(getSource());
         } else if (Character.isDigit(currentChar)) {
-            token = new PascalNumberToken(source);
+            token = new PascalNumberToken(getSource());
         } else if ('\'' == currentChar) {
-            token = new PascalStringToken(source);
+            token = new PascalStringToken(getSource());
         } else if (PascalTokenType.SPECIAL_SYMBOLS.containsKey(Character.toString(currentChar))) {
-            token = new PascalSpecialSymbolToken(source);
+            token = new PascalSpecialSymbolToken(getSource());
         } else {
-            token = new PascalErrorToken(source, INVALID_CHARACTER, Character.toString(currentChar));
+            token = new PascalErrorToken(getSource(), INVALID_CHARACTER, Character.toString(currentChar));
         }
 
         return token;

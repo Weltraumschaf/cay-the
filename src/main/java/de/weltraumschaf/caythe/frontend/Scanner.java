@@ -13,7 +13,7 @@ public abstract class Scanner {
     /**
      * The scanned source.
      */
-    protected Source source;
+    private Source source;
     /**
      * The current scanned token.
      */
@@ -26,6 +26,15 @@ public abstract class Scanner {
      */
     public Scanner(Source source) {
         this.source = source;
+    }
+
+    /**
+     * Gets the scanned source.
+     *
+     * @return
+     */
+    public Source getSource() {
+        return source;
     }
 
     /**
