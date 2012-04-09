@@ -1,11 +1,13 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
+import de.weltraumschaf.caythe.frontend.ErrorCode;
+
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
-public enum PascalErrorCode {
+public enum PascalErrorCode implements ErrorCode {
     ALREADY_FORWARDED("Already specified in FORWARD"),
     CASE_CONSTANT_REUSED("CASE constant reused"),
     IDENTIFIER_REDEFINED("Redefined identifier"),
@@ -81,13 +83,27 @@ public enum PascalErrorCode {
 	this.message = message;
     }
 
+    @Override
     public int getStatus() {
 	return status;
     }
 
     @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
     public String toString() {
-	return message;
+        StringBuilder sb = new StringBuilder(message);
+
+        if (status != 0) {
+            sb.append(" (status: ").append(status).append(")");
+        }
+
+        sb.append('!');
+
+	return sb.toString();
     }
 
 }
