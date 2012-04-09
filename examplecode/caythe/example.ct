@@ -1,7 +1,33 @@
-function foo() {
-    echo "foo"
+/*
+ * This is a simple procedural experimental language names Cay-The (pronounced kai:te:).
+ */
+
+const I = 10 // global const
+
+var x = 1 // global var
+
+// while loop
+while x < I {
+    echo(x)
+    x++
 }
 
+// iterate array
+for item in [1, 22, 333] {
+    echo(item)    
+}
+
+// string is array of characters
+for character in "a string" {
+    echo(character)
+}
+
+// define a function
+function foo() {
+    echo("foo")
+}
+
+// main function called bei runtime
 function main(args) {
     var a = 3
         b = 4
@@ -11,10 +37,10 @@ function main(args) {
           PI = 3.1415
 
     if a == 3 && b == 4 {
-        foo();
+        foo()
     }
 
     for i = 0; i < a; i++ {
-        foo();
+        foo()
     }
 }
