@@ -8,10 +8,12 @@ import de.weltraumschaf.caythe.frontend.ErrorCode;
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public enum CayTheErrorCode implements ErrorCode {
+    INVALID_CHARACTER("Invalid character"),
 
+    // Fatal errors:
     TOO_MANY_ERRORS(-102, "Too many syntax errors"),
     EMPTY_INPUT_ERROR(-103, "Empty source file given");
-    
+
     private int status;
     private String message;
 
