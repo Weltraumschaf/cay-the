@@ -45,6 +45,11 @@ public class PascalScanner extends Scanner {
         return token;
     }
 
+    /**
+     * Skips white spaces and comments.
+     *
+     * @throws Exception
+     */
     private void skipWhitespace() throws Exception {
         char currentChar = currentChar();
 
