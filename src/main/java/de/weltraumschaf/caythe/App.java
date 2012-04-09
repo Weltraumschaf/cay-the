@@ -57,10 +57,11 @@ public class App {
     public static void main(String[] args) {
         try {
             App app = new App(args);
-            System.exit(app.run());
+            app.run();
+            System.exit(0);
         }
         catch (Error ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error: " + ex.getMessage() + "\n");
             System.exit(ex.getCode());
         }
 
@@ -96,42 +97,38 @@ public class App {
         System.out.println(sb);
     }
 
-    private int run() {
-        int exitCode = 0;
-
+    private void run() throws Error {
         if (options.isHelpEnabled()) {
             help();
-            return exitCode;
+            return;
         }
 
         try {
             execute();
         } catch (Error err) {
+            StringBuilder errorMessage = new StringBuilder("");
+
             if (null != err.getMessage()) {
-                System.out.println(err.getMessage());
-                System.out.println();
+                errorMessage.append(err.getMessage()).append("\n\n");
             }
 
             if (options.isDebugEnabled()) {
-                System.out.println(formatError(err));
+                errorMessage.append(formatError(err));
             }
 
-            exitCode = err.getCode();
+            throw new Error(errorMessage.toString(), err.getCode(), err);
         } catch (Exception ex) {
-            System.out.println("!!! FATAL ERROR");
-            System.out.println();
+            StringBuilder errorMessage = new StringBuilder("Fatal error!");
 
             if (options.isDebugEnabled()) {
-                System.out.println(formatError(ex, true));
+                errorMessage.append(formatError(ex, true));
             }
 
-            exitCode = -1;
+            throw new Error(errorMessage.toString(), -1, ex);
         }
-
-        return exitCode;
     }
 
-    public void execute() throws Error, Exception {
+    private void execute() throws Error, Exception {
         BackendFactory.Operation operation = null;
 
         if ("execute".equalsIgnoreCase(options.getMode())) {
@@ -165,11 +162,10 @@ public class App {
         parser.parse();
         source.close();
 
-
         if (parser.getErrorCount() == 0) {
             SymbolTableStack symbolTableStack = parser.getSymbolTableStack();
             SymbolTableEntry programId        = symbolTableStack.getProgramId();
-            Code intermediateCode             = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);;
+            Code intermediateCode             = (Code) programId.getAttribute(ROUTINE_INTERMEDIATE_CODE);
 
             if (options.isCrossRefernecesEnabled()) {
                 CrossReferencer crossReferencer = new CrossReferencer(System.out);
