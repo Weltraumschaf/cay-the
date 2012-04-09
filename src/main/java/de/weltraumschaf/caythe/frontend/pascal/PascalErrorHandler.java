@@ -1,9 +1,9 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
-import de.weltraumschaf.caythe.frontend.*;
+import de.weltraumschaf.caythe.frontend.Parser;
+import de.weltraumschaf.caythe.frontend.Token;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.TOO_MANY_ERRORS;
 import de.weltraumschaf.caythe.message.Message;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 import static de.weltraumschaf.caythe.message.MessageType.SYNTAX_ERROR;
 
 /**

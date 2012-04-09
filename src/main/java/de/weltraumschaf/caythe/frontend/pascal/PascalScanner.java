@@ -3,15 +3,10 @@ package de.weltraumschaf.caythe.frontend.pascal;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Source;
-import de.weltraumschaf.caythe.frontend.Token;
-import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalErrorToken;
-import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalNumberToken;
-import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalSpecialSymbolToken;
-import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalStringToken;
-import de.weltraumschaf.caythe.frontend.pascal.tokens.PascalWordToken;
-
 import static de.weltraumschaf.caythe.frontend.Source.EOF;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import de.weltraumschaf.caythe.frontend.Token;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.INVALID_CHARACTER;
+import de.weltraumschaf.caythe.frontend.pascal.tokens.*;
 
 /**
  *

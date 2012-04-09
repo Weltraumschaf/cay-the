@@ -1,19 +1,16 @@
 package de.weltraumschaf.caythe.frontend.pascal;
 
-import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.frontend.EofToken;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Scanner;
 import de.weltraumschaf.caythe.frontend.Token;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 import de.weltraumschaf.caythe.frontend.pascal.parsers.ProgramParser;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.Predefined;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageType;
 import java.io.IOException;
 import java.util.EnumSet;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 
 /**
  *
