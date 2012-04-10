@@ -9,12 +9,17 @@ import static de.weltraumschaf.caythe.frontend.caythe.CayTheErrorCode.INVALID_CH
 import de.weltraumschaf.caythe.frontend.caythe.tokens.*;
 
 /**
+ * Scans Cay-The source code.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class CayTheScanner extends Scanner {
 
+    /**
+     * Initialize scanner with source.
+     *
+     * @param source
+     */
     public CayTheScanner(Source source) {
         super(source);
     }

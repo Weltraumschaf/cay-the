@@ -3,9 +3,9 @@ package de.weltraumschaf.caythe.frontend.pascal;
 import de.weltraumschaf.caythe.frontend.ErrorCode;
 
 /**
+ * Error codes for Pascal.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public enum PascalErrorCode implements ErrorCode {
     ALREADY_FORWARDED("Already specified in FORWARD"),
@@ -71,13 +71,32 @@ public enum PascalErrorCode implements ErrorCode {
     TOO_MANY_ERRORS(-102, "Too many syntax errors"),
     EMPTY_INPUT_ERROR(-103, "Empty source file given");
 
+    /**
+     * The status.
+     *
+     * Negative numbers for fatal errors.
+     */
     private int status;
+    /**
+     * Error message.
+     */
     private String message;
 
+    /**
+     * Initializes status with 0.
+     *
+     * @param message
+     */
     PascalErrorCode(String message) {
 	this(0, message);
     }
 
+    /**
+     * Designated constructor.
+     *
+     * @param status
+     * @param message
+     */
     PascalErrorCode(int status, String message) {
 	this.status  = status;
 	this.message = message;

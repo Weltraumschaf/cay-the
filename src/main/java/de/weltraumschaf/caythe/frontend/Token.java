@@ -38,6 +38,11 @@ public class Token {
         position    = source.getCurrentPos();
     }
 
+    /**
+     * Default implementation which extracts one character.
+     * 
+     * @throws Exception
+     */
     public void extract() throws Exception {
         text  = Character.toString(currentChar());
         value = null;
