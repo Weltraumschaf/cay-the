@@ -36,7 +36,7 @@ public class MessageHandlerImpl implements MessageHandler {
     @Override
     public void sendMessage(Message message) {
         for (MessageListener listener : listeners) {
-            listener.messageReceived(message);
+            listener.receiveMessage(message);
         }
     }
 }

@@ -219,7 +219,7 @@ public class App {
 
     private class SourceMessageListener implements MessageListener {
         @Override
-        public void messageReceived(Message message) {
+        public void receiveMessage(Message message) {
             MessageType type = message.getType();
             Object body[]    = (Object[])message.getBody();
 
@@ -244,7 +244,7 @@ public class App {
 
     private class ParserMessageListener implements MessageListener {
         @Override
-        public void messageReceived(Message message) {
+        public void receiveMessage(Message message) {
             MessageType type = message.getType();
 
             switch (type) {
@@ -331,7 +331,7 @@ public class App {
         private boolean firstOutputMessage = true;
 
         @Override
-        public void messageReceived(Message message) {
+        public void receiveMessage(Message message) {
             MessageType type = message.getType();
 
             switch (type) {
