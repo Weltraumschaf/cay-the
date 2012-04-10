@@ -7,7 +7,6 @@ import java.util.List;
  * Handles a collection of {@link MessageListener}.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class MessageHandlerImpl implements MessageHandler {
 

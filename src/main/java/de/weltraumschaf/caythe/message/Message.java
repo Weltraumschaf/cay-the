@@ -4,7 +4,6 @@ package de.weltraumschaf.caythe.message;
  * A message which has a type and a generic body.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class Message {
 
@@ -14,6 +13,7 @@ public class Message {
      * @todo Make it a little more type safe.
      */
     private Object body;
+
     /**
      * The message type.
      */

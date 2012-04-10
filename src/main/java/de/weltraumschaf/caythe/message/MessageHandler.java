@@ -2,9 +2,8 @@ package de.weltraumschaf.caythe.message;
 
 /**
  * Dispatch sent messages to added listeners.
- * 
+ *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public interface MessageHandler {
 
