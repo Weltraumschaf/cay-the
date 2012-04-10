@@ -3,9 +3,8 @@ package de.weltraumschaf.caythe.frontend.pascal.tokens;
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
 import de.weltraumschaf.caythe.frontend.pascal.PascalTokenType;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.RESERVED_WORDS;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.IDENTIFIER;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.RESERVED_WORDS;
 
 /**
  *
@@ -19,7 +18,7 @@ public class PascalWordToken extends PascalToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
 	StringBuilder textBuffer = new StringBuilder();
 	char currentChar = currentChar();
 

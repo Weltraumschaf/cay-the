@@ -1,11 +1,11 @@
 package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
 import de.weltraumschaf.caythe.frontend.Source;
-import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
-
 import static de.weltraumschaf.caythe.frontend.Source.EOF;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.UNEXPECTED_EOF;
+import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.ERROR;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.STRING;
 
 /**
  *
@@ -19,7 +19,7 @@ public class PascalStringToken extends PascalToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
 	StringBuilder textBuffer  = new StringBuilder();
 	StringBuilder valueBuffer = new StringBuilder();
 

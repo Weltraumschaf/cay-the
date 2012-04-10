@@ -36,10 +36,9 @@ public class Token {
         this.source = source;
         lineNumber  = source.getLineNumber();
         position    = source.getCurrentPos();
-        extract();
     }
 
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
         text  = Character.toString(currentChar());
         value = null;
         nextChar();

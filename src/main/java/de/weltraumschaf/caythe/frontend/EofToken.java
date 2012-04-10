@@ -13,7 +13,7 @@ public class EofToken extends Token {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
         // There is nothing to extract at EOF.
     }
 

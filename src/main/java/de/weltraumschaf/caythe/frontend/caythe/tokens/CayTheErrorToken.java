@@ -20,7 +20,7 @@ public class CayTheErrorToken extends CayTheToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
 
     }
 

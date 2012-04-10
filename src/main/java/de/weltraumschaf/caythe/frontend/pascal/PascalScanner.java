@@ -42,6 +42,7 @@ public class PascalScanner extends Scanner {
             token = new PascalErrorToken(getSource(), INVALID_CHARACTER, Character.toString(currentChar));
         }
 
+        token.extract();
         return token;
     }
 

@@ -17,13 +17,13 @@ public class CayTheNumberToken extends CayTheToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
 	StringBuilder textBuffer = new StringBuilder();  // token's characters
         extractNumber(textBuffer);
         text = textBuffer.toString();
     }
 
     protected void extractNumber(StringBuilder textBuffer) throws Exception {
-        
+
     }
 }

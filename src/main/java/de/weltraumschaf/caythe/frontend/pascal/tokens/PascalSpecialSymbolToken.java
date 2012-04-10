@@ -1,10 +1,10 @@
 package de.weltraumschaf.caythe.frontend.pascal.tokens;
 
 import de.weltraumschaf.caythe.frontend.Source;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.INVALID_CHARACTER;
 import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
-import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.ERROR;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.SPECIAL_SYMBOLS;
 
 /**
  *
@@ -18,7 +18,7 @@ public class PascalSpecialSymbolToken extends PascalToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
         char currentChar = currentChar();
 
         text = Character.toString(currentChar);

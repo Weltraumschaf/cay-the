@@ -42,6 +42,7 @@ public class CayTheScanner extends Scanner {
             token = new CayTheErrorToken(getSource(), INVALID_CHARACTER, Character.toString(currentChar));
         }
 
+        token.extract();
         return token;
     }
 

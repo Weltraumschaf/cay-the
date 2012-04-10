@@ -20,7 +20,7 @@ public class PascalErrorToken extends PascalToken {
     }
 
     @Override
-    protected void extract() throws Exception {
+    public void extract() throws Exception {
 
     }
 
