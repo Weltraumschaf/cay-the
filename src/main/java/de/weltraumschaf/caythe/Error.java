@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe;
 /**
  * Exception type which provides an error code.
  *
- * Used inside {@link App} to gve proper exit codes to the system on errors.
+ * Used inside {@link App} to give proper exit codes to the system on errors.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
@@ -29,7 +29,7 @@ public class Error extends Throwable {
      * @param code    The error code.
      * @param cause   Former thrown exception.
      */
-    public Error(String message, int code, Throwable cause) {
+    public Error(final String message, final int code, Throwable cause) {
         super(message, cause);
         this.code = code;
     }

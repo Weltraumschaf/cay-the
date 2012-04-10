@@ -1,27 +1,26 @@
 package de.weltraumschaf.caythe;
 
-import java.util.List;;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import de.weltraumschaf.caythe.util.ParseTreePrinter;
 import de.weltraumschaf.caythe.backend.Backend;
 import de.weltraumschaf.caythe.backend.BackendFactory;
 import de.weltraumschaf.caythe.frontend.FrontendFactory;
 import de.weltraumschaf.caythe.frontend.Parser;
 import de.weltraumschaf.caythe.frontend.Source;
 import de.weltraumschaf.caythe.frontend.TokenType;
+import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.STRING;
 import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageType;
 import de.weltraumschaf.caythe.util.CrossReferencer;
+import de.weltraumschaf.caythe.util.ParseTreePrinter;
 import java.io.BufferedReader;
 import java.io.FileReader;
-
-import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
-import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.List;
 
 /**
  * App object which provides the public static main method.
@@ -256,19 +255,14 @@ public class App {
                     String tokenText    = (String) body[3];
                     Object tokenValue   = body[4];
 
-                    System.out.println(String.format(TOKEN_FORMAT,
-						     tokenType,
-						     line,
-						     position,
-						     tokenText));
+                    System.out.println(String.format(TOKEN_FORMAT, tokenType, line, position, tokenText));
 
                     if (null != tokenValue) {
                         if (STRING == tokenType) {
                             tokenValue = "\"" + tokenValue + "\"";
                         }
 
-                        System.out.println(String.format(VALUE_FORMAT,
-							 tokenValue));
+                        System.out.println(String.format(VALUE_FORMAT, tokenValue));
                     }
 
                     break;
