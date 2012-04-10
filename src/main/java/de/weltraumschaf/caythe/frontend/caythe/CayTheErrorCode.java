@@ -9,7 +9,10 @@ import de.weltraumschaf.caythe.frontend.ErrorCode;
  */
 public enum CayTheErrorCode implements ErrorCode {
     INVALID_CHARACTER("Invalid character"),
-
+    INVALID_NUMBER("Invalid number"),
+    RANGE_INTEGER("Integer literal out of range"),
+    RANGE_REAL("Real literal out of range"),
+    
     // Fatal errors:
     TOO_MANY_ERRORS(-102, "Too many syntax errors"),
     EMPTY_INPUT_ERROR(-103, "Empty source file given");
