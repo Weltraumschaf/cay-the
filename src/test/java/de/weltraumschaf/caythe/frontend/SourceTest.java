@@ -1,7 +1,14 @@
 package de.weltraumschaf.caythe.frontend;
 
+import de.weltraumschaf.caythe.message.Message;
+import de.weltraumschaf.caythe.message.MessageHandler;
+import de.weltraumschaf.caythe.message.MessageListener;
+import de.weltraumschaf.caythe.message.MessageType;
 import org.junit.Ignore;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 /**
  *
@@ -10,9 +17,21 @@ import org.junit.Test;
  */
 public class SourceTest {
 
-    @Ignore
     @Test public void testMessageProducer() {
+        Message msg1 = new Message(MessageType.CALL, "msg1");
+        Message msg2 = new Message(MessageType.CALL, "msg1");
+        Message msg3 = new Message(MessageType.CALL, "msg1");
 
+        MessageHandler handler    = mock(MessageHandler.class);
+
+        Source src = new Source(null, handler);
+        src.sendMessage(msg1);
+        src.sendMessage(msg2);
+        src.sendMessage(msg3);
+
+        verify(handler, times(1)).sendMessage(msg1);
+        verify(handler, times(1)).sendMessage(msg2);
+        verify(handler, times(1)).sendMessage(msg3);
     }
 
     @Ignore
@@ -37,6 +56,6 @@ public class SourceTest {
 
     @Ignore
     @Test public void testReadWholeSource() {
-        
+
     }
 }
