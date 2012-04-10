@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.intermediate;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -26,4 +28,13 @@ public interface CodeNode {
     public void setTypeSpecification(TypeSpecification type);
 
     public TypeSpecification getTypeSpecification();
+
+    /**
+     * This is part of HashMap which extens the implementation..
+     *
+     * @todo Remove this.
+     * 
+     * @return
+     */
+    public Set<Map.Entry<CodeKey, Object>> entrySet();
 }

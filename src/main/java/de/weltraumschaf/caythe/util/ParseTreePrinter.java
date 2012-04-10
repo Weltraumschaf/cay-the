@@ -1,25 +1,19 @@
 package de.weltraumschaf.caythe.util;
 
-import de.weltraumschaf.caythe.intermediate.Code;
-import de.weltraumschaf.caythe.intermediate.CodeKey;
-import de.weltraumschaf.caythe.intermediate.CodeNode;
-import de.weltraumschaf.caythe.intermediate.Definition;
-import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
-import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
-import de.weltraumschaf.caythe.intermediate.TypeSpecification;
+import de.weltraumschaf.caythe.intermediate.*;
 import de.weltraumschaf.caythe.intermediate.codeimpl.CodeNodeImpl;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_ROUTINES;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
-
 /**
+ * Format and print intermediate code as parse tree.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class ParseTreePrinter {
 
@@ -33,7 +27,8 @@ public class ParseTreePrinter {
     private StringBuilder line;  // output line
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ps the output print stream.
      */
     public ParseTreePrinter(PrintStream ps) {
@@ -52,7 +47,8 @@ public class ParseTreePrinter {
 
     /**
      * Print the intermediate code as a parse tree.
-     * @param intermediateCode the intermediate code.
+     *
+     * @param symbolTableStack The intermediate code to print.
      */
     public void print(SymbolTableStack symbolTableStack) {
         ps.println("\n===== INTERMEDIATE CODE =====\n");
@@ -62,9 +58,10 @@ public class ParseTreePrinter {
 
     /**
      * Print a parse tree node.
+     *
      * @param node the parse tree node.
      */
-    private void printNode(CodeNodeImpl node) {
+    private void printNode(CodeNode node) {
         // Opening tag.
         append(indentation);
         append("<" + node.toString());
@@ -82,7 +79,8 @@ public class ParseTreePrinter {
             printChildNodes(childNodes);
             append(indentation);
             append("</" + node.toString() + ">");
-        } // No children: Close off the tag.
+        }
+        // No children: Close off the tag.
         else {
             append(" ");
             append("/>");
@@ -95,7 +93,7 @@ public class ParseTreePrinter {
      * Print a parse tree node's attributes.
      * @param node the parse tree node.
      */
-    private void printAttributes(CodeNodeImpl node) {
+    private void printAttributes(CodeNode node) {
         String saveIndentation = indentation;
         indentation += indent;
 
@@ -113,6 +111,7 @@ public class ParseTreePrinter {
 
     /**
      * Print a node attribute as key="value".
+     *
      * @param keyString the key string.
      * @param value the value.
      */
@@ -137,6 +136,7 @@ public class ParseTreePrinter {
 
     /**
      * Print a parse tree node's child nodes.
+     *
      * @param childNodes the array list of child nodes.
      */
     private void printChildNodes(ArrayList<CodeNode> childNodes) {
@@ -152,9 +152,10 @@ public class ParseTreePrinter {
 
     /**
      * Print a parse tree node's type specification.
+     *
      * @param node the parse tree node.
      */
-    private void printTypeSpecification(CodeNodeImpl node) {
+    private void printTypeSpecification(CodeNode node) {
         TypeSpecification typeSpec = node.getTypeSpecification();
 
         if (null != typeSpec) {
@@ -179,6 +180,7 @@ public class ParseTreePrinter {
 
     /**
      * Append text to the output line.
+     *
      * @param text the text to append.
      */
     private void append(String text) {
@@ -211,6 +213,11 @@ public class ParseTreePrinter {
         }
     }
 
+    /**
+     * Prints a routine.
+     *
+     * @param routineId
+     */
     private void printRoutine(SymbolTableEntry routineId) {
         Definition definition = routineId.getDefinition();
         ps.println("\n*** " + definition.toString() + " " + routineId.getName() + " ***\n");

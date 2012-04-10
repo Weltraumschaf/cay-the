@@ -1,33 +1,30 @@
 package de.weltraumschaf.caythe.util;
 
-import java.io.PrintStream;
-import de.weltraumschaf.caythe.intermediate.TypeForm;
-import de.weltraumschaf.caythe.intermediate.Definition;
-import de.weltraumschaf.caythe.intermediate.SymbolTable;
-import de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
-import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
-import de.weltraumschaf.caythe.intermediate.TypeSpecification;
+import de.weltraumschaf.caythe.intermediate.*;
 import de.weltraumschaf.caythe.intermediate.symboltableimpl.DefinitionImpl;
+import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
 import de.weltraumschaf.caythe.intermediate.typeimpl.TypeFormImpl;
+import static de.weltraumschaf.caythe.intermediate.typeimpl.TypeKeyImpl.*;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.*;
-import static de.weltraumschaf.caythe.intermediate.typeimpl.TypeKeyImpl.*;
-
 /**
+ * Prints cross referencing to given print stream.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class CrossReferencer {
 
     private static final int NAME_WIDTH = 16;
-    private static final String NAME_FORMAT = "%-" + NAME_WIDTH + "s";
-    private static final String NUMBERS_LABEL = " Line numbers    ";
+
+    private static final String NAME_FORMAT       = "%-" + NAME_WIDTH + "s";
+    private static final String NUMBERS_LABEL     = " Line numbers    ";
     private static final String NUMBERS_UNDERLINE = " ------------    ";
-    private static final String NUMBER_FORMAT = " %03d";
-    private static final int LABEL_WIDTH = NUMBERS_LABEL.length();
+    private static final String NUMBER_FORMAT     = " %03d";
+
+    private static final int LABEL_WIDTH  = NUMBERS_LABEL.length();
     private static final int INDENT_WIDTH = NAME_WIDTH + LABEL_WIDTH;
+
     private static final StringBuilder INDENT = new StringBuilder(INDENT_WIDTH);
 
     static {
@@ -36,15 +33,24 @@ public class CrossReferencer {
         }
     }
 
-    private PrintStream ps;      // output print stream
+    /**
+     * Output print stream.
+     */
+    private PrintStream ps;
 
+    /**
+     * Initializes printer wit print stream.
+     *
+     * @param ps
+     */
     public CrossReferencer(PrintStream ps) {
         this.ps = ps;
     }
 
     /**
-     * Print the cross-reference table.
-     * @param symbolTableStack the symbol table stack.
+     * Print the cross reference table.
+     *
+     * @param symbolTableStack The symbol table stack.
      */
     public void print(SymbolTableStack symbolTableStack) {
         ps.println("\n===== CROSS-REFERENCE TABLE =====");

@@ -1,20 +1,13 @@
 package de.weltraumschaf.caythe.intermediate.codeimpl;
 
-import de.weltraumschaf.caythe.intermediate.CodeFactory;
-import de.weltraumschaf.caythe.intermediate.CodeKey;
-import de.weltraumschaf.caythe.intermediate.CodeNode;
-import de.weltraumschaf.caythe.intermediate.CodeNodeType;
-import de.weltraumschaf.caythe.intermediate.TypeSpecification;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import de.weltraumschaf.caythe.intermediate.*;
+import java.util.*;
 
 /**
  *
+ * @todo USe composition instead of inheritance for the HashMap.
+ *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class CodeNodeImpl extends HashMap<CodeKey, Object> implements CodeNode {
 
