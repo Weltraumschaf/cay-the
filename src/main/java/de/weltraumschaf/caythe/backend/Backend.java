@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
-import de.weltraumschaf.caythe.message.MessageHandler;
+import de.weltraumschaf.caythe.message.MessageHandlerImpl;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
 
@@ -14,10 +14,10 @@ import de.weltraumschaf.caythe.message.MessageProducer;
  */
 public abstract class Backend implements MessageProducer {
 
-    protected static MessageHandler messageHandler;
+    protected static MessageHandlerImpl messageHandler;
 
     static {
-        messageHandler = new MessageHandler();
+        messageHandler = new MessageHandlerImpl();
     }
 
     protected SymbolTableStack symbolTableStack;

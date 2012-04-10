@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.message.Message;
-import de.weltraumschaf.caythe.message.MessageHandler;
+import de.weltraumschaf.caythe.message.MessageHandlerImpl;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
 import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
@@ -29,7 +29,7 @@ public class Source implements MessageProducer {
     /**
      * Handles source messages.
      */
-    protected MessageHandler messageHandler;
+    protected MessageHandlerImpl messageHandler;
     /**
      * The input stream.
      */
@@ -53,7 +53,7 @@ public class Source implements MessageProducer {
      * @param r
      */
     public Source(BufferedReader r) {
-        this(r, new MessageHandler());
+        this(r, new MessageHandlerImpl());
     }
 
     /**
@@ -62,7 +62,7 @@ public class Source implements MessageProducer {
      * @param r
      * @param h
      */
-    public Source(BufferedReader r, MessageHandler h) {
+    public Source(BufferedReader r, MessageHandlerImpl h) {
         reader         = r;
         lineNumber     = 0;
         currentPos     = -2;

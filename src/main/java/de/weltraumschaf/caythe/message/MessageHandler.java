@@ -1,27 +1,12 @@
 package de.weltraumschaf.caythe.message;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Handles a collection of {@link MessageListener}.
- *
+ * Dispatch sent messages to added listeners.
+ * 
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
-public class MessageHandler {
-
-    /**
-     * Collection of subscribed listeners.
-     */
-    private List<MessageListener> listeners;
-
-    /**
-     * Initializes with an empty collection of listeners.
-     */
-    public MessageHandler() {
-        listeners = new ArrayList<MessageListener>();
-    }
+public interface MessageHandler {
 
     /**
      * Subscribe a listener to this handler an any message send by this
@@ -29,27 +14,20 @@ public class MessageHandler {
      *
      * @param listener
      */
-    public void addListener(MessageListener listener) {
-        listeners.add(listener);
-    }
+    void addListener(MessageListener listener);
 
     /**
      * Remove a listener and it will not get messages by this handler anymore.
      *
      * @param listener
      */
-    public void removeListener(MessageListener listener) {
-        listeners.remove(listener);
-    }
+    void removeListener(MessageListener listener);
 
     /**
      * Forwards the passed message to all subscribed listeners.
-     * 
+     *
      * @param message
      */
-    public void sendMessage(Message message) {
-        for (MessageListener listener : listeners) {
-            listener.messageReceived(message);
-        }
-    }
+    void sendMessage(Message message);
+
 }

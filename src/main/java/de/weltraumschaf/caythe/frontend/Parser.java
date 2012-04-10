@@ -4,7 +4,7 @@ import de.weltraumschaf.caythe.intermediate.Code;
 import de.weltraumschaf.caythe.intermediate.SymbolTableFactory;
 import de.weltraumschaf.caythe.intermediate.SymbolTableStack;
 import de.weltraumschaf.caythe.message.Message;
-import de.weltraumschaf.caythe.message.MessageHandler;
+import de.weltraumschaf.caythe.message.MessageHandlerImpl;
 import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageProducer;
 
@@ -26,11 +26,11 @@ public abstract class Parser implements MessageProducer {
     /**
      * Handles all messages produced during parse time.
      */
-    protected static MessageHandler messageHandler;
+    protected static MessageHandlerImpl messageHandler;
 
     static {
         symbolTableStack = SymbolTableFactory.createSymbolTableStack();
-        messageHandler   = new MessageHandler();
+        messageHandler   = new MessageHandlerImpl();
     }
 
     /**
