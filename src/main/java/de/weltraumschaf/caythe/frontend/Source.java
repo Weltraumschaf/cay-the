@@ -99,17 +99,21 @@ public class Source implements MessageProducer {
         if (-2 == currentPos) {
             readLine();
             return nextChar();
-        } // At end of file?
-        else if (null == line) {
+        }
+        // At end of file?
+        else if (atEof()) {
             return EOF;
-        } // At end of line?
-        else if (( -1 == currentPos ) || ( line.length() == currentPos )) {
+        }
+        // At end of line?
+        else if (atEol()) {
             return EOL;
-        } // Need to read the next line?
+        }
+        // Need to read the next line?
         else if (currentPos > line.length()) {
             readLine();
             return nextChar();
-        } // REturn th character at the current position.
+        }
+        // Return th character at the current position.
         else {
             return line.charAt(currentPos);
         }
@@ -122,7 +126,9 @@ public class Source implements MessageProducer {
      * @throws IOException
      */
     public char nextChar() throws IOException {
-        ++currentPos;
+        if (currentPos > -2) {
+            ++currentPos;
+        }
         return currentChar();
     }
 
@@ -194,17 +200,18 @@ public class Source implements MessageProducer {
      * @return
      * @throws Exception
      */
-    public boolean atEol() throws Exception {
-        return ( line != null ) && ( currentPos == line.length() );
+    public boolean atEol() {
+        return (-1 == currentPos) ||
+               ( (line != null) && (currentPos == line.length()));
     }
 
     /**
      * Returns true if end of source reached.
      *
      * @return
-     * @throws Exception
+     * @throws IOException
      */
-    public boolean atEof() throws Exception {
+    public boolean atEof() throws IOException {
         // First time?
         if (currentPos == -2) {
             readLine();
@@ -215,10 +222,8 @@ public class Source implements MessageProducer {
 
     /**
      * Skips all characters until the next line.
-     *
-     * @throws Exception
      */
-    public void skipToNextLine() throws Exception {
+    public void skipToNextLine() {
         if (line != null) {
             currentPos = line.length() + 1;
         }

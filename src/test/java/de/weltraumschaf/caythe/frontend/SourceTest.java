@@ -3,12 +3,14 @@ package de.weltraumschaf.caythe.frontend;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
 import de.weltraumschaf.caythe.message.MessageType;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import org.junit.Ignore;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 /**
@@ -42,24 +44,128 @@ public class SourceTest {
         verify(handler, times(1)).sendMessage(msg3);
     }
 
-    @Ignore
-    @Test public void testAtEol() {
+    @Test public void testAtEol() throws Exception {
+        Source sut = createSourceFromFixture("empty_source");
+        assertFalse(sut.atEol());
+        sut.currentChar();
+        assertFalse(sut.atEol());
+        sut.close();
 
+        sut = createSourceFromFixture("one_line_source");
+        assertFalse(sut.atEol());
+        for (int i = 0; i < 20; ++i) {
+            sut.nextChar();
+            assertFalse(sut.atEol());
+        }
+        sut.nextChar();
+        assertTrue(sut.atEol());
+        sut.close();
+
+        sut = createSourceFromFixture("multi_line_source");
+        assertEquals(0, sut.getLineNumber());
+        assertFalse(sut.atEol());
+        for (int i = 0; i < 10; ++i) {
+            sut.nextChar();
+            assertEquals(1, sut.getLineNumber());
+            assertFalse(sut.atEol());
+        }
+        sut.nextChar();
+        assertEquals(1, sut.getLineNumber());
+        assertTrue(sut.atEol());
+
+        for (int i = 0; i < 11; ++i) {
+            sut.nextChar();
+            assertEquals(2, sut.getLineNumber());
+            assertFalse(sut.atEol());
+        }
+        sut.nextChar();
+        assertEquals(2, sut.getLineNumber());
+        assertTrue(sut.atEol());
+
+        for (int i = 0; i < 7; ++i) {
+            sut.nextChar();
+            assertEquals(3, sut.getLineNumber());
+            assertFalse(sut.atEol());
+        }
+        sut.nextChar();
+        assertEquals(3, sut.getLineNumber());
+        assertTrue(sut.atEol());
+        sut.nextChar();
+        assertEquals(4, sut.getLineNumber());
+        assertTrue(sut.atEol());
+        for (int i = 0; i < 14; ++i) {
+            sut.nextChar();
+            assertEquals(5, sut.getLineNumber());
+            assertFalse(sut.atEol());
+        }
+        sut.nextChar();
+        assertEquals(5, sut.getLineNumber());
+        assertTrue(sut.atEol());
+
+        sut.close();
     }
 
-    @Ignore
-    @Test public void testAtEof() {
+    @Test public void testAtEof() throws Exception {
+        Source sut = createSourceFromFixture("empty_source");
+        assertTrue(sut.atEof());
+        sut.currentChar();
+        assertTrue(sut.atEof());
+        sut.close();
 
+        sut = createSourceFromFixture("one_line_source");
+        for (int i = 0; i < 22; ++i) {
+            assertFalse(sut.atEof());
+            sut.nextChar();
+        }
+        assertTrue(sut.atEof());
+        sut.close();
+
+        sut = createSourceFromFixture("multi_line_source");
+        for (int i = 0; i < 85; ++i) {
+            assertFalse(sut.atEof());
+            sut.nextChar();
+        }
+        assertTrue(sut.atEof());
+        sut.close();
     }
 
-    @Ignore
-    @Test public void testSkipToNextLine() {
+    @Test public void testSkipToNextLine() throws Exception {
+        Source sut = createSourceFromFixture("multi_line_source");
+        assertEquals(-2, sut.getCurrentPos());
+        assertEquals(0, sut.getLineNumber());
 
+        assertEquals('T', sut.currentChar());
+        assertEquals(0, sut.getCurrentPos());
+        assertEquals(1, sut.getLineNumber());
+
+        assertEquals('h', sut.nextChar());
+        assertEquals('h', sut.currentChar());
+        assertEquals(1, sut.getCurrentPos());
+        assertEquals(1, sut.getLineNumber());
+
+        sut.skipToNextLine();
+        assertEquals('m', sut.nextChar());
+        assertEquals('m', sut.currentChar());
+        assertEquals(0, sut.getCurrentPos());
+        assertEquals(2, sut.getLineNumber());
+
+        sut.close();
     }
 
-    @Ignore
-    @Test public void testPeakChar() {
+    @Test public void testPeakChar() throws Exception {
+        Source sut = createSourceFromFixture("one_line_source");
+        assertEquals(-2, sut.getCurrentPos());
+        assertEquals(0, sut.getLineNumber());
 
+        assertEquals('S', sut.currentChar());
+        assertEquals(0, sut.getCurrentPos());
+        assertEquals(1, sut.getLineNumber());
+        assertEquals('o', sut.peekChar());
+        assertEquals('S', sut.currentChar());
+        assertEquals(0, sut.getCurrentPos());
+        assertEquals(1, sut.getLineNumber());
+
+        sut.close();
     }
 
     @Test public void testReadWholeSource() throws Exception {
@@ -69,6 +175,7 @@ public class SourceTest {
         assertEquals(Source.EOF, sut.currentChar());
         assertEquals(0, sut.getCurrentPos());
         assertEquals(0, sut.getLineNumber());
+        sut.close();
 
         sut = createSourceFromFixture("one_line_source");
         assertEquals(-2, sut.getCurrentPos());
@@ -89,5 +196,6 @@ public class SourceTest {
         assertEquals(Source.EOF, sut.nextChar());
         assertEquals(0, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
+        sut.close();
     }
 }
