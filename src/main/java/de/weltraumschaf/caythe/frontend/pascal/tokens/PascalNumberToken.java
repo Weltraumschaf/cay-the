@@ -6,9 +6,9 @@ import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 
 /**
+ * Extracts numbers (float and integer) tokens from given source.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class PascalNumberToken extends PascalToken {
 
