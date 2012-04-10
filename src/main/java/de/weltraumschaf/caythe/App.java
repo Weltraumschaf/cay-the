@@ -24,14 +24,15 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
 import static de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
 
 /**
+ * App object which provides the public static main method.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class App {
 
+    // Usage string.
     private static final String USAGE;
-
     static {
         USAGE = "Usage: caythe " + Options.createUsage() + " <source file path>";
     }
@@ -40,11 +41,9 @@ public class App {
     private Options options;
 
     /**
-     * @todo
-     * - maybe -n for line numbers and -l for language
-     * - maybe -m for mode "compile" or "execute"
+     * Expects the command line arguments as parameter.
      *
-     * @param args
+     * @param args The cli arguments passed to {@link App#main(java.lang.String[])}.
      */
     public App(String[] args) throws Error {
         if (args.length == 0) {
@@ -54,6 +53,11 @@ public class App {
         this.options = new Options(Options.createParser().parse(args));
     }
 
+    /**
+     * Invoked from runtime.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             App app = new App(args);
@@ -67,10 +71,23 @@ public class App {
 
     }
 
+    /**
+     * Formats the given {@link Throwable} without the message.
+     *
+     * @param t
+     * @return
+     */
     private static String formatError(Throwable t) {
         return formatError(t, false);
     }
 
+    /**
+     * Formats the given {@link Throwable} with stack trace.
+     *
+     * @param t           The {@link Throwable} to format.
+     * @param withMessage If true, the exception message will be added.
+     * @return
+     */
     private static String formatError(Throwable t, boolean withMessage) {
         StringBuilder sb = new StringBuilder("DEBUG:\n");
         sb.append("Exception thrown");
@@ -89,6 +106,9 @@ public class App {
         return sb.toString();
     }
 
+    /**
+     * Prints the help message to STDOUT.
+     */
     private static void help() {
         StringBuilder sb = new StringBuilder(USAGE);
         sb.append("\n\n");
@@ -97,6 +117,13 @@ public class App {
         System.out.println(sb);
     }
 
+    /**
+     * Runs the application.
+     *
+     * Throws {@link Error} exceptions in case of errors with a proper error code.
+     *
+     * @throws Error
+     */
     private void run() throws Error {
         if (options.isHelpEnabled()) {
             help();
@@ -128,6 +155,14 @@ public class App {
         }
     }
 
+    /**
+     * Executes the man application logic.
+     *
+     * Create parsers and execute or compile the code.
+     *
+     * @throws Error
+     * @throws Exception
+     */
     private void execute() throws Error, Exception {
         BackendFactory.Operation operation = null;
 

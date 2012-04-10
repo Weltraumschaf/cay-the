@@ -82,7 +82,7 @@ public abstract class Scanner {
     }
 
     /**
-     * Advaneces the current character by one and returns it.
+     * Advances the current character by one and returns it.
      *
      * Returns {@link Source.EOF} on IOExceptions.
      *
