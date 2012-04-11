@@ -16,6 +16,7 @@ import de.weltraumschaf.caythe.message.MessageListener;
 import de.weltraumschaf.caythe.message.MessageType;
 import de.weltraumschaf.caythe.util.CrossReferencer;
 import de.weltraumschaf.caythe.util.ParseTreePrinter;
+import de.weltraumschaf.caythe.util.SourceHelper;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -180,7 +181,7 @@ public class App {
         }
 
         String filePath = noOpArgs.get(0);
-        Source source   = new Source(new BufferedReader(new FileReader(filePath)));
+        Source source   = SourceHelper.createFrom(new FileReader(filePath));
         source.addMessageListener(new SourceMessageListener());
 
         Parser parser = FrontendFactory.createParser(

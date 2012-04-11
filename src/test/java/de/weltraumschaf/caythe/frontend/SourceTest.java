@@ -3,10 +3,8 @@ package de.weltraumschaf.caythe.frontend;
 import de.weltraumschaf.caythe.message.Message;
 import de.weltraumschaf.caythe.message.MessageHandler;
 import de.weltraumschaf.caythe.message.MessageType;
-import java.io.BufferedReader;
-import java.io.File;
+import de.weltraumschaf.caythe.util.SourceHelper;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import static org.junit.Assert.*;
@@ -24,7 +22,7 @@ public class SourceTest {
 
     private Source createSourceFromFixture(String fixtureFile) throws FileNotFoundException, URISyntaxException {
         URL resource = getClass().getResource(FIXTURE_DIR + '/' + fixtureFile);
-        return new Source(new BufferedReader(new FileReader(new File(resource.toURI()))));
+        return SourceHelper.createFrom(resource.toURI());
     }
 
     @Test public void testMessageProducer() {
