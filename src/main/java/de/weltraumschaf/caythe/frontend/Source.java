@@ -1,10 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.message.Message;
-import de.weltraumschaf.caythe.message.MessageHandler;
-import de.weltraumschaf.caythe.message.MessageHandlerImpl;
-import de.weltraumschaf.caythe.message.MessageListener;
-import de.weltraumschaf.caythe.message.MessageProducer;
+import de.weltraumschaf.caythe.message.*;
 import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -228,4 +224,11 @@ public class Source implements MessageProducer {
             currentPos = line.length() + 1;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Source{" + "line=" + line + ", lineNumber=" + lineNumber + ", currentPos=" + currentPos + '}';
+    }
+
+
 }

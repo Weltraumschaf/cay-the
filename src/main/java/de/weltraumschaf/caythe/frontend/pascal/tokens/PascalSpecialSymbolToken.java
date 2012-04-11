@@ -94,7 +94,7 @@ public class PascalSpecialSymbolToken extends PascalToken {
             }
             default: {
                 nextChar();
-                type = ERROR;
+                type  = ERROR;
                 value = INVALID_CHARACTER;
             }
         }
