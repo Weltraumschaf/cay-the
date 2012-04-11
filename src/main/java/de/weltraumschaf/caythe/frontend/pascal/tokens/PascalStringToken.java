@@ -28,7 +28,7 @@ public class PascalStringToken extends PascalToken {
 
 	// Get string characters.
 	do {
-	    // Replace any white space character wit ha blank.
+	    // Replace any white space character with a blank.
 	    if (Character.isWhitespace(currentChar)) {
 		currentChar = ' ';
 	    }
@@ -44,7 +44,7 @@ public class PascalStringToken extends PascalToken {
 		while (('\'' == currentChar) && (peekChar() == '\'')) {
 		    textBuffer.append("''");
 		    valueBuffer.append(currentChar);
-		    currentChar = nextChar(); // Consume pair of quotes.
+		    nextChar(); // Consume pair of quotes.
 		    currentChar = nextChar();
 		}
 	    }
@@ -56,6 +56,7 @@ public class PascalStringToken extends PascalToken {
 
 	    type  = STRING;
 	    value = valueBuffer.toString();
+            // @todo set textBuffer to this.text?
 	} else {
 	    type = ERROR;
 	    value = UNEXPECTED_EOF;

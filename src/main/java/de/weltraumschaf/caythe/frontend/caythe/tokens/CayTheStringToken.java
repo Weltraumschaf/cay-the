@@ -1,12 +1,16 @@
 package de.weltraumschaf.caythe.frontend.caythe.tokens;
 
 import de.weltraumschaf.caythe.frontend.Source;
+import static de.weltraumschaf.caythe.frontend.Source.EOF;
+import static de.weltraumschaf.caythe.frontend.caythe.CayTheErrorCode.UNEXPECTED_EOF;
 import de.weltraumschaf.caythe.frontend.caythe.CayTheToken;
+import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.ERROR;
+import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.STRING;
 
 /**
+ * Extracts string literals as token delimited by double quotes.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class CayTheStringToken extends CayTheToken {
 
@@ -16,6 +20,47 @@ public class CayTheStringToken extends CayTheToken {
 
     @Override
     public void customExtraction() throws Exception {
+        StringBuilder textBuffer  = new StringBuilder();
+	StringBuilder valueBuffer = new StringBuilder();
 
+	char currentChar = nextChar(); // consume initial quote.
+	textBuffer.append('"');
+
+	// Get string characters.
+	do {
+	    // Replace any white space character with a blank.
+	    if (Character.isWhitespace(currentChar)) {
+		currentChar = ' ';
+	    }
+
+	    if (('"' != currentChar) && (EOF != currentChar)) {
+		textBuffer.append(currentChar);
+		valueBuffer.append(currentChar);
+		currentChar = nextChar(); // Consume character.
+	    }
+
+	    // Quote? Each pair of adjacent quotes represents a single-quote.
+	    if ('"' == currentChar) {
+		while (('"' == currentChar) && (peekChar() == '"')) {
+		    textBuffer.append("\"\"");
+		    valueBuffer.append(currentChar);
+		    nextChar(); // Consume pair of quotes.
+		    currentChar = nextChar();
+		}
+	    }
+	} while (('"' != currentChar) && (EOF != currentChar));
+
+	if ('"' == currentChar) {
+	    nextChar(); // Consume final quote.
+	    textBuffer.append('"');
+
+	    type  = STRING;
+	    value = valueBuffer.toString();
+	} else {
+	    type  = ERROR;
+	    value = UNEXPECTED_EOF;
+	}
+
+        text  = textBuffer.toString();
     }
 }

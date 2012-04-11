@@ -12,6 +12,7 @@ public enum CayTheErrorCode implements ErrorCode {
     INVALID_NUMBER("Invalid number"),
     RANGE_INTEGER("Integer literal out of range"),
     RANGE_REAL("Real literal out of range"),
+    UNEXPECTED_EOF("Unexpected end of file"),
     
     // Fatal errors:
     TOO_MANY_ERRORS(-102, "Too many syntax errors"),
