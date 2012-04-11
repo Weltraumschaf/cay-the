@@ -28,7 +28,7 @@
 <a class="jxr_linenumber" name="18" href="#18">18</a>      }
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>      @Override
-<a class="jxr_linenumber" name="21" href="#21">21</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> extract() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="21" href="#21">21</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> customExtraction() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="22" href="#22">22</a>          <strong class="jxr_keyword">char</strong> currentChar = currentChar();
 <a class="jxr_linenumber" name="23" href="#23">23</a>  
 <a class="jxr_linenumber" name="24" href="#24">24</a>          text = Character.toString(currentChar);
@@ -104,7 +104,7 @@
 <a class="jxr_linenumber" name="94" href="#94">94</a>              }
 <a class="jxr_linenumber" name="95" href="#95">95</a>              <strong class="jxr_keyword">default</strong>: {
 <a class="jxr_linenumber" name="96" href="#96">96</a>                  nextChar();
-<a class="jxr_linenumber" name="97" href="#97">97</a>                  type = ERROR;
+<a class="jxr_linenumber" name="97" href="#97">97</a>                  type  = ERROR;
 <a class="jxr_linenumber" name="98" href="#98">98</a>                  value = INVALID_CHARACTER;
 <a class="jxr_linenumber" name="99" href="#99">99</a>              }
 <a class="jxr_linenumber" name="100" href="#100">100</a>         }

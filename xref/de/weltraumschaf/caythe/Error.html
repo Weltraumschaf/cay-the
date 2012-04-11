@@ -13,7 +13,7 @@
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment"> * Exception type which provides an error code.</em>
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * Used inside {@link App} to gve proper exit codes to the system on errors.</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * Used inside {@link App} to give proper exit codes to the system on errors.</em>
 <a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;</em>
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> * @license <a href="http://www.weltraumschaf.de/the-beer-ware-license.txt" target="alexandria_uri">http://www.weltraumschaf.de/the-beer-ware-license.txt</a> THE BEER-WARE LICENSE</em>
@@ -39,7 +39,7 @@
 <a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment">     * @param code    The error code.</em>
 <a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">     * @param cause   Former thrown exception.</em>
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="32" href="#32">32</a>      <strong class="jxr_keyword">public</strong> <a href="../../../de/weltraumschaf/caythe/Error.html">Error</a>(String message, <strong class="jxr_keyword">int</strong> code, Throwable cause) {
+<a class="jxr_linenumber" name="32" href="#32">32</a>      <strong class="jxr_keyword">public</strong> <a href="../../../de/weltraumschaf/caythe/Error.html">Error</a>(<strong class="jxr_keyword">final</strong> String message, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> code, Throwable cause) {
 <a class="jxr_linenumber" name="33" href="#33">33</a>          <strong class="jxr_keyword">super</strong>(message, cause);
 <a class="jxr_linenumber" name="34" href="#34">34</a>          <strong class="jxr_keyword">this</strong>.code = code;
 <a class="jxr_linenumber" name="35" href="#35">35</a>      }

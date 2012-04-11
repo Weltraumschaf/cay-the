@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2012 Weltraumschaf</copyright>
     <item>
-      <title>File: 127,
-             Errors: 3054,
+      <title>File: 130,
+             Errors: 3221,
              Warnings: 0,
              Infos: 0
       </title>
@@ -66,7 +66,7 @@
                   0
                 </td>
                 <td>
-                  15
+                  13
                 </td>
               </tr>
                           <tr>
@@ -81,6 +81,20 @@
                 </td>
                 <td>
                   9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.util.SourceHelper.java">de/weltraumschaf/caythe/util/SourceHelper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
                 </td>
               </tr>
                           <tr>
@@ -169,6 +183,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.util.NumberComputer.java">de/weltraumschaf/caythe/util/NumberComputer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  45
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.frontend.pascal.parsers.VariableParser.java">de/weltraumschaf/caythe/frontend/pascal/parsers/VariableParser.java</a>
                 </td>
                 <td>
@@ -220,7 +248,7 @@
                   0
                 </td>
                 <td>
-                  78
+                  75
                 </td>
               </tr>
                           <tr>
@@ -318,7 +346,7 @@
                   0
                 </td>
                 <td>
-                  47
+                  43
                 </td>
               </tr>
                           <tr>
@@ -416,7 +444,7 @@
                   0
                 </td>
                 <td>
-                  9
+                  21
                 </td>
               </tr>
                           <tr>
@@ -430,7 +458,7 @@
                   0
                 </td>
                 <td>
-                  56
+                  55
                 </td>
               </tr>
                           <tr>
@@ -542,7 +570,7 @@
                   0
                 </td>
                 <td>
-                  6
+                  4
                 </td>
               </tr>
                           <tr>
@@ -570,7 +598,7 @@
                   0
                 </td>
                 <td>
-                  4
+                  2
                 </td>
               </tr>
                           <tr>
@@ -598,7 +626,7 @@
                   0
                 </td>
                 <td>
-                  67
+                  65
                 </td>
               </tr>
                           <tr>
@@ -654,7 +682,7 @@
                   0
                 </td>
                 <td>
-                  39
+                  13
                 </td>
               </tr>
                           <tr>
@@ -696,7 +724,7 @@
                   0
                 </td>
                 <td>
-                  21
+                  22
                 </td>
               </tr>
                           <tr>
@@ -738,7 +766,7 @@
                   0
                 </td>
                 <td>
-                  36
+                  42
                 </td>
               </tr>
                           <tr>
@@ -836,7 +864,7 @@
                   0
                 </td>
                 <td>
-                  4
+                  10
                 </td>
               </tr>
                           <tr>
@@ -864,7 +892,7 @@
                   0
                 </td>
                 <td>
-                  40
+                  36
                 </td>
               </tr>
                           <tr>
@@ -893,6 +921,20 @@
                 </td>
                 <td>
                   88
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.frontend.ErrorHandler.java">de/weltraumschaf/caythe/frontend/ErrorHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
                 </td>
               </tr>
                           <tr>
@@ -1018,7 +1060,7 @@
                   0
                 </td>
                 <td>
-                  10
+                  8
                 </td>
               </tr>
                           <tr>
@@ -1130,7 +1172,7 @@
                   0
                 </td>
                 <td>
-                  15
+                  13
                 </td>
               </tr>
                           <tr>
@@ -1144,7 +1186,7 @@
                   0
                 </td>
                 <td>
-                  2
+                  12
                 </td>
               </tr>
                           <tr>
@@ -1200,7 +1242,7 @@
                   0
                 </td>
                 <td>
-                  11
+                  9
                 </td>
               </tr>
                           <tr>
@@ -1284,7 +1326,7 @@
                   0
                 </td>
                 <td>
-                  7
+                  104
                 </td>
               </tr>
                           <tr>
@@ -1382,7 +1424,7 @@
                   0
                 </td>
                 <td>
-                  6
+                  3
                 </td>
               </tr>
                           <tr>
@@ -1429,20 +1471,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.java">de/weltraumschaf/caythe/frontend/pascal/PascalTokenType.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  83
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.intermediate.RoutineCode.java">de/weltraumschaf/caythe/intermediate/RoutineCode.java</a>
                 </td>
                 <td>
@@ -1457,6 +1485,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.java">de/weltraumschaf/caythe/frontend/pascal/PascalTokenType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  83
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#de.weltraumschaf.caythe.intermediate.CodeNode.java">de/weltraumschaf/caythe/intermediate/CodeNode.java</a>
                 </td>
                 <td>
@@ -1466,7 +1508,7 @@
                   0
                 </td>
                 <td>
-                  20
+                  23
                 </td>
               </tr>
                           <tr>
@@ -1508,7 +1550,7 @@
                   0
                 </td>
                 <td>
-                  25
+                  26
                 </td>
               </tr>
                           <tr>
@@ -1522,7 +1564,7 @@
                   0
                 </td>
                 <td>
-                  15
+                  13
                 </td>
               </tr>
                           <tr>
@@ -1606,7 +1648,7 @@
                   0
                 </td>
                 <td>
-                  8
+                  6
                 </td>
               </tr>
                           <tr>
@@ -1676,7 +1718,7 @@
                   0
                 </td>
                 <td>
-                  8
+                  6
                 </td>
               </tr>
                           <tr>
@@ -1774,7 +1816,7 @@
                   0
                 </td>
                 <td>
-                  50
+                  53
                 </td>
               </tr>
                           <tr>
@@ -1802,7 +1844,7 @@
                   0
                 </td>
                 <td>
-                  13
+                  11
                 </td>
               </tr>
                       </tbody>

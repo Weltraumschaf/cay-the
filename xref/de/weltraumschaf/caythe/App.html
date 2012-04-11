@@ -10,28 +10,28 @@
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> de.weltraumschaf.caythe;
 <a class="jxr_linenumber" name="2" href="#2">2</a>   
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> java.util.List;;
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> java.io.PrintWriter;
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> java.io.StringWriter;
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.util.ParseTreePrinter;
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.backend.Backend;
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.backend.BackendFactory;
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.FrontendFactory;
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.Parser;
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.Source;
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.TokenType;
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.Code;
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.SymbolTableStack;
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.Message;
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.MessageListener;
-<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.MessageType;
-<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.util.CrossReferencer;
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.backend.Backend;
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.backend.BackendFactory;
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.FrontendFactory;
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.Parser;
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.Source;
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.frontend.TokenType;
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.STRING;
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.Code;
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.SymbolTableEntry;
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.intermediate.SymbolTableStack;
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.Message;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.MessageListener;
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.message.MessageType;
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.util.CrossReferencer;
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.util.ParseTreePrinter;
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">import</strong> de.weltraumschaf.caythe.util.SourceHelper;
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> java.io.BufferedReader;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> java.io.FileReader;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> de.weltraumschaf.caythe.intermediate.symboltableimpl.SymbolTableKeyImpl.ROUTINE_INTERMEDIATE_CODE;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> java.io.PrintWriter;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.io.StringWriter;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="25" href="#25">25</a>  
 <a class="jxr_linenumber" name="26" href="#26">26</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="27" href="#27">27</a>  <em class="jxr_javadoccomment"> * App object which provides the public static main method.</em>
@@ -191,7 +191,7 @@
 <a class="jxr_linenumber" name="181" href="#181">181</a>         }
 <a class="jxr_linenumber" name="182" href="#182">182</a> 
 <a class="jxr_linenumber" name="183" href="#183">183</a>         String filePath = noOpArgs.get(0);
-<a class="jxr_linenumber" name="184" href="#184">184</a>         <a href="../../../de/weltraumschaf/caythe/frontend/Source.html">Source</a> source   = <strong class="jxr_keyword">new</strong> Source(<strong class="jxr_keyword">new</strong> BufferedReader(<strong class="jxr_keyword">new</strong> FileReader(filePath)));
+<a class="jxr_linenumber" name="184" href="#184">184</a>         <a href="../../../de/weltraumschaf/caythe/frontend/Source.html">Source</a> source   = SourceHelper.createFrom(<strong class="jxr_keyword">new</strong> FileReader(filePath));
 <a class="jxr_linenumber" name="185" href="#185">185</a>         source.addMessageListener(<strong class="jxr_keyword">new</strong> <a href="../../../de/weltraumschaf/caythe/App.html">SourceMessageListener</a>());
 <a class="jxr_linenumber" name="186" href="#186">186</a> 
 <a class="jxr_linenumber" name="187" href="#187">187</a>         <a href="../../../de/weltraumschaf/caythe/frontend/Parser.html">Parser</a> parser = FrontendFactory.createParser(
@@ -266,182 +266,177 @@
 <a class="jxr_linenumber" name="256" href="#256">256</a>                     String tokenText    = (String) body[3];
 <a class="jxr_linenumber" name="257" href="#257">257</a>                     Object tokenValue   = body[4];
 <a class="jxr_linenumber" name="258" href="#258">258</a> 
-<a class="jxr_linenumber" name="259" href="#259">259</a>                     System.out.println(String.format(TOKEN_FORMAT,
-<a class="jxr_linenumber" name="260" href="#260">260</a> 						     tokenType,
-<a class="jxr_linenumber" name="261" href="#261">261</a> 						     line,
-<a class="jxr_linenumber" name="262" href="#262">262</a> 						     position,
-<a class="jxr_linenumber" name="263" href="#263">263</a> 						     tokenText));
-<a class="jxr_linenumber" name="264" href="#264">264</a> 
-<a class="jxr_linenumber" name="265" href="#265">265</a>                     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> != tokenValue) {
-<a class="jxr_linenumber" name="266" href="#266">266</a>                         <strong class="jxr_keyword">if</strong> (STRING == tokenType) {
-<a class="jxr_linenumber" name="267" href="#267">267</a>                             tokenValue = <span class="jxr_string">"\&quot;"</span> + tokenValue + <span class="jxr_string">"\&quot;"</span>;
-<a class="jxr_linenumber" name="268" href="#268">268</a>                         }
-<a class="jxr_linenumber" name="269" href="#269">269</a> 
-<a class="jxr_linenumber" name="270" href="#270">270</a>                         System.out.println(String.format(VALUE_FORMAT,
-<a class="jxr_linenumber" name="271" href="#271">271</a> 							 tokenValue));
-<a class="jxr_linenumber" name="272" href="#272">272</a>                     }
-<a class="jxr_linenumber" name="273" href="#273">273</a> 
-<a class="jxr_linenumber" name="274" href="#274">274</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="275" href="#275">275</a>                 }
-<a class="jxr_linenumber" name="276" href="#276">276</a>                 <strong class="jxr_keyword">case</strong> SYNTAX_ERROR: {
-<a class="jxr_linenumber" name="277" href="#277">277</a>                     Object body[]       = (Object[]) message.getBody();
-<a class="jxr_linenumber" name="278" href="#278">278</a>                     <strong class="jxr_keyword">int</strong> lineNumber      = (Integer) body[0];
-<a class="jxr_linenumber" name="279" href="#279">279</a>                     <strong class="jxr_keyword">int</strong> position        = (Integer) body[1];
-<a class="jxr_linenumber" name="280" href="#280">280</a>                     String tokenText    = (String) body[2];
-<a class="jxr_linenumber" name="281" href="#281">281</a>                     String errorMessage = (String) body[3];
-<a class="jxr_linenumber" name="282" href="#282">282</a> 
-<a class="jxr_linenumber" name="283" href="#283">283</a>                     <strong class="jxr_keyword">int</strong> spaceCount = PREFIX_WIDTH + position;
-<a class="jxr_linenumber" name="284" href="#284">284</a>                     StringBuilder flagBuffer = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="259" href="#259">259</a>                     System.out.println(String.format(TOKEN_FORMAT, tokenType, line, position, tokenText));
+<a class="jxr_linenumber" name="260" href="#260">260</a> 
+<a class="jxr_linenumber" name="261" href="#261">261</a>                     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> != tokenValue) {
+<a class="jxr_linenumber" name="262" href="#262">262</a>                         <strong class="jxr_keyword">if</strong> (STRING == tokenType) {
+<a class="jxr_linenumber" name="263" href="#263">263</a>                             tokenValue = <span class="jxr_string">"\&quot;"</span> + tokenValue + <span class="jxr_string">"\&quot;"</span>;
+<a class="jxr_linenumber" name="264" href="#264">264</a>                         }
+<a class="jxr_linenumber" name="265" href="#265">265</a> 
+<a class="jxr_linenumber" name="266" href="#266">266</a>                         System.out.println(String.format(VALUE_FORMAT, tokenValue));
+<a class="jxr_linenumber" name="267" href="#267">267</a>                     }
+<a class="jxr_linenumber" name="268" href="#268">268</a> 
+<a class="jxr_linenumber" name="269" href="#269">269</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="270" href="#270">270</a>                 }
+<a class="jxr_linenumber" name="271" href="#271">271</a>                 <strong class="jxr_keyword">case</strong> SYNTAX_ERROR: {
+<a class="jxr_linenumber" name="272" href="#272">272</a>                     Object body[]       = (Object[]) message.getBody();
+<a class="jxr_linenumber" name="273" href="#273">273</a>                     <strong class="jxr_keyword">int</strong> lineNumber      = (Integer) body[0];
+<a class="jxr_linenumber" name="274" href="#274">274</a>                     <strong class="jxr_keyword">int</strong> position        = (Integer) body[1];
+<a class="jxr_linenumber" name="275" href="#275">275</a>                     String tokenText    = (String) body[2];
+<a class="jxr_linenumber" name="276" href="#276">276</a>                     String errorMessage = (String) body[3];
+<a class="jxr_linenumber" name="277" href="#277">277</a> 
+<a class="jxr_linenumber" name="278" href="#278">278</a>                     <strong class="jxr_keyword">int</strong> spaceCount = PREFIX_WIDTH + position;
+<a class="jxr_linenumber" name="279" href="#279">279</a>                     StringBuilder flagBuffer = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="280" href="#280">280</a> 
+<a class="jxr_linenumber" name="281" href="#281">281</a>                     <em class="jxr_comment">// Spaces up to the error position</em>
+<a class="jxr_linenumber" name="282" href="#282">282</a>                     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i =1; i &lt; spaceCount; ++i) {
+<a class="jxr_linenumber" name="283" href="#283">283</a>                         flagBuffer.append(' ');
+<a class="jxr_linenumber" name="284" href="#284">284</a>                     }
 <a class="jxr_linenumber" name="285" href="#285">285</a> 
-<a class="jxr_linenumber" name="286" href="#286">286</a>                     <em class="jxr_comment">// Spaces up to the error position</em>
-<a class="jxr_linenumber" name="287" href="#287">287</a>                     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i =1; i &lt; spaceCount; ++i) {
-<a class="jxr_linenumber" name="288" href="#288">288</a>                         flagBuffer.append(' ');
-<a class="jxr_linenumber" name="289" href="#289">289</a>                     }
-<a class="jxr_linenumber" name="290" href="#290">290</a> 
-<a class="jxr_linenumber" name="291" href="#291">291</a>                     flagBuffer.append(<span class="jxr_string">"^\n*** "</span>)
-<a class="jxr_linenumber" name="292" href="#292">292</a>                               .append(errorMessage);
-<a class="jxr_linenumber" name="293" href="#293">293</a> 
-<a class="jxr_linenumber" name="294" href="#294">294</a>                     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> != tokenText) {
-<a class="jxr_linenumber" name="295" href="#295">295</a>                         flagBuffer.append(<span class="jxr_string">" [at\&quot;"</span>)
-<a class="jxr_linenumber" name="296" href="#296">296</a>                                   .append(tokenText)
-<a class="jxr_linenumber" name="297" href="#297">297</a>                                   .append(<span class="jxr_string">"\&quot;]"</span>);
-<a class="jxr_linenumber" name="298" href="#298">298</a>                     }
-<a class="jxr_linenumber" name="299" href="#299">299</a> 
-<a class="jxr_linenumber" name="300" href="#300">300</a>                     System.out.println(flagBuffer.toString());
-<a class="jxr_linenumber" name="301" href="#301">301</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="302" href="#302">302</a>                 }
-<a class="jxr_linenumber" name="303" href="#303">303</a>                 <strong class="jxr_keyword">case</strong> PARSER_SUMMARY: {
-<a class="jxr_linenumber" name="304" href="#304">304</a>                     Number body[]      = (Number[]) message.getBody();
-<a class="jxr_linenumber" name="305" href="#305">305</a>                     <strong class="jxr_keyword">int</strong> statementCount = (Integer) body[0];
-<a class="jxr_linenumber" name="306" href="#306">306</a>                     <strong class="jxr_keyword">int</strong> syntaxErrors   = (Integer) body[1];
-<a class="jxr_linenumber" name="307" href="#307">307</a>                     <strong class="jxr_keyword">float</strong> elapsedTime  = (Float)   body[2];
-<a class="jxr_linenumber" name="308" href="#308">308</a> 
-<a class="jxr_linenumber" name="309" href="#309">309</a>                     System.out.println(
-<a class="jxr_linenumber" name="310" href="#310">310</a>                         String.format(PARSER_SUMMARY_FORMAT, statementCount, syntaxErrors, elapsedTime)
-<a class="jxr_linenumber" name="311" href="#311">311</a>                     );
-<a class="jxr_linenumber" name="312" href="#312">312</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="313" href="#313">313</a>                 }
-<a class="jxr_linenumber" name="314" href="#314">314</a>             }
-<a class="jxr_linenumber" name="315" href="#315">315</a>         }
-<a class="jxr_linenumber" name="316" href="#316">316</a>     }
-<a class="jxr_linenumber" name="317" href="#317">317</a> 
-<a class="jxr_linenumber" name="318" href="#318">318</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String INTERPRETER_SUMMARY_FORMAT = <span class="jxr_string">"\n%,20d statements executed."</span> +
-<a class="jxr_linenumber" name="319" href="#319">319</a>                                                              <span class="jxr_string">"\n%,20d runtime errors."</span> +
-<a class="jxr_linenumber" name="320" href="#320">320</a>                                                              <span class="jxr_string">"\n%,20.2f seconds total execution time.\n"</span>;
-<a class="jxr_linenumber" name="321" href="#321">321</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String COMPILER_SUMMARY_FORMAT = <span class="jxr_string">"\n%,20d instructions generated."</span> +
-<a class="jxr_linenumber" name="322" href="#322">322</a>                                                           <span class="jxr_string">"\n%,20.2f seconds total code generation time.\n"</span>;
-<a class="jxr_linenumber" name="323" href="#323">323</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String LINE_FORMAT   = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d\n"</span>;
-<a class="jxr_linenumber" name="324" href="#324">324</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ASSIGN_FORMAT = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: %s = %s\n"</span>;
-<a class="jxr_linenumber" name="325" href="#325">325</a> 
-<a class="jxr_linenumber" name="326" href="#326">326</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FETCH_FORMAT  = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: %s : %s\n"</span>;
-<a class="jxr_linenumber" name="327" href="#327">327</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CALL_FORMAT   = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: CALL %s\n"</span>;
-<a class="jxr_linenumber" name="328" href="#328">328</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String RETUR_FORMAT  = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: RETURN FROM %s\n"</span>;
-<a class="jxr_linenumber" name="329" href="#329">329</a> 
-<a class="jxr_linenumber" name="330" href="#330">330</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../de/weltraumschaf/caythe/App.html">BackendMessageListener</a> <strong class="jxr_keyword">implements</strong> <a href="../../../de/weltraumschaf/caythe/message/MessageListener.html">MessageListener</a> {
-<a class="jxr_linenumber" name="331" href="#331">331</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> firstOutputMessage = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="332" href="#332">332</a> 
-<a class="jxr_linenumber" name="333" href="#333">333</a>         @Override
-<a class="jxr_linenumber" name="334" href="#334">334</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> receiveMessage(<a href="../../../de/weltraumschaf/caythe/message/Message.html">Message</a> message) {
-<a class="jxr_linenumber" name="335" href="#335">335</a>             <a href="../../../de/weltraumschaf/caythe/message/MessageType.html">MessageType</a> type = message.getType();
-<a class="jxr_linenumber" name="336" href="#336">336</a> 
-<a class="jxr_linenumber" name="337" href="#337">337</a>             <strong class="jxr_keyword">switch</strong> (type) {
-<a class="jxr_linenumber" name="338" href="#338">338</a>                 <strong class="jxr_keyword">case</strong> SOURCE_LINE: {
-<a class="jxr_linenumber" name="339" href="#339">339</a>                     <strong class="jxr_keyword">if</strong> (options.isLineNumbersEnabled()) {
-<a class="jxr_linenumber" name="340" href="#340">340</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) message.getBody();
-<a class="jxr_linenumber" name="341" href="#341">341</a>                         System.out.printf(LINE_FORMAT, lineNumber);
-<a class="jxr_linenumber" name="342" href="#342">342</a>                     }
-<a class="jxr_linenumber" name="343" href="#343">343</a> 
-<a class="jxr_linenumber" name="344" href="#344">344</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="345" href="#345">345</a>                 }
-<a class="jxr_linenumber" name="346" href="#346">346</a> 
-<a class="jxr_linenumber" name="347" href="#347">347</a>                 <strong class="jxr_keyword">case</strong> ASSIGN: {
-<a class="jxr_linenumber" name="348" href="#348">348</a>                     <strong class="jxr_keyword">if</strong> (options.isVarAssignsEnabled()) {
-<a class="jxr_linenumber" name="349" href="#349">349</a>                         Object body[] = (Object[]) message.getBody();
-<a class="jxr_linenumber" name="350" href="#350">350</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
-<a class="jxr_linenumber" name="351" href="#351">351</a>                         String variableName = (String) body[1];
-<a class="jxr_linenumber" name="352" href="#352">352</a>                         Object value = body[2];
-<a class="jxr_linenumber" name="353" href="#353">353</a>                         System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
-<a class="jxr_linenumber" name="354" href="#354">354</a>                     }
-<a class="jxr_linenumber" name="355" href="#355">355</a> 
-<a class="jxr_linenumber" name="356" href="#356">356</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="357" href="#357">357</a>                 }
-<a class="jxr_linenumber" name="358" href="#358">358</a> 
-<a class="jxr_linenumber" name="359" href="#359">359</a>                 <strong class="jxr_keyword">case</strong> FETCH: {
-<a class="jxr_linenumber" name="360" href="#360">360</a>                     <strong class="jxr_keyword">if</strong> (options.isVarFetchesEnabled()) {
-<a class="jxr_linenumber" name="361" href="#361">361</a>                         Object body[] = (Object[]) message.getBody();
-<a class="jxr_linenumber" name="362" href="#362">362</a>                         <strong class="jxr_keyword">int</strong> lineNumber      = (Integer) body[0];
-<a class="jxr_linenumber" name="363" href="#363">363</a>                         String variableName = (String) body[1];
-<a class="jxr_linenumber" name="364" href="#364">364</a>                         Object value        = body[2];
-<a class="jxr_linenumber" name="365" href="#365">365</a>                         System.out.printf(FETCH_FORMAT, lineNumber, variableName, value);
-<a class="jxr_linenumber" name="366" href="#366">366</a>                     }
-<a class="jxr_linenumber" name="367" href="#367">367</a> 
-<a class="jxr_linenumber" name="368" href="#368">368</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="369" href="#369">369</a>                 }
-<a class="jxr_linenumber" name="370" href="#370">370</a> 
-<a class="jxr_linenumber" name="371" href="#371">371</a>                 <strong class="jxr_keyword">case</strong> CALL: {
-<a class="jxr_linenumber" name="372" href="#372">372</a>                     <strong class="jxr_keyword">if</strong> (options.isFunctionCallsEnabled()) {
-<a class="jxr_linenumber" name="373" href="#373">373</a>                         Object body[] = (Object[]) message.getBody();
-<a class="jxr_linenumber" name="374" href="#374">374</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
-<a class="jxr_linenumber" name="375" href="#375">375</a>                         String routineName = (String) body[1];
-<a class="jxr_linenumber" name="376" href="#376">376</a>                         System.out.printf(CALL_FORMAT, lineNumber, routineName);
-<a class="jxr_linenumber" name="377" href="#377">377</a>                     }
-<a class="jxr_linenumber" name="378" href="#378">378</a> 
-<a class="jxr_linenumber" name="379" href="#379">379</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="380" href="#380">380</a> 
-<a class="jxr_linenumber" name="381" href="#381">381</a>                 }
-<a class="jxr_linenumber" name="382" href="#382">382</a> 
-<a class="jxr_linenumber" name="383" href="#383">383</a>                 <strong class="jxr_keyword">case</strong> RETURN: {
-<a class="jxr_linenumber" name="384" href="#384">384</a>                     <strong class="jxr_keyword">if</strong> (options.isFunctionReturnsEnabled()) {
-<a class="jxr_linenumber" name="385" href="#385">385</a>                         Object body[] = (Object[]) message.getBody();
-<a class="jxr_linenumber" name="386" href="#386">386</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
-<a class="jxr_linenumber" name="387" href="#387">387</a>                         String routineName = (String) body[1];
-<a class="jxr_linenumber" name="388" href="#388">388</a>                         System.out.printf(RETUR_FORMAT, lineNumber, routineName);
-<a class="jxr_linenumber" name="389" href="#389">389</a>                     }
-<a class="jxr_linenumber" name="390" href="#390">390</a> 
-<a class="jxr_linenumber" name="391" href="#391">391</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="392" href="#392">392</a>                 }
+<a class="jxr_linenumber" name="286" href="#286">286</a>                     flagBuffer.append(<span class="jxr_string">"^\n*** "</span>)
+<a class="jxr_linenumber" name="287" href="#287">287</a>                               .append(errorMessage);
+<a class="jxr_linenumber" name="288" href="#288">288</a> 
+<a class="jxr_linenumber" name="289" href="#289">289</a>                     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> != tokenText) {
+<a class="jxr_linenumber" name="290" href="#290">290</a>                         flagBuffer.append(<span class="jxr_string">" [at\&quot;"</span>)
+<a class="jxr_linenumber" name="291" href="#291">291</a>                                   .append(tokenText)
+<a class="jxr_linenumber" name="292" href="#292">292</a>                                   .append(<span class="jxr_string">"\&quot;]"</span>);
+<a class="jxr_linenumber" name="293" href="#293">293</a>                     }
+<a class="jxr_linenumber" name="294" href="#294">294</a> 
+<a class="jxr_linenumber" name="295" href="#295">295</a>                     System.out.println(flagBuffer.toString());
+<a class="jxr_linenumber" name="296" href="#296">296</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="297" href="#297">297</a>                 }
+<a class="jxr_linenumber" name="298" href="#298">298</a>                 <strong class="jxr_keyword">case</strong> PARSER_SUMMARY: {
+<a class="jxr_linenumber" name="299" href="#299">299</a>                     Number body[]      = (Number[]) message.getBody();
+<a class="jxr_linenumber" name="300" href="#300">300</a>                     <strong class="jxr_keyword">int</strong> statementCount = (Integer) body[0];
+<a class="jxr_linenumber" name="301" href="#301">301</a>                     <strong class="jxr_keyword">int</strong> syntaxErrors   = (Integer) body[1];
+<a class="jxr_linenumber" name="302" href="#302">302</a>                     <strong class="jxr_keyword">float</strong> elapsedTime  = (Float)   body[2];
+<a class="jxr_linenumber" name="303" href="#303">303</a> 
+<a class="jxr_linenumber" name="304" href="#304">304</a>                     System.out.println(
+<a class="jxr_linenumber" name="305" href="#305">305</a>                         String.format(PARSER_SUMMARY_FORMAT, statementCount, syntaxErrors, elapsedTime)
+<a class="jxr_linenumber" name="306" href="#306">306</a>                     );
+<a class="jxr_linenumber" name="307" href="#307">307</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="308" href="#308">308</a>                 }
+<a class="jxr_linenumber" name="309" href="#309">309</a>             }
+<a class="jxr_linenumber" name="310" href="#310">310</a>         }
+<a class="jxr_linenumber" name="311" href="#311">311</a>     }
+<a class="jxr_linenumber" name="312" href="#312">312</a> 
+<a class="jxr_linenumber" name="313" href="#313">313</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String INTERPRETER_SUMMARY_FORMAT = <span class="jxr_string">"\n%,20d statements executed."</span> +
+<a class="jxr_linenumber" name="314" href="#314">314</a>                                                              <span class="jxr_string">"\n%,20d runtime errors."</span> +
+<a class="jxr_linenumber" name="315" href="#315">315</a>                                                              <span class="jxr_string">"\n%,20.2f seconds total execution time.\n"</span>;
+<a class="jxr_linenumber" name="316" href="#316">316</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String COMPILER_SUMMARY_FORMAT = <span class="jxr_string">"\n%,20d instructions generated."</span> +
+<a class="jxr_linenumber" name="317" href="#317">317</a>                                                           <span class="jxr_string">"\n%,20.2f seconds total code generation time.\n"</span>;
+<a class="jxr_linenumber" name="318" href="#318">318</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String LINE_FORMAT   = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d\n"</span>;
+<a class="jxr_linenumber" name="319" href="#319">319</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ASSIGN_FORMAT = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: %s = %s\n"</span>;
+<a class="jxr_linenumber" name="320" href="#320">320</a> 
+<a class="jxr_linenumber" name="321" href="#321">321</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FETCH_FORMAT  = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: %s : %s\n"</span>;
+<a class="jxr_linenumber" name="322" href="#322">322</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CALL_FORMAT   = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: CALL %s\n"</span>;
+<a class="jxr_linenumber" name="323" href="#323">323</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String RETUR_FORMAT  = <span class="jxr_string">"&gt;&gt;&gt; AT LINE %03d: RETURN FROM %s\n"</span>;
+<a class="jxr_linenumber" name="324" href="#324">324</a> 
+<a class="jxr_linenumber" name="325" href="#325">325</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../de/weltraumschaf/caythe/App.html">BackendMessageListener</a> <strong class="jxr_keyword">implements</strong> <a href="../../../de/weltraumschaf/caythe/message/MessageListener.html">MessageListener</a> {
+<a class="jxr_linenumber" name="326" href="#326">326</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> firstOutputMessage = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="327" href="#327">327</a> 
+<a class="jxr_linenumber" name="328" href="#328">328</a>         @Override
+<a class="jxr_linenumber" name="329" href="#329">329</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> receiveMessage(<a href="../../../de/weltraumschaf/caythe/message/Message.html">Message</a> message) {
+<a class="jxr_linenumber" name="330" href="#330">330</a>             <a href="../../../de/weltraumschaf/caythe/message/MessageType.html">MessageType</a> type = message.getType();
+<a class="jxr_linenumber" name="331" href="#331">331</a> 
+<a class="jxr_linenumber" name="332" href="#332">332</a>             <strong class="jxr_keyword">switch</strong> (type) {
+<a class="jxr_linenumber" name="333" href="#333">333</a>                 <strong class="jxr_keyword">case</strong> SOURCE_LINE: {
+<a class="jxr_linenumber" name="334" href="#334">334</a>                     <strong class="jxr_keyword">if</strong> (options.isLineNumbersEnabled()) {
+<a class="jxr_linenumber" name="335" href="#335">335</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) message.getBody();
+<a class="jxr_linenumber" name="336" href="#336">336</a>                         System.out.printf(LINE_FORMAT, lineNumber);
+<a class="jxr_linenumber" name="337" href="#337">337</a>                     }
+<a class="jxr_linenumber" name="338" href="#338">338</a> 
+<a class="jxr_linenumber" name="339" href="#339">339</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="340" href="#340">340</a>                 }
+<a class="jxr_linenumber" name="341" href="#341">341</a> 
+<a class="jxr_linenumber" name="342" href="#342">342</a>                 <strong class="jxr_keyword">case</strong> ASSIGN: {
+<a class="jxr_linenumber" name="343" href="#343">343</a>                     <strong class="jxr_keyword">if</strong> (options.isVarAssignsEnabled()) {
+<a class="jxr_linenumber" name="344" href="#344">344</a>                         Object body[] = (Object[]) message.getBody();
+<a class="jxr_linenumber" name="345" href="#345">345</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
+<a class="jxr_linenumber" name="346" href="#346">346</a>                         String variableName = (String) body[1];
+<a class="jxr_linenumber" name="347" href="#347">347</a>                         Object value = body[2];
+<a class="jxr_linenumber" name="348" href="#348">348</a>                         System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+<a class="jxr_linenumber" name="349" href="#349">349</a>                     }
+<a class="jxr_linenumber" name="350" href="#350">350</a> 
+<a class="jxr_linenumber" name="351" href="#351">351</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="352" href="#352">352</a>                 }
+<a class="jxr_linenumber" name="353" href="#353">353</a> 
+<a class="jxr_linenumber" name="354" href="#354">354</a>                 <strong class="jxr_keyword">case</strong> FETCH: {
+<a class="jxr_linenumber" name="355" href="#355">355</a>                     <strong class="jxr_keyword">if</strong> (options.isVarFetchesEnabled()) {
+<a class="jxr_linenumber" name="356" href="#356">356</a>                         Object body[] = (Object[]) message.getBody();
+<a class="jxr_linenumber" name="357" href="#357">357</a>                         <strong class="jxr_keyword">int</strong> lineNumber      = (Integer) body[0];
+<a class="jxr_linenumber" name="358" href="#358">358</a>                         String variableName = (String) body[1];
+<a class="jxr_linenumber" name="359" href="#359">359</a>                         Object value        = body[2];
+<a class="jxr_linenumber" name="360" href="#360">360</a>                         System.out.printf(FETCH_FORMAT, lineNumber, variableName, value);
+<a class="jxr_linenumber" name="361" href="#361">361</a>                     }
+<a class="jxr_linenumber" name="362" href="#362">362</a> 
+<a class="jxr_linenumber" name="363" href="#363">363</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="364" href="#364">364</a>                 }
+<a class="jxr_linenumber" name="365" href="#365">365</a> 
+<a class="jxr_linenumber" name="366" href="#366">366</a>                 <strong class="jxr_keyword">case</strong> CALL: {
+<a class="jxr_linenumber" name="367" href="#367">367</a>                     <strong class="jxr_keyword">if</strong> (options.isFunctionCallsEnabled()) {
+<a class="jxr_linenumber" name="368" href="#368">368</a>                         Object body[] = (Object[]) message.getBody();
+<a class="jxr_linenumber" name="369" href="#369">369</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
+<a class="jxr_linenumber" name="370" href="#370">370</a>                         String routineName = (String) body[1];
+<a class="jxr_linenumber" name="371" href="#371">371</a>                         System.out.printf(CALL_FORMAT, lineNumber, routineName);
+<a class="jxr_linenumber" name="372" href="#372">372</a>                     }
+<a class="jxr_linenumber" name="373" href="#373">373</a> 
+<a class="jxr_linenumber" name="374" href="#374">374</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="375" href="#375">375</a> 
+<a class="jxr_linenumber" name="376" href="#376">376</a>                 }
+<a class="jxr_linenumber" name="377" href="#377">377</a> 
+<a class="jxr_linenumber" name="378" href="#378">378</a>                 <strong class="jxr_keyword">case</strong> RETURN: {
+<a class="jxr_linenumber" name="379" href="#379">379</a>                     <strong class="jxr_keyword">if</strong> (options.isFunctionReturnsEnabled()) {
+<a class="jxr_linenumber" name="380" href="#380">380</a>                         Object body[] = (Object[]) message.getBody();
+<a class="jxr_linenumber" name="381" href="#381">381</a>                         <strong class="jxr_keyword">int</strong> lineNumber = (Integer) body[0];
+<a class="jxr_linenumber" name="382" href="#382">382</a>                         String routineName = (String) body[1];
+<a class="jxr_linenumber" name="383" href="#383">383</a>                         System.out.printf(RETUR_FORMAT, lineNumber, routineName);
+<a class="jxr_linenumber" name="384" href="#384">384</a>                     }
+<a class="jxr_linenumber" name="385" href="#385">385</a> 
+<a class="jxr_linenumber" name="386" href="#386">386</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="387" href="#387">387</a>                 }
+<a class="jxr_linenumber" name="388" href="#388">388</a> 
+<a class="jxr_linenumber" name="389" href="#389">389</a>                 <strong class="jxr_keyword">case</strong> RUNTIME_ERROR: {
+<a class="jxr_linenumber" name="390" href="#390">390</a>                     Object body[] = (Object []) message.getBody();
+<a class="jxr_linenumber" name="391" href="#391">391</a>                     String errorMessage = (String) body[0];
+<a class="jxr_linenumber" name="392" href="#392">392</a>                     Integer lineNumber = (Integer) body[1];
 <a class="jxr_linenumber" name="393" href="#393">393</a> 
-<a class="jxr_linenumber" name="394" href="#394">394</a>                 <strong class="jxr_keyword">case</strong> RUNTIME_ERROR: {
-<a class="jxr_linenumber" name="395" href="#395">395</a>                     Object body[] = (Object []) message.getBody();
-<a class="jxr_linenumber" name="396" href="#396">396</a>                     String errorMessage = (String) body[0];
-<a class="jxr_linenumber" name="397" href="#397">397</a>                     Integer lineNumber = (Integer) body[1];
-<a class="jxr_linenumber" name="398" href="#398">398</a> 
-<a class="jxr_linenumber" name="399" href="#399">399</a>                     System.out.print(<span class="jxr_string">"*** RUNTIME ERROR"</span>);
-<a class="jxr_linenumber" name="400" href="#400">400</a>                     <strong class="jxr_keyword">if</strong> (lineNumber != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="401" href="#401">401</a>                         System.out.print(<span class="jxr_string">" AT LINE "</span> +
-<a class="jxr_linenumber" name="402" href="#402">402</a>                                          String.format(<span class="jxr_string">"%03d"</span>, lineNumber));
-<a class="jxr_linenumber" name="403" href="#403">403</a>                     }
-<a class="jxr_linenumber" name="404" href="#404">404</a>                     System.out.println(<span class="jxr_string">": "</span> + errorMessage);
-<a class="jxr_linenumber" name="405" href="#405">405</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="406" href="#406">406</a>                 }
-<a class="jxr_linenumber" name="407" href="#407">407</a> 
-<a class="jxr_linenumber" name="408" href="#408">408</a>                 <strong class="jxr_keyword">case</strong> INTERPRETER_SUMMARY: {
-<a class="jxr_linenumber" name="409" href="#409">409</a>                     Number body[]      = (Number[]) message.getBody();
-<a class="jxr_linenumber" name="410" href="#410">410</a>                     <strong class="jxr_keyword">int</strong> executionCount = (Integer) body[0];
-<a class="jxr_linenumber" name="411" href="#411">411</a>                     <strong class="jxr_keyword">int</strong> runtimeErrors  = (Integer) body[1];
-<a class="jxr_linenumber" name="412" href="#412">412</a>                     <strong class="jxr_keyword">float</strong> elapsedTime  = (Float) body[2];
-<a class="jxr_linenumber" name="413" href="#413">413</a> 
-<a class="jxr_linenumber" name="414" href="#414">414</a>                     System.out.println(
-<a class="jxr_linenumber" name="415" href="#415">415</a>                         String.format(INTERPRETER_SUMMARY_FORMAT, executionCount, runtimeErrors, elapsedTime)
-<a class="jxr_linenumber" name="416" href="#416">416</a>                     );
-<a class="jxr_linenumber" name="417" href="#417">417</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="418" href="#418">418</a>                 }
+<a class="jxr_linenumber" name="394" href="#394">394</a>                     System.out.print(<span class="jxr_string">"*** RUNTIME ERROR"</span>);
+<a class="jxr_linenumber" name="395" href="#395">395</a>                     <strong class="jxr_keyword">if</strong> (lineNumber != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="396" href="#396">396</a>                         System.out.print(<span class="jxr_string">" AT LINE "</span> +
+<a class="jxr_linenumber" name="397" href="#397">397</a>                                          String.format(<span class="jxr_string">"%03d"</span>, lineNumber));
+<a class="jxr_linenumber" name="398" href="#398">398</a>                     }
+<a class="jxr_linenumber" name="399" href="#399">399</a>                     System.out.println(<span class="jxr_string">": "</span> + errorMessage);
+<a class="jxr_linenumber" name="400" href="#400">400</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="401" href="#401">401</a>                 }
+<a class="jxr_linenumber" name="402" href="#402">402</a> 
+<a class="jxr_linenumber" name="403" href="#403">403</a>                 <strong class="jxr_keyword">case</strong> INTERPRETER_SUMMARY: {
+<a class="jxr_linenumber" name="404" href="#404">404</a>                     Number body[]      = (Number[]) message.getBody();
+<a class="jxr_linenumber" name="405" href="#405">405</a>                     <strong class="jxr_keyword">int</strong> executionCount = (Integer) body[0];
+<a class="jxr_linenumber" name="406" href="#406">406</a>                     <strong class="jxr_keyword">int</strong> runtimeErrors  = (Integer) body[1];
+<a class="jxr_linenumber" name="407" href="#407">407</a>                     <strong class="jxr_keyword">float</strong> elapsedTime  = (Float) body[2];
+<a class="jxr_linenumber" name="408" href="#408">408</a> 
+<a class="jxr_linenumber" name="409" href="#409">409</a>                     System.out.println(
+<a class="jxr_linenumber" name="410" href="#410">410</a>                         String.format(INTERPRETER_SUMMARY_FORMAT, executionCount, runtimeErrors, elapsedTime)
+<a class="jxr_linenumber" name="411" href="#411">411</a>                     );
+<a class="jxr_linenumber" name="412" href="#412">412</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="413" href="#413">413</a>                 }
+<a class="jxr_linenumber" name="414" href="#414">414</a> 
+<a class="jxr_linenumber" name="415" href="#415">415</a>                 <strong class="jxr_keyword">case</strong> COMPILER_SUMMARY: {
+<a class="jxr_linenumber" name="416" href="#416">416</a>                     Number body[]        = (Number[]) message.getBody();
+<a class="jxr_linenumber" name="417" href="#417">417</a>                     <strong class="jxr_keyword">int</strong> instructionCount = (Integer) body[0];
+<a class="jxr_linenumber" name="418" href="#418">418</a>                     <strong class="jxr_keyword">float</strong> elapsedTime    = (Float) body[1];
 <a class="jxr_linenumber" name="419" href="#419">419</a> 
-<a class="jxr_linenumber" name="420" href="#420">420</a>                 <strong class="jxr_keyword">case</strong> COMPILER_SUMMARY: {
-<a class="jxr_linenumber" name="421" href="#421">421</a>                     Number body[]        = (Number[]) message.getBody();
-<a class="jxr_linenumber" name="422" href="#422">422</a>                     <strong class="jxr_keyword">int</strong> instructionCount = (Integer) body[0];
-<a class="jxr_linenumber" name="423" href="#423">423</a>                     <strong class="jxr_keyword">float</strong> elapsedTime    = (Float) body[1];
-<a class="jxr_linenumber" name="424" href="#424">424</a> 
-<a class="jxr_linenumber" name="425" href="#425">425</a>                     System.out.println(
-<a class="jxr_linenumber" name="426" href="#426">426</a>                         String.format(COMPILER_SUMMARY_FORMAT, instructionCount, elapsedTime)
-<a class="jxr_linenumber" name="427" href="#427">427</a>                     );
-<a class="jxr_linenumber" name="428" href="#428">428</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="429" href="#429">429</a>                 }
-<a class="jxr_linenumber" name="430" href="#430">430</a>             }
-<a class="jxr_linenumber" name="431" href="#431">431</a>         }
-<a class="jxr_linenumber" name="432" href="#432">432</a>     }
-<a class="jxr_linenumber" name="433" href="#433">433</a> 
-<a class="jxr_linenumber" name="434" href="#434">434</a> }
+<a class="jxr_linenumber" name="420" href="#420">420</a>                     System.out.println(
+<a class="jxr_linenumber" name="421" href="#421">421</a>                         String.format(COMPILER_SUMMARY_FORMAT, instructionCount, elapsedTime)
+<a class="jxr_linenumber" name="422" href="#422">422</a>                     );
+<a class="jxr_linenumber" name="423" href="#423">423</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="424" href="#424">424</a>                 }
+<a class="jxr_linenumber" name="425" href="#425">425</a>             }
+<a class="jxr_linenumber" name="426" href="#426">426</a>         }
+<a class="jxr_linenumber" name="427" href="#427">427</a>     }
+<a class="jxr_linenumber" name="428" href="#428">428</a> 
+<a class="jxr_linenumber" name="429" href="#429">429</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
