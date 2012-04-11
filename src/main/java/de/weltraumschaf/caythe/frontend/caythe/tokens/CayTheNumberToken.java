@@ -19,7 +19,7 @@ public class CayTheNumberToken extends CayTheToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    public void customExtraction() throws Exception {
 	StringBuilder textBuffer = new StringBuilder();  // token's characters
         extractNumber(textBuffer);
         text = textBuffer.toString();

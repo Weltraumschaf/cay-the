@@ -19,7 +19,7 @@ public class PascalStringToken extends PascalToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    protected void customExtraction() throws Exception {
 	StringBuilder textBuffer  = new StringBuilder();
 	StringBuilder valueBuffer = new StringBuilder();
 

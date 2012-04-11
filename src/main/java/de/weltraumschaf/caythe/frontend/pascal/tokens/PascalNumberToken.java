@@ -18,7 +18,7 @@ public class PascalNumberToken extends PascalToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    protected void customExtraction() throws Exception {
 	StringBuilder textBuffer = new StringBuilder();  // token's characters
         extractNumber(textBuffer);
         text = textBuffer.toString();
@@ -27,7 +27,7 @@ public class PascalNumberToken extends PascalToken {
     /**
      * Does not consider for leading signs only the absolute number will be extracted.
      * Leading signs should be consumed as {@link PascalSpecialSymbolToken}.
-     * 
+     *
      * @param textBuffer
      * @throws Exception
      */

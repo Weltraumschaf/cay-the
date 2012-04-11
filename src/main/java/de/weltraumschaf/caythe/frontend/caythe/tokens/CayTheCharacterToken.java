@@ -14,8 +14,4 @@ public class CayTheCharacterToken extends CayTheToken {
         super(source);
     }
 
-    @Override
-    public void extract() throws Exception {
-
-    }
 }

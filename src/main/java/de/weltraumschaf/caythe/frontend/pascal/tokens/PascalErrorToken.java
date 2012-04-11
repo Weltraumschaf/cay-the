@@ -29,14 +29,4 @@ public class PascalErrorToken extends PascalToken {
 	this.value = errorCode;
     }
 
-    /**
-     * Extracts nothing.
-     *
-     * @throws Exception
-     */
-    @Override
-    public void extract() throws Exception {
-        // Nothing to extract on erroneous token.
-    }
-
 }

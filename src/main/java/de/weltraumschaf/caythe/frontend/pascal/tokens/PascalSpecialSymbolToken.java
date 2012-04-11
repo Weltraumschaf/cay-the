@@ -18,7 +18,7 @@ public class PascalSpecialSymbolToken extends PascalToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    protected void customExtraction() throws Exception {
         char currentChar = currentChar();
 
         text = Character.toString(currentChar);

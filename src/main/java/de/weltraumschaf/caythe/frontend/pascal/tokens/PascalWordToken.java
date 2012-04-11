@@ -18,7 +18,7 @@ public class PascalWordToken extends PascalToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    protected void customExtraction() throws Exception {
 	StringBuilder textBuffer = new StringBuilder();
 	char currentChar = currentChar();
 

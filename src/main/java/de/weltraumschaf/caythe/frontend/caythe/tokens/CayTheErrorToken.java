@@ -16,7 +16,7 @@ public class CayTheErrorToken extends CayTheToken {
      * Uses the passed tokenText as text and erorCode as value.
      *
      * The token type is always {@link CayTheTokenType.ERROR}.
-     * 
+     *
      * @param source    The source the token belongs to.
      * @param errorCode Will be the token value.
      * @param tokenText Will be the token text.
@@ -27,16 +27,6 @@ public class CayTheErrorToken extends CayTheToken {
 	this.text  = tokenText;
 	this.type  = ERROR;
 	this.value = errorCode;
-    }
-
-    /**
-     * Extracts nothing.
-     *
-     * @throws Exception
-     */
-    @Override
-    public void extract() throws Exception {
-        // Nothing to extract on erroneous token.
     }
 
 }

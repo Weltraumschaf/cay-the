@@ -12,9 +12,4 @@ public class EofToken extends Token {
         super(source);
     }
 
-    @Override
-    public void extract() throws Exception {
-        // There is nothing to extract at EOF.
-    }
-
 }

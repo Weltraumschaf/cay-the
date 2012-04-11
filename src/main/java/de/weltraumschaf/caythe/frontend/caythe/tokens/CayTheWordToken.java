@@ -15,7 +15,7 @@ public class CayTheWordToken extends CayTheToken {
     }
 
     @Override
-    public void extract() throws Exception {
+    public void customExtraction() throws Exception {
 
     }
 }
