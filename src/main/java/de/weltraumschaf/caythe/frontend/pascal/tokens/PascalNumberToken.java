@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.frontend.Source;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalErrorCode.*;
 import de.weltraumschaf.caythe.frontend.pascal.PascalToken;
 import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
+import de.weltraumschaf.caythe.util.NumberComputer;
 
 /**
  * Extracts numbers (float and integer) tokens from given source.
@@ -11,8 +12,6 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.*;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 public class PascalNumberToken extends PascalToken {
-
-    private static final int MAX_EXPONENT = 37;
 
     public PascalNumberToken(Source source) throws Exception {
         super(source);
@@ -25,6 +24,13 @@ public class PascalNumberToken extends PascalToken {
         text = textBuffer.toString();
     }
 
+    /**
+     * Does not consider for leading signs only the absolute number will be extracted.
+     * Leading signs should be consumed as {@link PascalSpecialSymbolToken}.
+     * 
+     * @param textBuffer
+     * @throws Exception
+     */
     protected void extractNumber(StringBuilder textBuffer) throws Exception {
         String wholeDigits    = null;  // digits before the decimal point
         String fractionDigits = null;  // digits after the decimal point
@@ -52,7 +58,7 @@ public class PascalNumberToken extends PascalToken {
             else {
                 type = REAL;  // decimal point, so token type is REAL
                 textBuffer.append(currentChar);
-                currentChar = nextChar();  // consume decimal point
+                nextChar();  // consume decimal point
 
                 // Collect the digits of the fraction part of the number.
                 fractionDigits = unsignedIntegerDigits(textBuffer);
@@ -76,7 +82,7 @@ public class PascalNumberToken extends PascalToken {
             if ((currentChar == '+') || (currentChar == '-')) {
                 textBuffer.append(currentChar);
                 exponentSign = currentChar;
-                currentChar  = nextChar();  // consume '+' or '-'
+                nextChar();  // consume '+' or '-'
             }
 
             // Extract the digits of the exponent.
@@ -106,6 +112,18 @@ public class PascalNumberToken extends PascalToken {
         }
     }
 
+    /**
+     * Returns digit characters from the passed in {@link StringBuilder} until first non digit
+     * character.
+     *
+     * Digit characters are all characters true for {@link Character#isDigit(char)}.
+     * There must be at least one digit character, unless the token is marked
+     * erroneous and the method returns null.
+     *
+     * @param textBuffer
+     * @return
+     * @throws Exception
+     */
     private String unsignedIntegerDigits(StringBuilder textBuffer) throws Exception {
         char currentChar = currentChar();
 
@@ -129,29 +147,10 @@ public class PascalNumberToken extends PascalToken {
     }
 
     private int computeIntegerValue(String digits) {
-        // Return 0 if no digits.
-        if (null == digits) {
-            return 0;
+        try {
+            return NumberComputer.computeIntegerValue(digits);
         }
-
-        int integerValue = 0;
-        int prevValue    = -1; // overflow occurred if prevValue > integerValue
-        int index        = 0;
-
-        // Loop over the digits to compute the integer value
-        // as long as there is no overflow.
-        while ((index < digits.length()) && (integerValue >= prevValue)) {
-            prevValue    = integerValue;
-            integerValue = 10*integerValue +
-                           Character.getNumericValue(digits.charAt(index++));
-        }
-
-        // No overflow:  Return the integer value.
-        if (integerValue >= prevValue) {
-            return integerValue;
-        }
-        // Overflow:  Set the integer out of range error.
-        else {
+        catch (NumberComputer.RangeException ex) {
             type  = ERROR;
             value = RANGE_INTEGER;
             return 0;
@@ -161,42 +160,13 @@ public class PascalNumberToken extends PascalToken {
     private float computeFloatValue(String wholeDigits, String fractionDigits,
                                     String exponentDigits, char exponentSign)
     {
-        double floatValue = 0.0;
-        int exponentValue = computeIntegerValue(exponentDigits);
-        String digits     = wholeDigits; // whole and fraction digits
-
-        // Negate the exponent if the exponent sign is '-'.
-        if (exponentSign == '-') {
-            exponentValue = -exponentValue;
+        try {
+            return NumberComputer.computeFloatValue(wholeDigits, fractionDigits, exponentDigits, exponentSign);
         }
-
-        // If there are any fraction digits, adjust the exponent value
-        // and append the fraction digits.
-        if (fractionDigits != null) {
-            exponentValue -= fractionDigits.length();
-            digits += fractionDigits;
-        }
-
-        // Check for a real number out of range error.
-        if (Math.abs(exponentValue + wholeDigits.length()) > MAX_EXPONENT) {
+        catch (NumberComputer.RangeException ex) {
             type  = ERROR;
             value = RANGE_REAL;
             return 0.0f;
         }
-
-        // Loop over the digits to compute the float value.
-        int index = 0;
-
-        while (index < digits.length()) {
-            floatValue = 10*floatValue +
-                         Character.getNumericValue(digits.charAt(index++));
-        }
-
-        // Adjust the float value based on the exponent value.
-        if (0 != exponentValue) {
-            floatValue *= Math.pow(10, exponentValue);
-        }
-
-        return (float) floatValue;
     }
 }
