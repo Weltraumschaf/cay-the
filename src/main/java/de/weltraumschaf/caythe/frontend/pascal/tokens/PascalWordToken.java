@@ -9,7 +9,6 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.RESERVED_W
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class PascalWordToken extends PascalToken {
 
