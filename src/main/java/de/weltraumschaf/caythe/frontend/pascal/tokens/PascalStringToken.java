@@ -10,7 +10,6 @@ import static de.weltraumschaf.caythe.frontend.pascal.PascalTokenType.STRING;
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class PascalStringToken extends PascalToken {
 
@@ -56,11 +55,12 @@ public class PascalStringToken extends PascalToken {
 
 	    type  = STRING;
 	    value = valueBuffer.toString();
-            // @todo set textBuffer to this.text?
 	} else {
-	    type = ERROR;
+	    type  = ERROR;
 	    value = UNEXPECTED_EOF;
 	}
+
+        text = textBuffer.toString();
     }
 
 }
