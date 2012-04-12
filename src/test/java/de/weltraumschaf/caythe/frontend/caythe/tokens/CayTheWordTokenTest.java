@@ -50,6 +50,8 @@ public class CayTheWordTokenTest {
         CayTheWordToken token = new CayTheWordToken(testData.getSource());
         token.extract();
         assertToken(testData, token);
+        token.extract();
+        assertToken(testData, token);
     }
 
 }

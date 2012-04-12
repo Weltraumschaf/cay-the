@@ -3,42 +3,45 @@ package de.weltraumschaf.caythe.frontend.caythe.tokens;
 import static de.weltraumschaf.caythe.frontend.caythe.CayTheErrorCode.UNEXPECTED_EOF;
 import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.ERROR;
 import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.STRING;
+import static de.weltraumschaf.caythe.util.Assert.assertToken;
 import de.weltraumschaf.caythe.util.SourceHelper;
-import static org.junit.Assert.assertEquals;
+import de.weltraumschaf.caythe.util.TokenFixture;
+import java.util.Arrays;
+import java.util.Collection;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@RunWith(Parameterized.class)
 public class CayTheStringTokenTest {
 
+    private final TokenFixture testData;
+
+    public CayTheStringTokenTest(final TokenFixture data) {
+        testData = data;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<TokenFixture[]> data() {
+        TokenFixture[][] data = new TokenFixture[][] {
+            {new TokenFixture(SourceHelper.createFrom("this is a string\""), "\"this is a string\"", STRING, "this is a string")},
+            {new TokenFixture(SourceHelper.createFrom("this is a string\" snafu"), "\"this is a string\"", STRING, "this is a string")},
+            {new TokenFixture(SourceHelper.createFrom("this is \"\"a\"\" string\""), "\"this is \"\"a\"\" string\"", STRING, "this is \"a\" string")},
+            {new TokenFixture(SourceHelper.createFrom("this is a string"), "\"this is a string ", ERROR, UNEXPECTED_EOF)},
+        };
+        return Arrays.asList(data);
+    }
+
     @Test public void extract() throws Exception {
-        CayTheStringToken token;
-
-        token = new CayTheStringToken(SourceHelper.createFrom("this is a string\""));
+        CayTheStringToken token = new CayTheStringToken(testData.getSource());
         token.extract();
-        assertEquals(STRING, token.getType());
-        assertEquals("this is a string", token.getValue());
-        assertEquals("\"this is a string\"", token.getText());
-
-        token = new CayTheStringToken(SourceHelper.createFrom("this is a string\" snafu"));
+        assertToken(testData, token);
         token.extract();
-        assertEquals(STRING, token.getType());
-        assertEquals("this is a string", token.getValue());
-        assertEquals("\"this is a string\"", token.getText());
-
-        token = new CayTheStringToken(SourceHelper.createFrom("this is \"\"a\"\" string\""));
-        token.extract();
-        assertEquals(STRING, token.getType());
-        assertEquals("this is \"a\" string", token.getValue());
-        assertEquals("\"this is \"\"a\"\" string\"", token.getText());
-
-        token = new CayTheStringToken(SourceHelper.createFrom("this is a string"));
-        token.extract();
-        assertEquals(ERROR, token.getType());
-        assertEquals(UNEXPECTED_EOF, token.getValue());
-        assertEquals("\"this is a string ", token.getText());
+        assertToken(testData, token);
     }
 
 }

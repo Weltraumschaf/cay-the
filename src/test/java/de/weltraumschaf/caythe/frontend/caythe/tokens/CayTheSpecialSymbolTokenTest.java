@@ -78,5 +78,7 @@ public class CayTheSpecialSymbolTokenTest {
         CayTheSpecialSymbolToken token = new CayTheSpecialSymbolToken(testData.getSource());
         token.extract();
         assertToken(testData, token);
+        token.extract();
+        assertToken(testData, token);
     }
 }
