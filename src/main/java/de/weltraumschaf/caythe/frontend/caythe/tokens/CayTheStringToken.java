@@ -23,18 +23,18 @@ public class CayTheStringToken extends CayTheToken {
         StringBuilder textBuffer  = new StringBuilder();
 	StringBuilder valueBuffer = new StringBuilder();
 
-	char currentChar = nextChar(); // consume initial quote.
+	char currentChar = nextChar(); // consume initial double quote.
 	textBuffer.append('"');
 
 	// Get string characters.
 	do {
-	    // Replace any white space character with a blank.
-	    if (Character.isWhitespace(currentChar)) {
-		currentChar = ' ';
-	    }
+            if (Character.isWhitespace(currentChar)) {
+                currentChar = ' ';
+            }
 
 	    if (('"' != currentChar) && (EOF != currentChar)) {
-		textBuffer.append(currentChar);
+                // Replace any white space character with a blank.
+            	textBuffer.append(currentChar);
 		valueBuffer.append(currentChar);
 		currentChar = nextChar(); // Consume character.
 	    }
@@ -42,16 +42,16 @@ public class CayTheStringToken extends CayTheToken {
 	    // Quote? Each pair of adjacent quotes represents a single-quote.
 	    if ('"' == currentChar) {
 		while (('"' == currentChar) && (peekChar() == '"')) {
-		    textBuffer.append("\"\"");
-		    valueBuffer.append(currentChar);
-		    nextChar(); // Consume pair of quotes.
-		    currentChar = nextChar();
+                    textBuffer.append("\"\"");
+                    valueBuffer.append(currentChar);
+                    nextChar(); // Consume pair of quotes.
+                    currentChar = nextChar();
 		}
 	    }
 	} while (('"' != currentChar) && (EOF != currentChar));
 
 	if ('"' == currentChar) {
-	    nextChar(); // Consume final quote.
+	    nextChar(); // Consume final double quote.
 	    textBuffer.append('"');
 
 	    type  = STRING;

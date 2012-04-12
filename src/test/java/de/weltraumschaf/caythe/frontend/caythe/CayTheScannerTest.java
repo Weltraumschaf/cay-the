@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.frontend;
+package de.weltraumschaf.caythe.frontend.caythe;
 
 import org.junit.Ignore;
 import org.junit.Test;
