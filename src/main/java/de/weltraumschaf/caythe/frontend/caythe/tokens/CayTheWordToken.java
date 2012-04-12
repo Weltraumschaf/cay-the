@@ -27,7 +27,8 @@ public class CayTheWordToken extends CayTheToken {
 	// charatcer is a letter.
 	while (Character.isLetterOrDigit(currentChar) || '_' == currentChar) {
 	    textBuffer.append(currentChar);
-	    currentChar = nextChar();
+            nextChar();
+	    currentChar = currentChar();
 	}
 
 	text = textBuffer.toString();

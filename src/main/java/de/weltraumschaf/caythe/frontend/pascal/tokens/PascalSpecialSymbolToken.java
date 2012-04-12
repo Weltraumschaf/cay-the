@@ -47,7 +47,8 @@ public class PascalSpecialSymbolToken extends PascalToken {
 
             // : or :=
             case ':': {
-                currentChar = nextChar(); // consumes :
+                nextChar(); // consumes :
+                currentChar = currentChar();
 
                 if ('=' == currentChar) {
                     text += Character.toString(currentChar);
@@ -58,7 +59,8 @@ public class PascalSpecialSymbolToken extends PascalToken {
             }
             // < or <= or <>
             case '<': {
-                currentChar = nextChar(); // consumes <
+                nextChar(); // consumes <
+                currentChar = currentChar();
 
                 if ('=' == currentChar) {
                     text += Character.toString(currentChar);
@@ -72,7 +74,8 @@ public class PascalSpecialSymbolToken extends PascalToken {
             }
             // > or >=
             case '>': {
-                currentChar = nextChar(); // consumes >
+                nextChar(); // consumes >
+                currentChar = currentChar();
 
                 if ('=' == currentChar) {
                     text += Character.toString(currentChar);
@@ -83,7 +86,8 @@ public class PascalSpecialSymbolToken extends PascalToken {
             }
             // . or ..
             case '.': {
-                currentChar = nextChar(); // consumes .
+                nextChar(); // consumes .
+                currentChar = currentChar();
 
                 if ('.' == currentChar) {
                     text += Character.toString(currentChar);

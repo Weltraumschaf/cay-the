@@ -1,48 +1,65 @@
 package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.message.*;
-import static de.weltraumschaf.caythe.message.MessageType.SOURCE_LINE;
 import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Represents a peace of source code which is accessible character by character..
- *
- * This class will read the source from an {@link BufferedReader} line by line.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class Source implements MessageProducer {
 
     /**
      * End of line character.
      */
-    public static final char EOL = '\n';
+    public static final char EOL = (char) 10;
+
     /**
      * End of file character.
      */
     public static final char EOF = (char) 0;
+
     /**
      * Handles source messages.
      */
-    protected MessageHandler messageHandler;
+    protected final MessageHandler messageHandler;
+
     /**
      * The input stream.
      */
-    private BufferedReader reader;
-    /**
-     * The current line.
-     */
-    private String line;
+    private final BufferedReader reader;
+
     /**
      * The current line number.
+     *
+     * Starts by 1 and increment on each line break.
+     * If this is 0 it means that nextChar() never was called.
      */
     private int lineNumber;
+
     /**
-     * The current column in the line.
+     * The current column.
+     *
+     * Starts by 1 and is reset to 1 on each line break.
+     * If this is 0 it means that nextChar() never was called.
+     */
+    private int columnNumber;
+
+    /**
+     * Current position in the input string.
      */
     private int currentPos;
+
+    /**
+     * True if end of file reached.
+     */
+    private boolean atEof;
+
+    /**
+     * Holds all read characters.
+     */
+    private final StringBuffer buffer;
 
     /**
      * Constructs source with {@link MessageHandler} as handler.
@@ -61,13 +78,16 @@ public class Source implements MessageProducer {
      */
     public Source(BufferedReader r, MessageHandler h) {
         reader         = r;
-        lineNumber     = 0;
-        currentPos     = -2;
         messageHandler = h;
+        lineNumber     = 0;
+        columnNumber   = 0;
+        currentPos     = -1;
+        atEof          = false;
+        buffer         = new StringBuffer();
     }
 
     /**
-     * Gets the current column in the current line,
+     * Gets the current position in the input string.
      *
      * @return
      */
@@ -76,7 +96,16 @@ public class Source implements MessageProducer {
     }
 
     /**
-     * Gets the current line number.
+     * Gets the current column in source.
+     *
+     * @return
+     */
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+    /**
+     * Gets the current line number in source.
      *
      * @return
      */
@@ -88,44 +117,52 @@ public class Source implements MessageProducer {
      * Gets the current character of the source.
      *
      * @return
-     * @throws IOException
      */
-    public char currentChar() throws IOException {
-        // First time?
-        if (-2 == currentPos) {
-            readLine();
-            return nextChar();
-        }
-        // At end of file?
-        else if (atEof()) {
+    public char currentChar() {
+        if (atEof()) {
             return EOF;
-        }
-        // At end of line?
-        else if (atEol()) {
-            return EOL;
-        }
-        // Need to read the next line?
-        else if (currentPos > line.length()) {
-            readLine();
-            return nextChar();
-        }
-        // Return th character at the current position.
-        else {
-            return line.charAt(currentPos);
+        } else {
+            try {
+                return buffer.charAt(getCurrentPos());
+            } catch (StringIndexOutOfBoundsException ex) {
+                throw new RuntimeException("Invoke Source#nextChar() first!", ex);
+            }
         }
     }
 
     /**
      * Gets the next character by advancing current position.
      *
-     * @return
-     * @throws IOException
+     * @throws IOException On read error in the buffered reader.
      */
-    public char nextChar() throws IOException {
-        if (currentPos > -2) {
-            ++currentPos;
+    public void nextChar() throws IOException {
+        if (atEof()) {
+            return;
         }
-        return currentChar();
+
+        if (0 == lineNumber) {
+            lineNumber++;
+        }
+
+        if ((currentPos + 1) >= buffer.length()) {
+            int chr = reader.read();
+
+            if (-1 == chr) {
+                atEof = true;
+            } else {
+                atEof = false;
+
+                if (-1 < currentPos && EOL == currentChar()) {
+                    lineNumber++;
+                    columnNumber = 1;
+                } else {
+                    columnNumber++;
+                }
+
+                currentPos++;
+                buffer.append((char)chr);
+            }
+        }
     }
 
     /**
@@ -134,33 +171,17 @@ public class Source implements MessageProducer {
      * Gets the next character without advancing current position.
      *
      * @return
-     * @throws IOException
+     * @throws IOException On read error in the buffered reader.
      */
     public char peekChar() throws IOException {
-        currentChar();
+        int chr = reader.read();
 
-        if (null == line) {
+        if (-1 == chr) {
             return EOF;
-        }
-
-        int nextPos = currentPos + 1;
-        return nextPos < line.length() ? line.charAt(nextPos) : EOL;
-    }
-
-    /**
-     * Reads next line from input stream.
-     *
-     * @throws IOException
-     */
-    private void readLine() throws IOException {
-        line = reader.readLine(); // Null when at end of the source.
-        currentPos = -1;
-
-        if (null != line) {
-            ++lineNumber;
-            sendMessage(new Message(
-                    SOURCE_LINE,
-                    new Object[]{lineNumber, line}));
+        } else {
+            char peak = (char)chr;
+            buffer.append(peak);
+            return peak;
         }
     }
 
@@ -170,8 +191,41 @@ public class Source implements MessageProducer {
      * @throws IOException
      */
     public void close() throws IOException {
-        if (null != reader) {
-            reader.close();
+        reader.close();
+    }
+
+    /**
+     * Returns true if end of line reached.
+     *
+     * @return
+     * @throws Exception
+     */
+    public boolean atEol() {
+        return currentPos > -1 && currentChar() == EOL;
+    }
+
+    /**
+     * Returns true if end of source reached.
+     *
+     * @return
+     * @throws IOException
+     */
+    public boolean atEof() {
+        return atEof;
+    }
+
+    /**
+     * Skips all characters until the next line begins.
+     */
+    public void skipToNextLine() {
+        try {
+            do {
+                nextChar();
+            } while (currentChar() != EOL);
+            nextChar(); // Skip the new line.
+        }
+        catch (IOException ex) {
+            return;
         }
     }
 
@@ -189,46 +243,4 @@ public class Source implements MessageProducer {
     public void sendMessage(Message message) {
         messageHandler.sendMessage(message);
     }
-
-    /**
-     * Returns true if end of line reached.
-     *
-     * @return
-     * @throws Exception
-     */
-    public boolean atEol() {
-        return (-1 == currentPos) ||
-               ( (line != null) && (currentPos == line.length()));
-    }
-
-    /**
-     * Returns true if end of source reached.
-     *
-     * @return
-     * @throws IOException
-     */
-    public boolean atEof() throws IOException {
-        // First time?
-        if (currentPos == -2) {
-            readLine();
-        }
-
-        return line == null;
-    }
-
-    /**
-     * Skips all characters until the next line.
-     */
-    public void skipToNextLine() {
-        if (line != null) {
-            currentPos = line.length() + 1;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Source{" + "line=" + line + ", lineNumber=" + lineNumber + ", currentPos=" + currentPos + '}';
-    }
-
-
 }

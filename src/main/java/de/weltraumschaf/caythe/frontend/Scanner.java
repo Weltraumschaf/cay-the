@@ -73,12 +73,7 @@ public abstract class Scanner {
      * @return
      */
     public char currentChar() {
-        try {
-            return source.currentChar();
-        }
-        catch (IOException ex) {
-            return Source.EOF;
-        }
+        return source.currentChar();
     }
 
     /**
@@ -88,13 +83,8 @@ public abstract class Scanner {
      *
      * @return
      */
-    public char nextChar() {
-        try {
-            return source.nextChar();
-        }
-        catch (IOException ex) {
-            return Source.EOF;
-        }
+    public void nextChar() throws IOException {
+        source.nextChar();
     }
 
     /**

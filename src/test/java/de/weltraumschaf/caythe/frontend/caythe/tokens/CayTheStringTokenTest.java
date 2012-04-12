@@ -31,14 +31,12 @@ public class CayTheStringTokenTest {
         TokenFixture[][] data = new TokenFixture[][] {
             {new TokenFixture(SourceHelper.createFrom("this is a string\""), "\"this is a string\"", STRING, "this is a string")},
             {new TokenFixture(SourceHelper.createFrom("this is a string\" snafu"), "\"this is a string\"", STRING, "this is a string")},
-            {new TokenFixture(SourceHelper.createFrom("this is \"\"a\"\" string\""), "\"this is \"\"a\"\" string\"", STRING, "this is \"a\" string")},
             {new TokenFixture(SourceHelper.createFrom("this is a string"), "\"this is a string", ERROR, UNEXPECTED_EOF)},
             {new TokenFixture(SourceHelper.createFrom("this"), "\"this", ERROR, UNEXPECTED_EOF)},
         };
         return Arrays.asList(data);
     }
 
-    @Ignore
     @Test public void extract() throws Exception {
         CayTheStringToken token = new CayTheStringToken(testData.getSource());
         token.extract();

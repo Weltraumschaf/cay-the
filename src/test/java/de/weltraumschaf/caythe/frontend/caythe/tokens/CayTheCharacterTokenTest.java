@@ -29,8 +29,8 @@ public class CayTheCharacterTokenTest {
         TokenFixture[][] data = new TokenFixture[][] {
             {new TokenFixture(SourceHelper.createFrom("c' foo"), "'c'", CHARACTER, 'c')},
             {new TokenFixture(SourceHelper.createFrom(" ' foo"), "' '", CHARACTER, ' ')},
-//            {new TokenFixture(SourceHelper.createFrom("c foo"), "'c", ERROR, UNEXPECTED_EOF)},
-//            {new TokenFixture(SourceHelper.createFrom("' foo"), "'", ERROR, UNEXPECTED_EOF)}
+            {new TokenFixture(SourceHelper.createFrom("c foo"), "'c", ERROR, UNEXPECTED_EOF)},
+            {new TokenFixture(SourceHelper.createFrom("' foo"), "''", ERROR, UNEXPECTED_EOF)}
         };
         return Arrays.asList(data);
     }

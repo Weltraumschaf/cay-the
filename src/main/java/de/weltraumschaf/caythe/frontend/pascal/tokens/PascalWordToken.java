@@ -26,7 +26,8 @@ public class PascalWordToken extends PascalToken {
 	// charatcer is a letter.
 	while (Character.isLetterOrDigit(currentChar)) {
 	    textBuffer.append(currentChar);
-	    currentChar = nextChar();
+            nextChar();
+	    currentChar = currentChar();
 	}
 
 	text = textBuffer.toString();

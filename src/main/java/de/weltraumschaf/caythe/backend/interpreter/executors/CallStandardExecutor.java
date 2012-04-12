@@ -126,10 +126,13 @@ public class CallStandardExecutor extends CallExecutor {
                         Token token = standardIn.nextToken();
                         value = parseBoolean(token);
                     } else if (baseType == Predefined.charType) {
-                        char ch = standardIn.nextChar();
+                        standardIn.nextChar();
+                        char ch = standardIn.currentChar();
+
                         if (( ch == Source.EOL ) || ( ch == Source.EOF )) {
                             ch = ' ';
                         }
+                        
                         value = ch;
                     } else {
                         throw new Exception();

@@ -76,7 +76,8 @@ public class PascalNumberToken extends PascalToken {
         if (!sawDotDot && ((currentChar == 'E') || (currentChar == 'e'))) {
             type = REAL;  // exponent, so token type is REAL
             textBuffer.append(currentChar);
-            currentChar = nextChar();  // consume 'E' or 'e'
+            nextChar();  // consume 'E' or 'e'
+            currentChar = currentChar();
 
             // Exponent sign?
             if ((currentChar == '+') || (currentChar == '-')) {
@@ -140,7 +141,8 @@ public class PascalNumberToken extends PascalToken {
         while (Character.isDigit(currentChar)) {
             textBuffer.append(currentChar);
             digits.append(currentChar);
-            currentChar = nextChar();  // consume digit
+            nextChar();  // consume digit
+            currentChar = currentChar();
         }
 
         return digits.toString();

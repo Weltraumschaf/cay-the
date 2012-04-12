@@ -69,20 +69,25 @@ public class CayTheScanner extends Scanner {
                 }
                 else if ('*' == nextChar) { // multi line comment
                     do {
-                        currentChar = nextChar(); // Consume comment chars.
+                        nextChar(); // Consume comment chars.
+                        currentChar = currentChar();
                     } while (('*' != currentChar) && ('/' != peakChar()) && (EOF != currentChar));
 
                     // Found closing '*/'?
                     if ('*' == currentChar) {
-                        currentChar = nextChar(); // Consumes the '*'.
+                        nextChar(); // Consumes the '*'.
+                        currentChar = currentChar();
+
                         if ('/' == currentChar) {
-                            currentChar = nextChar(); // Consumes the '/'.
+                            nextChar(); // Consumes the '/'.
+                            currentChar = currentChar();
                         }
                     }
                 }
             } // Not a comment.
             else {
-                currentChar = nextChar();
+                nextChar();
+                currentChar = currentChar();
             }
         }
     }

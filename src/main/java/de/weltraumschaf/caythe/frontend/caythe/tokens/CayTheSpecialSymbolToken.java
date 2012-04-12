@@ -51,7 +51,8 @@ public class CayTheSpecialSymbolToken extends CayTheToken {
             case '<':
             // > or >=
             case '>': {
-                currentChar = nextChar(); // consumes ! or = or < or >
+                nextChar(); // consumes ! or = or < or >
+                currentChar = currentChar();
 
                 if ('=' == currentChar) {
                     text += Character.toString(currentChar);

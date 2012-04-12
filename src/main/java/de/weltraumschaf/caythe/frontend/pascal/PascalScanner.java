@@ -58,16 +58,19 @@ public class PascalScanner extends Scanner {
             // Start of a comment?
             if ('{' == currentChar) {
                 do {
-                    currentChar = nextChar(); // Consume comment chars.
+                    nextChar(); // Consume comment chars.
+                    currentChar = currentChar();
                 } while (( '}' != currentChar ) && ( EOF != currentChar ));
 
                 // Found closing '}'?
                 if ('}' == currentChar) {
-                    currentChar = nextChar(); // Consumes the '}'.
+                    nextChar(); // Consumes the '}'.
+                    currentChar = currentChar();
                 }
             } // Not a comment.
             else {
-                currentChar = nextChar();
+                nextChar();
+                currentChar = currentChar();
             }
         }
     }

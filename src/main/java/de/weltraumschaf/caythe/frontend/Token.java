@@ -79,7 +79,7 @@ public class Token {
      * @throws Exception
      */
     protected void customExtraction() throws Exception {
-        
+
     }
 
     /**
@@ -98,8 +98,8 @@ public class Token {
      * @return
      * @throws Exception
      */
-    protected char nextChar() throws Exception {
-        return source.nextChar();
+    protected void nextChar() throws Exception {
+        source.nextChar();
     }
 
     /**

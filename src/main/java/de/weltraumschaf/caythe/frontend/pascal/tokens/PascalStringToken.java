@@ -21,8 +21,8 @@ public class PascalStringToken extends PascalToken {
     protected void customExtraction() throws Exception {
 	StringBuilder textBuffer  = new StringBuilder();
 	StringBuilder valueBuffer = new StringBuilder();
-
-	char currentChar = nextChar(); // consume initial quote.
+        nextChar(); // consume initial quote.
+	char currentChar = currentChar();
 	textBuffer.append('\'');
 
 	// Get string characters.
@@ -35,7 +35,8 @@ public class PascalStringToken extends PascalToken {
 	    if (('\'' != currentChar) && (EOF != currentChar)) {
 		textBuffer.append(currentChar);
 		valueBuffer.append(currentChar);
-		currentChar = nextChar(); // Consume character.
+                nextChar(); // Consume character.
+		currentChar = currentChar();
 	    }
 
 	    // Quote? Each pair of adjacent quotes represents a single-quote.
@@ -44,7 +45,8 @@ public class PascalStringToken extends PascalToken {
 		    textBuffer.append("''");
 		    valueBuffer.append(currentChar);
 		    nextChar(); // Consume pair of quotes.
-		    currentChar = nextChar();
+                    nextChar();
+		    currentChar = currentChar();
 		}
 	    }
 	} while (('\'' != currentChar) && (EOF != currentChar));
