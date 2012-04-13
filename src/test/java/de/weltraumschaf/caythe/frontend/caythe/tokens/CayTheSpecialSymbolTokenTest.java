@@ -75,6 +75,7 @@ public class CayTheSpecialSymbolTokenTest {
     }
 
     @Test public void extract() throws Exception {
+        testData.getSource().nextChar();
         CayTheSpecialSymbolToken token = new CayTheSpecialSymbolToken(testData.getSource());
         token.extract();
         assertToken(testData, token);

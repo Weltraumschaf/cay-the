@@ -26,6 +26,7 @@ public class PascalScannerTest {
         PascalScanner scanner = null;
 
         scanner = new PascalScanner(generateSource(""));
+        scanner.nextChar();
         assertEquals(Source.EOF, scanner.currentChar());
         scanner.nextChar();
         assertEquals(Source.EOF, scanner.currentChar());
@@ -33,6 +34,7 @@ public class PascalScannerTest {
         assertEquals(Source.EOF, scanner.currentChar());
 
         scanner = new PascalScanner(generateSource("e, k : enum;"));
+        scanner.nextChar();
         assertEquals('e', scanner.currentChar());
         assertEquals('e', scanner.currentChar());
         scanner.nextChar();
@@ -68,9 +70,6 @@ public class PascalScannerTest {
         scanner.nextChar();
         assertEquals(';', scanner.currentChar());
         assertEquals(';', scanner.currentChar());
-        scanner.nextChar();
-        assertEquals(Source.EOL, scanner.currentChar());
-        assertEquals(Source.EOL, scanner.currentChar());
         scanner.nextChar();
         assertEquals(Source.EOF, scanner.currentChar());
         assertEquals(Source.EOF, scanner.currentChar());
@@ -79,6 +78,7 @@ public class PascalScannerTest {
         assertEquals(Source.EOF, scanner.currentChar());
 
         scanner = new PascalScanner(generateSource("write(a:2);"));
+        scanner.nextChar();
         assertEquals('w', scanner.currentChar());
         assertEquals('w', scanner.currentChar());
         scanner.nextChar();
@@ -111,9 +111,6 @@ public class PascalScannerTest {
         scanner.nextChar();
         assertEquals(';', scanner.currentChar());
         assertEquals(';', scanner.currentChar());
-        scanner.nextChar();
-        assertEquals(Source.EOL, scanner.currentChar());
-        assertEquals(Source.EOL, scanner.currentChar());
         scanner.nextChar();
         assertEquals(Source.EOF, scanner.currentChar());
         assertEquals(Source.EOF, scanner.currentChar());
@@ -123,6 +120,7 @@ public class PascalScannerTest {
         PascalScanner scanner;
 
         scanner = new PascalScanner(generateSource(""));
+        scanner.nextChar();
         assertNull(scanner.currentToken());
         assertTrue(scanner.nextToken() instanceof EofToken);
         assertTrue(scanner.currentToken() instanceof EofToken);
@@ -134,6 +132,7 @@ public class PascalScannerTest {
         assertNull(scanner.currentToken().getText());
 
         scanner = new PascalScanner(generateSource("e, k : enum;"));
+        scanner.nextChar();
         assertNull(scanner.currentToken());
         assertTrue(scanner.nextToken() instanceof PascalWordToken);
         assertTrue(scanner.currentToken() instanceof PascalWordToken);
@@ -165,6 +164,7 @@ public class PascalScannerTest {
         assertNull(scanner.currentToken().getText());
 
         scanner = new PascalScanner(generateSource("write(a:2);"));
+        scanner.nextChar();
         assertNull(scanner.currentToken());
         assertTrue(scanner.nextToken() instanceof PascalWordToken);
         assertTrue(scanner.currentToken() instanceof PascalWordToken);

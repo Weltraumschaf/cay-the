@@ -36,6 +36,7 @@ public class CayTheNumberTokenTest {
     }
 
     @Test public void extract() throws Exception {
+        testData.getSource().nextChar();
         CayTheNumberToken token = new CayTheNumberToken(testData.getSource());
         token.extract();
         assertToken(testData, token);

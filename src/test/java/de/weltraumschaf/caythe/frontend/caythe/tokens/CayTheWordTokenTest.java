@@ -1,15 +1,14 @@
 package de.weltraumschaf.caythe.frontend.caythe.tokens;
 
+import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.*;
+import static de.weltraumschaf.caythe.util.Assert.assertToken;
+import de.weltraumschaf.caythe.util.SourceHelper;
 import de.weltraumschaf.caythe.util.TokenFixture;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import de.weltraumschaf.caythe.util.SourceHelper;
-import de.weltraumschaf.caythe.util.TokenFixture;
-import static de.weltraumschaf.caythe.util.Assert.assertToken;
-import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.*;
 
 /**
  *
@@ -47,6 +46,7 @@ public class CayTheWordTokenTest {
     }
 
     @Test public void extract() throws Exception {
+        testData.getSource().nextChar();
         CayTheWordToken token = new CayTheWordToken(testData.getSource());
         token.extract();
         assertToken(testData, token);
