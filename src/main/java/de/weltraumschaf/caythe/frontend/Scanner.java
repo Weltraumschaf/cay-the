@@ -94,13 +94,8 @@ public abstract class Scanner {
      *
      * @return
      */
-    public char peakChar() {
-        try {
-            return source.peekChar();
-        }
-        catch (IOException ex) {
-            return Source.EOF;
-        }
+    public char peakChar() throws IOException {
+        return source.peekChar();
     }
 
     /**
