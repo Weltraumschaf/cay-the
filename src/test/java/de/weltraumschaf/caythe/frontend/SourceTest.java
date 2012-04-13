@@ -61,15 +61,15 @@ public class SourceTest {
         assertEquals('s', sut.currentChar());
         assertFalse(sut.atEof());
         sut.nextChar();
-        assertEquals(3, sut.getCurrentPos());
+        assertEquals(4, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
-        assertEquals(4, sut.getColumnNumber());
+        assertEquals(5, sut.getColumnNumber());
         assertEquals(Source2.EOF, sut.currentChar());
         assertTrue(sut.atEof());
         sut.nextChar();
-        assertEquals(3, sut.getCurrentPos());
+        assertEquals(4, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
-        assertEquals(4, sut.getColumnNumber());
+        assertEquals(5, sut.getColumnNumber());
         assertEquals(Source2.EOF, sut.currentChar());
         assertTrue(sut.atEof());
 
@@ -122,15 +122,15 @@ public class SourceTest {
         assertEquals('s', sut.currentChar());
         assertFalse(sut.atEof());
         sut.nextChar();
-        assertEquals(6, sut.getCurrentPos());
+        assertEquals(7, sut.getCurrentPos());
         assertEquals(2, sut.getLineNumber());
-        assertEquals(2, sut.getColumnNumber());
+        assertEquals(3, sut.getColumnNumber());
         assertEquals(Source2.EOF, sut.currentChar());
         assertTrue(sut.atEof());
         sut.nextChar();
-        assertEquals(6, sut.getCurrentPos());
+        assertEquals(7, sut.getCurrentPos());
         assertEquals(2, sut.getLineNumber());
-        assertEquals(2, sut.getColumnNumber());
+        assertEquals(3, sut.getColumnNumber());
         assertEquals(Source2.EOF, sut.currentChar());
         assertTrue(sut.atEof());
     }
@@ -312,6 +312,12 @@ public class SourceTest {
         assertEquals(1, sut.getLineNumber());
         assertEquals(1, sut.getColumnNumber());
 
+        sut.nextChar();
+        assertEquals('o', sut.currentChar());
+        assertEquals(1, sut.getCurrentPos());
+        assertEquals(1, sut.getLineNumber());
+        assertEquals(2, sut.getColumnNumber());
+
         sut.close();
     }
 
@@ -322,9 +328,9 @@ public class SourceTest {
         assertEquals(0, sut.getColumnNumber());
         sut.nextChar();
         assertEquals(Source.EOF, sut.currentChar());
-        assertEquals(-1, sut.getCurrentPos());
+        assertEquals(0, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
-        assertEquals(0, sut.getColumnNumber());
+        assertEquals(1, sut.getColumnNumber());
         sut.close();
 
         sut = createSourceFromFixture("one_line_source");
@@ -345,9 +351,9 @@ public class SourceTest {
         assertEquals(Source.EOF, sut.currentChar());
         sut.nextChar();
         assertEquals(Source.EOF, sut.currentChar());
-        assertEquals(19, sut.getCurrentPos());
+        assertEquals(20, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
-        assertEquals(20, sut.getColumnNumber());
+        assertEquals(21, sut.getColumnNumber());
         sut.close();
     }
 }

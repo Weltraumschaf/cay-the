@@ -154,15 +154,15 @@ public class Source implements MessageProducer {
 
                 if (-1 < currentPos && EOL == currentChar()) {
                     lineNumber++;
-                    columnNumber = 1;
-                } else {
-                    columnNumber++;
+                    columnNumber = 0;
                 }
 
-                currentPos++;
                 buffer.append((char)chr);
             }
         }
+
+        currentPos++;
+        columnNumber++;
     }
 
     /**
