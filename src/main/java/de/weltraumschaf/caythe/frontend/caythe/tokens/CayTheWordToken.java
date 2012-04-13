@@ -17,6 +17,16 @@ public class CayTheWordToken extends CayTheToken {
         super(source);
     }
 
+    /**
+     * Whether the character is allowed in words.
+     *
+     * @param chr
+     * @return
+     */
+    private static boolean isWordCharacter(char chr) {
+        return Character.isLetterOrDigit(chr) || '_' == chr;
+    }
+
     @Override
     public void customExtraction() throws Exception {
         StringBuilder textBuffer = new StringBuilder();
@@ -25,7 +35,7 @@ public class CayTheWordToken extends CayTheToken {
 	// Get the word characters (letter or digit).
 	// The scanner has already determined that the first
 	// charatcer is a letter.
-	while (Character.isLetterOrDigit(currentChar) || '_' == currentChar) {
+	while (isWordCharacter(currentChar)) {
 	    textBuffer.append(currentChar);
             nextChar();
 	    currentChar = currentChar();
