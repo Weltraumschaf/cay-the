@@ -64,13 +64,13 @@ public class SourceTest {
         assertEquals(4, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
         assertEquals(5, sut.getColumnNumber());
-        assertEquals(Source2.EOF, sut.currentChar());
+        assertEquals(Source.EOF, sut.currentChar());
         assertTrue(sut.atEof());
         sut.nextChar();
         assertEquals(4, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
         assertEquals(5, sut.getColumnNumber());
-        assertEquals(Source2.EOF, sut.currentChar());
+        assertEquals(Source.EOF, sut.currentChar());
         assertTrue(sut.atEof());
 
         sut = new Source(new BufferedReader(new StringReader("this\nis")));
@@ -107,7 +107,7 @@ public class SourceTest {
         assertEquals(4, sut.getCurrentPos());
         assertEquals(1, sut.getLineNumber());
         assertEquals(5, sut.getColumnNumber());
-        assertEquals(Source2.EOL, sut.currentChar());
+        assertEquals(Source.EOL, sut.currentChar());
         assertTrue(sut.atEol());
         sut.nextChar();
         assertEquals(5, sut.getCurrentPos());
@@ -125,13 +125,13 @@ public class SourceTest {
         assertEquals(7, sut.getCurrentPos());
         assertEquals(2, sut.getLineNumber());
         assertEquals(3, sut.getColumnNumber());
-        assertEquals(Source2.EOF, sut.currentChar());
+        assertEquals(Source.EOF, sut.currentChar());
         assertTrue(sut.atEof());
         sut.nextChar();
         assertEquals(7, sut.getCurrentPos());
         assertEquals(2, sut.getLineNumber());
         assertEquals(3, sut.getColumnNumber());
-        assertEquals(Source2.EOF, sut.currentChar());
+        assertEquals(Source.EOF, sut.currentChar());
         assertTrue(sut.atEof());
     }
 
