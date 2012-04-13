@@ -67,6 +67,7 @@ public class CayTheScanner extends Scanner {
 
                 if ('/' == nextChar) { // single line comment
                     skipToNextLine();
+                    currentChar = currentChar();
                 }
                 else if ('*' == nextChar) { // multi line comment
                     nextChar(); // Consume the '*'.

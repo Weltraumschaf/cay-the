@@ -225,7 +225,7 @@ public class Source implements MessageProducer {
             nextChar(); // Skip the new line.
         }
         catch (IOException ex) {
-            return;
+            // Nothing to do if we can't move forward.
         }
     }
 
