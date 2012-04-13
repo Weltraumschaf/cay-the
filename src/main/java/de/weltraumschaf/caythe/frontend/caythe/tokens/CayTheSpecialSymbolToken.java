@@ -58,7 +58,8 @@ public class CayTheSpecialSymbolToken extends CayTheToken {
             case '[':
             case ']':
             case '{':
-            case '}': {
+            case '}':
+            case '~': {
                 nextChar();
                 break;
             }
