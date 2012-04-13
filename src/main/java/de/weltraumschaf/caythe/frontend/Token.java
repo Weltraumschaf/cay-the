@@ -1,5 +1,8 @@
 package de.weltraumschaf.caythe.frontend;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * Generic token implementation.
  *
@@ -25,8 +28,11 @@ public class Token {
      */
     public Token(Source source) throws Exception {
         this.source = source;
-        lineNumber  = source.getLineNumber();
-        position    = source.getCurrentPos();
+
+        if (null != source) {
+            lineNumber = source.getLineNumber();
+            position   = source.getCurrentPos();
+        }
     }
 
     /**
@@ -54,6 +60,37 @@ public class Token {
         }
 
         return sb.append(">").toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        try {
+            Token t = (Token)obj;
+            return new EqualsBuilder().
+                append(text, t.getText()).
+                append(type, t.getType()).
+                append(value, t.getValue()).
+                isEquals();
+        } catch (ClassCastException e){
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(37, 53). // Two randomly chosne prime numbers.
+                append(text).
+                append(type).
+                append(value).
+                toHashCode();
     }
 
     /**
