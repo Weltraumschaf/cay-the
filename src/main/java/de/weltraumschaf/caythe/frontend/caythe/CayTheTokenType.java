@@ -17,6 +17,7 @@ public enum CayTheTokenType implements TokenType {
     COMMA(","), SEMICOLON(";"), QUOTE("'"), DOUBLE_QUOTE("\""),
     EQUALS("=="), NOT_EQUALS("!="), LESS_THAN("<"), LESS_EQUALS("<="),
     GREATER_EQUALS(">="), GREATER_THAN(">"), LEFT_PAREN("("), RIGHT_PAREN(")"),
+    AND("&&"), OR("||"), NOT("!"),
     LEFT_BRACKET("["), RIGHT_BRACKET("]"), LEFT_BRACE("{"), RIGHT_BRACE("}"),
 
     IDENTIFIER, INTEGER, REAL, STRING, CHARACTER,

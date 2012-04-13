@@ -80,6 +80,28 @@ public class CayTheSpecialSymbolToken extends CayTheToken {
 
                 break;
             }
+            case '&': {
+                nextChar(); // consumes &
+                currentChar = currentChar();
+
+                if ('&' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes &
+                }
+
+                break;
+            }
+            case '|': {
+                nextChar(); // consumes |
+                currentChar = currentChar();
+
+                if ('|' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes |
+                }
+
+                break;
+            }
             default: {
                 nextChar();
                 type  = ERROR;

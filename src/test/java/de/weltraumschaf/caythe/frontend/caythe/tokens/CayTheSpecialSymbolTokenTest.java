@@ -73,6 +73,12 @@ public class CayTheSpecialSymbolTokenTest {
             {new TokenFixture(SourceHelper.createFrom("[foo"), "[", LEFT_BRACKET)},
             {new TokenFixture(SourceHelper.createFrom("]"), "]", RIGHT_BRACKET)},
             {new TokenFixture(SourceHelper.createFrom("],"), "]", RIGHT_BRACKET)},
+            {new TokenFixture(SourceHelper.createFrom("&&"), "&&", AND)},
+            {new TokenFixture(SourceHelper.createFrom("&&foo"), "&&", AND)},
+            {new TokenFixture(SourceHelper.createFrom("||"), "||", OR)},
+            {new TokenFixture(SourceHelper.createFrom("||foo"), "||", OR)},
+            {new TokenFixture(SourceHelper.createFrom("!"), "!", NOT)},
+            {new TokenFixture(SourceHelper.createFrom("!foo"), "!", NOT)},
             {new TokenFixture(SourceHelper.createFrom("foo"), "f", ERROR, INVALID_CHARACTER)},
         };
         return Arrays.asList(data);
