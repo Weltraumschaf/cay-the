@@ -26,6 +26,7 @@ public class CayTheScanner extends Scanner {
 
     @Override
     protected Token extractToken() throws Exception {
+        nextChar();
         skipWhitespace();
 
         Token token;
