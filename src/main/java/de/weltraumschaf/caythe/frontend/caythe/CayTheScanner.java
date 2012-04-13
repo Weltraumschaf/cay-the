@@ -69,10 +69,12 @@ public class CayTheScanner extends Scanner {
                     skipToNextLine();
                 }
                 else if ('*' == nextChar) { // multi line comment
+                    nextChar(); // Consume the '*'.
+
                     do {
                         nextChar(); // Consume comment chars.
                         currentChar = currentChar();
-                    } while (('*' != currentChar) && ('/' != peakChar()) && (EOF != currentChar));
+                    } while (('*' != currentChar || '/' != peakChar()) && EOF != currentChar);
 
                     // Found closing '*/'?
                     if ('*' == currentChar) {
