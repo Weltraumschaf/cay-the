@@ -13,7 +13,7 @@ public enum CayTheTokenType implements TokenType {
     CONST, VAR, WHILE, FOR, IN, FUNCTION, IF, ELSE, DO,
 
     // Special symbols.
-    PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), ASSIGN("="),
+    PLUS("+"), MINUS("-"), STAR("*"), SLASH("/"), ASSIGN("="), INC("++"), DEC("--"),
     COMMA(","), SEMICOLON(";"), QUOTE("'"), DOUBLE_QUOTE("\""),
     EQUALS("=="), NOT_EQUALS("!="), LESS_THAN("<"), LESS_EQUALS("<="),
     GREATER_EQUALS(">="), GREATER_THAN(">"), LEFT_PAREN("("), RIGHT_PAREN(")"),

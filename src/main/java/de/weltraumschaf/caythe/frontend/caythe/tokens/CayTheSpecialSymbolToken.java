@@ -9,7 +9,6 @@ import static de.weltraumschaf.caythe.frontend.caythe.CayTheTokenType.SPECIAL_SY
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class CayTheSpecialSymbolToken extends CayTheToken {
 
@@ -26,8 +25,28 @@ public class CayTheSpecialSymbolToken extends CayTheToken {
 
         switch (currentChar) {
             // Single-character special symbols.
-            case '+':
-            case '-':
+            case '+': {
+                nextChar(); // consumes +
+                currentChar = currentChar();
+
+                if ('+' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes -
+                }
+
+                break;
+            }
+            case '-': {
+                nextChar(); // consumes -
+                currentChar = currentChar();
+
+                if ('-' == currentChar) {
+                    text += Character.toString(currentChar);
+                    nextChar(); // consumes -
+                }
+
+                break;
+            }
             case '*':
             case '/':
             case ',':
