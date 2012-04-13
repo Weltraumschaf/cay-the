@@ -7,4 +7,11 @@ package de.weltraumschaf.caythe.frontend;
  */
 public interface TokenType {
 
+    /**
+     * Returns the token text.
+     *
+     * @return
+     */
+    public String getText();
+
 }

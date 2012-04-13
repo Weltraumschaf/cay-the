@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.frontend;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Ignore;
 
 /**
  *
@@ -36,6 +36,12 @@ public class TokenTest {
 
     public enum TestTokenType implements TokenType {
         CONST, VAR;
+
+        @Override
+        public String getText() {
+            return name().toLowerCase();
+        }
+
     }
 
     @Test public void equality() throws Exception {

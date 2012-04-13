@@ -39,6 +39,7 @@ public enum CayTheTokenType implements TokenType {
         this.text = text;
     }
 
+    @Override
     public String getText() {
 	return text;
     }
