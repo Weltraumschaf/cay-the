@@ -59,7 +59,7 @@ public class Source implements MessageProducer {
     /**
      * Holds all read characters.
      */
-    private final StringBuffer buffer;
+    private final StringBuilder buffer;
 
     /**
      * Constructs source with {@link MessageHandler} as handler.
@@ -83,7 +83,7 @@ public class Source implements MessageProducer {
         columnNumber   = 0;
         currentPos     = -1;
         atEof          = false;
-        buffer         = new StringBuffer();
+        buffer         = new StringBuilder();
     }
 
     /**

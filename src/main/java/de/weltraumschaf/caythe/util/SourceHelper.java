@@ -12,25 +12,25 @@ import java.net.URI;
 public class SourceHelper {
 
     /**
-     * Creates a source file from the file specified by an {@link URI} obect.
+     * Creates a source file from the file specified by an {@link URI} object.
      *
-     * @param fixtureFile
+     * @param uri The resource URI.
      * @return
      * @throws FileNotFoundException
      */
-    public static Source createFrom(URI fixtureFile) throws FileNotFoundException {
-        return createFrom(new File(fixtureFile));
+    public static Source createFrom(URI uri) throws FileNotFoundException {
+        return createFrom(new File(uri));
     }
 
     /**
      * Creates source from given file.
      *
-     * @param f
+     * @param file
      * @return
      * @throws FileNotFoundException
      */
-    public static Source createFrom(File f) throws FileNotFoundException {
-        return createFrom(new FileReader(f));
+    public static Source createFrom(File file) throws FileNotFoundException {
+        return createFrom(new FileReader(file));
     }
 
     /**

@@ -17,7 +17,6 @@ import static de.weltraumschaf.caythe.intermediate.symboltableimpl.RoutineCodeIm
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
- * @license http://www.weltraumschaf.de/the-beer-ware-license.txt THE BEER-WARE LICENSE
  */
 public class Predefined {
     // Build in types.
