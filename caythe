@@ -1,3 +1,0 @@
-#!/bin/bash
-
-java -jar ./target/caythe-1.0-SNAPSHOT.jar $*
