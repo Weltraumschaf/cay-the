@@ -17,7 +17,7 @@
     </parent>
 
     <groupId>de.weltraumschaf</groupId>
-    <artifactId>cay-the</artifactId>
+    <artifactId>caythe</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -79,24 +79,28 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.version.source>1.7</project.build.version.source>
         <project.build.version.target>1.7</project.build.version.target>
-        <project.build.mainClass>de.weltraumschaf.cay-the.App</project.build.mainClass>
+        <project.build.mainClass>de.weltraumschaf.caythe.App</project.build.mainClass>
         <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
-        
+
         <maven.pmd.rulesetfiles>${project.basedir}/src/main/config/pmd.xml</maven.pmd.rulesetfiles>
         <maven.pmd.cpd-excludes>${project.basedir}/src/main/config/exclude-cpd.properties</maven.pmd.cpd-excludes>
         <maven.pmd.pmd-excludes>${project.basedir}/src/main/config/exclude-pmd.properties</maven.pmd.pmd-excludes>
         <maven.findbugs.excludefilterfile>${project.basedir}/src/main/config/findbugs-exclude.xml</maven.findbugs.excludefilterfile>
         <maven.findbugs.includefilterfile>${project.basedir}/src/main/config/findbugs-include.xml</maven.findbugs.includefilterfile>
         <maven.version>3.0.3</maven.version>
-        
+
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
-        
+
         <dependency.commons.version>1.0.1-SNAPSHOT</dependency.commons.version>
-        <dependency.junit.version></dependency.junit.version>
-        <dependency.hamcrest.version></dependency.hamcrest.version>
-        <dependency.mockito.version></dependency.mockito.version>
+        <dependency.commons-io.version>2.4</dependency.commons-io.version>
+        <dependency.log4j.version>1.2.17</dependency.log4j.version>
+        <dependency.jcommander.version>1.35</dependency.jcommander.version>
+
+        <dependency.junit.version>4.11</dependency.junit.version>
+        <dependency.hamcrest.version>1.3</dependency.hamcrest.version>
+        <dependency.mockito.version>1.9.5</dependency.mockito.version>
     </properties>
 
     <prerequisites>
@@ -112,6 +116,11 @@
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>guava</artifactId>
+            <version>${dependency.commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>jcommander</artifactId>
             <version>${dependency.commons.version}</version>
         </dependency>
         <dependency>
@@ -143,21 +152,22 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>${dependency.commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${dependency.log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
-            <version>1.35</version>
+            <version>${dependency.jcommander.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${dependency.junit.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -169,13 +179,13 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
-            <version>1.3</version>
+            <version>${dependency.hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.9.5</version>
+            <version>${dependency.mockito.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
