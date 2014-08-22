@@ -102,10 +102,10 @@ public class Predefined {
         falseId.setAttribute(CONSTANT_VALUE, new Integer(0));
 
         // Boolean enumeration constant true.
-        falseId = symbolTableStack.enterLocal("true");
-        falseId.setDefinition(DefinitionImpl.ENUMERATION_CONSTANT);
-        falseId.setTypeSpecification(booleanType);
-        falseId.setAttribute(CONSTANT_VALUE, new Integer(1));
+        trueId = symbolTableStack.enterLocal("true");
+        trueId.setDefinition(DefinitionImpl.ENUMERATION_CONSTANT);
+        trueId.setTypeSpecification(booleanType);
+        trueId.setAttribute(CONSTANT_VALUE, new Integer(1));
 
         // Add false and true to the boolean enumeration type.
         ArrayList<SymbolTableEntry> constants = new ArrayList<SymbolTableEntry>();
