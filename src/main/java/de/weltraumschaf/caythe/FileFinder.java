@@ -57,7 +57,7 @@ final class FileFinder extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(final Path file, final BasicFileAttributes attr) {
         if (attr.isRegularFile() && isSourceFile(file)) {
-            LOG.trace("Found file: " + file);
+            LOG.debug("Found file: " + file);
             foundFiles.add(file);
         }
 

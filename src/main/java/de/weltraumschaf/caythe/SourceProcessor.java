@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
@@ -82,13 +83,19 @@ final class SourceProcessor {
 
     private void parseSource(final Path sourceFile) throws IOException {
         final String fileName = sourceFile.toString();
-        LOG.trace(String.format("Parse file '%s' ...", fileName));
+        LOG.debug(String.format("Parse file '%s' ...", fileName));
 
         final CharStream input = new ANTLRFileStream(fileName, encoding);
         final CaytheLexer lexer = new CaytheLexer(input);
         final TokenStream tokens = new CommonTokenStream(lexer);
         final CaytheParser parser = new CaytheParser(tokens);
 
+        if (LOG.isDebugEnabled()) {
+            parser.setErrorHandler(new BailErrorStrategy());
+        }
+
+        final SourceFileVisitor visitor = new SourceFileVisitor();
+//        visitor.visit(parser.unit());
         alreadyParsed.add(fileName);
     }
 }
