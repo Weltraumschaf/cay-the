@@ -1,0 +1,8 @@
+import org.caythe.lang.Main
+
+public interface Application {
+  
+  @Main
+  public Integer main(List<String> args)
+  
+}

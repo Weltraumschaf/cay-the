@@ -95,7 +95,7 @@ final class SourceProcessor {
         }
 
         final SourceFileVisitor visitor = new SourceFileVisitor();
-//        visitor.visit(parser.unit());
+        visitor.visit(parser.unit());
         alreadyParsed.add(fileName);
     }
 }

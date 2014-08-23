@@ -1,0 +1,4 @@
+public class Boolean {
+  public const true = new Boolean(1)
+  public const false = new Boolean(0)
+}
