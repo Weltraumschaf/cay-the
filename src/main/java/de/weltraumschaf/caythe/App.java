@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.caythe;
 
 import de.weltraumschaf.commons.application.IOStreams;
@@ -19,6 +18,10 @@ import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.commons.system.Environments;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.Callable;
 import org.apache.log4j.Logger;
 
@@ -40,8 +43,8 @@ public final class App extends InvokableAdapter {
      * To obtain environment variables.
      */
     private final Environments.Env env = Environments.defaultEnv();
-    private final JCommanderImproved<Options> options =
-            new JCommanderImproved(Constants.COMMAND_NAME.toString(), Options.class);
+    private final JCommanderImproved<Options> options
+            = new JCommanderImproved(Constants.COMMAND_NAME.toString(), Options.class);
 
     /**
      * Dedicated constructor.
@@ -106,9 +109,14 @@ public final class App extends InvokableAdapter {
             return;
         }
 
-//        final String cwd = env.get("user.dir");
-        final String cwd = System.getProperty("user.dir");
+        final Path currentWorkingdir = Paths.get("");
+        final String cwd = currentWorkingdir.toAbsolutePath().toString();
         getIoStreams().println(String.format("Searching for files to compile in '%s' ...", cwd));
+
+        final FileFinder finder = new FileFinder(Constants.FILE_EXTENSION.toString());
+        Files.walkFileTree(currentWorkingdir, finder);
+        final List<Path> files = finder.getFoundFiles();
+        getIoStreams().println(files.toString());
     }
 
     Options gatherOptions() {
@@ -122,8 +130,8 @@ public final class App extends InvokableAdapter {
      */
     String helpMessage() {
         return options.helpMessage(
-            "[-v|--version] [-h|--help]",
-            "TODO",
-            "TODO");
+                "[-v|--version] [-h|--help]",
+                "TODO",
+                "TODO");
     }
 }
