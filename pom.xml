@@ -97,6 +97,7 @@
         <dependency.commons-io.version>2.4</dependency.commons-io.version>
         <dependency.log4j.version>1.2.17</dependency.log4j.version>
         <dependency.jcommander.version>1.35</dependency.jcommander.version>
+        <dependency.antlr4.version>4.3</dependency.antlr4.version>
 
         <dependency.junit.version>4.11</dependency.junit.version>
         <dependency.hamcrest.version>1.3</dependency.hamcrest.version>
@@ -164,6 +165,12 @@
             <artifactId>jcommander</artifactId>
             <version>${dependency.jcommander.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>${dependency.antlr4.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
