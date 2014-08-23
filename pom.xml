@@ -214,6 +214,13 @@
                     <include>**/*.properties</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
         </resources>
 
         <extensions>
@@ -291,7 +298,7 @@
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.3</version>
+                <version>${dependency.antlr4.version}</version>
                 <executions>
                     <execution>
                         <id>antlr</id>
@@ -300,6 +307,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <listener>false</listener>
+                    <visitor>true</visitor>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

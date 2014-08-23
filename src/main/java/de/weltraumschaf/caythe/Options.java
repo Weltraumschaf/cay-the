@@ -27,22 +27,22 @@ public final class Options {
     /**
      * Verbose flag.
      */
-    @Parameter(names = {"-v", "--verbose"}, description = "Tell you more.")
-    private boolean verbose;
+    @Parameter(names = {"-v", "--version"}, description = "Gives the programm version.")
+    private boolean version;
 
     public boolean isHelp() {
         return help;
     }
 
-    public boolean isVerbose() {
-        return verbose;
+    public boolean isVersion() {
+        return version;
     }
 
     @Override
     public String toString() {
         return "Options{"
                 + "help=" + help
-                + ", verbose=" + verbose
+                + ", version=" + version
                 + '}';
     }
 

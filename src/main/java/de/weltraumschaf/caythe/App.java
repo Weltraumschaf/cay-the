@@ -93,12 +93,22 @@ public final class App extends InvokableAdapter {
             }
         });
 
+        version.load();
         final Options opts = gatherOptions();
 
         if (opts.isHelp()) {
             getIoStreams().print(helpMessage());
             return;
         }
+
+        if (opts.isVersion()) {
+            getIoStreams().println(version.toString());
+            return;
+        }
+
+//        final String cwd = env.get("user.dir");
+        final String cwd = System.getProperty("user.dir");
+        getIoStreams().println(String.format("Searching for files to compile in '%s' ...", cwd));
     }
 
     Options gatherOptions() {
