@@ -17,7 +17,7 @@ import com.beust.jcommander.Parameter;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class Options {
+final class Options {
 
     /**
      * Help flag.

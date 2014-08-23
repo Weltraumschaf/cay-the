@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FileFinder extends SimpleFileVisitor<Path> {
+final class FileFinder extends SimpleFileVisitor<Path> {
 
     /**
      * Log facility.
