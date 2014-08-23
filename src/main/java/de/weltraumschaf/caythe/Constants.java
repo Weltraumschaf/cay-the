@@ -47,7 +47,11 @@ public enum Constants {
     /**
      * Package base of whole project.
      */
-    PACKAGE_BASE("/de/weltraumschaf/caythe");
+    PACKAGE_BASE("/de/weltraumschaf/caythe"),
+    /**
+     * File extension for source code files.
+     */
+    FILE_EXTENSION(".ct");
 
     /**
      * Constant value.
