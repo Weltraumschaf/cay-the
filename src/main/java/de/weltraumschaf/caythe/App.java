@@ -26,6 +26,7 @@ import java.util.concurrent.Callable;
 import org.apache.log4j.Logger;
 
 /**
+ * Main class invoked by the JVM.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
@@ -43,6 +44,9 @@ public final class App extends InvokableAdapter {
      * To obtain environment variables.
      */
     private final Environments.Env env = Environments.defaultEnv();
+    /**
+     * Provides CLI options.
+     */
     private final JCommanderImproved<Options> options
             = new JCommanderImproved<Options>(Constants.COMMAND_NAME.toString(), Options.class);
 
@@ -119,6 +123,11 @@ public final class App extends InvokableAdapter {
         getIoStreams().println(files.toString());
     }
 
+    /**
+     * Finds the CLI options.
+     *
+     * @return never {@code null}
+     */
     Options gatherOptions() {
         return options.gatherOptions(getArgs());
     }
