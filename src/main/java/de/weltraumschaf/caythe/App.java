@@ -44,7 +44,7 @@ public final class App extends InvokableAdapter {
      */
     private final Environments.Env env = Environments.defaultEnv();
     private final JCommanderImproved<Options> options
-            = new JCommanderImproved(Constants.COMMAND_NAME.toString(), Options.class);
+            = new JCommanderImproved<Options>(Constants.COMMAND_NAME.toString(), Options.class);
 
     /**
      * Dedicated constructor.
