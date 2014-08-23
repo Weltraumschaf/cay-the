@@ -120,7 +120,16 @@ public final class App extends InvokableAdapter {
         final FileFinder finder = new FileFinder(Constants.FILE_EXTENSION.toString());
         Files.walkFileTree(currentWorkingdir, finder);
         final List<Path> files = finder.getFoundFiles();
-        getIoStreams().println(files.toString());
+
+        final SourceProcessor processor = new SourceProcessor(files, Constants.DEFAULT_ENCODING.toString());
+
+        try {
+            processor.process();
+        } catch (final SyntaxException ex) {
+            getIoStreams().errorln(
+                String.format("Syntax error: %s (at line %d, column %d)",
+                    ex.getMessage(), ex.getLine(), ex.getColumn()));
+        }
     }
 
     /**
