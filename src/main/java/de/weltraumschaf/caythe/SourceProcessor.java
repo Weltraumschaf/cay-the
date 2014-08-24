@@ -11,8 +11,11 @@
  */
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.parser.CaytheLexer;
 import de.weltraumschaf.caythe.parser.CaytheParser;
+import de.weltraumschaf.caythe.parser.Parsers;
+import de.weltraumschaf.caythe.visitors.Visitors;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import java.io.IOException;
@@ -25,6 +28,7 @@ import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.apache.log4j.Logger;
 
 /**
@@ -46,6 +50,7 @@ final class SourceProcessor {
      * Contains the file names of already parsed source files.
      */
     private final Set<String> alreadyParsed = Sets.newHashSet();
+    private final Set<CompilationUnit> units = Sets.newHashSet();
     /**
      * Source file encoding.
      */
@@ -61,6 +66,10 @@ final class SourceProcessor {
         super();
         this.sourceFiles = Collections.unmodifiableList(Validate.notNull(sourceFiles, "sourceFiles"));
         this.encoding = Validate.notEmpty(encoding, "encoding");
+    }
+
+    Set<CompilationUnit> getUnits() {
+        return Collections.unmodifiableSet(units);
     }
 
     void process() throws SyntaxException {
@@ -84,18 +93,16 @@ final class SourceProcessor {
     private void parseSource(final Path sourceFile) throws IOException {
         final String fileName = sourceFile.toString();
         LOG.debug(String.format("Parse file '%s' ...", fileName));
-
-        final CharStream input = new ANTLRFileStream(fileName, encoding);
-        final CaytheLexer lexer = new CaytheLexer(input);
-        final TokenStream tokens = new CommonTokenStream(lexer);
-        final CaytheParser parser = new CaytheParser(tokens);
+        final CaytheParser parser = Parsers.caythe(sourceFile, encoding);
 
         if (LOG.isDebugEnabled()) {
             parser.setErrorHandler(new BailErrorStrategy());
         }
 
-        final SourceFileVisitor visitor = new SourceFileVisitor();
-        visitor.visit(parser.unit());
+        final ParseTreeVisitor<CompilationUnit> visitor = Visitors.production(sourceFile);
+        final CompilationUnit unit = visitor.visit(parser.unit());
+
+        units.add(unit);
         alreadyParsed.add(fileName);
     }
 }

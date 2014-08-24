@@ -10,14 +10,12 @@
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
 
-package de.weltraumschaf.caythe;
-
-import de.weltraumschaf.caythe.parser.CaytheBaseVisitor;
+package de.weltraumschaf.caythe.ast;
 
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class SourceFileVisitor extends CaytheBaseVisitor<Object> {
+public final class Method {
 
 }

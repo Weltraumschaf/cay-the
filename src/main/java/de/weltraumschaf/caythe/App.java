@@ -119,6 +119,10 @@ public final class App extends InvokableAdapter {
             return;
         }
 
+        parseSourcesInCurrentworkingdir();
+    }
+
+    private void parseSourcesInCurrentworkingdir() throws IOException {
         final Path currentWorkingdir = Paths.get("");
         final String cwd = currentWorkingdir.toAbsolutePath().toString();
         getIoStreams().println(String.format("Searching for files to compile in '%s' ...", cwd));
@@ -133,9 +137,11 @@ public final class App extends InvokableAdapter {
             processor.process();
         } catch (final SyntaxException ex) {
             getIoStreams().errorln(
-                String.format("Syntax error: %s (at line %d, column %d)",
-                    ex.getMessage(), ex.getLine(), ex.getColumn()));
+                    String.format("Syntax error: %s (at line %d, column %d)",
+                            ex.getMessage(), ex.getLine(), ex.getColumn()));
         }
+
+        getIoStreams().println(processor.getUnits().toString());
     }
 
     /**

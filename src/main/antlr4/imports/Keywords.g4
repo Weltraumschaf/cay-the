@@ -1,0 +1,25 @@
+lexer grammar Keywords;
+
+K_ANNOTATION    : 'annotation' ;
+K_BREAK         : 'break' ;
+K_CASE          : 'case' ;
+K_CLASS         : 'class' ;
+K_CONTINUE      : 'continue' ;
+K_CONST         : 'const' ;
+K_DEFAULT       : 'default' ;
+K_DELEGATE      : 'delegate' ;
+K_DO            : 'do' ;
+K_ELSE          : 'else' ;
+K_FOR           : 'for' ;
+K_IF            : 'if' ;
+K_IMPLEMENTS    : 'implements' ;
+K_IMPORT        : 'import' ;
+K_INTERFACE     : 'interface' ;
+K_NATIVE        : 'native' ;
+K_NEW           : 'new' ;
+K_PACKAGE       : 'package' ;
+K_PROPERTY      : 'property' ;
+K_PUBLIC        : 'public' ;
+K_RETURN        : 'return' ;
+K_SWITCH        : 'switch' ;
+K_WHILE         : 'while' ;
