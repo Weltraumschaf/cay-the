@@ -1,29 +1,97 @@
 grammar Caythe;
 
-import CommonLexerRules, Keywords, Operators;
+/* Parser rules */
+compilationUnit
+    : importDeclaration* typeDeclaration* EOF
+    ;
+    
+importDeclaration
+    : 'import' qualifiedName ('.' '*')?
+    ;
+    
+typeDeclaration
+    : annotationDeclaration
+    | classDeclaration
+    | interfaceDeclaration
+    ;
 
-// General rules.
-unit            : imports | annotationStmnt | classStmnt | interfaceStmnt ;
-imports         : importStmnt? | ( importStmnt )* ;
-importStmnt     : K_IMPORT fullQualifiedName=TYPENAME NL ;
-annotationStmnt : modifier=K_PUBLIC? K_ANNOTATION IDENTIFIER '{' annotationBody '}' ;
-classStmnt      : modifier=K_PUBLIC? K_CLASS IDENTIFIER '{' classBody '}' ;
-interfaceStmnt  : modifier=K_PUBLIC? K_INTERFACE IDENTIFIER '{' interfaceBody '}' ;
-// Type rules.
-annotationBody  : NL ;
-classBody       : NL ;
-interfaceBody   : NL ;
+annotationDeclaration
+    : modifier? 'annotation' IDENTIFIER '{' '}' 
+    ;
 
-foo         : statement? | ( statement )* ;
-statement   : expression NL                         // expressionStatement
-            | id=IDENTIFIER OP_EQUAL val=expression // assignStatement
-            ;
-expression  : left=expression operator=( OP_STAR | OP_SLASH ) right=expression  
-            | left=expression operator=( OP_PLUS | OP_MINUS ) right=expression  
-            | val=value                                         
-            | id=IDENTIFIER                                     
-            | OP_LPAREN inParens=expression OP_RPAREN           
-            ;
-value       : INTEGER | FLOAT ;
+classDeclaration
+    : modifier? 'class' IDENTIFIER '{' '}' 
+    ;
+    
+interfaceDeclaration
+    : modifier? 'interface' IDENTIFIER interfaceBody
+    ;
 
-TYPENAME    : IDENTIFIER ( '.' IDENTIFIER )* ;
+interfaceBody
+    : '{' interfaceBodyDeclaration* '}' 
+    ;
+
+interfaceBodyDeclaration
+    :   constDeclaration
+    |   interfaceMethodDeclaration
+    ;
+
+constDeclaration
+    : 'const' IDENTIFIER IDENTIFIER '=' value
+    ;
+
+interfaceMethodDeclaration
+    :   IDENTIFIER? IDENTIFIER formalParameters ('[' ']')*
+    ;
+
+formalParameters
+    :   '(' formalParameterList? ')'
+    ;
+
+formalParameterList
+    :   formalParameter (',' formalParameter)* (',' lastFormalParameter)?
+    |   lastFormalParameter
+    ;
+
+formalParameter
+    :   IDENTIFIER IDENTIFIER
+    ;
+
+lastFormalParameter
+    :   IDENTIFIER '...' IDENTIFIER
+    ;
+        
+value
+    : STRING
+    | INTEGER
+    | FLOAT
+    ;
+
+modifier 
+    : 'public'
+    | 'package'
+    ;
+    
+qualifiedName
+    :   IDENTIFIER ('.' IDENTIFIER)*
+    ;
+        
+/* Lexer rules. */
+STRING      : '""' .*? '""' ;
+INTEGER     : DIGIT+ ;
+FLOAT       : (DIGIT)+ '.' (DIGIT)* EXPONENT?
+            | '.' (DIGIT)+ EXPONENT?
+            | (DIGIT)+ EXPONENT ;
+fragment
+EXPONENT    : ('e'|'E') ('+'|'-')? (DIGIT)+ ;
+
+IDENTIFIER  : LETTER ( LETTER | DIGIT )* ;
+COMMENT     : ( SL_COMMENT | ML_COMMENT ) -> skip ;
+fragment
+ML_COMMENT  : '/*' .*? '*/' ;
+SL_COMMENT  : '//' ~[\r\n]* '\r'? '\n' ;
+
+LETTER      : [a-zA-Z] ;
+DIGIT       : [0-9] ;
+NL          : ( '\n' | '\r' | '\r\n' ) -> skip ;
+WS          : [ \t]+ -> skip ; // Spaces and tabs.

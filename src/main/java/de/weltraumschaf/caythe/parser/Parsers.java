@@ -32,12 +32,6 @@ public final class Parsers {
         super();
     }
 
-    public static TestParser test(final Path source, final String encoding) throws IOException {
-        final TestLexer lexer = new TestLexer(input(source, encoding));
-
-        return new TestParser(new CommonTokenStream(lexer));
-    }
-
     public static CaytheParser caythe(final Path source, final String encoding) throws IOException {
         final CaytheLexer lexer = new CaytheLexer(input(source, encoding));
 

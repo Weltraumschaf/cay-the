@@ -12,10 +12,8 @@
 package de.weltraumschaf.caythe;
 
 import de.weltraumschaf.caythe.ast.CompilationUnit;
-import de.weltraumschaf.caythe.parser.CaytheLexer;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.caythe.parser.Parsers;
-import de.weltraumschaf.caythe.visitors.Visitors;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import java.io.IOException;
@@ -23,11 +21,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.apache.log4j.Logger;
 
@@ -99,8 +93,8 @@ final class SourceProcessor {
             parser.setErrorHandler(new BailErrorStrategy());
         }
 
-        final ParseTreeVisitor<CompilationUnit> visitor = Visitors.production(sourceFile);
-        final CompilationUnit unit = visitor.visit(parser.unit());
+
+        final CompilationUnit unit = null;
 
         units.add(unit);
         alreadyParsed.add(fileName);
