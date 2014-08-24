@@ -38,7 +38,15 @@ public final class CompilationUnit {
     private final Set<CompilationUnit> delegates = Sets.newHashSet();
     private final Set<Method> methods = Sets.newHashSet();
     private Type type = Type.UNKNOWN;
-    private boolean isPublic;
+    private Visiblity visibility  = Visiblity.PRIVATE;
+
+    @Deprecated
+    public CompilationUnit(final Path file, final String packageName, final String name) {
+        super();
+        this.file = Validate.notNull(file, "file");
+        this.packageName = Validate.notNull(packageName, "packageName");
+        this.name = Validate.notEmpty(name, "name");
+    }
 
     public CompilationUnit(final Path file) {
         super();
@@ -60,6 +68,10 @@ public final class CompilationUnit {
     }
 
     public String getFullQualifiedName() {
+        if (getPackageName().isEmpty()) {
+            return getName();
+        }
+
         return getPackageName() + DOT + getName();
     }
 
@@ -71,12 +83,12 @@ public final class CompilationUnit {
         this.type = type;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public Visiblity getVisiblity() {
+        return visibility;
     }
 
-    public void setPublic() {
-        this.isPublic = true;
+    public void setVisiblity(final Visiblity visiblity) {
+        this.visibility = visiblity;
     }
 
     public Set<String> getImports() {
@@ -131,6 +143,10 @@ public final class CompilationUnit {
         methods.add(method);
     }
 
+    public void addMethod(final Method method) {
+        methods.add(method);
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
@@ -143,7 +159,7 @@ public final class CompilationUnit {
                 .add("delegates", delegates)
                 .add("methods", methods)
                 .add("type", type)
-                .add("isPublic", isPublic)
+                .add("visibility", visibility)
                 .toString();
     }
 
@@ -159,7 +175,7 @@ public final class CompilationUnit {
                 delegates,
                 methods,
                 type,
-                isPublic
+                visibility
         );
     }
 
@@ -179,7 +195,7 @@ public final class CompilationUnit {
                 && Objects.equal(delegates, other.delegates)
                 && Objects.equal(methods, other.methods)
                 && Objects.equal(type, other.type)
-                && Objects.equal(isPublic, other.isPublic);
+                && Objects.equal(visibility, other.visibility);
     }
 
     private static String nullAwareTrim(final String fileName) {
@@ -228,8 +244,12 @@ public final class CompilationUnit {
         return fileName;
     }
 
-    enum Type {
+    public static enum Type {
 
         ANNOTATION, CLASS, INTERFACE, UNKNOWN;
+    }
+
+    public static enum Visiblity {
+        PRIVATE, PACKAGE, PUBLIC;
     }
 }

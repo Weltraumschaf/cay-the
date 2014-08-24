@@ -20,6 +20,12 @@
     - support multiple return.
     - to overwrite one the keyword overwrite is required.
 
+## Links
+
+- https://theantlrguy.atlassian.net/wiki/display/~admin/2013/09/01/Matching+parse+tree+patterns%2C+paths
+- https://theantlrguy.atlassian.net/wiki/display/~admin/2012/12/08/Tree+rewriting+in+ANTLR+v4
+- https://theantlrguy.atlassian.net/wiki/display/ANTLR4/Parse+Tree+Listeners
+
 ## Example Code
 
     interface Baz<T> {
@@ -31,7 +37,17 @@
     }
 
     class Bar {
-      public doSomething() {}
+      public doSomething() {
+        String[] words = new String[10]
+        words[0] = "hello"
+        words[1] = "world"
+        // ...
+        String[] foo = ["foo", "bar", "baz"]
+        
+        for word : words {
+          // ...
+        }
+      }
     }
 
     class Foo<T> implements Baz<T>, Snafu {
@@ -88,7 +104,7 @@
     
         }
 
-        for str, int = new Map<String, Integer>() {
+        for str, int : new Map<String, Integer>() {
 
         }
 

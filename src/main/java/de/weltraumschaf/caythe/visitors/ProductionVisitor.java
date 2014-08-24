@@ -68,7 +68,7 @@ final class ProductionVisitor extends CaytheBaseVisitor<CompilationUnit> {
         final ParseTree unit = ctx.getChild(0);
 
         if (CaytheLexer.K_PUBLIC == ctx.modifier.getType()) {
-            parsedUnit.setPublic();
+//            parsedUnit.setPublic();
         }
 
         final String name = ctx.IDENTIFIER().getText();
@@ -87,7 +87,7 @@ final class ProductionVisitor extends CaytheBaseVisitor<CompilationUnit> {
         LOG.debug(String.format("Visit class statememt: %s", ctx));
 
         if (CaytheLexer.K_PUBLIC == ctx.modifier.getType()) {
-            parsedUnit.setPublic();
+//            parsedUnit.setPublic();
         }
 
         return visit(ctx);
@@ -98,7 +98,7 @@ final class ProductionVisitor extends CaytheBaseVisitor<CompilationUnit> {
         LOG.debug(String.format("Visit annotation statememt: %s", ctx));
 
         if (CaytheLexer.K_PUBLIC == ctx.modifier.getType()) {
-            parsedUnit.setPublic();
+//            parsedUnit.setPublic();
         }
 
         return visit(ctx);

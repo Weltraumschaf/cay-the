@@ -13,9 +13,7 @@ package de.weltraumschaf.caythe.visitors;
 
 import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.parser.TestBaseVisitor;
-import de.weltraumschaf.caythe.parser.TestParser;
 import java.nio.file.Path;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  *
@@ -30,5 +28,9 @@ final class ExperimentalVisitor extends TestBaseVisitor<CompilationUnit> {
         parsedUnit = new CompilationUnit(file);
     }
 
+    @Override
+    protected CompilationUnit defaultResult() {
+        return parsedUnit;
+    }
 
 }

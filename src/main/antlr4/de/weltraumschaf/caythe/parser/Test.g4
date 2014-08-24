@@ -1,95 +1,97 @@
 grammar Test;
 
-import CommonLexerRules, Keywords;
-
+/* Parser rules */
 compilationUnit
     : importDeclaration* typeDeclaration* EOF
     ;
-
+    
 importDeclaration
-    : K_IMPORT qualifiedName ('.' '*')? NL
+    : 'import' qualifiedName ('.' '*')?
     ;
-
+    
 typeDeclaration
     : annotationDeclaration
     | classDeclaration
     | interfaceDeclaration
-    | NL
-    ;
-    
-modifier
-    : classOrInterfaceModifier
-    | K_NATIVE
-    ;
-        
-classOrInterfaceModifier
-    : annotation 
-    | ( K_PUBLIC | K_PACKAGE )
     ;
 
-annotationDeclaration  : 
-    K_INTERFACE IDENTIFIER  NL
+annotationDeclaration
+    : modifier? 'annotation' IDENTIFIER '{' '}' 
+    ;
+
+classDeclaration
+    : modifier? 'class' IDENTIFIER '{' '}' 
     ;
     
-classDeclaration       : 
-    K_INTERFACE IDENTIFIER  NL
+interfaceDeclaration
+    : modifier? 'interface' IDENTIFIER interfaceBody
     ;
-    
-interfaceDeclaration   
-    : K_PUBLIC? K_INTERFACE IDENTIFIER typeParameters? interfaceBody
-    ;
-    
+
 interfaceBody
-    : '{' interfaceBodyDeclaration* '}'
+    : '{' interfaceBodyDeclaration* '}' 
     ;
 
 interfaceBodyDeclaration
-    : modifier* interfaceMemberDeclaration
-    | NL
+    :   constDeclaration
+    |   interfaceMethodDeclaration
     ;
 
-interfaceMemberDeclaration
-    : NL
-//    | constDeclaration
-//    | interfaceMethodDeclaration
-//    | genericInterfaceMethodDeclaration
-    ;
-            
-typeParameters
-    : '<' typeParameter (',' typeParameter)* '>'
+constDeclaration
+    : 'const' IDENTIFIER IDENTIFIER '=' value
     ;
 
-typeParameter
-    : IDENTIFIER (K_IMPLEMENTS typeBound)?
+interfaceMethodDeclaration
+    :   IDENTIFIER? IDENTIFIER formalParameters ('[' ']')*
     ;
 
-typeBound
-    : type ('&' type)*
-    ;
-    
-type
-    : classOrInterfaceType ('[' ']')*
-    ;
-    
-classOrInterfaceType
-    : IDENTIFIER typeArguments? ('.' IDENTIFIER typeArguments? )*
-    ;
-    
-typeArguments
-    : '<' typeArgument (',' typeArgument)* '>'
+formalParameters
+    :   '(' formalParameterList? ')'
     ;
 
-typeArgument
-    : type
-    | '?' (K_IMPLEMENTS type)?
+formalParameterList
+    :   formalParameter (',' formalParameter)* (',' lastFormalParameter)?
+    |   lastFormalParameter
+    ;
+
+formalParameter
+    :   IDENTIFIER IDENTIFIER
+    ;
+
+lastFormalParameter
+    :   IDENTIFIER '...' IDENTIFIER
+    ;
+        
+value
+    : STRING
+    | INTEGER
+    | FLOAT
+    ;
+
+modifier 
+    : 'public'
+    | 'package'
     ;
     
 qualifiedName
-    : IDENTIFIER ('.' IDENTIFIER)*
+    :   IDENTIFIER ('.' IDENTIFIER)*
     ;
         
-annotation
-    : '@' annotationName ( '(' ')' )?
-    ;
+/* Lexer rules. */
+STRING      : '""' .*? '""' ;
+INTEGER     : DIGIT+ ;
+FLOAT       : (DIGIT)+ '.' (DIGIT)* EXPONENT?
+            | '.' (DIGIT)+ EXPONENT?
+            | (DIGIT)+ EXPONENT ;
+fragment
+EXPONENT    : ('e'|'E') ('+'|'-')? (DIGIT)+ ;
 
-annotationName : qualifiedName ;    
+IDENTIFIER  : LETTER ( LETTER | DIGIT )* ;
+COMMENT     : ( SL_COMMENT | ML_COMMENT ) -> skip ;
+fragment
+ML_COMMENT  : '/*' .*? '*/' ;
+SL_COMMENT  : '//' ~[\r\n]* '\r'? '\n' ;
+
+LETTER      : [a-zA-Z] ;
+DIGIT       : [0-9] ;
+NL          : ( '\n' | '\r' | '\r\n' ) -> skip ;
+WS          : [ \t]+ -> skip ; // Spaces and tabs.

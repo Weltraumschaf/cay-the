@@ -1,1 +1,25 @@
-interface Foo
+
+/*
+ * Multiline comment.
+ */
+
+import foo.bar.Foo
+import foo.bar.Bar
+import foo.bar.Baz
+
+public annotation AnnoFoo {}
+package annotation AnnoBar {}
+annotation AnnoBaz {}
+
+public interface IfFoo {
+    foo()
+    String bar()
+    baz()
+}
+
+package interface IfBar {}
+interface IfBaz {}
+
+public class Foo {}
+package class Bar {}
+class Baz {}

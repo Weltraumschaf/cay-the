@@ -308,7 +308,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <listener>false</listener>
+                    <listener>true</listener>
                     <visitor>true</visitor>
                 </configuration>
             </plugin>

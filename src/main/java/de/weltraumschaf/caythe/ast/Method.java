@@ -12,10 +12,29 @@
 
 package de.weltraumschaf.caythe.ast;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 public final class Method {
+
+    private final String name;
+    private final String returnType;
+
+    public Method(final String name, final String returnType) {
+        super();
+        this.name = Validate.notEmpty(name, "name");
+        this.returnType = Validate.notNull(returnType, "returnType");
+    }
+
+    @Override
+    public String toString() {
+        return "Method{"
+                + "name=" + name
+                + ", returnType=" + returnType
+                + '}';
+    }
 
 }
