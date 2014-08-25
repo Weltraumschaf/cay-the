@@ -13,6 +13,7 @@ package de.weltraumschaf.caythe.listener;
 
 import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.ast.Method;
+import de.weltraumschaf.caythe.ast.Visiblity;
 import de.weltraumschaf.caythe.parser.CaytheBaseListener;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.commons.guava.Lists;
@@ -96,12 +97,6 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     @Override
     public void enterInterfaceMethodDeclaration(CaytheParser.InterfaceMethodDeclarationContext ctx) {
         final CompilationUnit iface = currentUnit.peek();
-
-        for (int i = 0; i < ctx.getChildCount(); ++i) {
-            final String foo = ctx.getChild(i).getText();
-            System.out.println(foo);
-        }
-
         final boolean hasReturnType = ctx.getChildCount() == 3;
 
         final String returnType = hasReturnType
@@ -124,20 +119,20 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     private CompilationUnit createUnit(final ParserRuleContext ctx) {
         final Token first = ctx.getStart();
         final String name;
-        final CompilationUnit.Visiblity visibility;
+        final Visiblity visibility;
 
         switch (first.getText()) {
             case "public":
                 name = ctx.getChild(2).getText();
-                visibility = CompilationUnit.Visiblity.PUBLIC;
+                visibility = Visiblity.PUBLIC;
                 break;
             case "package":
                 name = ctx.getChild(2).getText();
-                visibility = CompilationUnit.Visiblity.PACKAGE;
+                visibility = Visiblity.PACKAGE;
                 break;
             default:
                 name = ctx.getChild(1).getText();
-                visibility = CompilationUnit.Visiblity.PRIVATE;
+                visibility = Visiblity.PRIVATE;
                 break;
         }
 

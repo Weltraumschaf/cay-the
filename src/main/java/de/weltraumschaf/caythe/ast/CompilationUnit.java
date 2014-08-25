@@ -249,7 +249,4 @@ public final class CompilationUnit {
         ANNOTATION, CLASS, INTERFACE, UNKNOWN;
     }
 
-    public static enum Visiblity {
-        PRIVATE, PACKAGE, PUBLIC;
-    }
 }
