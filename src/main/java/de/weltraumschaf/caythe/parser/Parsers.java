@@ -12,6 +12,10 @@
 
 package de.weltraumschaf.caythe.parser;
 
+import de.weltraumschaf.caythe.parser.CaytheLexer;
+import de.weltraumschaf.caythe.parser.CaytheParser;
+import de.weltraumschaf.caythe.parser.JavaLexer;
+import de.weltraumschaf.caythe.parser.JavaParser;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.antlr.v4.runtime.ANTLRFileStream;
