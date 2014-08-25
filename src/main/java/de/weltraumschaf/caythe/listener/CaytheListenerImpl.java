@@ -108,6 +108,7 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
                 : ctx.getChild(0).getText();
 
         final Method method = new Method(name, returnType);
+        method.setVisiblity(Visiblity.PUBLIC);
         iface.addMethod(method);
     }
 
