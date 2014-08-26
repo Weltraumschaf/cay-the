@@ -12,14 +12,20 @@
 package de.weltraumschaf.caythe.listener;
 
 import de.weltraumschaf.caythe.Constants;
+import de.weltraumschaf.caythe.ast.CompilationUnit;
+import de.weltraumschaf.caythe.ast.Method;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.caythe.parser.Parsers;
+import de.weltraumschaf.caythe.ast.Visibility;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link ExperimentalVisitor}.
@@ -38,10 +44,44 @@ public class CaytheListenerImplTest {
         final ParseTreeWalker walker = new ParseTreeWalker();
         final CaytheListenerImpl listener = new CaytheListenerImpl(source);
         walker.walk(listener, parser.compilationUnit());
-        System.out.println("Annotations: " + listener.annotations);
-        System.out.println("Classes: " + listener.classes);
-        System.out.println("Interfaces: " + listener.interfaces);
-        System.out.println("Imports: " + listener.imports);
+
+        assertThat(listener.imports, containsInAnyOrder(
+            "foo.bar.Foo",
+            "foo.bar.Bar",
+            "foo.bar.Baz"));
+        assertThat(listener.annotations.values(), containsInAnyOrder(
+            newAnnotation(source, "AnnoFoo", Visibility.PUBLIC),
+            newAnnotation(source, "AnnoBar", Visibility.PACKAGE),
+            newAnnotation(source, "AnnoBaz", Visibility.PRIVATE)
+        ));
+        assertThat(listener.classes.values(), containsInAnyOrder(
+            newClass(source, "Foo", Visibility.PUBLIC),
+            newClass(source, "Bar", Visibility.PACKAGE),
+            newClass(source, "Baz", Visibility.PRIVATE)
+        ));
+        assertThat(listener.interfaces.values(), containsInAnyOrder(
+            newInterface(source, "IfFoo", Visibility.PUBLIC)
+                .addMethod(new Method("foo").setVisiblity(Visibility.PUBLIC))
+                .addMethod(new Method("bar", Arrays.asList("String")).setVisiblity(Visibility.PUBLIC))
+                .addMethod(new Method("baz", Arrays.asList("String", "Integer")).setVisiblity(Visibility.PUBLIC)),
+            newInterface(source, "IfBar", Visibility.PACKAGE),
+            newInterface(source, "IfBaz", Visibility.PRIVATE)
+        ));
     }
 
+    private static CompilationUnit newAnnotation(final Path file, final String name, final Visibility visibility) {
+        return newUnit(file, name, visibility).setType(CompilationUnit.Type.ANNOTATION);
+    }
+
+    private static CompilationUnit newClass(final Path file, final String name, final Visibility visibility) {
+        return newUnit(file, name, visibility).setType(CompilationUnit.Type.CLASS);
+    }
+
+    private static CompilationUnit newInterface(final Path file, final String name, final Visibility visibility) {
+        return newUnit(file, name, visibility).setType(CompilationUnit.Type.INTERFACE);
+    }
+
+    private static CompilationUnit newUnit(final Path file, final String name, final Visibility visibility) {
+        return new CompilationUnit(file, "", name).setVisiblity(visibility);
+    }
 }

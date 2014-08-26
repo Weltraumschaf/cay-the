@@ -41,11 +41,7 @@ constDeclaration
     ;
 
 interfaceMethodDeclaration
-    :   IDENTIFIER? IDENTIFIER formalParameters ('[' ']')*
-    ;
-
-formalParameters
-    :   '(' formalParameterList? ')'
+    :   IDENTIFIER? (',' IDENTIFIER)* IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
     ;
 
 formalParameterList

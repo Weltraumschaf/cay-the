@@ -38,7 +38,7 @@ public final class CompilationUnit {
     private final Set<CompilationUnit> delegates = Sets.newHashSet();
     private final Set<Method> methods = Sets.newHashSet();
     private Type type = Type.UNKNOWN;
-    private Visiblity visibility  = Visiblity.PRIVATE;
+    private Visibility visibility  = Visibility.PRIVATE;
 
     @Deprecated
     public CompilationUnit(final Path file, final String packageName, final String name) {
@@ -79,72 +79,75 @@ public final class CompilationUnit {
         return type;
     }
 
-    public void setType(final Type type) {
+    public CompilationUnit setType(final Type type) {
         this.type = type;
+        return this;
     }
 
-    public Visiblity getVisiblity() {
+    public Visibility getVisiblity() {
         return visibility;
     }
 
-    public void setVisiblity(final Visiblity visiblity) {
+    public CompilationUnit setVisiblity(final Visibility visiblity) {
         this.visibility = visiblity;
+        return this;
     }
 
     public Set<String> getImports() {
         return Collections.unmodifiableSet(imports);
     }
 
-    public void addImport(final String fullQualifiedName) {
+    public CompilationUnit addImport(final String fullQualifiedName) {
         imports.add(fullQualifiedName);
+        return this;
     }
 
     public Set<CompilationUnit> getImplementedInterfaces() {
         return Collections.unmodifiableSet(implementedInterfaces);
     }
 
-    public void addImplementedInterface(final CompilationUnit implementedInterface) {
+    public CompilationUnit addImplementedInterface(final CompilationUnit implementedInterface) {
         if (implementedInterface.getType() != Type.INTERFACE) {
             throw new IllegalArgumentException("Must be of type interface!");
         }
 
         implementedInterfaces.add(implementedInterface);
+        return this;
     }
 
     public Set<CompilationUnit> getProperties() {
         return Collections.unmodifiableSet(properties);
     }
 
-    public void addProperty(final CompilationUnit property) {
+    public CompilationUnit addProperty(final CompilationUnit property) {
         if (property.getType() != Type.CLASS && property.getType() != Type.INTERFACE) {
             throw new IllegalArgumentException("Must be of type class or interface!");
         }
 
         properties.add(property);
+        return this;
     }
 
     public Set<CompilationUnit> getDelegates() {
         return Collections.unmodifiableSet(delegates);
     }
 
-    public void addDelegate(final CompilationUnit delegate) {
+    public CompilationUnit addDelegate(final CompilationUnit delegate) {
         if (delegate.getType() != Type.CLASS && delegate.getType() != Type.INTERFACE) {
             throw new IllegalArgumentException("Must be of type class or interface!");
         }
 
         delegates.add(delegate);
+        return this;
     }
 
     public Set<Method> getMethods() {
         return Collections.unmodifiableSet(methods);
     }
 
-    public void getMethods(final Method method) {
+    public CompilationUnit addMethod(final Method method) {
         methods.add(method);
-    }
-
-    public void addMethod(final Method method) {
-        methods.add(method);
+        return this;
     }
 
     @Override

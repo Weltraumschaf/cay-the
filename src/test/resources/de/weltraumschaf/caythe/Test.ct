@@ -12,9 +12,18 @@ package annotation AnnoBar {}
 annotation AnnoBaz {}
 
 public interface IfFoo {
+    /**
+     * Method without return value.
+     */
     foo()
+    /**
+     * Method with one return value.
+     */
     String bar()
-    baz()
+    /**
+     * Method with two return values.
+     */
+    String, Integer baz()
 }
 
 package interface IfBar {}

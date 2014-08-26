@@ -13,7 +13,7 @@ package de.weltraumschaf.caythe.listener;
 
 import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.ast.Method;
-import de.weltraumschaf.caythe.ast.Visiblity;
+import de.weltraumschaf.caythe.ast.Visibility;
 import de.weltraumschaf.caythe.parser.CaytheBaseListener;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.commons.guava.Lists;
@@ -25,6 +25,7 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  *
@@ -96,19 +97,33 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
 
     @Override
     public void enterInterfaceMethodDeclaration(CaytheParser.InterfaceMethodDeclarationContext ctx) {
+        int methodNamePosition = 0;
+
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            final String text = ctx.getChild(i).getText();
+
+            if ("(".equals(text)) {
+                methodNamePosition = i - 1;
+                break;
+            }
+        }
+
+        final List<String> returnTypes = Lists.newArrayList();
+
+        for (int i = 0; i < methodNamePosition; i++) {
+            final String text = ctx.getChild(i).getText();
+
+            if (",".equals(text)) {
+                continue;
+            }
+
+            returnTypes.add(text);
+        }
+
+        final String name = ctx.getChild(methodNamePosition).getText();
+        final Method method = new Method(name, returnTypes);
+        method.setVisiblity(Visibility.PUBLIC);
         final CompilationUnit iface = currentUnit.peek();
-        final boolean hasReturnType = ctx.getChildCount() == 3;
-
-        final String returnType = hasReturnType
-                ? ctx.getChild(0).getText()
-                : "";
-
-        final String name = hasReturnType
-                ? ctx.getChild(1).getText()
-                : ctx.getChild(0).getText();
-
-        final Method method = new Method(name, returnType);
-        method.setVisiblity(Visiblity.PUBLIC);
         iface.addMethod(method);
     }
 
@@ -120,20 +135,20 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     private CompilationUnit createUnit(final ParserRuleContext ctx) {
         final Token first = ctx.getStart();
         final String name;
-        final Visiblity visibility;
+        final Visibility visibility;
 
         switch (first.getText()) {
             case "public":
                 name = ctx.getChild(2).getText();
-                visibility = Visiblity.PUBLIC;
+                visibility = Visibility.PUBLIC;
                 break;
             case "package":
                 name = ctx.getChild(2).getText();
-                visibility = Visiblity.PACKAGE;
+                visibility = Visibility.PACKAGE;
                 break;
             default:
                 name = ctx.getChild(1).getText();
-                visibility = Visiblity.PRIVATE;
+                visibility = Visibility.PRIVATE;
                 break;
         }
 

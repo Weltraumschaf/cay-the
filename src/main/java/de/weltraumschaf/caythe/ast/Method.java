@@ -12,8 +12,11 @@
 
 package de.weltraumschaf.caythe.ast;
 
+import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -22,36 +25,41 @@ import de.weltraumschaf.commons.validate.Validate;
 public final class Method {
 
     private final String name;
-    private final String returnType;
-    private Visiblity visibility  = Visiblity.PRIVATE;
+    private final List<String> returnTypes;
+    private Visibility visibility  = Visibility.PRIVATE;
 
-    public Method(final String name, final String returnType) {
+    public Method(final String name) {
+        this(name, Lists.<String>newArrayList());
+    }
+
+    public Method(final String name, final List<String> returnTypes) {
         super();
         this.name = Validate.notEmpty(name, "name");
-        this.returnType = Validate.notNull(returnType, "returnType");
+        this.returnTypes = Validate.notNull(returnTypes, "returnType");
     }
 
     public String getName() {
         return name;
     }
 
-    public String getReturnType() {
-        return returnType;
+    public List<String> getReturnType() {
+        return Collections.unmodifiableList(returnTypes);
     }
 
-    public Visiblity getVisiblity() {
+    public Visibility getVisiblity() {
         return visibility;
     }
 
-    public void setVisiblity(final Visiblity visiblity) {
+    public Method setVisiblity(final Visibility visiblity) {
         this.visibility = visiblity;
+        return this;
     }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("name", name)
-                .add("returnType", returnType)
+                .add("returnTypes", returnTypes)
                 .add("visibility", visibility)
                 .toString();
     }
@@ -60,7 +68,7 @@ public final class Method {
     public int hashCode() {
         return Objects.hashCode(
                 name,
-                returnType,
+                returnTypes,
                 visibility
         );
     }
@@ -73,7 +81,7 @@ public final class Method {
 
         final Method other = (Method) obj;
         return Objects.equal(name, other.name)
-                && Objects.equal(returnType, other.returnType)
+                && Objects.equal(returnTypes, other.returnTypes)
                 && Objects.equal(visibility, other.visibility);
     }
 

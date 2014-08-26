@@ -17,7 +17,7 @@ package de.weltraumschaf.caythe.ast;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public enum Visiblity {
+public enum Visibility {
     /**
      * Not visible outside the compilation unit.
      */
