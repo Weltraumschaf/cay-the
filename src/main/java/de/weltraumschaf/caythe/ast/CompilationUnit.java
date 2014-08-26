@@ -37,6 +37,7 @@ public final class CompilationUnit {
     private final Set<CompilationUnit> properties = Sets.newHashSet();
     private final Set<CompilationUnit> delegates = Sets.newHashSet();
     private final Set<Method> methods = Sets.newHashSet();
+    private final Set<Const> constants = Sets.newHashSet();
     private Type type = Type.UNKNOWN;
     private Visibility visibility  = Visibility.PRIVATE;
 
@@ -150,6 +151,15 @@ public final class CompilationUnit {
         return this;
     }
 
+    public Set<Const> getConstants() {
+        return Collections.unmodifiableSet(constants);
+    }
+
+    public CompilationUnit addConstant(final Const constant) {
+        constants.add(constant);
+        return this;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
@@ -158,6 +168,7 @@ public final class CompilationUnit {
                 .add("name", name)
                 .add("imports", imports)
                 .add("implementedInterfaces", implementedInterfaces)
+                .add("constants", constants)
                 .add("properties", properties)
                 .add("delegates", delegates)
                 .add("methods", methods)
@@ -174,6 +185,7 @@ public final class CompilationUnit {
                 name,
                 imports,
                 implementedInterfaces,
+                constants,
                 properties,
                 delegates,
                 methods,
@@ -194,6 +206,7 @@ public final class CompilationUnit {
                 && Objects.equal(name, other.name)
                 && Objects.equal(imports, other.imports)
                 && Objects.equal(implementedInterfaces, other.implementedInterfaces)
+                && Objects.equal(constants, other.constants)
                 && Objects.equal(properties, other.properties)
                 && Objects.equal(delegates, other.delegates)
                 && Objects.equal(methods, other.methods)

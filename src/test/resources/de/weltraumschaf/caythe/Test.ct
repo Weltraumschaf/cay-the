@@ -12,6 +12,9 @@ package annotation AnnoBar {}
 annotation AnnoBaz {}
 
 public interface IfFoo {
+    const String foo  = "FOO"
+    const Integer bar = 42
+    const Float baz   = 3.14
     /**
      * Method without return value.
      */

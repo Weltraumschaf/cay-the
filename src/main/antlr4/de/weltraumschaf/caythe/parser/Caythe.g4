@@ -20,8 +20,16 @@ annotationDeclaration
     ;
 
 classDeclaration
-    : modifier? 'class' IDENTIFIER '{' '}' 
+    : modifier? 'class' IDENTIFIER classBody
     ;
+
+classBody
+    : '{' /* classBodyDeclaration* */ '}' 
+    ;
+    
+//classBodyDeclaration    
+//    : 
+//    ;
     
 interfaceDeclaration
     : modifier? 'interface' IDENTIFIER interfaceBody
@@ -73,7 +81,7 @@ qualifiedName
     ;
         
 /* Lexer rules. */
-STRING      : '""' .*? '""' ;
+STRING      : '"' .*? '"' ;
 INTEGER     : DIGIT+ ;
 FLOAT       : (DIGIT)+ '.' (DIGIT)* EXPONENT?
             | '.' (DIGIT)+ EXPONENT?

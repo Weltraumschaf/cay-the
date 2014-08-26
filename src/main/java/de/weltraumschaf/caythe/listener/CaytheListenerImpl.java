@@ -12,6 +12,7 @@
 package de.weltraumschaf.caythe.listener;
 
 import de.weltraumschaf.caythe.ast.CompilationUnit;
+import de.weltraumschaf.caythe.ast.Const;
 import de.weltraumschaf.caythe.ast.Method;
 import de.weltraumschaf.caythe.ast.Visibility;
 import de.weltraumschaf.caythe.parser.CaytheBaseListener;
@@ -92,7 +93,11 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
 
     @Override
     public void enterConstDeclaration(CaytheParser.ConstDeclarationContext ctx) {
+        final String type = ctx.getChild(1).getText();
+        final String name = ctx.getChild(2).getText();
+        final String value = ctx.getChild(4).getText();
 
+        currentUnit.peek().addConstant(new Const(name, type, value));
     }
 
     @Override
@@ -123,8 +128,7 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
         final String name = ctx.getChild(methodNamePosition).getText();
         final Method method = new Method(name, returnTypes);
         method.setVisiblity(Visibility.PUBLIC);
-        final CompilationUnit iface = currentUnit.peek();
-        iface.addMethod(method);
+        currentUnit.peek().addMethod(method);
     }
 
     @Override
