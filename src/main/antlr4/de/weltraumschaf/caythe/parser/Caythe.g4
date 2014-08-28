@@ -15,22 +15,50 @@ typeDeclaration
     | interfaceDeclaration
     ;
 
+/* Annotations */
 annotationDeclaration
     : modifier? 'annotation' IDENTIFIER '{' '}' 
     ;
 
+/* Classes */
 classDeclaration
     : modifier? 'class' IDENTIFIER classBody
     ;
 
 classBody
-    : '{' /* classBodyDeclaration* */ '}' 
+    : '{' classBodyDeclaration* '}' 
     ;
     
-//classBodyDeclaration    
-//    : 
-//    ;
+classBodyDeclaration    
+    : classConstDeclaration
+    | classPropertyDeclaration
+    | classDelegateDecalration
+    | classMethodDeclaration
+    ;
+
+classConstDeclaration
+    : modifier? 'const' IDENTIFIER IDENTIFIER '=' value
+    ;
+
+classPropertyDeclaration
+    : 'property' ('(' classPropertyConfig ')')? IDENTIFIER IDENTIFIER
+    ;
+
+classPropertyConfig
+    : 'read'
+    | 'write'
+    | 'readwrite'
+    ;
     
+classDelegateDecalration
+    : 'delegate' IDENTIFIER IDENTIFIER
+    ;
+
+classMethodDeclaration
+    : modifier? IDENTIFIER? (',' IDENTIFIER)* IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
+    ;
+
+/* Interfaces */        
 interfaceDeclaration
     : modifier? 'interface' IDENTIFIER interfaceBody
     ;
@@ -40,11 +68,11 @@ interfaceBody
     ;
 
 interfaceBodyDeclaration
-    :   constDeclaration
+    :   interfaceConstDeclaration
     |   interfaceMethodDeclaration
     ;
 
-constDeclaration
+interfaceConstDeclaration
     : 'const' IDENTIFIER IDENTIFIER '=' value
     ;
 
@@ -52,6 +80,7 @@ interfaceMethodDeclaration
     :   IDENTIFIER? (',' IDENTIFIER)* IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
     ;
 
+/* General */
 formalParameterList
     :   formalParameter (',' formalParameter)* (',' lastFormalParameter)?
     |   lastFormalParameter

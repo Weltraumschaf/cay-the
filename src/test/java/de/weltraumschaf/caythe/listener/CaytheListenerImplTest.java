@@ -56,15 +56,18 @@ public class CaytheListenerImplTest {
             newAnnotation(source, "AnnoBaz", Visibility.PRIVATE)
         ));
         assertThat(listener.classes.values(), containsInAnyOrder(
-            newClass(source, "Foo", Visibility.PUBLIC),
+            newClass(source, "Foo", Visibility.PUBLIC)
+                .addConstant(new Const("foo", "String", "\"FOO\"", Visibility.PUBLIC))
+                .addConstant(new Const("bar", "Integer", "42", Visibility.PACKAGE))
+                .addConstant(new Const("baz", "Float", "3.14", Visibility.PRIVATE)),
             newClass(source, "Bar", Visibility.PACKAGE),
             newClass(source, "Baz", Visibility.PRIVATE)
         ));
         assertThat(listener.interfaces.values(), containsInAnyOrder(
             newInterface(source, "IfFoo", Visibility.PUBLIC)
-                .addConstant(new Const("foo", "String", "\"FOO\""))
-                .addConstant(new Const("bar", "Integer", "42"))
-                .addConstant(new Const("baz", "Float", "3.14"))
+                .addConstant(new Const("foo", "String", "\"FOO\"", Visibility.PUBLIC))
+                .addConstant(new Const("bar", "Integer", "42", Visibility.PUBLIC))
+                .addConstant(new Const("baz", "Float", "3.14", Visibility.PUBLIC))
                 .addMethod(new Method("foo").setVisiblity(Visibility.PUBLIC))
                 .addMethod(new Method("bar", Arrays.asList("String")).setVisiblity(Visibility.PUBLIC))
                 .addMethod(new Method("baz", Arrays.asList("String", "Integer")).setVisiblity(Visibility.PUBLIC)),

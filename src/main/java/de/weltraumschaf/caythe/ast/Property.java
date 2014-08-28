@@ -19,14 +19,13 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class Const {
-
+public class Property {
     private final String name;
     private final String type;
     private final String value;
     private final Visibility visibility ;
 
-    public Const(final String name, final String type, final String value, final Visibility visibility) {
+    public Property(final String name, final String type, final String value, final Visibility visibility) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.type = Validate.notEmpty(type, "type");
@@ -45,7 +44,7 @@ public final class Const {
             return false;
         }
 
-        final Const other = (Const) obj;
+        final Property other = (Property) obj;
         return Objects.equal(name, other.name)
                 && Objects.equal(type, other.type)
                 && Objects.equal(value, other.value)
@@ -61,5 +60,4 @@ public final class Const {
                 .add("visibility", visibility)
                 .toString();
     }
-
 }

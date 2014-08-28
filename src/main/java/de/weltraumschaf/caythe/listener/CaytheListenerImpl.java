@@ -26,7 +26,6 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  *
@@ -49,7 +48,6 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     @Override
     public void visitErrorNode(ErrorNode node) {
         System.err.println("Error: " + node.getSymbol());
-        super.visitErrorNode(node);
     }
 
     @Override
@@ -79,6 +77,24 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     }
 
     @Override
+    public void enterClassConstDeclaration(CaytheParser.ClassConstDeclarationContext ctx) {
+        final CompilationUnit unit = currentUnit.peek();
+
+        if (isVisibilityModifier(ctx.getChild(0).getText())) {
+            final Visibility visibility = ocnvertVisibility(ctx.getChild(0).getText());
+            final String type = ctx.getChild(2).getText();
+            final String name = ctx.getChild(3).getText();
+            final String value = ctx.getChild(5).getText();
+            unit.addConstant(new Const(name, type, value, visibility));
+        } else {
+            final String type = ctx.getChild(1).getText();
+            final String name = ctx.getChild(2).getText();
+            final String value = ctx.getChild(4).getText();
+            unit.addConstant(new Const(name, type, value, Visibility.PRIVATE));
+        }
+    }
+
+    @Override
     public void exitClassDeclaration(CaytheParser.ClassDeclarationContext ctx) {
         currentUnit.pop();
     }
@@ -92,12 +108,11 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
     }
 
     @Override
-    public void enterConstDeclaration(CaytheParser.ConstDeclarationContext ctx) {
+    public void enterInterfaceConstDeclaration(CaytheParser.InterfaceConstDeclarationContext ctx) {
         final String type = ctx.getChild(1).getText();
         final String name = ctx.getChild(2).getText();
         final String value = ctx.getChild(4).getText();
-
-        currentUnit.peek().addConstant(new Const(name, type, value));
+        currentUnit.peek().addConstant(new Const(name, type, value, Visibility.PUBLIC));
     }
 
     @Override
@@ -159,6 +174,27 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
         final CompilationUnit unit = new CompilationUnit(source, "", name);
         unit.setVisiblity(visibility);
         return unit;
+    }
+
+    private static boolean isVisibilityModifier(final String token) {
+        switch (token) {
+            case "public":
+            case "package":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private Visibility ocnvertVisibility(final String token) {
+        switch (token) {
+            case "public":
+                return Visibility.PUBLIC;
+            case "package":
+                return Visibility.PACKAGE;
+            default:
+                return Visibility.PRIVATE;
+        }
     }
 
 }

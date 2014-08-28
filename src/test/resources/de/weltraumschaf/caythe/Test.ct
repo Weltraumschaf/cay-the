@@ -32,6 +32,15 @@ public interface IfFoo {
 package interface IfBar {}
 interface IfBaz {}
 
-public class Foo {}
+public class Foo {
+  public const String foo  = "FOO"
+  package const Integer bar = 42
+  const Float baz   = 3.14
+  
+  property String foo
+  property (read) String bar
+  property (readwrite) Integer baz
+}
+
 package class Bar {}
 class Baz {}
