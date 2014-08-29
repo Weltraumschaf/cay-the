@@ -1,0 +1,16 @@
+import org.caythe.collection.Iterator
+
+/**
+ * Implementing this interface allows an object to be the target of
+ * the "foreach" statement.
+ *
+ * @param <Type> the type of elements returned by the iterator
+ */
+public Iterable<Type> {
+    /**
+     * Returns an iterator over a set of elements of type Type.
+     *
+     * @return an Iterator.
+     */
+    Iterator<Type> iterator()
+}
