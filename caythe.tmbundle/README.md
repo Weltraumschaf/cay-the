@@ -1,4 +1,4 @@
 # TextMate Bundle
 
-- http://manual.macromates.com/en/language_grammars
-- http://wiki.macromates.com/Bundles/StyleGuide
+- [language grammars](http://manual.macromates.com/en/language_grammars)
+- [style guide](http://wiki.macromates.com/Bundles/StyleGuide)
