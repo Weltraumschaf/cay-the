@@ -1,0 +1,52 @@
+import org.caythe.lang.Comparable
+import org.caythe.lang.Implementation
+import org.caythe.lang.Boolean.*
+import org.caythe.lang.Object
+
+public class Integer implements Object<Integer>, Comparable<Integer> {
+    
+    public const MIN_VALUE = 0x80000000
+    public const MAX_VALUE = 0x7fffffff
+    
+    public String toString(Integer radix) {
+        return ""s
+    }
+    
+    public String toHexString() {
+        return ""
+    }
+    
+    public String toOctalString() {
+        return ""
+    }
+    
+    public String toBinaryString() {
+        return ""
+    }
+    
+    @Implementation
+    public String toString() {
+        return ""
+    }
+    
+    @Implementation
+    Integer hashCode() {
+        return 0;
+    }
+    
+    @Implementation
+    Boolean equals(Integer o) {
+        return false
+    }
+    
+    @Implementation
+    Class<Integer> class() {
+        return new Class();
+    }
+    
+    @Implementation
+    Integer compareTo(Integer o) {
+        return 0;
+    }
+    
+}

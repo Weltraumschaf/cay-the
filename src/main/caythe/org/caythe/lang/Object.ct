@@ -1,0 +1,12 @@
+
+public interface Object<Self> {
+    
+    String toString()
+    
+    Integer hashCode()
+    
+    Boolean equals(Self o)
+    
+    Class<Self> class()
+    
+}

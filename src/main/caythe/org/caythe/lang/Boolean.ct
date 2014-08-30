@@ -1,4 +1,42 @@
-public class Boolean {
-  public const true = new Boolean(1)
-  public const false = new Boolean(0)
+import org.caythe.lang.Implementation
+import org.caythe.lang.Object
+
+public class Boolean implements Object<Boolean> {
+
+    public const true = new Boolean(1)
+    public const false = new Boolean(0)
+    
+    property (read) Integer value
+    
+    overwrite public Boolean() {
+        Boolean(0)
+    }
+    
+    public Boolean(Integer value) {
+        if 0 == value {
+            value(0)
+        } else {
+            value(1)
+        }
+    }
+    
+    @Implementation
+    public String toString() {
+        if 0 == value {
+            return "false"    
+        } else {
+            return "true"
+        }
+    }
+    
+    @Implementation
+    Integer hashCode() {
+        return value
+    }
+    
+    @Implementation
+    Boolean equals(Boolean o) {
+        return value == o.value()
+    }
+    
 }
