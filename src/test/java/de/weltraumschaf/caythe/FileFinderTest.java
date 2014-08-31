@@ -32,7 +32,7 @@ public class FileFinderTest {
     }
 
     @Test
-    public void isMp3() {
+    public void isSourceFile() {
         assertThat(sut.isSourceFile(null), is(equalTo(false)));
         assertThat(sut.isSourceFile(Paths.get("")), is(equalTo(false)));
         assertThat(sut.isSourceFile(Paths.get("foo")), is(equalTo(false)));

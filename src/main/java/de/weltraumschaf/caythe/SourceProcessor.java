@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.apache.log4j.Logger;
 
 /**
@@ -87,7 +86,7 @@ final class SourceProcessor {
     private void parseSource(final Path sourceFile) throws IOException {
         final String fileName = sourceFile.toString();
         LOG.debug(String.format("Parse file '%s' ...", fileName));
-        final CaytheParser parser = Parsers.caythe(sourceFile, encoding);
+        final CaytheParser parser = Parsers.caythe(new SourceFile(sourceFile, encoding));
 
         if (LOG.isDebugEnabled()) {
             parser.setErrorHandler(new BailErrorStrategy());

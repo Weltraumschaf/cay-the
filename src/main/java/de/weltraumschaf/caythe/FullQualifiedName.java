@@ -44,7 +44,7 @@ public final class FullQualifiedName {
     /**
      * Separator character.
      */
-    private static final String SEPARATOR = ".";
+    static final String SEPARATOR = ".";
     /**
      * Never {@code null} may be empty.
      */

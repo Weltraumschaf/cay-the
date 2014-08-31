@@ -12,14 +12,8 @@
 
 package de.weltraumschaf.caythe.parser;
 
-import de.weltraumschaf.caythe.parser.CaytheLexer;
-import de.weltraumschaf.caythe.parser.CaytheParser;
-import de.weltraumschaf.caythe.parser.JavaLexer;
-import de.weltraumschaf.caythe.parser.JavaParser;
+import de.weltraumschaf.caythe.SourceFile;
 import java.io.IOException;
-import java.nio.file.Path;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
@@ -36,19 +30,26 @@ public final class Parsers {
         super();
     }
 
-    public static CaytheParser caythe(final Path source, final String encoding) throws IOException {
-        final CaytheLexer lexer = new CaytheLexer(input(source, encoding));
-
-        return new CaytheParser(new CommonTokenStream(lexer));
+    /**
+     * Parser for the Caythe language.
+     *
+     * @param source must not be {@code null}
+     * @return never {@code nul}
+     * @throws IOException if source can't be opened
+     */
+    public static CaytheParser caythe(final SourceFile source) throws IOException {
+        return new CaytheParser(new CommonTokenStream(new CaytheLexer(source.newStream())));
     }
 
-    public static JavaParser java(final Path source, final String encoding) throws IOException {
-        final JavaLexer lexer = new JavaLexer(input(source, encoding));
-
-        return new JavaParser(new CommonTokenStream(lexer));
+    /**
+     * Parser for the Java language (example from ANTLR).
+     *
+     * @param source must not be {@code null}
+     * @return never {@code nul}
+     * @throws IOException if source can't be opened
+     */
+    public static JavaParser java(final SourceFile source) throws IOException {
+        return new JavaParser(new CommonTokenStream(new JavaLexer(source.newStream())));
     }
 
-    private static CharStream input(final Path source, final String encoding) throws IOException {
-        return new ANTLRFileStream(source.toString(), encoding);
-    }
 }
