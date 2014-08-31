@@ -64,6 +64,15 @@ public final class SourceFile {
     }
 
     /**
+     * Get the source file path.
+     *
+     * @return never {@code null}
+     */
+    public Path getSource() {
+        return source;
+    }
+
+    /**
      * Converts a full qualified unit name into a file name.
      *
      * <p>
