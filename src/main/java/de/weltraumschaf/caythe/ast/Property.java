@@ -23,19 +23,19 @@ public class Property {
     private final String name;
     private final String type;
     private final String value;
-    private final Visibility visibility ;
+    private final Config config;
 
-    public Property(final String name, final String type, final String value, final Visibility visibility) {
+    public Property(final String name, final String type, final String value, final Config config) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.type = Validate.notEmpty(type, "type");
         this.value = Validate.notNull(value, "value");
-        this.visibility = Validate.notNull(visibility, "visibility");
+        this.config = Validate.notNull(config, "config");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name, type, value, visibility);
+        return Objects.hashCode(name, type, value, config);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Property {
         return Objects.equal(name, other.name)
                 && Objects.equal(type, other.type)
                 && Objects.equal(value, other.value)
-                && Objects.equal(visibility, other.visibility);
+                && Objects.equal(config, other.config);
     }
 
     @Override
@@ -57,7 +57,12 @@ public class Property {
                 .add("name", name)
                 .add("type", type)
                 .add("value", value)
-                .add("visibility", visibility)
+                .add("config", config)
                 .toString();
     }
+
+    public static enum Config {
+        READ, WRITE, READWRITE;
+    }
+
 }

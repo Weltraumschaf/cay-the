@@ -11,9 +11,11 @@
  */
 package de.weltraumschaf.caythe.listener;
 
+import de.weltraumschaf.caythe.SyntaxException;
 import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.ast.Const;
 import de.weltraumschaf.caythe.ast.Method;
+import de.weltraumschaf.caythe.ast.Property;
 import de.weltraumschaf.caythe.ast.Visibility;
 import de.weltraumschaf.caythe.parser.CaytheBaseListener;
 import de.weltraumschaf.caythe.parser.CaytheParser;
@@ -81,7 +83,7 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
         final CompilationUnit unit = currentUnit.peek();
 
         if (isVisibilityModifier(ctx.getChild(0).getText())) {
-            final Visibility visibility = ocnvertVisibility(ctx.getChild(0).getText());
+            final Visibility visibility = convertVisibility(ctx.getChild(0).getText());
             final String type = ctx.getChild(2).getText();
             final String name = ctx.getChild(3).getText();
             final String value = ctx.getChild(5).getText();
@@ -91,6 +93,27 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
             final String name = ctx.getChild(2).getText();
             final String value = ctx.getChild(4).getText();
             unit.addConstant(new Const(name, type, value, Visibility.PRIVATE));
+        }
+    }
+
+    @Override
+    public void enterClassPropertyDeclaration(CaytheParser.ClassPropertyDeclarationContext ctx) {
+        final CompilationUnit unit = currentUnit.peek();
+
+        if (unit.getType() != CompilationUnit.Type.CLASS) {
+            throw new RuntimeException("Only classes can have properties!");
+        }
+
+        if ("(".equals(ctx.getChild(1).getText())) {
+            final String type = ctx.getChild(4).getText();
+            final String name = ctx.getChild(5).getText();
+            final String value = ctx.getChildCount() == 8 ? ctx.getChild(7).getText() : "";
+            unit.addProperty(new Property(name, type, value, convertConfig(ctx.getChild(2).getText())));
+        } else {
+            final String type = ctx.getChild(1).getText();
+            final String name = ctx.getChild(2).getText();
+            final String value = ctx.getChildCount() == 5 ? ctx.getChild(4).getText() : "";
+            unit.addProperty(new Property(name, type, value, Property.Config.READ));
         }
     }
 
@@ -186,7 +209,7 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
         }
     }
 
-    private Visibility ocnvertVisibility(final String token) {
+    private Visibility convertVisibility(final String token) {
         switch (token) {
             case "public":
                 return Visibility.PUBLIC;
@@ -194,6 +217,18 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
                 return Visibility.PACKAGE;
             default:
                 return Visibility.PRIVATE;
+        }
+    }
+
+    private Property.Config convertConfig(String token) {
+        switch (token) {
+            case "write":
+                return Property.Config.WRITE;
+            case "readwrite":
+                return Property.Config.READWRITE;
+            default:
+            case "read":
+                return Property.Config.READ;
         }
     }
 

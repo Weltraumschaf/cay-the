@@ -41,13 +41,7 @@ classConstDeclaration
     ;
 
 classPropertyDeclaration
-    : 'property' ('(' classPropertyConfig ')')? IDENTIFIER IDENTIFIER
-    ;
-
-classPropertyConfig
-    : 'read'
-    | 'write'
-    | 'readwrite'
+    : 'property' ('(' ( 'read' | 'write' | 'readwrite' ) ')')? IDENTIFIER IDENTIFIER ('=' value)?
     ;
     
 classDelegateDecalration

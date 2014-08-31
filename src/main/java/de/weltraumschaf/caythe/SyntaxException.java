@@ -16,7 +16,7 @@ package de.weltraumschaf.caythe;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-final class SyntaxException extends Exception {
+public final class SyntaxException extends Exception {
 
     private final int line;
     private final int column;

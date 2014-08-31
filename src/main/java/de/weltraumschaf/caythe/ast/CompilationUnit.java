@@ -14,6 +14,7 @@ package de.weltraumschaf.caythe.ast;
 import de.weltraumschaf.caythe.Constants;
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.guava.Sets;
+import de.weltraumschaf.commons.string.Strings;
 import de.weltraumschaf.commons.validate.Validate;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -32,12 +33,14 @@ public final class CompilationUnit {
     private final Path file;
     private final String packageName;
     private final String name;
+
     private final Set<String> imports = Sets.newHashSet();
     private final Set<CompilationUnit> implementedInterfaces = Sets.newHashSet();
-    private final Set<CompilationUnit> properties = Sets.newHashSet();
     private final Set<CompilationUnit> delegates = Sets.newHashSet();
-    private final Set<Method> methods = Sets.newHashSet();
     private final Set<Const> constants = Sets.newHashSet();
+    private final Set<Property> properties = Sets.newHashSet();
+    private final Set<Method> methods = Sets.newHashSet();
+
     private Type type = Type.UNKNOWN;
     private Visibility visibility  = Visibility.PRIVATE;
 
@@ -116,15 +119,11 @@ public final class CompilationUnit {
         return this;
     }
 
-    public Set<CompilationUnit> getProperties() {
+    public Set<Property> getProperties() {
         return Collections.unmodifiableSet(properties);
     }
 
-    public CompilationUnit addProperty(final CompilationUnit property) {
-        if (property.getType() != Type.CLASS && property.getType() != Type.INTERFACE) {
-            throw new IllegalArgumentException("Must be of type class or interface!");
-        }
-
+    public CompilationUnit addProperty(final Property property) {
         properties.add(property);
         return this;
     }
@@ -214,17 +213,15 @@ public final class CompilationUnit {
                 && Objects.equal(visibility, other.visibility);
     }
 
-    private static String nullAwareTrim(final String fileName) {
-        return null == fileName ? "" : fileName.trim();
-    }
+
 
     static String extractPackageName(final String fileName) {
-        final String trimmed = nullAwareTrim(fileName);
+        final String trimmed = Strings.nullAwareTrim(fileName);
         return trimmed.isEmpty() ? "" : doExtractPackageName(trimmed);
     }
 
     static String extractName(final String fileName) {
-        final String trimmed = nullAwareTrim(fileName);
+        final String trimmed = Strings.nullAwareTrim(fileName);
         return trimmed.isEmpty() ? "" : doExtractName(trimmed);
     }
 
