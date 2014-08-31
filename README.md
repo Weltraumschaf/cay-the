@@ -43,7 +43,7 @@
         words[1] = "world"
         // ...
         String[] foo = ["foo", "bar", "baz"]
-        
+
         for word : words {
           // ...
         }
@@ -75,7 +75,7 @@
 
       @implementation
       public T bla() {
-        // … 
+        // …
       }
 
       @Implementation
@@ -101,7 +101,7 @@
       @Implementation
       public Integer main(List<String> args) {
         if true {
-    
+
         }
 
         for str, int : new Map<String, Integer>() {
@@ -144,4 +144,17 @@
     public class Boolean {
       public const true = new Boolean(1)
       public const false = new Boolean(0)
+    }
+
+    /**
+     * Used like this:
+     *
+     * class MyClass {
+     *   delegate Object super
+     * }
+     */
+    public class Object {
+      String toString() {}
+      Integer hashCode() {}
+      Boolean isEquals(Object other) {}
     }
