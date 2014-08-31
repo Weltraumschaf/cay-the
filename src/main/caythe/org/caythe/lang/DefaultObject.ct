@@ -1,0 +1,28 @@
+
+public class DefaultObject<Type> implements Object<DefaultObject> {
+    
+    property (read) object
+    
+    overwrite private DefaultObject() {}
+        
+    public DefaultObject DefaultObject(Type target) {
+        object(target)
+    }
+    
+    String toString() {
+        return ""
+    }
+    
+    Integer hashCode() {
+        return 0
+    }
+    
+    Boolean equals(Type o) {
+        return false
+    }
+    
+    Class<Type> class() {
+        return new Class(object)
+    }
+    
+}
