@@ -1,0 +1,12 @@
+
+public class System {
+    
+    public print(Sting output) {
+        
+    }
+    
+    public println(Sting output) {
+        
+    }
+    
+}

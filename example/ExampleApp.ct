@@ -1,0 +1,26 @@
+
+import org.caythe.lang.Application
+import org.caythe.lang.Implementation
+import org.caythe.collection.Map
+import org.caythe.collection.HashMap
+
+public class ExampleApp implements Application {
+
+    @Implementation
+    public Integer main(List<String> args) {
+      if true {
+          System.println("Hello, world")
+      }
+
+      Map<String, Integer> m = new HashMap()
+      m.put("foo", 23)
+      m.put("bar", 42)
+      
+      for str, int :  m {
+          System.println(str + ":" + int)
+      }
+
+      return 0
+    }
+
+}
