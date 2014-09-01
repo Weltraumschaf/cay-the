@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>name</key>
+	<string>Caythe</string>
 	<key>contactEmailRot13</key>
 	<string>weltraumschaf@googlemail.com</string>
 	<key>contactName</key>
 	<string>Sven Strittmatter</string>
 	<key>description</key>
 	<string>A bundle for the &lt;a href="http://weltraumschaf.github.io/cay-the/"&gt;Caythe&lt;/a&gt; programming language.</string>
-	<key>name</key>
-	<string>Caythe</string>
 	<key>uuid</key>
 	<string>38D70AD3-EEC6-4F46-BA0C-3D1A6EE1187A</string>
 </dict>
