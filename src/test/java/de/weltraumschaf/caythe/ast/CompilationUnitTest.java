@@ -12,6 +12,8 @@
 
 package de.weltraumschaf.caythe.ast;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -47,5 +49,12 @@ public class CompilationUnitTest {
         assertThat(CompilationUnit.removeFileExtension("foo/bar/Baz"), is(equalTo("foo/bar/Baz")));
         assertThat(CompilationUnit.removeFileExtension("foo/Baz.ct"), is(equalTo("foo/Baz")));
         assertThat(CompilationUnit.removeFileExtension("foo/bar/Baz.ct"), is(equalTo("foo/bar/Baz")));
+    }
+
+    @Test
+    public void equalsAndHashCodeContract() {
+        EqualsVerifier.forClass(CompilationUnit.class)
+                .suppress(Warning.NONFINAL_FIELDS)
+                .verify();
     }
 }

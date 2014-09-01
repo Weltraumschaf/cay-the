@@ -19,7 +19,7 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class Property {
+public final class Property {
     private final String name;
     private final String type;
     private final String value;

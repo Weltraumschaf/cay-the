@@ -94,6 +94,7 @@ public class CaytheListenerImplTest {
         return newUnit(file, name, visibility).setType(CompilationUnit.Type.INTERFACE);
     }
 
+    @SuppressWarnings("deprecation")
     private static CompilationUnit newUnit(final Path file, final String name, final Visibility visibility) {
         return new CompilationUnit(file, "", name).setVisiblity(visibility);
     }

@@ -9,23 +9,22 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
+
 package de.weltraumschaf.caythe.ast;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
- * Tests for {@link Property}.
+ * Tests for {@link Const}.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class PropertyTest {
+public class ConstTest {
 
     @Test
     public void equalsAndHashCodeContract() {
-        EqualsVerifier.forClass(Property.class).verify();
+        EqualsVerifier.forClass(Const.class).verify();
     }
 
 }
