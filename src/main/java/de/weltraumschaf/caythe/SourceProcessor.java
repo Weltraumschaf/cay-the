@@ -17,6 +17,7 @@ import de.weltraumschaf.caythe.parser.Parsers;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -36,10 +37,6 @@ final class SourceProcessor {
      */
     private static final Logger LOG = Logger.getLogger(SourceProcessor.class);
     /**
-     * Contains the files to process in an unmodifiable list.
-     */
-    private final List<Path> sourceFiles;
-    /**
      * Contains the file names of already parsed source files.
      */
     private final Set<String> alreadyParsed = Sets.newHashSet();
@@ -47,26 +44,27 @@ final class SourceProcessor {
     /**
      * Source file encoding.
      */
-    private final String encoding;
+    private final SourceImporter importer;
 
     /**
      * Dedicated constructor.
      *
-     * @param sourceFiles must not be {@code null}
-     * @param encoding must not be {@code null}
+     * @param importer must not be {@code null}
      */
-    public SourceProcessor(final List<Path> sourceFiles, final String encoding) {
+    public SourceProcessor(final SourceImporter importer) {
         super();
-        this.sourceFiles = Collections.unmodifiableList(Validate.notNull(sourceFiles, "sourceFiles"));
-        this.encoding = Validate.notEmpty(encoding, "encoding");
+        this.importer = Validate.notNull(importer, "importer");
     }
 
     Set<CompilationUnit> getUnits() {
         return Collections.unmodifiableSet(units);
     }
 
-    void process() throws SyntaxException {
-        for (final Path sourceFile : sourceFiles) {
+    void process() throws SyntaxException, IOException {
+        final FileFinder finder = new FileFinder(importer.getEncoding());
+        Files.walkFileTree(importer.getBaseDir(), finder);
+
+        for (final Path sourceFile : finder.getFoundFiles()) {
             if (alreadyParsed(sourceFile)) {
                 continue;
             }
@@ -86,7 +84,7 @@ final class SourceProcessor {
     private void parseSource(final Path sourceFile) throws IOException {
         final String fileName = sourceFile.toString();
         LOG.debug(String.format("Parse file '%s' ...", fileName));
-        final CaytheParser parser = Parsers.caythe(new SourceFile(sourceFile, encoding));
+        final CaytheParser parser = Parsers.caythe(new SourceFile(sourceFile, importer.getEncoding()));
 
         if (LOG.isDebugEnabled()) {
             parser.setErrorHandler(new BailErrorStrategy());
@@ -94,7 +92,7 @@ final class SourceProcessor {
 
 
         final CompilationUnit unit = null;
-
+        // TODO Parse here.
         units.add(unit);
         alreadyParsed.add(fileName);
     }

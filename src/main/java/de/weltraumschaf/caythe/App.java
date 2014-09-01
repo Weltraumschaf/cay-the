@@ -119,19 +119,24 @@ public final class App extends InvokableAdapter {
             return;
         }
 
-        parseSourcesInCurrentworkingdir();
+        parseSourcesInCurrentworkingdir(opts);
     }
 
-    private void parseSourcesInCurrentworkingdir() throws IOException {
+    private void parseSourcesInCurrentworkingdir(final Options opts) throws IOException {
         final Path currentWorkingdir = Paths.get("");
-        final String cwd = currentWorkingdir.toAbsolutePath().toString();
-        getIoStreams().println(String.format("Searching for files to compile in '%s' ...", cwd));
+        final SourceImporter importer = new SourceImporter(
+                currentWorkingdir.toAbsolutePath(),
+                Constants.DEFAULT_ENCODING.toString());
 
-        final FileFinder finder = new FileFinder(Constants.FILE_EXTENSION.toString());
-        Files.walkFileTree(currentWorkingdir, finder);
-        final List<Path> files = finder.getFoundFiles();
+        for (final String libDir : opts.getLibDirs()) {
+            importer.addLibDir(Paths.get(libDir).toAbsolutePath().normalize());
+        }
 
-        final SourceProcessor processor = new SourceProcessor(files, Constants.DEFAULT_ENCODING.toString());
+        getIoStreams().println(String.format(
+                "Searching for files to compile in '%s' ...",
+                importer.getBaseDir().toString()));
+
+        final SourceProcessor processor = new SourceProcessor(importer);
 
         try {
             processor.process();
@@ -161,7 +166,7 @@ public final class App extends InvokableAdapter {
     String helpMessage() {
         return options.helpMessage(
                 "[-v|--version] [-h|--help]",
-                "TODO",
-                "TODO");
+                "This is the Caythe interpreter.",
+                "$> caythe -l src/main/caythe");
     }
 }

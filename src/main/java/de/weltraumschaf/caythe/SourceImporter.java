@@ -48,10 +48,18 @@ public final class SourceImporter {
      * @param baseDir must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    public SourceImporter(final Path baseDir, final String encoding) {
+    SourceImporter(final Path baseDir, final String encoding) {
         super();
         this.baseDir = Validate.notNull(baseDir, "basePath");
         this.encoding = Validate.notEmpty(encoding, "encoding");
+    }
+
+    Path getBaseDir() {
+        return baseDir;
+    }
+
+    String getEncoding() {
+        return encoding;
     }
 
     /**
@@ -59,7 +67,7 @@ public final class SourceImporter {
      *
      * @param dir must not be {@code null}
      */
-    public void addLibDir(final Path dir) {
+    void addLibDir(final Path dir) {
         libDirs.add(Validate.notNull(dir, "dir"));
     }
 
