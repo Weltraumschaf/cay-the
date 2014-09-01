@@ -40,7 +40,7 @@ public class Property {
 
     @Override
     public boolean equals(final Object obj) {
-        if (!(obj instanceof Const)) {
+        if (!(obj instanceof Property)) {
             return false;
         }
 

@@ -174,6 +174,7 @@ public final class CaytheListenerImpl extends CaytheBaseListener {
         currentUnit.pop();
     }
 
+    @SuppressWarnings("deprecation")
     private CompilationUnit createUnit(final ParserRuleContext ctx) {
         final Token first = ctx.getStart();
         final String name;

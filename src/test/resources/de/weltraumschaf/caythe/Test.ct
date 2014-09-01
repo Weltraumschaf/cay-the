@@ -33,13 +33,13 @@ package interface IfBar {}
 interface IfBaz {}
 
 public class Foo {
-  public const String foo  = "FOO"
-  package const Integer bar = 42
-  const Float baz   = 3.14
+    public const String foo  = "FOO"
+    package const Integer bar = 42
+    const Float baz   = 3.14
 
-  property String foo = "foobar"
-//  property (write) String bar
-//  property (readwrite) Integer baz = 42
+    property String foo = "foobar"
+    property (write) String bar
+    property (readwrite) Integer baz = 42
 }
 
 package class Bar {}

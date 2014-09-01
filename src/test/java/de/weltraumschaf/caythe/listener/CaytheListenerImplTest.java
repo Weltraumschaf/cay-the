@@ -41,7 +41,6 @@ public class CaytheListenerImplTest {
     private static final String SOURCE_FIXTURE = "/de/weltraumschaf/caythe/Test.ct";
 
     @Test
-    @Ignore
     public void testSomeMethod() throws IOException, URISyntaxException {
         final Path source = new File(getClass().getResource(SOURCE_FIXTURE).toURI()).toPath();
         final CaytheParser parser = Parsers.caythe(new SourceFile(source, Constants.DEFAULT_ENCODING.toString()));
@@ -64,9 +63,9 @@ public class CaytheListenerImplTest {
                 .addConstant(new Const("foo", "String", "\"FOO\"", Visibility.PUBLIC))
                 .addConstant(new Const("bar", "Integer", "42", Visibility.PACKAGE))
                 .addConstant(new Const("baz", "Float", "3.14", Visibility.PRIVATE))
-                .addProperty(new Property("foo", "String", "\"foobar\"", Property.Config.READ)),
-//                .addProperty(new Property("bar", "String", "", Property.Config.WRITE))
-//                .addProperty(new Property("baz", "Integer", "42", Property.Config.READWRITE)),
+                .addProperty(new Property("foo", "String", "\"foobar\"", Property.Config.READ))
+                .addProperty(new Property("bar", "String", "", Property.Config.WRITE))
+                .addProperty(new Property("baz", "Integer", "42", Property.Config.READWRITE)),
                 newClass(source, "Bar", Visibility.PACKAGE),
                 newClass(source, "Baz", Visibility.PRIVATE)
         ));
