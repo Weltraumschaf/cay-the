@@ -1,26 +1,38 @@
 
 import org.caythe.lang.Application
 import org.caythe.lang.Implementation
+import org.caythe.lang.System
 import org.caythe.collection.Map
 import org.caythe.collection.HashMap
 
+/**
+ * This class is a simple example application.
+ */
 public class ExampleApp implements Application {
 
+    property System sys = new System()
+
+    /**
+     * Main method invoked by VM.
+     *
+     * @param args The command line arguments, never {@code null}.
+     * @return The exit code. 0 for ok, non-zero for any abnormal exit.
+     */
     @Implementation
     public Integer main(List<String> args) {
       if true {
-          System.println("Hello, world")
+          sys().println("Hello, world")
       }
 
       Map<String, Integer> m = new HashMap()
       m.put("foo", 23)
       m.put("bar", 42)
-      
+
       for str, int :  m {
-          System.println(str + ":" + int)
+          sys().println(str + ":" + int)
       }
 
-      return 0
+      return 0 // Exit ok.
     }
 
 }
