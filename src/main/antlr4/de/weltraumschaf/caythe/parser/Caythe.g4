@@ -49,7 +49,7 @@ classDelegateDecalration
     ;
 
 classMethodDeclaration
-    : modifier? (type (',' type)*)? IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
+    : modifier? (type (',' type)*)? IDENTIFIER '(' formalParameterList? ')' ('[' ']')* block
     ;
 
 /* Interfaces */
@@ -88,12 +88,6 @@ lastFormalParameter
     :   IDENTIFIER '...' IDENTIFIER
     ;
 
-value
-    : STRING
-    | INTEGER
-    | FLOAT
-    ;
-
 modifier
     : 'public'
     | 'package'
@@ -103,7 +97,7 @@ qualifiedName
     : IDENTIFIER ('.' IDENTIFIER)*
     ;
 
-/* STATEMENTS / BLOCKS */
+/* Statements / Blocks */
 block
     : '{' blockStatement* '}'
     ;
@@ -118,18 +112,127 @@ localVariableDeclarationStatement
     : type IDENTIFIER '=' value
     ;
 
+statement
+    : block
+    | 'if' parExpression statement ('else' statement)?
+    | 'for' '(' forControl ')' statement
+    | 'while' parExpression statement
+    | 'do' statement 'while' parExpression
+    | 'switch' parExpression '{' switchBlockStatementGroup* switchLabel* '}'
+    | 'return' expression?
+    | 'break'
+    | 'continue'
+    | statementExpression
+    ;
+
+/*
+ * Matches cases then statements, both of which are mandatory.
+ * To handle empty cases at the end, we add switchLabel* to statement.
+ */
+switchBlockStatementGroup
+    : switchLabel+ blockStatement+
+    ;
+
+switchLabel
+    : 'case' constantExpression ':'
+    | 'default' ':'
+    ;
+
+forControl
+    : enhancedForControl
+    | forInit? ';' expression? ';' forUpdate?
+    ;
+
+forInit
+    : localVariableDeclarationStatement
+    | expressionList
+    ;
+
+enhancedForControl
+    : type IDENTIFIER '=' expression
+    ;
+
+forUpdate
+    : expressionList
+    ;
+
+/* Expressions */
+parExpression
+    : '(' expression ')'
+    ;
+
+expressionList
+    : expression (',' expression)*
+    ;
+
+statementExpression
+    : expression
+    ;
+
+constantExpression
+    : expression
+    ;
+
+expression
+    : primary
+    | expression '.' IDENTIFIER
+    | expression '[' expression ']'
+    | expression '(' expressionList? ')'
+    | 'new' type '(' ')'
+    | expression ('++' | '--')
+    | ('+'|'-'|'++'|'--') expression
+    | ('~'|'!') expression
+    | expression ('*'|'/'|'%') expression
+    | expression ('+'|'-') expression
+    | expression ('<' '<' | '>' '>' '>' | '>' '>') expression
+    | expression ('<=' | '>=' | '>' | '<') expression
+    | expression ('==' | '!=') expression
+    | expression '&' expression
+    | expression '^' expression
+    | expression '|' expression
+    | expression '&&' expression
+    | expression '||' expression
+    | expression '?' expression ':' expression
+    | <assoc=right> expression
+        ( '='
+        | '+='
+        | '-='
+        | '*='
+        | '/='
+        | '&='
+        | '|='
+        | '^='
+        | '%='
+        )
+        expression
+    ;
+
+primary
+    : '(' expression ')'
+    | value
+    | IDENTIFIER
+    ;
+
 type
     : IDENTIFIER ('<' IDENTIFIER (',' IDENTIFIER)* '>')?
     ;
 
+value
+    : STRING
+    | INTEGER
+    | FLOAT
+    ;
+
 /* Lexer rules. */
 STRING      : '"' .*? '"' ;
-INTEGER     : DIGIT+ ;
-FLOAT       : (DIGIT)+ '.' (DIGIT)* EXPONENT?
-            | '.' (DIGIT)+ EXPONENT?
-            | (DIGIT)+ EXPONENT ;
+INTEGER     : SIGN? DIGIT+ ;
+FLOAT       : SIGN? DIGIT+ '.' DIGIT* EXPONENT?
+            | '.' DIGIT+ EXPONENT?
+            | DIGIT+ EXPONENT ;
 fragment
-EXPONENT    : ('e'|'E') ('+'|'-')? (DIGIT)+ ;
+EXPONENT    : ('e'|'E') ('+'|'-')? DIGIT+ ;
+
+SIGN        : [+-] ;
 
 IDENTIFIER  : LETTER ( LETTER | DIGIT )* ;
 COMMENT     : ( SL_COMMENT | ML_COMMENT ) -> skip ;
