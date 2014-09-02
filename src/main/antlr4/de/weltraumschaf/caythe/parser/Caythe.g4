@@ -4,11 +4,11 @@ grammar Caythe;
 compilationUnit
     : importDeclaration* typeDeclaration* EOF
     ;
-    
+
 importDeclaration
     : 'import' qualifiedName ('.' '*')?
     ;
-    
+
 typeDeclaration
     : annotationDeclaration
     | classDeclaration
@@ -17,7 +17,7 @@ typeDeclaration
 
 /* Annotations */
 annotationDeclaration
-    : modifier? 'annotation' IDENTIFIER '{' '}' 
+    : modifier? 'annotation' IDENTIFIER '{' '}'
     ;
 
 /* Classes */
@@ -26,10 +26,10 @@ classDeclaration
     ;
 
 classBody
-    : '{' classBodyDeclaration* '}' 
+    : '{' classBodyDeclaration* '}'
     ;
-    
-classBodyDeclaration    
+
+classBodyDeclaration
     : classConstDeclaration
     | classPropertyDeclaration
     | classDelegateDecalration
@@ -37,28 +37,28 @@ classBodyDeclaration
     ;
 
 classConstDeclaration
-    : modifier? 'const' IDENTIFIER IDENTIFIER '=' value
+    : modifier? 'const' type IDENTIFIER '=' value
     ;
 
 classPropertyDeclaration
     : 'property' ('(' ( 'read' | 'write' | 'readwrite' ) ')')? IDENTIFIER IDENTIFIER ('=' value)?
     ;
-    
+
 classDelegateDecalration
-    : 'delegate' IDENTIFIER IDENTIFIER
+    : 'delegate' type IDENTIFIER
     ;
 
 classMethodDeclaration
-    : modifier? IDENTIFIER? (',' IDENTIFIER)* IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
+    : modifier? (type (',' type)*)? IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
     ;
 
-/* Interfaces */        
+/* Interfaces */
 interfaceDeclaration
     : modifier? 'interface' IDENTIFIER interfaceBody
     ;
 
 interfaceBody
-    : '{' interfaceBodyDeclaration* '}' 
+    : '{' interfaceBodyDeclaration* '}'
     ;
 
 interfaceBodyDeclaration
@@ -67,11 +67,11 @@ interfaceBodyDeclaration
     ;
 
 interfaceConstDeclaration
-    : 'const' IDENTIFIER IDENTIFIER '=' value
+    : 'const' type IDENTIFIER '=' value
     ;
 
 interfaceMethodDeclaration
-    :   IDENTIFIER? (',' IDENTIFIER)* IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
+    :   (type (',' type)*)? IDENTIFIER '(' formalParameterList? ')' ('[' ']')*
     ;
 
 /* General */
@@ -87,22 +87,41 @@ formalParameter
 lastFormalParameter
     :   IDENTIFIER '...' IDENTIFIER
     ;
-        
+
 value
     : STRING
     | INTEGER
     | FLOAT
     ;
 
-modifier 
+modifier
     : 'public'
     | 'package'
     ;
-    
+
 qualifiedName
-    :   IDENTIFIER ('.' IDENTIFIER)*
+    : IDENTIFIER ('.' IDENTIFIER)*
     ;
-        
+
+/* STATEMENTS / BLOCKS */
+block
+    : '{' blockStatement* '}'
+    ;
+
+blockStatement
+    : localVariableDeclarationStatement
+    | statement
+    | typeDeclaration
+    ;
+
+localVariableDeclarationStatement
+    : type IDENTIFIER '=' value
+    ;
+
+type
+    : IDENTIFIER ('<' IDENTIFIER (',' IDENTIFIER)* '>')?
+    ;
+
 /* Lexer rules. */
 STRING      : '"' .*? '"' ;
 INTEGER     : DIGIT+ ;
