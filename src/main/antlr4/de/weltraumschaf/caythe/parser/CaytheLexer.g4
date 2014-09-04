@@ -14,6 +14,7 @@ K_DO            : 'do'          ;
 K_ELSE          : 'else'        ;
 K_FOR           : 'for'         ;
 K_IF            : 'if'          ;
+K_IMPLEMENTS    : 'implements'  ;
 K_IMPORT        : 'import'      ;
 K_INTERFACE     : 'interface'   ;
 K_NEW           : 'new'         ;

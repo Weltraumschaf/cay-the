@@ -78,7 +78,7 @@ public class CaytheListenerImplTest {
         final SourceFile source = source(TEST_SOURCE);
         final CaytheListenerImpl sut = sut(source);
 
-        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(true)));
+        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(false)));
         assertThat(sut.imports, containsInAnyOrder(
                 "foo.bar.Foo",
                 "foo.bar.Bar",
@@ -117,6 +117,6 @@ public class CaytheListenerImplTest {
         final SourceFile source = source(EXAMPLEAPP_SOURCE);
         final CaytheListenerImpl sut = sut(source);
 
-        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(true)));
+        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(false)));
     }
 }

@@ -28,7 +28,7 @@ annotationDeclaration
 
 /* Classes */
 classDeclaration
-    : modifier? K_CLASS IDENTIFIER classBody
+    : modifier? K_CLASS IDENTIFIER (K_IMPLEMENTS IDENTIFIER)? classBody
     ;
 
 classBody
@@ -60,7 +60,7 @@ classMethodDeclaration
     : modifier?
       (type (OP_COMMA type)*)?
       IDENTIFIER
-      OP_LPAREN formalParameterList? OP_LPAREN (OP_LBRACK OP_RBRACK)*
+      OP_LPAREN formalParameterList? OP_RPAREN (OP_LBRACK OP_RBRACK)*
       block
     ;
 
@@ -95,7 +95,7 @@ formalParameterList
     ;
 
 formalParameter
-    :   IDENTIFIER IDENTIFIER
+    :   type IDENTIFIER
     ;
 
 lastFormalParameter
@@ -128,11 +128,11 @@ localVariableDeclarationStatement
 
 statement
     : block
-    | K_IF parExpression statement (K_ELSE statement)?
-    | K_FOR OP_LPAREN forControl OP_RPAREN statement
-    | K_WHILE parExpression statement
-    | K_DO statement K_WHILE parExpression
-    | K_SWITCH parExpression OP_LCURLY
+    | K_IF expression statement (K_ELSE statement)?
+    | K_FOR forControl statement
+    | K_WHILE expression statement
+    | K_DO statement K_WHILE expression
+    | K_SWITCH expression OP_LCURLY
         switchBlockStatementGroup* switchLabel*
       OP_RCURLY
     | K_RETURN expression?
@@ -173,10 +173,6 @@ forUpdate
     ;
 
 /* Expressions */
-parExpression
-    : OP_LPAREN expression OP_RPAREN
-    ;
-
 expressionList
     : expression (OP_COMMA expression)*
     ;
@@ -228,4 +224,5 @@ value
     : STRING
     | INTEGER
     | FLOAT
+    | K_NEW IDENTIFIER OP_LPAREN OP_RPAREN
     ;

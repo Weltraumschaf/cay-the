@@ -20,19 +20,46 @@ public class ExampleApp implements Application {
      */
     //@Implementation
     public Integer main(List<String> args) {
-      if true {
-          sys().println("Hello, world")
-      }
+        if true {
+            sys().println("Hello, world")
+        }
 
-      Map<String, Integer> m = new HashMap()
-      m.put("foo", 23)
-      m.put("bar", 42)
+        Map<String, Integer> m = new HashMap()
+        m.put("foo", 23)
+        m.put("bar", 42)
 
-      for str, int :  m {
-          sys().println(str + ":" + int)
-      }
+        //for str, int :  m {
+        //    sys().println(str + ":" + int)
+        //}
 
-      return 0 // Exit ok.
+        for Integer i = 0; i <= 5; i++ {
+            sys().println(str + ":" + int)
+        }
+
+        Integer i = 0
+
+        while i < 6 {
+            sys().println(str + ":" + int)
+            i++
+        }
+
+        do {
+            sys().println(str + ":" + int)
+            i++
+        } while i < 6
+
+        switch args.get(0) {
+            case "foo":
+                sys().println("FOO")
+            case "bar":
+                sys().println("BAR")
+            case "baz":
+                sys().println("BAZ")
+            default:
+                sys().println("DEFAULT")
+        }
+
+        return 0 // Exit ok.
     }
 
 }

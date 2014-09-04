@@ -34,7 +34,7 @@ public class CollectingErrorListener extends BaseErrorListener {
         Collections.reverse(stack);
         errors.add(new Error(
             String.format("Rule stack: %s", stack),
-            String.format("Line %d:%d at %s:%s", line, charPositionInLine, offendingSymbol, msg)
+            String.format("Syntax error: %s (at line %d:%d).",  msg, line, charPositionInLine)
         ));
     }
 
@@ -51,7 +51,7 @@ public class CollectingErrorListener extends BaseErrorListener {
         final StringBuilder buffer = new StringBuilder();
 
         for (final Error error : errors) {
-            buffer.append(error.toString());
+            buffer.append(error.toString()).append(String.format("%n"));
         }
 
         return buffer.toString();
@@ -68,7 +68,7 @@ public class CollectingErrorListener extends BaseErrorListener {
 
         @Override
         public String toString() {
-            return String.format("%s%n%s%n", ruleStack, line);
+            return String.format("%s (%s)", line, ruleStack);
         }
 
     }
