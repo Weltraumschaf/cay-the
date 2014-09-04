@@ -25,6 +25,7 @@
 - https://theantlrguy.atlassian.net/wiki/display/~admin/2013/09/01/Matching+parse+tree+patterns%2C+paths
 - https://theantlrguy.atlassian.net/wiki/display/~admin/2012/12/08/Tree+rewriting+in+ANTLR+v4
 - https://theantlrguy.atlassian.net/wiki/display/ANTLR4/Parse+Tree+Listeners
+- http://stackoverflow.com/questions/16419707/antlr4-tokenizing-a-huge-set-of-keywords
 
 ## Example Code
 

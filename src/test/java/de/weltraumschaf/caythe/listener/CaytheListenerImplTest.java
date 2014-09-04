@@ -20,6 +20,7 @@ import de.weltraumschaf.caythe.ast.Property;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.caythe.parser.Parsers;
 import de.weltraumschaf.caythe.ast.Visibility;
+import de.weltraumschaf.caythe.parser.VerboseErrorListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -38,27 +39,54 @@ import org.junit.Ignore;
  */
 public class CaytheListenerImplTest {
 
-    private static final String SOURCE_FIXTURE = "/de/weltraumschaf/caythe/Test.ct";
+    private static final String TEST_SOURCE = "/de/weltraumschaf/caythe/Test.ct";
+    private static final String EXAMPLEAPP_SOURCE = "/de/weltraumschaf/caythe/ExampleApp.ct";
+
+    private static CompilationUnit newAnnotation(final SourceFile source, final String name, final Visibility visibility) {
+        return newUnit(source, name, visibility).setType(CompilationUnit.Type.ANNOTATION);
+    }
+
+    private static CompilationUnit newClass(final SourceFile source, final String name, final Visibility visibility) {
+        return newUnit(source, name, visibility).setType(CompilationUnit.Type.CLASS);
+    }
+
+    private static CompilationUnit newInterface(final SourceFile source, final String name, final Visibility visibility) {
+        return newUnit(source, name, visibility).setType(CompilationUnit.Type.INTERFACE);
+    }
+
+    @SuppressWarnings("deprecation")
+    private static CompilationUnit newUnit(final SourceFile source, final String name, final Visibility visibility) {
+        return new CompilationUnit(source, "", name).setVisiblity(visibility);
+    }
+
+    private SourceFile source(final String resource) throws URISyntaxException {
+        final Path source = new File(getClass().getResource(resource).toURI()).toPath();
+        return new SourceFile(source, Constants.DEFAULT_ENCODING.toString());
+    }
+
+    private CaytheListenerImpl sut(final SourceFile source) throws IOException {
+        final CaytheParser parser = Parsers.caythe(source);
+        final ParseTreeWalker walker = new ParseTreeWalker();
+        final CaytheListenerImpl sut = new CaytheListenerImpl(source);
+        walker.walk(sut, parser.compilationUnit());
+        return sut;
+    }
 
     @Test
-    public void testSomeMethod() throws IOException, URISyntaxException {
-        final Path source = new File(getClass().getResource(SOURCE_FIXTURE).toURI()).toPath();
-        final CaytheParser parser = Parsers.caythe(new SourceFile(source, Constants.DEFAULT_ENCODING.toString()));
+    public void importsAndTypeDecls() throws IOException, URISyntaxException {
+        final SourceFile source = source(TEST_SOURCE);
+        final CaytheListenerImpl sut = sut(source);
 
-        final ParseTreeWalker walker = new ParseTreeWalker();
-        final CaytheListenerImpl listener = new CaytheListenerImpl(source);
-        walker.walk(listener, parser.compilationUnit());
-
-        assertThat(listener.imports, containsInAnyOrder(
+        assertThat(sut.imports, containsInAnyOrder(
                 "foo.bar.Foo",
                 "foo.bar.Bar",
                 "foo.bar.Baz"));
-        assertThat(listener.annotations.values(), containsInAnyOrder(
+        assertThat(sut.annotations.values(), containsInAnyOrder(
                 newAnnotation(source, "AnnoFoo", Visibility.PUBLIC),
                 newAnnotation(source, "AnnoBar", Visibility.PACKAGE),
                 newAnnotation(source, "AnnoBaz", Visibility.PRIVATE)
         ));
-        assertThat(listener.classes.values(), containsInAnyOrder(
+        assertThat(sut.classes.values(), containsInAnyOrder(
                 newClass(source, "Foo", Visibility.PUBLIC)
                 .addConstant(new Const("foo", "String", "\"FOO\"", Visibility.PUBLIC))
                 .addConstant(new Const("bar", "Integer", "42", Visibility.PACKAGE))
@@ -69,7 +97,7 @@ public class CaytheListenerImplTest {
                 newClass(source, "Bar", Visibility.PACKAGE),
                 newClass(source, "Baz", Visibility.PRIVATE)
         ));
-        assertThat(listener.interfaces.values(), containsInAnyOrder(
+        assertThat(sut.interfaces.values(), containsInAnyOrder(
                 newInterface(source, "IfFoo", Visibility.PUBLIC)
                 .addConstant(new Const("foo", "String", "\"FOO\"", Visibility.PUBLIC))
                 .addConstant(new Const("bar", "Integer", "42", Visibility.PUBLIC))
@@ -82,20 +110,10 @@ public class CaytheListenerImplTest {
         ));
     }
 
-    private static CompilationUnit newAnnotation(final Path file, final String name, final Visibility visibility) {
-        return newUnit(file, name, visibility).setType(CompilationUnit.Type.ANNOTATION);
-    }
-
-    private static CompilationUnit newClass(final Path file, final String name, final Visibility visibility) {
-        return newUnit(file, name, visibility).setType(CompilationUnit.Type.CLASS);
-    }
-
-    private static CompilationUnit newInterface(final Path file, final String name, final Visibility visibility) {
-        return newUnit(file, name, visibility).setType(CompilationUnit.Type.INTERFACE);
-    }
-
-    @SuppressWarnings("deprecation")
-    private static CompilationUnit newUnit(final Path file, final String name, final Visibility visibility) {
-        return new CompilationUnit(file, "", name).setVisiblity(visibility);
+    @Test
+    @Ignore
+    public void exampleApp() throws IOException, URISyntaxException {
+        final SourceFile source = source(EXAMPLEAPP_SOURCE);
+        final CaytheListenerImpl sut = sut(source);
     }
 }

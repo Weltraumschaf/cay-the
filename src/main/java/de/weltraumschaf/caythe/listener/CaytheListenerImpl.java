@@ -11,14 +11,14 @@
  */
 package de.weltraumschaf.caythe.listener;
 
-import de.weltraumschaf.caythe.SyntaxException;
+import de.weltraumschaf.caythe.SourceFile;
 import de.weltraumschaf.caythe.ast.CompilationUnit;
 import de.weltraumschaf.caythe.ast.Const;
 import de.weltraumschaf.caythe.ast.Method;
 import de.weltraumschaf.caythe.ast.Property;
 import de.weltraumschaf.caythe.ast.Visibility;
-import de.weltraumschaf.caythe.parser.CaytheBaseListener;
 import de.weltraumschaf.caythe.parser.CaytheParser;
+import de.weltraumschaf.caythe.parser.CaytheParserBaseListener;
 import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Maps;
 import java.nio.file.Path;
@@ -28,33 +28,36 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class CaytheListenerImpl extends CaytheBaseListener {
+public final class CaytheListenerImpl extends CaytheParserBaseListener {
 
     final Map<String, CompilationUnit> annotations = Maps.newHashMap();
     final Map<String, CompilationUnit> classes = Maps.newHashMap();
     final Map<String, CompilationUnit> interfaces = Maps.newHashMap();
     final List<String> imports = Lists.newArrayList();
     final Stack<CompilationUnit> currentUnit = new Stack<>();
-    final Path source;
+    final SourceFile source;
 
-    public CaytheListenerImpl(Path source) {
+    public CaytheListenerImpl(SourceFile source) {
         super();
         this.source = source;
     }
 
     @Override
     public void visitErrorNode(ErrorNode node) {
-        System.err.println("Error: " + node.getSymbol());
+//        final Token symbol = node.getSymbol();
+//        System.err.println("Error: " + symbol);
     }
 
     @Override
     public void enterImportDeclaration(final CaytheParser.ImportDeclarationContext ctx) {
-        imports.add(ctx.getChild(1).getText());
+        final ParseTree child = ctx.getChild(1);
+        imports.add(child.getText());
     }
 
     @Override

@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -70,6 +71,31 @@ public final class SourceFile {
      */
     public Path getSource() {
         return source;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(source, encoding);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof SourceFile)) {
+            return false;
+        }
+
+        final SourceFile other = (SourceFile) obj;
+        return Objects.equal(source, other.source)
+                && Objects.equal(encoding, other.encoding);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("source", source)
+                .add("encoding", encoding)
+                .toString();
     }
 
     /**

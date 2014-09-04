@@ -14,6 +14,7 @@ package de.weltraumschaf.caythe.parser;
 
 import de.weltraumschaf.caythe.SourceFile;
 import java.io.IOException;
+import java.io.PrintStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
@@ -38,7 +39,14 @@ public final class Parsers {
      * @throws IOException if source can't be opened
      */
     public static CaytheParser caythe(final SourceFile source) throws IOException {
-        return new CaytheParser(new CommonTokenStream(new CaytheLexer(source.newStream())));
+        return caythe(source, System.err);
+    }
+
+    public static CaytheParser caythe(final SourceFile source, final PrintStream error) throws IOException {
+        final CaytheParser parser = new CaytheParser(new CommonTokenStream(new CaytheLexer(source.newStream())));
+        parser.removeErrorListeners();
+        parser.addErrorListener(new VerboseErrorListener(error));
+        return parser;
     }
 
     /**

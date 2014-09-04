@@ -12,6 +12,7 @@
 package de.weltraumschaf.caythe.ast;
 
 import de.weltraumschaf.caythe.Constants;
+import de.weltraumschaf.caythe.SourceFile;
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.string.Strings;
@@ -30,7 +31,7 @@ public final class CompilationUnit {
     private static final String DIR_SEP = Constants.DIR_SEP.toString();
     private static final String DOT = ".";
 
-    private final Path file;
+    private final SourceFile source;
     private final String packageName;
     private final String name;
 
@@ -45,22 +46,22 @@ public final class CompilationUnit {
     private Visibility visibility  = Visibility.PRIVATE;
 
     @Deprecated
-    public CompilationUnit(final Path file, final String packageName, final String name) {
+    public CompilationUnit(final SourceFile source, final String packageName, final String name) {
         super();
-        this.file = Validate.notNull(file, "file");
+        this.source = Validate.notNull(source, "source");
         this.packageName = Validate.notNull(packageName, "packageName");
         this.name = Validate.notEmpty(name, "name");
     }
 
-    public CompilationUnit(final Path file) {
+    public CompilationUnit(final SourceFile source) {
         super();
-        this.file = Validate.notNull(file, "file");
-        this.packageName = extractPackageName(file.toString());
-        this.name = extractName(file.toString());
+        this.source = Validate.notNull(source, "source");
+        this.packageName = extractPackageName(source.toString());
+        this.name = extractName(source.toString());
     }
 
-    public Path getFile() {
-        return file;
+    public SourceFile getFile() {
+        return source;
     }
 
     public String getPackageName() {
@@ -162,7 +163,7 @@ public final class CompilationUnit {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("file", file)
+                .add("file", source)
                 .add("packageName", packageName)
                 .add("name", name)
                 .add("imports", imports)
@@ -179,7 +180,7 @@ public final class CompilationUnit {
     @Override
     public int hashCode() {
         return Objects.hashCode(
-                file,
+                source,
                 packageName,
                 name,
                 imports,
@@ -200,7 +201,7 @@ public final class CompilationUnit {
         }
 
         final CompilationUnit other = (CompilationUnit) obj;
-        return Objects.equal(file, other.file)
+        return Objects.equal(source, other.source)
                 && Objects.equal(packageName, other.packageName)
                 && Objects.equal(name, other.name)
                 && Objects.equal(imports, other.imports)
