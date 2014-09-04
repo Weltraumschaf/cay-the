@@ -12,7 +12,11 @@ compilationUnit
     ;
 
 importDeclaration
-    : K_IMPORT qualifiedName (OP_DOT OP_STAR)?
+    : K_IMPORT qualifiedName importWildcard?
+    ;
+
+importWildcard
+    : OP_DOT OP_STAR
     ;
 
 typeDeclaration
@@ -28,7 +32,11 @@ annotationDeclaration
 
 /* Classes */
 classDeclaration
-    : modifier? K_CLASS IDENTIFIER (K_IMPLEMENTS IDENTIFIER)? classBody
+    : modifier? K_CLASS IDENTIFIER classImplemenations? classBody
+    ;
+
+classImplemenations
+    : K_IMPLEMENTS IDENTIFIER
     ;
 
 classBody
@@ -48,8 +56,12 @@ classConstDeclaration
 
 classPropertyDeclaration
     : K_PROPERTY
-      (OP_LPAREN ( K_READ | K_WRITE | K_READWRITE ) OP_RPAREN)?
+      (OP_LPAREN classPropertyConfig OP_RPAREN)?
       type IDENTIFIER (OP_ASSIGN value)?
+    ;
+
+classPropertyConfig
+    : K_READ | K_WRITE | K_READWRITE
     ;
 
 classDelegateDecalration

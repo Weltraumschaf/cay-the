@@ -21,19 +21,16 @@ import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.caythe.parser.CaytheParserBaseListener;
 import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Maps;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@SuppressWarnings("deprecation")
 public final class CaytheListenerImpl extends CaytheParserBaseListener {
 
     final Map<String, CompilationUnit> annotations = Maps.newHashMap();
@@ -49,20 +46,28 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
     }
 
     @Override
-    public void visitErrorNode(ErrorNode node) {
-//        final Token symbol = node.getSymbol();
-//        System.err.println("Error: " + symbol);
-    }
-
-    @Override
     public void enterImportDeclaration(final CaytheParser.ImportDeclarationContext ctx) {
-        final ParseTree child = ctx.getChild(1);
-        imports.add(child.getText());
+        String importName = ctx.qualifiedName().getText();
+
+        if (null != ctx.importWildcard()) {
+            importName += ctx.importWildcard().getText();
+        }
+
+        imports.add(importName);
     }
 
     @Override
     public void enterAnnotationDeclaration(CaytheParser.AnnotationDeclarationContext ctx) {
-        final CompilationUnit annotation = createUnit(ctx);
+        final CompilationUnit annotation = new CompilationUnit(source, "", ctx.IDENTIFIER().getText());
+        final Visibility visibility;
+
+        if (null == ctx.modifier()) {
+            visibility = Visibility.PRIVATE;
+        } else {
+            visibility = TokenConverter.convertVisibility(ctx.modifier().getText());
+        }
+
+        annotation.setVisiblity(visibility);
         annotation.setType(CompilationUnit.Type.ANNOTATION);
         annotations.put(annotation.getFullQualifiedName(), annotation);
         currentUnit.push(annotation);
@@ -75,7 +80,19 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
 
     @Override
     public void enterClassDeclaration(CaytheParser.ClassDeclarationContext ctx) {
-        final CompilationUnit clazz = createUnit(ctx);
+        final CompilationUnit clazz = new CompilationUnit(source, "", ctx.IDENTIFIER().getText());
+        final Visibility visibility;
+
+        if (null == ctx.modifier()) {
+            visibility = Visibility.PRIVATE;
+        } else {
+            visibility = TokenConverter.convertVisibility(ctx.modifier().getText());
+        }
+
+        // TODO Implement implementations.
+        ctx.classImplemenations();
+
+        clazz.setVisiblity(visibility);
         clazz.setType(CompilationUnit.Type.CLASS);
         classes.put(clazz.getFullQualifiedName(), clazz);
         currentUnit.push(clazz);
@@ -84,19 +101,19 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
     @Override
     public void enterClassConstDeclaration(CaytheParser.ClassConstDeclarationContext ctx) {
         final CompilationUnit unit = currentUnit.peek();
+        final Visibility visibility;
 
-        if (isVisibilityModifier(ctx.getChild(0).getText())) {
-            final Visibility visibility = convertVisibility(ctx.getChild(0).getText());
-            final String type = ctx.getChild(2).getText();
-            final String name = ctx.getChild(3).getText();
-            final String value = ctx.getChild(5).getText();
-            unit.addConstant(new Const(name, type, value, visibility));
+        if (null == ctx.modifier()) {
+            visibility = Visibility.PRIVATE;
         } else {
-            final String type = ctx.getChild(1).getText();
-            final String name = ctx.getChild(2).getText();
-            final String value = ctx.getChild(4).getText();
-            unit.addConstant(new Const(name, type, value, Visibility.PRIVATE));
+            visibility = TokenConverter.convertVisibility(ctx.modifier().getText());
         }
+
+        final String type = ctx.type().getText();
+        final String name = ctx.IDENTIFIER().getText();
+        final String value = ctx.value().getText();
+
+        unit.addConstant(new Const(name, type, value, visibility));
     }
 
     @Override
@@ -107,17 +124,19 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
             throw new RuntimeException("Only classes can have properties!");
         }
 
-        if ("(".equals(ctx.getChild(1).getText())) {
-            final String type = ctx.getChild(4).getText();
-            final String name = ctx.getChild(5).getText();
-            final String value = ctx.getChildCount() == 8 ? ctx.getChild(7).getText() : "";
-            unit.addProperty(new Property(name, type, value, convertConfig(ctx.getChild(2).getText())));
+        final Property.Config config;
+
+        if (null == ctx.classPropertyConfig()) {
+            config = Property.Config.READ;
         } else {
-            final String type = ctx.getChild(1).getText();
-            final String name = ctx.getChild(2).getText();
-            final String value = ctx.getChildCount() == 5 ? ctx.getChild(4).getText() : "";
-            unit.addProperty(new Property(name, type, value, Property.Config.READ));
+            config = TokenConverter.convertPropertyConfig(ctx.classPropertyConfig().getText());
         }
+
+        final String type = ctx.type().getText();
+        final String name = ctx.IDENTIFIER().getText();
+        final String value = ctx.value() != null ? ctx.value().getText() : "";
+
+        unit.addProperty(new Property(name, type, value, config));
     }
 
     @Override
@@ -127,46 +146,43 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
 
     @Override
     public void enterInterfaceDeclaration(CaytheParser.InterfaceDeclarationContext ctx) {
-        final CompilationUnit iface = createUnit(ctx);
+        final CompilationUnit iface = new CompilationUnit(source, "", ctx.IDENTIFIER().getText());
+        final Visibility visibility;
+
+        if (null == ctx.modifier()) {
+            visibility = Visibility.PRIVATE;
+        } else {
+            visibility = TokenConverter.convertVisibility(ctx.modifier().getText());
+        }
+
+        iface.setVisiblity(visibility);
         iface.setType(CompilationUnit.Type.INTERFACE);
         interfaces.put(iface.getFullQualifiedName(), iface);
+
         currentUnit.push(iface);
     }
 
     @Override
     public void enterInterfaceConstDeclaration(CaytheParser.InterfaceConstDeclarationContext ctx) {
-        final String type = ctx.getChild(1).getText();
-        final String name = ctx.getChild(2).getText();
-        final String value = ctx.getChild(4).getText();
+        final String type = ctx.type().getText();
+        final String name = ctx.IDENTIFIER().getText();
+        final String value = ctx.value().getText();
+
         currentUnit.peek().addConstant(new Const(name, type, value, Visibility.PUBLIC));
     }
 
     @Override
     public void enterInterfaceMethodDeclaration(CaytheParser.InterfaceMethodDeclarationContext ctx) {
-        int methodNamePosition = 0;
-
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            final String text = ctx.getChild(i).getText();
-
-            if ("(".equals(text)) {
-                methodNamePosition = i - 1;
-                break;
-            }
-        }
-
         final List<String> returnTypes = Lists.newArrayList();
 
-        for (int i = 0; i < methodNamePosition; i++) {
-            final String text = ctx.getChild(i).getText();
-
-            if (",".equals(text)) {
-                continue;
-            }
-
-            returnTypes.add(text);
+        for (CaytheParser.TypeContext type : ctx.type()) {
+            returnTypes.add(type.getText());
         }
 
-        final String name = ctx.getChild(methodNamePosition).getText();
+        // TODO Formal parameters.
+        final CaytheParser.FormalParameterListContext formalParameterList = ctx.formalParameterList();
+
+        final String name = ctx.IDENTIFIER().getText();
         final Method method = new Method(name, returnTypes);
         method.setVisiblity(Visibility.PUBLIC);
         currentUnit.peek().addMethod(method);
@@ -175,65 +191,6 @@ public final class CaytheListenerImpl extends CaytheParserBaseListener {
     @Override
     public void exitInterfaceDeclaration(CaytheParser.InterfaceDeclarationContext ctx) {
         currentUnit.pop();
-    }
-
-    @SuppressWarnings("deprecation")
-    private CompilationUnit createUnit(final ParserRuleContext ctx) {
-        final Token first = ctx.getStart();
-        final String name;
-        final Visibility visibility;
-
-        switch (first.getText()) {
-            case "public":
-                name = ctx.getChild(2).getText();
-                visibility = Visibility.PUBLIC;
-                break;
-            case "package":
-                name = ctx.getChild(2).getText();
-                visibility = Visibility.PACKAGE;
-                break;
-            default:
-                name = ctx.getChild(1).getText();
-                visibility = Visibility.PRIVATE;
-                break;
-        }
-
-        final CompilationUnit unit = new CompilationUnit(source, "", name);
-        unit.setVisiblity(visibility);
-        return unit;
-    }
-
-    private static boolean isVisibilityModifier(final String token) {
-        switch (token) {
-            case "public":
-            case "package":
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    private Visibility convertVisibility(final String token) {
-        switch (token) {
-            case "public":
-                return Visibility.PUBLIC;
-            case "package":
-                return Visibility.PACKAGE;
-            default:
-                return Visibility.PRIVATE;
-        }
-    }
-
-    private Property.Config convertConfig(String token) {
-        switch (token) {
-            case "write":
-                return Property.Config.WRITE;
-            case "readwrite":
-                return Property.Config.READWRITE;
-            default:
-            case "read":
-                return Property.Config.READ;
-        }
     }
 
 }
