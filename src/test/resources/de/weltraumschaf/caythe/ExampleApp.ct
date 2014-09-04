@@ -18,7 +18,7 @@ public class ExampleApp implements Application {
      * @param args The command line arguments, never {@code null}.
      * @return The exit code. 0 for ok, non-zero for any abnormal exit.
      */
-    @Implementation
+    //@Implementation
     public Integer main(List<String> args) {
       if true {
           sys().println("Hello, world")

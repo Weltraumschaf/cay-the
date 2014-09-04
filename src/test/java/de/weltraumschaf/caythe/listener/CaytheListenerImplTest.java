@@ -20,7 +20,7 @@ import de.weltraumschaf.caythe.ast.Property;
 import de.weltraumschaf.caythe.parser.CaytheParser;
 import de.weltraumschaf.caythe.parser.Parsers;
 import de.weltraumschaf.caythe.ast.Visibility;
-import de.weltraumschaf.caythe.parser.VerboseErrorListener;
+import de.weltraumschaf.caythe.parser.CollectingErrorListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -30,7 +30,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import org.junit.Ignore;
+import org.junit.Before;
 
 /**
  * Tests for {@link ExperimentalVisitor}.
@@ -41,6 +41,7 @@ public class CaytheListenerImplTest {
 
     private static final String TEST_SOURCE = "/de/weltraumschaf/caythe/Test.ct";
     private static final String EXAMPLEAPP_SOURCE = "/de/weltraumschaf/caythe/ExampleApp.ct";
+    private final CollectingErrorListener errors = new CollectingErrorListener();
 
     private static CompilationUnit newAnnotation(final SourceFile source, final String name, final Visibility visibility) {
         return newUnit(source, name, visibility).setType(CompilationUnit.Type.ANNOTATION);
@@ -65,7 +66,7 @@ public class CaytheListenerImplTest {
     }
 
     private CaytheListenerImpl sut(final SourceFile source) throws IOException {
-        final CaytheParser parser = Parsers.caythe(source);
+        final CaytheParser parser = Parsers.caythe(source, errors);
         final ParseTreeWalker walker = new ParseTreeWalker();
         final CaytheListenerImpl sut = new CaytheListenerImpl(source);
         walker.walk(sut, parser.compilationUnit());
@@ -77,6 +78,7 @@ public class CaytheListenerImplTest {
         final SourceFile source = source(TEST_SOURCE);
         final CaytheListenerImpl sut = sut(source);
 
+        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(true)));
         assertThat(sut.imports, containsInAnyOrder(
                 "foo.bar.Foo",
                 "foo.bar.Bar",
@@ -111,9 +113,10 @@ public class CaytheListenerImplTest {
     }
 
     @Test
-    @Ignore
     public void exampleApp() throws IOException, URISyntaxException {
         final SourceFile source = source(EXAMPLEAPP_SOURCE);
         final CaytheListenerImpl sut = sut(source);
+
+        assertThat(errors.toString(), errors.hasErrors(), is(equalTo(true)));
     }
 }
