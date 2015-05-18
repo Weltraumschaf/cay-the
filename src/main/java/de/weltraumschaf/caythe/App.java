@@ -122,29 +122,7 @@ public final class App extends InvokableAdapter {
 
     private void parseSourcesInCurrentworkingdir(final Options opts) throws IOException {
         final Path currentWorkingdir = Paths.get("");
-        final SourceImporter importer = new SourceImporter(
-                currentWorkingdir.toAbsolutePath(),
-                Constants.DEFAULT_ENCODING.toString());
-
-        for (final String libDir : opts.getLibDirs()) {
-            importer.addLibDir(Paths.get(libDir).toAbsolutePath().normalize());
-        }
-
-        getIoStreams().println(String.format(
-                "Searching for files to compile in '%s' ...",
-                importer.getBaseDir().toString()));
-
-        final SourceProcessor processor = new SourceProcessor(importer);
-
-        try {
-            processor.process();
-        } catch (final SyntaxException ex) {
-            getIoStreams().errorln(
-                    String.format("Syntax error: %s (at line %d, column %d)",
-                            ex.getMessage(), ex.getLine(), ex.getColumn()));
-        }
-
-        getIoStreams().println(processor.getUnits().toString());
+        
     }
 
     /**

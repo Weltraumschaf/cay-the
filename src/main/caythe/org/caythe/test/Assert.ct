@@ -1,7 +1,0 @@
-
-public class Assert {
-    
-    public assertThat(Object o) {
-        
-    }
-}
