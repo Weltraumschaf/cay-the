@@ -18,7 +18,7 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public enum Constants {
+enum Constants {
 
     /**
      * Used default string encoding.

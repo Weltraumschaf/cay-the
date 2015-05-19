@@ -12,10 +12,7 @@
 package de.weltraumschaf.caythe;
 
 import com.beust.jcommander.Parameter;
-import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Objects;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Command line options.
@@ -38,9 +35,6 @@ public final class Options {
     @Parameter(names = {"-v", "--version"}, description = "Gives the programm version.")
     private boolean version;
 
-    @Parameter(names = {"-l", "--libdirs"}, description = "List of directories where the compiler find libraries.")
-    private List<String> libDirs = Lists.newArrayList();
-
     /**
      * Whether the help flag is set.
      *
@@ -59,21 +53,11 @@ public final class Options {
         return version;
     }
 
-    /**
-     * Library directories.
-     *
-     * @return empty by default, never {@code null}, unmodifiable
-     */
-    public List<String> getLibDirs() {
-        return Collections.unmodifiableList(libDirs);
-    }
-
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("help", help)
                 .add("version", version)
-                .add("libDirs", libDirs)
                 .toString();
     }
 

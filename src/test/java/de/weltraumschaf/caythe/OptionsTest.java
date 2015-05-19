@@ -34,15 +34,6 @@ public class OptionsTest {
 
         assertThat(sut.isHelp(), is(equalTo(false)));
         assertThat(sut.isVersion(), is(equalTo(false)));
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(0));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void getLibDirs_returnsUnmodifableList() {
-        final Options sut = options.gatherOptions(new String[0]);
-
-        sut.getLibDirs().add("foo");
     }
 
     @Test
@@ -71,58 +62,6 @@ public class OptionsTest {
         final Options sut = options.gatherOptions(new String[]{"--version"});
 
         assertThat(sut.isVersion(), is(equalTo(true)));
-    }
-
-    @Test(expected = ParameterException.class)
-    public void getLibDirs_emptyArgShortOption() {
-        final Options sut = options.gatherOptions(new String[]{"-l"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(0));
-    }
-
-    @Test(expected = ParameterException.class)
-    public void getLibDirs_emptyArgLongOption() {
-        final Options sut = options.gatherOptions(new String[]{"--libdirs"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(0));
-    }
-
-    @Test
-    public void getLibDirs_oneDirShortOption() {
-        final Options sut = options.gatherOptions(new String[]{"-l", "foo/bar/baz"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(1));
-        assertThat(sut.getLibDirs(), containsInAnyOrder("foo/bar/baz"));
-    }
-
-    @Test
-    public void getLibDirs_oneDirLongOption() {
-        final Options sut = options.gatherOptions(new String[]{"--libdirs", "foo/bar/baz"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(1));
-        assertThat(sut.getLibDirs(), containsInAnyOrder("foo/bar/baz"));
-    }
-
-    @Test
-    public void getLibDirs_threeDirShortOption() {
-        final Options sut = options.gatherOptions(new String[]{"-l", "foo", "-l", "bar", "-l", "baz"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(3));
-        assertThat(sut.getLibDirs(), containsInAnyOrder("foo", "bar", "baz"));
-    }
-
-    @Test
-    public void getLibDirs_threeDirLongOption() {
-        final Options sut = options.gatherOptions(new String[]{"--libdirs", "foo", "--libdirs", "bar", "--libdirs", "baz"});
-
-        assertThat(sut.getLibDirs(), is(not(nullValue())));
-        assertThat(sut.getLibDirs(), hasSize(3));
-        assertThat(sut.getLibDirs(), containsInAnyOrder("foo", "bar", "baz"));
     }
 
 }

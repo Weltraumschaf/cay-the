@@ -21,7 +21,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Cay-The</name>
+    <name>Cay-The 1.0</name>
     <description>My own programming language.</description>
     <url>http://weltraumschaf.github.io/cay-the/</url>
 
@@ -52,7 +52,7 @@
     <properties>
         <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
 
-        <dependency.commons.version>2.0.0</dependency.commons.version>
+        <dependency.commons.version>2.0.1-SNAPSHOT</dependency.commons.version>
         <dependency.commons-io.version>2.4</dependency.commons-io.version>
         <dependency.log4j.version>1.2.17</dependency.log4j.version>
     </properties>
@@ -65,33 +65,17 @@
         </dependency>
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>guava</artifactId>
-            <version>${dependency.commons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>jcommander</artifactId>
             <version>${dependency.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>string</artifactId>
+            <artifactId>guava</artifactId>
             <version>${dependency.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>system</artifactId>
-            <version>${dependency.commons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>testing</artifactId>
-            <version>${dependency.commons.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>time</artifactId>
+            <artifactId>parse</artifactId>
             <version>${dependency.commons.version}</version>
         </dependency>
         <dependency>
@@ -99,11 +83,7 @@
             <artifactId>validate</artifactId>
             <version>${dependency.commons.version}</version>
         </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${dependency.commons-io.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

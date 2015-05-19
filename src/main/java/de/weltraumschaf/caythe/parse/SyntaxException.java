@@ -10,13 +10,13 @@
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
 
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.parse;
 
 /**
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class SyntaxException extends Exception {
+final class SyntaxException extends Exception {
 
     private final int line;
     private final int column;
