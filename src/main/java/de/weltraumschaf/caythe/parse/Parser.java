@@ -20,11 +20,11 @@ import de.weltraumschaf.caythe.parse.Scanner.Token;
  */
 final class Parser {
 
-    void parse(final String source) {
+    void parse(final String source) throws SyntaxException {
         parse(new Scanner(source));
     }
 
-    void parse(final Scanner source) {
+    void parse(final Scanner source) throws SyntaxException {
         while (source.hasNext()) {
             final Token current = source.getNext();
         }

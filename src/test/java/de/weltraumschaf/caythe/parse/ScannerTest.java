@@ -15,6 +15,7 @@ import de.weltraumschaf.caythe.parse.Scanner.Token;
 import de.weltraumschaf.commons.parse.token.Position;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -29,57 +30,57 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleBooleanFalse() {
+    public void scannSingleBooleanFalse() throws SyntaxException {
         final Scanner sut = new Scanner("false");
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("false", TokenType.BOOLEAN_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.hasNext(), is(false));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
         assertThat(sut.hasNext(), is(false));
     }
 
     @Test
-    public void scannSingleBooleanTrue() {
+    public void scannSingleBooleanTrue() throws SyntaxException {
         final Scanner sut = new Scanner("true");
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("true", TokenType.BOOLEAN_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(true));
-        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
+        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 5)));
         assertThat(sut.hasNext(), is(false));
     }
 
     @Test
-    public void scannSingleIntegerTrue() {
+    public void scannSingleIntegerTrue() throws SyntaxException {
         final Scanner sut = new Scanner("42");
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("42", TokenType.INTEGER_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(true));
-        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
+        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 3)));
         assertThat(sut.hasNext(), is(false));
     }
 
     @Test
-    public void scannSingleFloatTrue() {
+    public void scannSingleFloatTrue() throws SyntaxException {
         final Scanner sut = new Scanner("3.14");
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("3.14", TokenType.FLOAT_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(true));
-        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
+        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 5)));
         assertThat(sut.hasNext(), is(false));
     }
 
     @Test
-    public void scannSingleStringTrue() {
+    public void scannSingleString() throws SyntaxException {
         final Scanner sut = new Scanner("\"hello world\"");
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("hello world", TokenType.STRING_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(true));
-        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
+        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 14)));
         assertThat(sut.hasNext(), is(false));
     }
 
