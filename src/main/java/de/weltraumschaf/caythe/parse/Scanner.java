@@ -23,12 +23,10 @@ import de.weltraumschaf.commons.validate.Validate;
  */
 final class Scanner {
 
-    private static final char SPACE = ' ';
-    private static final char TAB = '\t';
-    private static final char NEW_LINE = '\n';
     private static final char DOT = '.';
     private static final char UPPER_CASE_E = 'E';
     private static final char LOWER_CASE_E = 'e';
+
     private static final String LITERAL_FALSE = "false";
     private static final String LITERAL_TRUE = "true";
 
@@ -76,10 +74,10 @@ final class Scanner {
             } else if (CharacterHelper.isDoubleQuote(currentChar)) {
                 last = scanString();
                 return last;
-            } else if (NEW_LINE == currentChar) {
-                last = new Token(currentPosition(), NEW_LINE, TokenType.NEW_LINE);
+            } else if (CharacterHelper.isNewline(currentChar)) {
+                last = new Token(currentPosition(), currentChar, TokenType.NEW_LINE);
                 return last;
-            } else if (SPACE == currentChar || TAB == currentChar) {
+            } else if (CharacterHelper.isSpace(currentChar)) {
                 // Skip whitespaces.
             } else {
                 throw new SyntaxException("Unrecognized character '" + currentChar + "'!");
