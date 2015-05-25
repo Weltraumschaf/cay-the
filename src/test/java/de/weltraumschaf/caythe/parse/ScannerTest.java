@@ -35,7 +35,7 @@ public class ScannerTest {
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("false", TokenType.BOOLEAN_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 6)));
         assertThat(sut.hasNext(), is(false));
     }
@@ -46,7 +46,7 @@ public class ScannerTest {
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("true", TokenType.BOOLEAN_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 5)));
         assertThat(sut.hasNext(), is(false));
     }
@@ -57,7 +57,7 @@ public class ScannerTest {
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("42", TokenType.INTEGER_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 3)));
         assertThat(sut.hasNext(), is(false));
     }
@@ -68,7 +68,7 @@ public class ScannerTest {
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("3.14", TokenType.FLOAT_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 5)));
         assertThat(sut.hasNext(), is(false));
     }
@@ -79,14 +79,28 @@ public class ScannerTest {
 
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("hello world", TokenType.STRING_VALUE, 1, 1)));
-        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 14)));
         assertThat(sut.hasNext(), is(false));
     }
 
     @Test
-    public void scannDeclareBooleanVariabe() {
-        final Scanner sut = new Scanner("var foo = true");
+    public void scannDeclareBooleanVariabe() throws SyntaxException {
+        final Scanner sut = new Scanner("var foo = true\n");
+
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("var", TokenType.K_VAR, 1, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("foo", TokenType.IDENTIFIER, 1, 5)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("=", TokenType.OP_ASSIGN, 1, 9)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("true", TokenType.BOOLEAN_VALUE, 1, 11)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("\n", TokenType.NEW_LINE, 1, 16)));
+        assertThat(sut.hasNext(), is(false));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 17)));
+        assertThat(sut.hasNext(), is(false));
     }
 
     @Test
