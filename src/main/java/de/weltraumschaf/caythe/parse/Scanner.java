@@ -51,11 +51,17 @@ final class Scanner {
             } else if (CharacterHelper.isNum(currentChar)) {
                 return scanNumber(source);
             } else if (CharacterHelper.isAlpha(currentChar)) {
-                return scanLiteral(source);
-            } else if (CharacterHelper.isSpecialChar(currentChar)) {
+                return scanLiteral(source, new StringBuilder(), currentPosition());
+            } else if (CharacterHelper.isOperator(currentChar)) {
                 return scanOperator(source);
             } else if (CharacterHelper.isDoubleQuote(currentChar)) {
                 return scanString(source);
+            } else if ('\n' == currentChar) {
+                return new Token(currentPosition(), "\n", TokenType.NEW_LINE);
+            } else if (' ' == currentChar || '\t' == currentChar) {
+                // Skip whitespaces.
+            } else {
+                throw new SyntaxException("Unrecognized character '" + currentChar + "'!");
             }
         }
 
@@ -64,7 +70,7 @@ final class Scanner {
 
     private Token scanNumber(CharacterStream source) {
         final StringBuilder value = new StringBuilder();
-        final Position currentPosition = currentPosition();
+        final Position start = currentPosition();
         value.append(source.current());
 
         while (source.hasNext()) {
@@ -75,22 +81,21 @@ final class Scanner {
             }
 
             if ('.' == currentChar) {
-                return scanFloat(source, value, currentPosition);
+                return scanFloat(source, value, start);
             }
 
             if (!CharacterHelper.isNum(currentChar)) {
-                return scanLiteralOrKeyword(source, value, currentPosition);
+                return scanLiteral(source, value, start);
             }
 
             value.append(currentChar);
         }
 
-        return new Token(currentPosition, value.toString(), TokenType.INTEGER_VALUE);
+        return new Token(start, value.toString(), TokenType.INTEGER_VALUE);
     }
 
-    private Token scanLiteral(CharacterStream source) {
-        final StringBuilder value = new StringBuilder();
-        final Position currentPosition = currentPosition();
+    private Token scanLiteral(CharacterStream source, StringBuilder value, final Position pos) {
+        final Position start = currentPosition();
         value.append(source.current());
 
         while (source.hasNext()) {
@@ -106,17 +111,17 @@ final class Scanner {
         final String tokenString = value.toString();
 
         if ("true".equals(tokenString) || "false".equals(tokenString)) {
-            return new Token(currentPosition, value.toString(), TokenType.BOOLEAN_VALUE);
+            return new Token(start, value.toString(), TokenType.BOOLEAN_VALUE);
         } else if (TokenType.isKeyword(tokenString)) {
-            return new Token(currentPosition, value.toString(), TokenType.keywordFor(tokenString));
+            return new Token(start, value.toString(), TokenType.keywordFor(tokenString));
         } else {
-            return new Token(currentPosition, value.toString(), TokenType.IDENTIFIER);
+            return new Token(start, value.toString(), TokenType.IDENTIFIER);
         }
     }
 
     private Token scanString(CharacterStream source) throws SyntaxException {
         final StringBuilder value = new StringBuilder();
-        final Position currentPosition = currentPosition();
+        final Position start = currentPosition();
         final char startQuote = source.current();
         boolean terminated = false;
 
@@ -141,10 +146,10 @@ final class Scanner {
             throw new SyntaxException(String.format("Unterminated string '%s'!", value.toString()));
         }
 
-        return new Token(currentPosition, value.toString(), TokenType.STRING_VALUE);
+        return new Token(start, value.toString(), TokenType.STRING_VALUE);
     }
 
-    private Token scanFloat(CharacterStream source, StringBuilder value, final Position pos) {
+    private Token scanFloat(CharacterStream source, StringBuilder value, final Position start) {
         value.append(source.current());
 
         while (source.hasNext()) {
@@ -155,13 +160,13 @@ final class Scanner {
             }
 
             if (!CharacterHelper.isNum(currentChar) && !isAllowedInFloat(currentChar)) {
-                return scanLiteralOrKeyword(source, value, pos);
+                return scanLiteral(source, value, start);
             }
 
             value.append(currentChar);
         }
 
-        return new Token(pos, value.toString(), TokenType.FLOAT_VALUE);
+        return new Token(start, value.toString(), TokenType.FLOAT_VALUE);
     }
 
     /**
@@ -177,12 +182,22 @@ final class Scanner {
         return CharacterHelper.isSign(c) || 'e' == c || 'E' == c;
     }
 
-    private Token scanLiteralOrKeyword(CharacterStream source, StringBuilder value, final Position pos) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     private Token scanOperator(CharacterStream source) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final StringBuilder value = new StringBuilder();
+        final Position start = currentPosition();
+        value.append(source.current());
+
+        while (source.hasNext()) {
+            final char currentChar = source.next();
+
+            if (CharacterHelper.isWhiteSpace(currentChar)) {
+                break;
+            }
+
+            value.append(currentChar);
+        }
+
+        return new Token(start, value.toString(), TokenType.operatorFor(value.toString()));
     }
 
     static final class Token implements de.weltraumschaf.commons.parse.token.Token {
