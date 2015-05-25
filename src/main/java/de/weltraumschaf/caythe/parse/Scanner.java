@@ -84,7 +84,15 @@ final class Scanner {
             }
         }
 
-        last = new Token(currentPosition().incColumn(), "", TokenType.END_OF_FILE);
+        final Position pos;
+
+        if (isNewline(source.current())) {
+            pos = currentPosition().incLine().column(1);
+        } else {
+            pos = currentPosition().incColumn();
+        }
+
+        last = new Token(pos, "", TokenType.END_OF_FILE);
         return last;
     }
 

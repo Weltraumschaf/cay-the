@@ -51,7 +51,7 @@ public class ScannerTest {
         expect("\n\n",
             token("\n", TokenType.NEW_LINE, 1, 1),
             token("\n", TokenType.NEW_LINE, 2, 1),
-            token("", TokenType.END_OF_FILE, 2, 2));
+            token("", TokenType.END_OF_FILE, 3, 1));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ScannerTest {
         expect("  \n  \n",
             token("\n", TokenType.NEW_LINE, 1, 3),
             token("\n", TokenType.NEW_LINE, 2, 3),
-            token("", TokenType.END_OF_FILE, 2, 4));
+            token("", TokenType.END_OF_FILE, 3, 1));
     }
 
     @Test
@@ -77,14 +77,13 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanMultiplebooleansInOneLine() throws SyntaxException {
         expect("true false  true\tfalse\n",
             token("true", TokenType.BOOLEAN_VALUE, 1, 1),
             token("false", TokenType.BOOLEAN_VALUE, 1, 6),
             token("true", TokenType.BOOLEAN_VALUE, 1, 13),
             token("false", TokenType.BOOLEAN_VALUE, 1, 18),
-            token("\n", TokenType.NEW_LINE, 1, 22),
+            token("\n", TokenType.NEW_LINE, 1, 23),
             token("", TokenType.END_OF_FILE, 2, 1));
 
     }
@@ -114,7 +113,6 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanDeclareBooleanVariabe() throws SyntaxException {
         expect("var foo = true\n",
             token("var", TokenType.K_VAR, 1, 1),
@@ -127,7 +125,6 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanDeclareIntegerVariabe() throws SyntaxException {
         expect("var foo = 42\n",
             token("var", TokenType.K_VAR, 1, 1),
@@ -140,7 +137,6 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanDeclareFloatVariabe() throws SyntaxException {
         expect("var foo = 3.14\n",
             token("var", TokenType.K_VAR, 1, 1),
@@ -153,7 +149,6 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanDeclareStringVariabe() throws SyntaxException {
         expect("var foo = \"hello world\"\n",
             token("var", TokenType.K_VAR, 1, 1),
