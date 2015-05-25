@@ -132,8 +132,22 @@ public class ScannerTest {
     }
 
     @Test
-    public void scanDeclareFloatVariabe() {
+    public void scanDeclareFloatVariabe() throws SyntaxException {
         final Scanner sut = new Scanner("var foo = 3.14\n");
+
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("var", TokenType.K_VAR, 1, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("foo", TokenType.IDENTIFIER, 1, 5)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("=", TokenType.OP_ASSIGN, 1, 9)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("3.14", TokenType.FLOAT_VALUE, 1, 11)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("\n", TokenType.NEW_LINE, 2, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 2, 2)));
+        assertThat(sut.hasNext(), is(false));
     }
 
     @Test
