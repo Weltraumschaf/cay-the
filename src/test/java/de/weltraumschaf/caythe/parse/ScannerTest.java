@@ -30,7 +30,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannEmpty() throws SyntaxException {
+    public void scanEmpty() throws SyntaxException {
         final Scanner sut = new Scanner("");
 
         assertThat(sut.hasNext(), is(true));
@@ -39,7 +39,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleBooleanFalse() throws SyntaxException {
+    public void scanSingleBooleanFalse() throws SyntaxException {
         final Scanner sut = new Scanner("false");
 
         assertThat(sut.hasNext(), is(true));
@@ -50,7 +50,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleBooleanTrue() throws SyntaxException {
+    public void scanSingleBooleanTrue() throws SyntaxException {
         final Scanner sut = new Scanner("true");
 
         assertThat(sut.hasNext(), is(true));
@@ -61,7 +61,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleIntegerTrue() throws SyntaxException {
+    public void scanSingleIntegerTrue() throws SyntaxException {
         final Scanner sut = new Scanner("42");
 
         assertThat(sut.hasNext(), is(true));
@@ -72,7 +72,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleFloatTrue() throws SyntaxException {
+    public void scanSingleFloatTrue() throws SyntaxException {
         final Scanner sut = new Scanner("3.14");
 
         assertThat(sut.hasNext(), is(true));
@@ -83,7 +83,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannSingleString() throws SyntaxException {
+    public void scanSingleString() throws SyntaxException {
         final Scanner sut = new Scanner("\"hello world\"");
 
         assertThat(sut.hasNext(), is(true));
@@ -94,7 +94,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannDeclareBooleanVariabe() throws SyntaxException {
+    public void scanDeclareBooleanVariabe() throws SyntaxException {
         final Scanner sut = new Scanner("var foo = true\n");
 
         assertThat(sut.hasNext(), is(true));
@@ -113,37 +113,37 @@ public class ScannerTest {
     }
 
     @Test
-    public void scannDeclareIntegerVariabe() {
+    public void scanDeclareIntegerVariabe() {
         final Scanner sut = new Scanner("var foo = 42");
     }
 
     @Test
-    public void scannDeclareFloatVariabe() {
+    public void scanDeclareFloatVariabe() {
         final Scanner sut = new Scanner("var foo = 3.14");
     }
 
     @Test
-    public void scannDeclareStringVariabe() {
+    public void scanDeclareStringVariabe() {
         final Scanner sut = new Scanner("var foo = \"hello world\"");
     }
 
     @Test
-    public void scannDeclareBooleanConstant() {
+    public void scanDeclareBooleanConstant() {
         final Scanner sut = new Scanner("const foo = true");
     }
 
     @Test
-    public void scannDeclareIntegerConstant() {
+    public void scanDeclareIntegerConstant() {
         final Scanner sut = new Scanner("const foo = 42");
     }
 
     @Test
-    public void scannDeclareFloatConstant() {
+    public void scanDeclareFloatConstant() {
         final Scanner sut = new Scanner("const foo = 3.14");
     }
 
     @Test
-    public void scannDeclareStringConstant() {
+    public void scanDeclareStringConstant() {
         final Scanner sut = new Scanner("const foo = \"hello world\"");
     }
 
