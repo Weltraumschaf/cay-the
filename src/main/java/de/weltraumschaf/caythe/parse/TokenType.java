@@ -50,7 +50,9 @@ enum TokenType {
     K_SWITCH("switch"),
     K_CASE("case"),
     K_DEFAULT("default"),
-    K_FOR("for");
+    K_FOR("for"),
+    K_CONST("const"),
+    K_VAR("var");
 
     private static final Map<String, TokenType> OPERATORS;
 
