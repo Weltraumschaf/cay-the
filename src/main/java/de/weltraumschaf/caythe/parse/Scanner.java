@@ -24,6 +24,7 @@ import de.weltraumschaf.commons.validate.Validate;
 final class Scanner {
 
     private final CharacterStream source;
+    private Token last = new Token(Position.NULL, "", TokenType.NONE);
 
     Scanner(final String source) {
         this(new CharacterStream(source));
@@ -39,25 +40,36 @@ final class Scanner {
     }
 
     boolean hasNext() {
-        return source.hasNext();
+        return last.type != TokenType.END_OF_FILE;
     }
 
     Token getNext() throws SyntaxException {
+        if (source.isEmpty()) {
+            last = new Token(currentPosition(), "", TokenType.END_OF_FILE);
+            return last;
+        }
+
         while (source.hasNext()) {
             final char currentChar = source.next();
 
             if (CharacterHelper.isSign(currentChar) && CharacterHelper.isNum(source.peek())) {
-                return scanNumber(source);
+                last = scanNumber();
+                return last;
             } else if (CharacterHelper.isNum(currentChar)) {
-                return scanNumber(source);
+                last = scanNumber();
+                return last;
             } else if (CharacterHelper.isAlpha(currentChar)) {
-                return scanLiteral(source, new StringBuilder(), currentPosition());
+                last = scanLiteral(new StringBuilder(), currentPosition());
+                return last;
             } else if (CharacterHelper.isOperator(currentChar)) {
-                return scanOperator(source);
+                last = scanOperator();
+                return last;
             } else if (CharacterHelper.isDoubleQuote(currentChar)) {
-                return scanString(source);
+                last = scanString();
+                return last;
             } else if ('\n' == currentChar) {
-                return new Token(currentPosition(), "\n", TokenType.NEW_LINE);
+                last = new Token(currentPosition(), "\n", TokenType.NEW_LINE);
+                return last;
             } else if (' ' == currentChar || '\t' == currentChar) {
                 // Skip whitespaces.
             } else {
@@ -65,10 +77,11 @@ final class Scanner {
             }
         }
 
-        return new Token(currentPosition().incColumn(), "", TokenType.END_OF_FILE);
+        last = new Token(currentPosition().incColumn(), "", TokenType.END_OF_FILE);
+        return last;
     }
 
-    private Token scanNumber(CharacterStream source) {
+    private Token scanNumber() {
         final StringBuilder value = new StringBuilder();
         final Position start = currentPosition();
         value.append(source.current());
@@ -81,11 +94,11 @@ final class Scanner {
             }
 
             if ('.' == currentChar) {
-                return scanFloat(source, value, start);
+                return scanFloat(value, start);
             }
 
             if (!CharacterHelper.isNum(currentChar)) {
-                return scanLiteral(source, value, start);
+                return scanLiteral(value, start);
             }
 
             value.append(currentChar);
@@ -94,18 +107,15 @@ final class Scanner {
         return new Token(start, value.toString(), TokenType.INTEGER_VALUE);
     }
 
-    private Token scanLiteral(CharacterStream source, StringBuilder value, final Position pos) {
-        final Position start = currentPosition();
+    private Token scanLiteral(final StringBuilder value, final Position start) {
         value.append(source.current());
 
         while (source.hasNext()) {
-            final char currentChar = source.next();
-
-            if (CharacterHelper.isWhiteSpace(currentChar)) {
+            if (CharacterHelper.isWhiteSpace(source.peek())) {
                 break;
             }
 
-            value.append(currentChar);
+            value.append(source.next());
         }
 
         final String tokenString = value.toString();
@@ -119,7 +129,7 @@ final class Scanner {
         }
     }
 
-    private Token scanString(CharacterStream source) throws SyntaxException {
+    private Token scanString() throws SyntaxException {
         final StringBuilder value = new StringBuilder();
         final Position start = currentPosition();
         final char startQuote = source.current();
@@ -149,7 +159,7 @@ final class Scanner {
         return new Token(start, value.toString(), TokenType.STRING_VALUE);
     }
 
-    private Token scanFloat(CharacterStream source, StringBuilder value, final Position start) {
+    private Token scanFloat(final StringBuilder value, final Position start) {
         value.append(source.current());
 
         while (source.hasNext()) {
@@ -160,7 +170,7 @@ final class Scanner {
             }
 
             if (!CharacterHelper.isNum(currentChar) && !isAllowedInFloat(currentChar)) {
-                return scanLiteral(source, value, start);
+                return scanLiteral(value, start);
             }
 
             value.append(currentChar);
@@ -182,7 +192,7 @@ final class Scanner {
         return CharacterHelper.isSign(c) || 'e' == c || 'E' == c;
     }
 
-    private Token scanOperator(CharacterStream source) {
+    private Token scanOperator() {
         final StringBuilder value = new StringBuilder();
         final Position start = currentPosition();
         value.append(source.current());
@@ -252,8 +262,6 @@ final class Scanner {
                 && Objects.equal(raw, other.raw)
                 && Objects.equal(type, other.type);
         }
-
-
 
     }
 }

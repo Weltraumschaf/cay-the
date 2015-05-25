@@ -30,6 +30,15 @@ public class ScannerTest {
     }
 
     @Test
+    public void scannEmpty() throws SyntaxException {
+        final Scanner sut = new Scanner("");
+
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 0, 0)));
+        assertThat(sut.hasNext(), is(false));
+    }
+
+    @Test
     public void scannSingleBooleanFalse() throws SyntaxException {
         final Scanner sut = new Scanner("false");
 
@@ -97,9 +106,9 @@ public class ScannerTest {
         assertThat(sut.hasNext(), is(true));
         assertThat(sut.getNext(), is(token("true", TokenType.BOOLEAN_VALUE, 1, 11)));
         assertThat(sut.hasNext(), is(true));
-        assertThat(sut.getNext(), is(token("\n", TokenType.NEW_LINE, 1, 16)));
-        assertThat(sut.hasNext(), is(false));
-        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 1, 17)));
+        assertThat(sut.getNext(), is(token("\n", TokenType.NEW_LINE, 2, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 2, 2)));
         assertThat(sut.hasNext(), is(false));
     }
 

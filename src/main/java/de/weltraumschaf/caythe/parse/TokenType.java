@@ -22,7 +22,7 @@ import java.util.Map;
  */
 enum TokenType {
 
-    NEW_LINE, END_OF_FILE,
+    NEW_LINE, END_OF_FILE, NONE,
     BOOLEAN_VALUE, INTEGER_VALUE, FLOAT_VALUE, STRING_VALUE,
     IDENTIFIER,
     OP_ADD("+"),
