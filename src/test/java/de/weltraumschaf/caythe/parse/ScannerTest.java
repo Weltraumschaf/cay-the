@@ -77,6 +77,7 @@ public class ScannerTest {
     }
 
     @Test
+    @Ignore
     public void scanMultiplebooleansInOneLine() throws SyntaxException {
         expect("true false  true\tfalse\n",
             token("true", TokenType.BOOLEAN_VALUE, 1, 1),

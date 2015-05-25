@@ -12,7 +12,7 @@
 package de.weltraumschaf.caythe.parse;
 
 import de.weltraumschaf.commons.guava.Objects;
-import de.weltraumschaf.commons.parse.characters.CharacterHelper;
+import static de.weltraumschaf.commons.parse.characters.CharacterHelper.*;
 import de.weltraumschaf.commons.parse.characters.CharacterStream;
 import de.weltraumschaf.commons.parse.token.Position;
 import de.weltraumschaf.commons.validate.Validate;
@@ -59,25 +59,25 @@ final class Scanner {
         while (source.hasNext()) {
             final char currentChar = source.next();
 
-            if (CharacterHelper.isSign(currentChar) && CharacterHelper.isNum(source.peek())) {
+            if (isSign(currentChar) && isNum(source.peek())) {
                 last = scanNumber();
                 return last;
-            } else if (CharacterHelper.isNum(currentChar)) {
+            } else if (isNum(currentChar)) {
                 last = scanNumber();
                 return last;
-            } else if (CharacterHelper.isAlpha(currentChar)) {
+            } else if (isAlpha(currentChar)) {
                 last = scanLiteral(new StringBuilder(), currentPosition());
                 return last;
-            } else if (CharacterHelper.isOperator(currentChar)) {
+            } else if (isOperator(currentChar)) {
                 last = scanOperator();
                 return last;
-            } else if (CharacterHelper.isDoubleQuote(currentChar)) {
+            } else if (isDoubleQuote(currentChar)) {
                 last = scanString();
                 return last;
-            } else if (CharacterHelper.isNewline(currentChar)) {
+            } else if (isNewline(currentChar)) {
                 last = new Token(currentPosition(), currentChar, TokenType.NEW_LINE);
                 return last;
-            } else if (CharacterHelper.isSpace(currentChar)) {
+            } else if (isSpace(currentChar)) {
                 // Skip whitespaces.
             } else {
                 throw new SyntaxException("Unrecognized character '" + currentChar + "'!");
@@ -94,7 +94,7 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            if (CharacterHelper.isWhiteSpace(source.peek())) {
+            if (isWhiteSpace(source.peek())) {
                 break;
             }
 
@@ -104,7 +104,7 @@ final class Scanner {
                 return scanFloat(value, start);
             }
 
-            if (!CharacterHelper.isNum(currentChar)) {
+            if (!isNum(currentChar)) {
                 return scanLiteral(value, start);
             }
 
@@ -118,7 +118,7 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            if (CharacterHelper.isWhiteSpace(source.peek())) {
+            if (isWhiteSpace(source.peek())) {
                 break;
             }
 
@@ -164,13 +164,13 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            if (CharacterHelper.isWhiteSpace(source.peek())) {
+            if (isWhiteSpace(source.peek())) {
                 break;
             }
 
             final char currentChar = source.next();
 
-            if (!CharacterHelper.isNum(currentChar) && !isAllowedInFloat(currentChar)) {
+            if (!isNum(currentChar) && !isAllowedInFloat(currentChar)) {
                 return scanLiteral(value, start);
             }
 
@@ -190,7 +190,7 @@ final class Scanner {
      * @return {@code true} if c is allowed, else {@code false}
      */
     private boolean isAllowedInFloat(final char c) {
-        return CharacterHelper.isSign(c) || LOWER_CASE_E == c || UPPER_CASE_E == c;
+        return isSign(c) || LOWER_CASE_E == c || UPPER_CASE_E == c;
     }
 
     private Token scanOperator() {
@@ -201,7 +201,7 @@ final class Scanner {
         while (source.hasNext()) {
             final char currentChar = source.next();
 
-            if (CharacterHelper.isWhiteSpace(currentChar)) {
+            if (isWhiteSpace(currentChar)) {
                 break;
             }
 
