@@ -23,6 +23,15 @@ import de.weltraumschaf.commons.validate.Validate;
  */
 final class Scanner {
 
+    private static final char SPACE = ' ';
+    private static final char TAB = '\t';
+    private static final char NEW_LINE = '\n';
+    private static final char DOT = '.';
+    private static final char UPPER_CASE_E = 'E';
+    private static final char LOWER_CASE_E = 'e';
+    private static final String LITERAL_FALSE = "false";
+    private static final String LITERAL_TRUE = "true";
+
     private final CharacterStream source;
     private Token last = new Token(Position.NULL, "", TokenType.NONE);
 
@@ -67,10 +76,10 @@ final class Scanner {
             } else if (CharacterHelper.isDoubleQuote(currentChar)) {
                 last = scanString();
                 return last;
-            } else if ('\n' == currentChar) {
-                last = new Token(currentPosition(), "\n", TokenType.NEW_LINE);
+            } else if (NEW_LINE == currentChar) {
+                last = new Token(currentPosition(), NEW_LINE, TokenType.NEW_LINE);
                 return last;
-            } else if (' ' == currentChar || '\t' == currentChar) {
+            } else if (SPACE == currentChar || TAB == currentChar) {
                 // Skip whitespaces.
             } else {
                 throw new SyntaxException("Unrecognized character '" + currentChar + "'!");
@@ -93,8 +102,7 @@ final class Scanner {
 
             final char currentChar = source.next();
 
-
-            if ('.' == currentChar) {
+            if (DOT == currentChar) {
                 return scanFloat(value, start);
             }
 
@@ -121,7 +129,7 @@ final class Scanner {
 
         final String tokenString = value.toString();
 
-        if ("true".equals(tokenString) || "false".equals(tokenString)) {
+        if (LITERAL_TRUE.equals(tokenString) || LITERAL_FALSE.equals(tokenString)) {
             return new Token(start, value.toString(), TokenType.BOOLEAN_VALUE);
         } else if (TokenType.isKeyword(tokenString)) {
             return new Token(start, value.toString(), TokenType.keywordFor(tokenString));
@@ -137,20 +145,14 @@ final class Scanner {
         boolean terminated = false;
 
         while (source.hasNext()) {
-            final char currentChar = source.next();
-
-            if (currentChar == startQuote) {
+            if (source.peek() == startQuote) {
                 terminated = true;
-
-                if (source.hasNext()) {
-                    // Skip closing quote, if there are more characters.
-                    source.next();
-                }
-
+                // Skip closing quote.
+                source.next();
                 break;
             }
 
-            value.append(currentChar);
+            value.append(source.next());
         }
 
         if (!terminated) {
@@ -190,7 +192,7 @@ final class Scanner {
      * @return {@code true} if c is allowed, else {@code false}
      */
     private boolean isAllowedInFloat(final char c) {
-        return CharacterHelper.isSign(c) || 'e' == c || 'E' == c;
+        return CharacterHelper.isSign(c) || LOWER_CASE_E == c || UPPER_CASE_E == c;
     }
 
     private Token scanOperator() {
@@ -216,6 +218,10 @@ final class Scanner {
         private final Position pos;
         private final String raw;
         private final TokenType type;
+
+        public Token(final Position pos, final char raw, final TokenType type) {
+            this(pos, String.valueOf(raw), type);
+        }
 
         public Token(final Position pos, final String raw, final TokenType type) {
             super();
