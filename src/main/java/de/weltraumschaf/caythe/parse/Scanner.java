@@ -87,11 +87,12 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            final char currentChar = source.next();
-
-            if (CharacterHelper.isWhiteSpace(currentChar)) {
+            if (CharacterHelper.isWhiteSpace(source.peek())) {
                 break;
             }
+
+            final char currentChar = source.next();
+
 
             if ('.' == currentChar) {
                 return scanFloat(value, start);

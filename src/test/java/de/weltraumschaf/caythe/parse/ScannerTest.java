@@ -113,38 +113,52 @@ public class ScannerTest {
     }
 
     @Test
-    public void scanDeclareIntegerVariabe() {
-        final Scanner sut = new Scanner("var foo = 42");
+    public void scanDeclareIntegerVariabe() throws SyntaxException {
+        final Scanner sut = new Scanner("var foo = 42\n");
+
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("var", TokenType.K_VAR, 1, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("foo", TokenType.IDENTIFIER, 1, 5)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("=", TokenType.OP_ASSIGN, 1, 9)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("42", TokenType.INTEGER_VALUE, 1, 11)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("\n", TokenType.NEW_LINE, 2, 1)));
+        assertThat(sut.hasNext(), is(true));
+        assertThat(sut.getNext(), is(token("", TokenType.END_OF_FILE, 2, 2)));
+        assertThat(sut.hasNext(), is(false));
     }
 
     @Test
     public void scanDeclareFloatVariabe() {
-        final Scanner sut = new Scanner("var foo = 3.14");
+        final Scanner sut = new Scanner("var foo = 3.14\n");
     }
 
     @Test
     public void scanDeclareStringVariabe() {
-        final Scanner sut = new Scanner("var foo = \"hello world\"");
+        final Scanner sut = new Scanner("var foo = \"hello world\"\n");
     }
 
     @Test
     public void scanDeclareBooleanConstant() {
-        final Scanner sut = new Scanner("const foo = true");
+        final Scanner sut = new Scanner("const foo = true\n");
     }
 
     @Test
     public void scanDeclareIntegerConstant() {
-        final Scanner sut = new Scanner("const foo = 42");
+        final Scanner sut = new Scanner("const foo = 42\n");
     }
 
     @Test
     public void scanDeclareFloatConstant() {
-        final Scanner sut = new Scanner("const foo = 3.14");
+        final Scanner sut = new Scanner("const foo = 3.14\n");
     }
 
     @Test
     public void scanDeclareStringConstant() {
-        final Scanner sut = new Scanner("const foo = \"hello world\"");
+        final Scanner sut = new Scanner("const foo = \"hello world\"\n");
     }
 
 }
