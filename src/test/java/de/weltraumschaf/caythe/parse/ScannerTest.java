@@ -203,4 +203,22 @@ public class ScannerTest {
             token("", TokenType.END_OF_FILE, 2, 1));
     }
 
+    @Test
+    @Ignore
+    public void scannSingleLinecomments() throws SyntaxException {
+        expect("", new Token[0]);
+    }
+
+    @Test
+    @Ignore
+    public void scannMultiLinecomments() throws SyntaxException {
+        expect("", new Token[0]);
+    }
+
+    @Test
+    @Ignore
+    public void scanComplexCodeWithDeclarationsAndFunction() throws SyntaxException {
+        expect("", new Token[0]);
+    }
+
 }
