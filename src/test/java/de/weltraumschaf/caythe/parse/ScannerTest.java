@@ -145,7 +145,6 @@ public class ScannerTest {
             token("3.14", TokenType.FLOAT_VALUE, 1, 11),
             token("\n", TokenType.NEW_LINE, 1, 15),
             token("", TokenType.END_OF_FILE, 2, 1));
-
     }
 
     @Test
@@ -161,27 +160,47 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanDeclareBooleanConstant() throws SyntaxException {
-        expect("const foo = true\n", new Token[0]);
+        expect("const foo = true\n",
+            token("const", TokenType.K_CONST, 1, 1),
+            token("foo", TokenType.IDENTIFIER, 1, 7),
+            token("=", TokenType.OP_ASSIGN, 1, 11),
+            token("true", TokenType.BOOLEAN_VALUE, 1, 13),
+            token("\n", TokenType.NEW_LINE, 1, 17),
+            token("", TokenType.END_OF_FILE, 2, 1));
     }
 
     @Test
-    @Ignore
     public void scanDeclareIntegerConstant() throws SyntaxException {
-        expect("const foo = 42\n", new Token[0]);
+        expect("const foo = 42\n",
+            token("const", TokenType.K_CONST, 1, 1),
+            token("foo", TokenType.IDENTIFIER, 1, 7),
+            token("=", TokenType.OP_ASSIGN, 1, 11),
+            token("42", TokenType.INTEGER_VALUE, 1, 13),
+            token("\n", TokenType.NEW_LINE, 1, 15),
+            token("", TokenType.END_OF_FILE, 2, 1));
     }
 
     @Test
-    @Ignore
     public void scanDeclareFloatConstant() throws SyntaxException {
-        expect("const foo = 3.14\n", new Token[0]);
+        expect("const foo = 3.14\n",
+            token("const", TokenType.K_CONST, 1, 1),
+            token("foo", TokenType.IDENTIFIER, 1, 7),
+            token("=", TokenType.OP_ASSIGN, 1, 11),
+            token("3.14", TokenType.FLOAT_VALUE, 1, 13),
+            token("\n", TokenType.NEW_LINE, 1, 17),
+            token("", TokenType.END_OF_FILE, 2, 1));
     }
 
     @Test
-    @Ignore
     public void scanDeclareStringConstant() throws SyntaxException {
-        expect("const foo = \"hello world\"\n", new Token[0]);
+        expect("const foo = \"hello world\"\n",
+            token("const", TokenType.K_CONST, 1, 1),
+            token("foo", TokenType.IDENTIFIER, 1, 7),
+            token("=", TokenType.OP_ASSIGN, 1, 11),
+            token("hello world", TokenType.STRING_VALUE, 1, 13),
+            token("\n", TokenType.NEW_LINE, 1, 26),
+            token("", TokenType.END_OF_FILE, 2, 1));
     }
 
 }
