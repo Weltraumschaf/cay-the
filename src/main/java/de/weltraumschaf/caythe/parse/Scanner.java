@@ -18,6 +18,7 @@ import de.weltraumschaf.commons.parse.token.Position;
 import de.weltraumschaf.commons.validate.Validate;
 
 /**
+ * TODO Implement comment scanning.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
@@ -102,21 +103,22 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            if (isWhiteSpace(source.peek())) {
+            final char peek = source.peek();
+
+            if (isWhiteSpace(peek)) {
                 break;
             }
 
-            final char currentChar = source.next();
-
-            if (DOT == currentChar) {
+            if (DOT == peek) {
+                source.next();
                 return scanFloat(value, start);
             }
 
-            if (!isNum(currentChar)) {
-                return scanLiteral(value, start);
+            if (!isNum(peek)) {
+                break;
             }
 
-            value.append(currentChar);
+            value.append(source.next());
         }
 
         return new Token(start, value.toString(), TokenType.INTEGER_VALUE);
@@ -126,7 +128,9 @@ final class Scanner {
         value.append(source.current());
 
         while (source.hasNext()) {
-            if (isWhiteSpace(source.peek())) {
+            final char peek = source.peek();
+
+            if (isWhiteSpace(peek) || isOperator(peek)) {
                 break;
             }
 
@@ -205,15 +209,15 @@ final class Scanner {
         final StringBuilder value = new StringBuilder();
         final Position start = currentPosition();
         value.append(source.current());
-
+        // TODO In general an operator is only one character and in some cases
+        // two characters. Fix it so that something like "{}" (empty block)
+        // does not  cause a syntax error.
         while (source.hasNext()) {
-            final char currentChar = source.next();
-
-            if (isWhiteSpace(currentChar)) {
+            if (!isOperator(source.peek())) {
                 break;
             }
 
-            value.append(currentChar);
+            value.append(source.next());
         }
 
         return new Token(start, value.toString(), TokenType.operatorFor(value.toString()));

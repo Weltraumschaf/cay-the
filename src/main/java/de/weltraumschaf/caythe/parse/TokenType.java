@@ -42,6 +42,13 @@ enum TokenType {
     OP_AND("&"),
     OP_OR("|"),
     OP_NOT("!"),
+    OP_LPAREN("("),
+    OP_RPAREN(")"),
+    OP_LBRACE("{"),
+    OP_RBRACE("}"),
+    OP_LBRACKET("["),
+    OP_RBRACKET("]"),
+    OP_COMMA(","),
     K_BREAK("break"),
     K_CASE("case"),
     K_CONST("const"),
@@ -99,13 +106,8 @@ enum TokenType {
 
     @Override
     public String toString() {
-        if (literal.toString().isEmpty()) {
-            return name();
-        }
-
-        return literal.toString();
+        return name();
     }
-
 
     static boolean isOperator(final String str) {
         return OPERATORS.containsKey(Validate.notNull(str, "str"));

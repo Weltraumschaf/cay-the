@@ -204,6 +204,21 @@ public class ScannerTest {
     }
 
     @Test
+    public void scanSimpleFunctionDeclaration() throws SyntaxException {
+        expect("function foo(integer bar) { }",
+            token("function", TokenType.K_FUNCTION, 1, 1),
+            token("foo", TokenType.IDENTIFIER, 1, 10),
+            token("(", TokenType.OP_LPAREN, 1, 13),
+            token("integer", TokenType.IDENTIFIER, 1, 14),
+            token("bar", TokenType.IDENTIFIER, 1, 22),
+            token(")", TokenType.OP_RPAREN, 1, 25),
+            token("{", TokenType.OP_LBRACE, 1, 27),
+            token("}", TokenType.OP_RBRACE, 1, 29),
+            token("", TokenType.END_OF_FILE, 1, 30)
+        );
+    }
+
+    @Test
     @Ignore
     public void scannSingleLinecomments() throws SyntaxException {
         expect("", new Token[0]);
@@ -216,9 +231,112 @@ public class ScannerTest {
     }
 
     @Test
-    @Ignore
     public void scanComplexCodeWithDeclarationsAndFunction() throws SyntaxException {
-        expect("", new Token[0]);
+        expect(
+            "var integer foo = 23\n"
+            + "var integer bar\n"
+            + "var integer baz = foo + bar\n"
+            + "\n"
+            + "const snafu = \"Hello !\"\n"
+            + "\n"
+            + "function doIt(integer i) {\n"
+            + "    print(i)\n"
+            + "}\n"
+            + "\n"
+            + "function integer doWhat(integer i, integer j) {\n"
+            + "    return i + j\n"
+            + "}\n"
+            + "\n"
+            + "var result = doWhat(foo, 42)\n",
+            // Line 1.
+            token("var", TokenType.K_VAR, 1, 1),
+            token("integer", TokenType.IDENTIFIER, 1, 5),
+            token("foo", TokenType.IDENTIFIER, 1, 13),
+            token("=", TokenType.OP_ASSIGN, 1, 17),
+            token("23", TokenType.INTEGER_VALUE, 1, 19),
+            token("\n", TokenType.NEW_LINE, 1, 21),
+            // Line 2.
+            token("var", TokenType.K_VAR, 2, 1),
+            token("integer", TokenType.IDENTIFIER, 2, 5),
+            token("bar", TokenType.IDENTIFIER, 2, 13),
+            token("\n", TokenType.NEW_LINE, 2, 16),
+            // Line 3.
+            token("var", TokenType.K_VAR, 3, 1),
+            token("integer", TokenType.IDENTIFIER, 3, 5),
+            token("baz", TokenType.IDENTIFIER, 3, 13),
+            token("=", TokenType.OP_ASSIGN, 3, 17),
+            token("foo", TokenType.IDENTIFIER, 3, 19),
+            token("+", TokenType.OP_ADD, 3, 23),
+            token("bar", TokenType.IDENTIFIER, 3, 25),
+            token("\n", TokenType.NEW_LINE, 3, 28),
+            // Line 4.
+            token("\n", TokenType.NEW_LINE, 4, 1),
+            // Line 5.
+            token("const", TokenType.K_CONST, 5, 1),
+            token("snafu", TokenType.IDENTIFIER, 5, 7),
+            token("=", TokenType.OP_ASSIGN, 5, 13),
+            token("Hello !", TokenType.STRING_VALUE, 5, 15),
+            token("\n", TokenType.NEW_LINE, 5, 24),
+            // Line 6.
+            token("\n", TokenType.NEW_LINE, 6, 1),
+            // Line 7.
+            token("function", TokenType.K_FUNCTION, 7, 1),
+            token("doIt", TokenType.IDENTIFIER, 7, 10),
+            token("(", TokenType.OP_LPAREN, 7, 14),
+            token("integer", TokenType.IDENTIFIER, 7, 15),
+            token("i", TokenType.IDENTIFIER, 7, 23),
+            token(")", TokenType.OP_RPAREN, 7, 24),
+            token("{", TokenType.OP_LBRACE, 7, 26),
+            token("\n", TokenType.NEW_LINE, 7, 27),
+            // Line 8.
+            token("print", TokenType.IDENTIFIER, 8, 5),
+            token("(", TokenType.OP_LPAREN, 8, 10),
+            token("i", TokenType.IDENTIFIER, 8, 11),
+            token(")", TokenType.OP_RPAREN, 8, 12),
+            token("\n", TokenType.NEW_LINE, 8, 13),
+            // Line 9.
+            token("}", TokenType.OP_RBRACE, 9, 1),
+            token("\n", TokenType.NEW_LINE, 9, 2),
+            // Line 10.
+            token("\n", TokenType.NEW_LINE, 10, 1),
+            // Line 11.
+            token("function", TokenType.K_FUNCTION, 11, 1),
+            token("integer", TokenType.IDENTIFIER, 11, 10),
+            token("doWhat", TokenType.IDENTIFIER, 11, 18),
+            token("(", TokenType.OP_LPAREN, 11, 24),
+            token("integer", TokenType.IDENTIFIER, 11, 25),
+            token("i", TokenType.IDENTIFIER, 11, 33),
+            token(",", TokenType.OP_COMMA, 11, 34),
+            token("integer", TokenType.IDENTIFIER, 11, 36),
+            token("j", TokenType.IDENTIFIER, 11, 44),
+            token(")", TokenType.OP_RPAREN, 11, 45),
+            token("{", TokenType.OP_LBRACE, 11, 47),
+            token("\n", TokenType.NEW_LINE, 11, 48),
+            // Line 12.
+            token("return", TokenType.K_RETURN, 12, 5),
+            token("i", TokenType.IDENTIFIER, 12, 12),
+            token("+", TokenType.OP_ADD, 12, 14),
+            token("j", TokenType.IDENTIFIER, 12, 16),
+            token("\n", TokenType.NEW_LINE, 12, 17),
+            // Line 13.
+            token("}", TokenType.OP_RBRACE, 13, 1),
+            token("\n", TokenType.NEW_LINE, 13, 2),
+            // Line 14.
+            token("\n", TokenType.NEW_LINE, 14, 1),
+            // Line 15.
+            token("var", TokenType.K_VAR, 15, 1),
+            token("result", TokenType.IDENTIFIER, 15, 5),
+            token("=", TokenType.OP_ASSIGN, 15, 12),
+            token("doWhat", TokenType.IDENTIFIER, 15, 14),
+            token("(", TokenType.OP_LPAREN, 15, 20),
+            token("foo", TokenType.IDENTIFIER, 15, 21),
+            token(",", TokenType.OP_COMMA, 15, 24),
+            token("42", TokenType.INTEGER_VALUE, 15, 26),
+            token(")", TokenType.OP_RPAREN, 15, 28),
+            token("\n", TokenType.NEW_LINE, 15, 29),
+            // EOF
+            token("", TokenType.END_OF_FILE, 16, 1)
+        );
     }
 
 }
