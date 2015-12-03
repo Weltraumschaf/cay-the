@@ -11,14 +11,14 @@ public final class Register {
     /**
      * Maps register address -> register value.
      */
-    private final Map<Integer, Integer> registers = new HashMap<>();
+    private final Map<Byte, Integer> registers = new HashMap<>();
 
-    public void set(final int address, final int value) {
+    public void set(final byte address, final int value) {
         Validate.greaterThanOrEqual(address, 0, "address");
         registers.put(address, value);
     }
 
-    public int get(final int address) {
+    public int get(final byte address) {
         Validate.greaterThanOrEqual(address, 0, "address");
 
         if (registers.containsKey(address)) {

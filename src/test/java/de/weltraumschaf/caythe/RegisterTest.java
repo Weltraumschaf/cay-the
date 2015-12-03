@@ -1,4 +1,3 @@
-
 package de.weltraumschaf.caythe;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -14,23 +13,23 @@ public class RegisterTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void set_addresMustNotBeNegative() {
-        sut.set(-1, 0);
+        sut.set((byte) -1, 0);
     }
 
     @Test
     public void set() {
-        sut.set(23, 42);
+        sut.set((byte) 23, 42);
 
-        assertThat(sut.get(23), is(42));
+        assertThat(sut.get((byte) 23), is(42));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void get_addresMustNotBeNegative() {
-        sut.get(-1);
+        sut.get((byte) -1);
     }
 
     @Test
     public void get_zeroByDefault() {
-        assertThat(sut.get(23), is(0));
+        assertThat(sut.get((byte) 23), is(0));
     }
 }

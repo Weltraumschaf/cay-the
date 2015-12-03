@@ -9,7 +9,7 @@ import java.util.Collections;
  */
 public final class Programm {
 
-    private static final int INTEGER_NUMBER_OF_BUYTES = 4;
+    private static final int INTEGER_NUMBER_OF_BYTES = 4;
 
     private final Collection<Byte> byteCode = new ArrayList<>();
 
@@ -17,8 +17,12 @@ public final class Programm {
         byteCode.add(instruction.getCode());
     }
 
+    public void add(final byte register) {
+        byteCode.add(register);
+    }
+
     public void add(final int argument) {
-        final byte[] bytes = ByteBuffer.allocate(INTEGER_NUMBER_OF_BUYTES).putInt(argument).array();
+        final byte[] bytes = ByteBuffer.allocate(INTEGER_NUMBER_OF_BYTES).putInt(argument).array();
 
         for (byte b : bytes) {
             byteCode.add(b);
