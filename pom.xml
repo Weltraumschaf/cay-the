@@ -16,6 +16,8 @@
     <name>Cay-The 1.0</name>
 
     <properties>
+        <antlr.version>4.5.1</antlr.version>
+        <antlr.outputdir>de/weltraumschaf/caythe</antlr.outputdir>
     </properties>
 
     <dependencies>
@@ -24,5 +26,37 @@
             <artifactId>validate</artifactId>
             <version>2.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>${antlr.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+
+                <configuration>
+                    <listener>true</listener>
+                    <visitor>true</visitor>
+                    <indentSize>4</indentSize>
+                    <lineLength>120</lineLength>
+                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/${antlr.outputdir}</outputDirectory>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>antlr</id>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
