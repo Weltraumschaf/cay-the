@@ -16,7 +16,8 @@
     <name>Cay-The 1.0</name>
 
     <properties>
-        <antlr.version>4.5.1</antlr.version>
+        <enforcer.skip>true</enforcer.skip>
+        <antlr.version>4.5.1-1</antlr.version>
         <antlr.outputdir>de/weltraumschaf/caythe</antlr.outputdir>
     </properties>
 
@@ -28,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
-            <artifactId>antlr4</artifactId>
+            <artifactId>antlr4-runtime</artifactId>
             <version>${antlr.version}</version>
         </dependency>
     </dependencies>
@@ -50,9 +51,35 @@
 
                 <executions>
                     <execution>
-                        <id>antlr</id>
+                        <id>generate-grammar</id>
+
                         <goals>
                             <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4test-maven-plugin</artifactId>
+
+                <configuration>
+                    <verbose>false</verbose>
+                    <showTree>false</showTree>
+                    <entryPoint>equation</entryPoint>
+                    <grammarName>CayThe</grammarName>
+                    <packageName>de.weltraumschaf.caythe</packageName>
+                    <exampleFiles>src/test/examples</exampleFiles>
+                    <grammarFiles>src/main/antlr4</grammarFiles>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>test-grammar</id>
+
+                        <goals>
+                            <goal>test</goal>
                         </goals>
                     </execution>
                 </executions>
