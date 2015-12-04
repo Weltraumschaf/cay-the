@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  */
-public enum Opcodes {
+enum Opcodes {
 
     NOP((byte) 0x00),
     /**

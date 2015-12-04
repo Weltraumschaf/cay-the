@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  */
-public final class VirtualMachine {
+final class VirtualMachine {
 
     private final Register reg = new Register();
     private final StringBuilder stdOut = new StringBuilder();

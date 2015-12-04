@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  */
-public final class Register {
+final class Register {
 
     /**
      * Maps register address -> register value.
