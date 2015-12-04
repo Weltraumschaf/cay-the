@@ -19,7 +19,7 @@ public final class CliOptions {
      * Command line usage.
      */
     private static final String USAGE
-        = " [-h] [-v]";
+        = " -f|--file <file> [-h] [-v]";
     /**
      * Help description.
      */
@@ -50,6 +50,13 @@ public final class CliOptions {
         names = {"-v", "--version"},
         description = "Show the version.")
     private boolean version;
+    /**
+     * File to compile and run.
+     */
+    @Parameter(
+        names = {"-f", "--file"},
+        description = "Show the version.")
+    private String file = "";
 
     /**
      * Convenience method to gather the CLI options.
@@ -97,13 +104,16 @@ public final class CliOptions {
         return version;
     }
 
-
+    public String getFile() {
+        return file;
+    }
 
     @Override
     public int hashCode() {
         return Objects.hash(
             help,
-            version);
+            version,
+            file);
     }
 
     @Override
@@ -114,6 +124,7 @@ public final class CliOptions {
 
         final CliOptions other = (CliOptions) obj;
         return Objects.equals(help, other.help)
-            && Objects.equals(version, other.version);
+            && Objects.equals(version, other.version)
+            && Objects.equals(file, other.file);
     }
 }

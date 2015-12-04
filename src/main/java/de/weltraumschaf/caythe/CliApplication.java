@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe;
 
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
+import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
@@ -18,7 +19,7 @@ public final class CliApplication extends InvokableAdapter {
      * Version information.
      */
     private final Version version;
-    private boolean echoDebug = true;
+    private boolean debugEnabled = Boolean.valueOf(System.getProperty("CAYTHE_DEBUG", "false"));
 
     public CliApplication(final String[] args) {
         super(args);
@@ -44,19 +45,8 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        final String filename = "";
-        final CharStream input = new ANTLRFileStream(filename, ENCODING);
-        final CayTheLexer lexer = new CayTheLexer(input);
-        final TokenStream tokens = new CommonTokenStream(lexer);
-        final CayTheParser parser = new CayTheParser(tokens);
-
-        if (echoDebug) {
-            parser.setErrorHandler(new BailErrorStrategy());
-        }
-
-        final ByteCodeVisitor visitor = new ByteCodeVisitor();
         final VirtualMachine vm = new VirtualMachine(new DefaultEnvironmnet(getIoStreams()));
-        vm.run(visitor.visit(parser.equation()));
+        vm.run(parse(options.getFile()));
     }
 
     /**
@@ -71,5 +61,18 @@ public final class CliApplication extends InvokableAdapter {
      */
     private void showVersion() {
         getIoStreams().println(version.getVersion());
+    }
+
+    private Programm parse(final String file) throws IOException {
+        final CharStream input = new ANTLRFileStream(file, ENCODING);
+        final CayTheLexer lexer = new CayTheLexer(input);
+        final TokenStream tokens = new CommonTokenStream(lexer);
+        final CayTheParser parser = new CayTheParser(tokens);
+
+        if (debugEnabled) {
+            parser.setErrorHandler(new BailErrorStrategy());
+        }
+
+        return new ByteCodeVisitor().visit(parser.equation());
     }
 }
