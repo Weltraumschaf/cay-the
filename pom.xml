@@ -17,6 +17,10 @@
 
     <properties>
         <enforcer.skip>true</enforcer.skip>
+
+        <project.build.mainClass>de.weltraumschaf.caythe.CliApplication</project.build.mainClass>
+        <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
+
         <commons.version>2.1.0</commons.version>
         <antlr.version>4.5.1-1</antlr.version>
         <antlr.outputdir>de/weltraumschaf/caythe</antlr.outputdir>
@@ -34,6 +38,12 @@
             <version>${commons.version}</version>
         </dependency>
         <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>${commons.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>${antlr.version}</version>
@@ -41,6 +51,25 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+
+         <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.antlr</groupId>
@@ -86,6 +115,34 @@
 
                         <goals>
                             <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${project.build.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                    </descriptorRefs>
+                    <finalName>${finalName}</finalName>
+                    <outputDirectory>${project.build.binDirectory}</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>false</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
