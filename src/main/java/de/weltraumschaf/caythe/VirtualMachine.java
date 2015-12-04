@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.commons.validate.Validate;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +10,19 @@ import java.util.List;
 final class VirtualMachine {
 
     private final Register reg = new Register();
-    private final StringBuilder stdOut = new StringBuilder();
-    private final List<Byte> byteCode;
+    private final Environment env;
+    private final List<Byte> byteCode = new ArrayList<>();
     private int instructionPointer;
 
-    public VirtualMachine(final Programm prog) {
+    public VirtualMachine(final Environment env) {
         super();
-        this.byteCode = new ArrayList<>(prog.getByteCode());
+        this.env = Validate.notNull(env, "env");
     }
 
-    public void run() {
-        stdOut.setLength(0); // Clear buffer.
-        instructionPointer = 0;
+    public void run(final Programm prog) {
+        Validate.notNull(prog, "prog");
+        init();
+        byteCode.addAll(prog.getByteCode());
 
         while (hasNext()) {
             final Opcodes opcode = Opcodes.getFor(current());
@@ -29,8 +31,9 @@ final class VirtualMachine {
         }
     }
 
-    public String stdOut() {
-        return stdOut.toString();
+    private void init() {
+        byteCode.clear();
+        instructionPointer = 0;
     }
 
     private byte current() {
@@ -62,7 +65,7 @@ final class VirtualMachine {
     private void print() {
         final byte targetRegister = current();
         next();
-        stdOut.append(reg.get(targetRegister));
+        env.stdOut(String.valueOf(reg.get(targetRegister)));
     }
 
     private void addIntegers() {

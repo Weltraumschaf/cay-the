@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.TokenStream;
 public final class CliApplication extends InvokableAdapter {
 
     private static final String ENCODING = "UTF-8";
+
     /**
      * Version information.
      */
@@ -54,9 +55,8 @@ public final class CliApplication extends InvokableAdapter {
         }
 
         final ByteCodeVisitor visitor = new ByteCodeVisitor();
-        final Programm programm = visitor.visit(parser.equation());
-        final VirtualMachine vm = new VirtualMachine(programm);
-        vm.run();
+        final VirtualMachine vm = new VirtualMachine(new DefaultEnvironmnet(getIoStreams()));
+        vm.run(visitor.visit(parser.equation()));
     }
 
     /**

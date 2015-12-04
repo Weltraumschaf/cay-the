@@ -1,4 +1,3 @@
-
 package de.weltraumschaf.caythe;
 
 import static org.hamcrest.Matchers.is;
@@ -14,22 +13,39 @@ public class VirtualMachineTest {
     public void run() {
         final Programm programm = new Programm();
         programm.add(Opcodes.INT_STORE);
-        programm.add((byte)0x01);
+        programm.add((byte) 0x01);
         programm.add(11);
         programm.add(Opcodes.INT_STORE);
-        programm.add((byte)0x02);
+        programm.add((byte) 0x02);
         programm.add(22);
         programm.add(Opcodes.INT_ADD);
-        programm.add((byte)0x01);
-        programm.add((byte)0x02);
-        programm.add((byte)0x03);
+        programm.add((byte) 0x01);
+        programm.add((byte) 0x02);
+        programm.add((byte) 0x03);
         programm.add(Opcodes.PRINT);
-        programm.add((byte)0x03);
-        final VirtualMachine sut = new VirtualMachine(programm);
+        programm.add((byte) 0x03);
+        final StringBuilder stdOut = new StringBuilder();
+        final VirtualMachine sut = new VirtualMachine(new Environment() {
 
-        sut.run();
+            @Override
+            public void stdOut(final String output) {
+                stdOut.append(output);
+            }
 
-        assertThat(sut.stdOut(), is("33"));
+            @Override
+            public void stdErr(final String output) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public String stdIn() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        sut.run(programm);
+
+        assertThat(stdOut.toString(), is("33"));
     }
 
 }
