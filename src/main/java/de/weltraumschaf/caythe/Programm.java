@@ -9,6 +9,8 @@ import java.util.Collections;
  */
 final class Programm {
 
+    static final Programm EMPTY = new Programm();
+
     private static final int INTEGER_NUMBER_OF_BYTES = 4;
 
     private final Collection<Byte> byteCode = new ArrayList<>();
