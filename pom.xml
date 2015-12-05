@@ -100,12 +100,13 @@
                 <artifactId>antlr4test-maven-plugin</artifactId>
 
                 <configuration>
+                    <enabled>true</enabled>
                     <verbose>false</verbose>
                     <showTree>false</showTree>
-                    <entryPoint>equation</entryPoint>
+                    <entryPoint>compilationUnit</entryPoint>
                     <grammarName>CayThe</grammarName>
                     <packageName>de.weltraumschaf.caythe</packageName>
-                    <exampleFiles>src/test/examples</exampleFiles>
+                    <exampleFiles>src/test/resources/examples</exampleFiles>
                     <grammarFiles>src/main/antlr4</grammarFiles>
                 </configuration>
 

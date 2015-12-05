@@ -5,38 +5,82 @@ package de.weltraumschaf.caythe;
 }
 
 // Parser rules:
-equation            : expression relop expression ;
-expression          : multip_expression ( ( PLUS | MINUS ) multip_expression )* ;
-multip_expression   : pow_expression ( ( TIMES | DIV ) pow_expression )* ;
-pow_expression      : atom ( POW expression )? ;
-
-atom                : scientific
+compilationUnit     : statement* EOF ;
+statement           : expression NL
+                    | assignment NL
+                    | NL ;
+expression          : compare ( relop compare )* ;
+compare             : term ( ( ADD | SUB ) term )* ;
+term                : factor ( ( MUL | DIV | MOD ) factor )* ;
+factor              : atom ( CARET expression )? ;
+atom                : value
                     | variable
                     | LPAREN expression RPAREN ;
-scientific          : number ( E number )?;
-relop               : EQ | GT | LT ;
-number              : MINUS? DIGIT+ ( POINT DIGIT+ )? ;
-variable            : MINUS? LETTER ( LETTER | DIGIT )* ;
+value               : BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ;
+relop               : EQUAL | NOTEQUAL | GT | LT | GE | LE ;
+variable            : ID ;
+assignment          : variable ASSIGN expression ;
 
 // Lexer rules:
+// Operators:
+ASSIGN      : '=' ;
+GT          : '>' ;
+LT          : '<' ;
+BANG        : '!' ;
+TILDE       : '~' ;
+QUESTION    : '?' ;
+COLON       : ':' ;
+EQUAL       : '==' ;
+LE          : '<=' ;
+GE          : '>=' ;
+NOTEQUAL    : '!=' ;
+AND         : '&&' ;
+OR          : '||' ;
+INC         : '++' ;
+DEC         : '--' ;
+ADD         : '+' ;
+SUB         : '-' ;
+MUL         : '*' ;
+DIV         : '/' ;
+BITAND      : '&' ;
+BITOR       : '|' ;
+CARET       : '^' ;
+MOD         : '%' ;
+ARROW       : '->' ;
+COLONCOLON  : '::' ;
+
+// Structureing:
 LPAREN  : '(' ;
 RPAREN  : ')' ;
-PLUS    : '+';
-MINUS   : '-';
-TIMES   : '*';
-DIV     : '/' ;
-GT      : '>'  ;
-LT      : '<'  ;
-EQ      : '='  ;
-POINT   : '.';
-E       : 'e'   | 'E';
-POW     : '^' ;
-LETTER  : ('a'..'z') | ('A'..'Z');
-DIGIT   : ('0'..'9');
+LBRACE  : '{' ;
+RBRACE  : '}' ;
+LBRACK  : '[' ;
+RBRACK  : ']' ;
+SEMI    : ';' ;
+COMMA   : ',' ;
+DOT     : '.' ;
 
-COMMENT     : ML_COMMENT | SL_COMMENT NL ;
-ML_COMMENT  : '/*' .*? '*/' ;
-SL_COMMENT  : '//' ~[\r\n]* '\r'? NL ;
+// Types:
+BOOL_VALUE      : TRUE | FALSE ;
+TRUE            : 'true' ;
+FALSE           : 'false' ;
+INTEGER_VALUE   : SIGN? DIGIT+ ;
+FLOAT_VALUE     : SIGN? DIGIT+ DOT DIGIT* EXPONENT?
+                | SIGN? DIGIT+ EXPONENT? ;
+EXPONENT        : E SIGN? DIGIT+ ;
+STRING_VALUE    : '"' CHARACTER* '"' ;
+ID              : LETTER CHARACTER* ;
+TYPE            : 'integer' | 'float' | 'boolean' | 'string' ;
+SIGN            : '+' | '-' ;
+E               : 'e' | 'E' ;
 
-NL      : [\n\r]+   -> channel(HIDDEN) ;
-WS      : [ \t]+    -> channel(HIDDEN)  ;
+// General:
+CHARACTER   : DIGIT | LETTER ;
+LETTER      : ('a' .. 'z') | ('A' .. 'Z') ;
+DIGIT       : ('0' .. '9') ;
+NL          : '\n' | '\r' | '\r\n' ;
+
+// Ignored:
+ML_COMMENT  : '/*' .*? '*/'         -> skip ;
+SL_COMMENT  : '//' ~[\r\n]* NL      -> skip ;
+WS          : [ \t\u000C]+          -> skip ;

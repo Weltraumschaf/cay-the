@@ -19,7 +19,7 @@ public final class CliApplication extends InvokableAdapter {
      * Version information.
      */
     private final Version version;
-    private boolean debugEnabled = Boolean.valueOf(System.getProperty("CAYTHE_DEBUG", "false"));
+    private final boolean debugEnabled = Boolean.valueOf(System.getProperty("CAYTHE_DEBUG", "false"));
 
     public CliApplication(final String[] args) {
         super(args);
@@ -73,6 +73,6 @@ public final class CliApplication extends InvokableAdapter {
             parser.setErrorHandler(new BailErrorStrategy());
         }
 
-        return new ByteCodeVisitor().visit(parser.equation());
+        return new ByteCodeVisitor().visit(parser.compilationUnit());
     }
 }
