@@ -8,6 +8,7 @@ package de.weltraumschaf.caythe;
 compilationUnit     : statement* EOF ;
 statement           : expression NL
                     | assignment NL
+                    | printStatement
                     | NL ;
 expression          : compare ( relop compare )* ;
 compare             : term ( ( ADD | SUB ) term )* ;
@@ -20,6 +21,7 @@ value               : BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ;
 relop               : EQUAL | NOTEQUAL | GT | LT | GE | LE ;
 variable            : ID ;
 assignment          : variable ASSIGN expression ;
+printStatement      : 'print' LPAREN expression RPAREN ;
 
 // Lexer rules:
 // Operators:
