@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.caythe.CayTheParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
@@ -14,7 +15,7 @@ final class ByteCodeVisitor extends CayTheBaseVisitor<Programm> {
     }
 
     @Override
-    public Programm visitCompilationUnit(final CayTheParser.CompilationUnitContext ctx) {
+    public Programm visitCompilationUnit(final CompilationUnitContext ctx) {
         final ParseTree compilationUnit = ctx.getChild(0);
 
         if (null == compilationUnit) {
@@ -22,6 +23,11 @@ final class ByteCodeVisitor extends CayTheBaseVisitor<Programm> {
         }
 
         return visit(compilationUnit);
+    }
+
+    @Override
+    public Programm visitStatement(final StatementContext ctx) {
+        return visit(ctx.getChild(0));
     }
 
 
