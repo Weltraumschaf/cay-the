@@ -63,7 +63,7 @@ public final class CliApplication extends InvokableAdapter {
         getIoStreams().println(version.getVersion());
     }
 
-    private Programm parse(final String file) throws IOException {
+    private Program parse(final String file) throws IOException {
         final CharStream input = new ANTLRFileStream(file, ENCODING);
         final CayTheLexer lexer = new CayTheLexer(input);
         final TokenStream tokens = new CommonTokenStream(lexer);

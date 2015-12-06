@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  */
-public class ProgrammTest {
+public class ProgramTest {
 
     @Test
     public void testSomeMethod() {

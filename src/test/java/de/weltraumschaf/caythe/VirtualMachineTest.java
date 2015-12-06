@@ -11,7 +11,7 @@ public class VirtualMachineTest {
 
     @Test
     public void run() {
-        final Programm programm = new Programm();
+        final Program programm = new Program();
         programm.add(Opcodes.INT_STORE);
         programm.add((byte) 0x01);
         programm.add(11);

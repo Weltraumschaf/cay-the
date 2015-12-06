@@ -19,7 +19,7 @@ final class VirtualMachine {
         this.env = Validate.notNull(env, "env");
     }
 
-    public void run(final Programm prog) {
+    public void run(final Program prog) {
         Validate.notNull(prog, "prog");
         init();
         byteCode.addAll(prog.getByteCode());

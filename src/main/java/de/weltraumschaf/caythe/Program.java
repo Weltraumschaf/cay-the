@@ -7,9 +7,7 @@ import java.util.Collections;
 
 /**
  */
-final class Programm {
-
-    static final Programm EMPTY = new Programm();
+final class Program {
 
     private static final int INTEGER_NUMBER_OF_BYTES = 4;
 

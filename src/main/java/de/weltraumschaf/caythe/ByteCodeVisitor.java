@@ -5,17 +5,18 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  */
-final class ByteCodeVisitor extends CayTheBaseVisitor<Programm> {
+final class ByteCodeVisitor extends CayTheBaseVisitor<Program> {
 
     private final SymbolTable table = new SymbolTable();
+    private final Program program = new Program();
 
     @Override
-    protected Programm defaultResult() {
-        return Programm.EMPTY;
+    protected Program defaultResult() {
+        return program;
     }
 
     @Override
-    public Programm visitCompilationUnit(final CompilationUnitContext ctx) {
+    public Program visitCompilationUnit(final CompilationUnitContext ctx) {
         final ParseTree compilationUnit = ctx.getChild(0);
 
         if (null == compilationUnit) {
@@ -26,8 +27,15 @@ final class ByteCodeVisitor extends CayTheBaseVisitor<Programm> {
     }
 
     @Override
-    public Programm visitStatement(final StatementContext ctx) {
+    public Program visitStatement(final StatementContext ctx) {
         return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public Program visitAssignment(final AssignmentContext ctx) {
+        final String identifier = ctx.id.getText();
+        visit(ctx.value);
+        return program;
     }
 
 
