@@ -69,20 +69,24 @@ BOOL_VALUE      : TRUE | FALSE ;
 TRUE            : 'true' ;
 FALSE           : 'false' ;
 INTEGER_VALUE   : SIGN? DIGIT+ ;
-FLOAT_VALUE     : SIGN? DIGIT+ DOT DIGIT* EXPONENT?
-                | SIGN? DIGIT+ EXPONENT? ;
-EXPONENT        : E SIGN? DIGIT+ ;
+FLOAT_VALUE     : SIGN? (DIGIT)+ DOT (DIGIT)* EXPONENT?
+                | SIGN? DOT (DIGIT)+ EXPONENT?
+                | SIGN? (DIGIT)+ EXPONENT ;
+fragment
+EXPONENT        : ('e'|'E') SIGN? ? DIGIT+ ;
 STRING_VALUE    : '"' CHARACTER* '"' ;
 ID              : LETTER CHARACTER* ;
 TYPE            : 'integer' | 'float' | 'boolean' | 'string' ;
 SIGN            : '+' | '-' ;
-E               : 'e' | 'E' ;
 
 // General:
+fragment
 CHARACTER   : DIGIT | LETTER ;
-LETTER      : ('a' .. 'z') | ('A' .. 'Z') ;
-DIGIT       : ('0' .. '9') ;
-NL          : '\n' | '\r' | '\r\n' ;
+fragment
+LETTER      : [a-zA-Z] ;
+fragment
+DIGIT       : [0-9] ;
+NL          : '\r'? '\n' ;
 
 // Ignored:
 ML_COMMENT  : '/*' .*? '*/'         -> skip ;
