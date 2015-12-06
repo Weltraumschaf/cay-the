@@ -10,21 +10,23 @@ statement           : expression NL
                     | assignment NL
                     | printStatement
                     | NL ;
-expression          : compare ( relop compare )* ;
-compare             : term ( ( ADD | SUB ) term )* ;
-term                : factor ( ( MUL | DIV | MOD ) factor )* ;
-factor              : atom ( CARET expression )? ;
-atom                : value
+expression          : left=compare ( operator=REL_OPS right=compare )* ;
+compare             : left=term ( operator=ADD_OPS right=term )* ;
+term                : left=factor ( operator=MUL_OPS right=factor )* ;
+factor              : base=atom ( CARET exponent=expression )? ;
+atom                : literal
                     | variable
                     | LPAREN expression RPAREN ;
-value               : BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ;
-relop               : EQUAL | NOTEQUAL | GT | LT | GE | LE ;
+literal             : BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ;
 variable            : ID ;
-assignment          : variable ASSIGN expression ;
+assignment          : id=variable ASSIGN value=expression ;
 printStatement      : 'print' LPAREN expression RPAREN ;
 
 // Lexer rules:
 // Operators:
+REL_OPS     : EQUAL | NOTEQUAL | GT | LT | GE | LE ;
+ADD_OPS     : ADD | SUB ;
+MUL_OPS     : MUL | DIV | MOD ;
 ASSIGN      : '=' ;
 GT          : '>' ;
 LT          : '<' ;
