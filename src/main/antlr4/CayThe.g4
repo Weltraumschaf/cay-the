@@ -10,7 +10,10 @@ statements          : ( statement NL )*;
 statement           : expression
                     | assignment
                     | printStatement
+                    | whileLoop 
                     | NL* ;
+whileLoop           : 'while' expression block ;
+block               : LBRACE statements RBRACE ;
 expression          : left=compare ( operator=REL_OPS right=compare )* ;
 compare             : left=term ( operator=ADD_OPS right=term )* ;
 term                : left=factor ( operator=MUL_OPS right=factor )* ;
