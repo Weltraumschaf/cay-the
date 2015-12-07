@@ -32,7 +32,7 @@ public class ByteCodeVisitorTest {
 
     @Test
     public void number1() throws IOException, URISyntaxException {
-        sut.visit(createParseTree("number1.ct"));
+        final Program program = sut.visit(createParseTree("number1.ct"));
     }
 
 }
