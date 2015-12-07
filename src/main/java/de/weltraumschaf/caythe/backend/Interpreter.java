@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  */
-public final class Interpreter extends CayTheBaseVisitor<Program> {
+public final class Interpreter extends CayTheBaseVisitor<Void> {
 
     private final StringBuilder log = new StringBuilder();
     private final Pool constants = new Pool();
@@ -27,12 +27,12 @@ public final class Interpreter extends CayTheBaseVisitor<Program> {
     }
 
     @Override
-    protected Program defaultResult() {
-        return program;
+    protected Void defaultResult() {
+        return null;
     }
 
     @Override
-    public Program visitCompilationUnit(final CompilationUnitContext ctx) {
+    public Void visitCompilationUnit(final CompilationUnitContext ctx) {
         log("Visit compilation unit: '%s'", ctx.getText());
         final ParseTree compilationUnit = ctx.getChild(0);
 
@@ -44,7 +44,7 @@ public final class Interpreter extends CayTheBaseVisitor<Program> {
     }
 
     @Override
-    public Program visitStatement(final StatementContext ctx) {
+    public Void visitStatement(final StatementContext ctx) {
         log("Visit statement: '%s'", ctx.getText());
         final ParseTree child = ctx.getChild(0);
 
@@ -52,7 +52,7 @@ public final class Interpreter extends CayTheBaseVisitor<Program> {
     }
 
     @Override
-    public Program visitAssignment(final AssignmentContext ctx) {
+    public Void visitAssignment(final AssignmentContext ctx) {
         log("Visit assignment: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
@@ -65,11 +65,11 @@ public final class Interpreter extends CayTheBaseVisitor<Program> {
         }
 
         visit(ctx.value);
-        return program;
+        return defaultResult();
     }
 
     @Override
-    public Program visitLiteral(final LiteralContext ctx) {
+    public Void visitLiteral(final LiteralContext ctx) {
         log("Visit literal: '%s'", ctx.getText());
         final String literal = ctx.getChild(0).getText();
 
@@ -88,7 +88,7 @@ public final class Interpreter extends CayTheBaseVisitor<Program> {
             throw new IllegalStateException(String.format("Unrecognized literal '%s'!", literal));
         }
 
-        return program;
+        return defaultResult();
     }
 
 }

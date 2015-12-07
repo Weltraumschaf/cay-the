@@ -26,7 +26,7 @@ public class InterpreterTest {
     @Test
     @Ignore
     public void number1() throws IOException, URISyntaxException {
-        final Program program = sut.visit(createParseTree("number1.ct"));
+        sut.visit(createParseTree("number1.ct"));
     }
 
 }
