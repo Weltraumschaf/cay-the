@@ -4,9 +4,15 @@ import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 
 /**
+ * Redirects I/O to the given implementation of {@link IO}.
+ *
+ * @since 1.0.0
  */
 public final class DefaultEnvironmnet implements Environment {
 
+    /**
+     * Delegate for I/O.
+     */
     private final IO io;
 
     public DefaultEnvironmnet(final IO io) {

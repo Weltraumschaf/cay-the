@@ -3,19 +3,26 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser.*;
+import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  */
-public final class ByteCodeVisitor extends CayTheBaseVisitor<Program> {
+public final class Interpreter extends CayTheBaseVisitor<Program> {
 
     private final StringBuilder log = new StringBuilder();
     private final Pool constants = new Pool();
     private final Pool variables = new Pool();
     private final SymbolTable table = new SymbolTable();
     private final Program program = new Program();
+    private final Environment env;
 
-    private void log(final String msg, final Object ... args) {
+    public Interpreter(final Environment env) {
+        super();
+        this.env = Validate.notNull(env, "env");
+    }
+
+    private void log(final String msg, final Object... args) {
         log.append(String.format(msg, args)).append('\n');
     }
 
@@ -83,6 +90,5 @@ public final class ByteCodeVisitor extends CayTheBaseVisitor<Program> {
 
         return program;
     }
-
 
 }

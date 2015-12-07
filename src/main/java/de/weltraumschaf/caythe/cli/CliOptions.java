@@ -51,6 +51,13 @@ public final class CliOptions {
         description = "Show the version.")
     private boolean version;
     /**
+     * Option if version is wanted.
+     */
+    @Parameter(
+        names = {"-i", "--interpret"},
+        description = "The given source wil be interpreted.")
+    private boolean interpret;
+    /**
      * File to compile and run.
      */
     @Parameter(
@@ -104,6 +111,15 @@ public final class CliOptions {
         return version;
     }
 
+    /**
+     * Whether to interpret the given source.
+     *
+     * @return {@code true} for show, else {@code false}
+     */
+    public boolean isInterpret() {
+        return interpret;
+    }
+
     public String getFile() {
         return file;
     }
@@ -113,6 +129,7 @@ public final class CliOptions {
         return Objects.hash(
             help,
             version,
+            interpret,
             file);
     }
 
@@ -125,6 +142,7 @@ public final class CliOptions {
         final CliOptions other = (CliOptions) obj;
         return Objects.equals(help, other.help)
             && Objects.equals(version, other.version)
+            && Objects.equals(interpret, other.interpret)
             && Objects.equals(file, other.file);
     }
 }

@@ -1,9 +1,10 @@
 package de.weltraumschaf.caythe.cli;
 
-import de.weltraumschaf.caythe.backend.ByteCodeVisitor;
+import de.weltraumschaf.caythe.backend.Interpreter;
 import de.weltraumschaf.caythe.backend.DefaultEnvironmnet;
 import de.weltraumschaf.caythe.backend.Program;
 import de.weltraumschaf.caythe.backend.VirtualMachine;
+import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.InvokableAdapter;
@@ -47,8 +48,16 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        final VirtualMachine vm = new VirtualMachine(new DefaultEnvironmnet(getIoStreams()));
-        vm.run(parse(options.getFile()));
+        final CayTheParser parser = Parsers.newParser(options.getFile(), debugEnabled);
+        final CayTheBaseVisitor<?> visitor;
+
+        if (options.isInterpret()) {
+            visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()));
+        } else {
+            throw new UnsupportedOperationException("Not implemented yet!");
+        }
+
+        visitor.visit(parser.compilationUnit());
     }
 
     /**
@@ -65,9 +74,4 @@ public final class CliApplication extends InvokableAdapter {
         getIoStreams().println(version.getVersion());
     }
 
-    private Program parse(final String file) throws IOException {
-        final CayTheParser parser = Parsers.newParser(file, debugEnabled);
-
-        return new ByteCodeVisitor().visit(parser.compilationUnit());
-    }
 }
