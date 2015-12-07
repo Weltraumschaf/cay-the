@@ -67,15 +67,16 @@ ARROW       : '->' ;
 COLONCOLON  : '::' ;
 
 // Structureing:
-LPAREN  : '(' ;
-RPAREN  : ')' ;
-LBRACE  : '{' ;
-RBRACE  : '}' ;
-LBRACK  : '[' ;
-RBRACK  : ']' ;
-SEMI    : ';' ;
-COMMA   : ',' ;
-DOT     : '.' ;
+LPAREN          : '(' ;
+RPAREN          : ')' ;
+LBRACE          : '{' ;
+RBRACE          : '}' ;
+LBRACK          : '[' ;
+RBRACK          : ']' ;
+SEMI            : ';' ;
+COMMA           : ',' ;
+DOT             : '.' ;
+DOUBLE_QUOTE    : '"' ;
 
 // Types:
 BOOL_VALUE      : TRUE | FALSE ;
@@ -87,9 +88,8 @@ FLOAT_VALUE     : SIGN? (DIGIT)+ DOT (DIGIT)* EXPONENT?
                 | SIGN? (DIGIT)+ EXPONENT ;
 fragment
 EXPONENT        : ('e'|'E') SIGN? ? DIGIT+ ;
-STRING_VALUE    : '"' CHARACTER* '"' ;
+STRING_VALUE    : DOUBLE_QUOTE CHARACTER* DOUBLE_QUOTE ;
 ID              : LETTER CHARACTER* ;
-TYPE            : 'integer' | 'float' | 'boolean' | 'string' ;
 SIGN            : '+' | '-' ;
 
 // General:
