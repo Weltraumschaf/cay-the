@@ -5,11 +5,12 @@ package de.weltraumschaf.caythe.frontend;
 }
 
 // Parser rules:
-compilationUnit     : statement* EOF ;
-statement           : expression NL
-                    | assignment NL
+compilationUnit     : statements EOF ;
+statements          : ( statement NL )*;
+statement           : expression
+                    | assignment
                     | printStatement
-                    | NL ;
+                    | NL* ;
 expression          : left=compare ( operator=REL_OPS right=compare )* ;
 compare             : left=term ( operator=ADD_OPS right=term )* ;
 term                : left=factor ( operator=MUL_OPS right=factor )* ;
