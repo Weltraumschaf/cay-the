@@ -88,7 +88,9 @@ FLOAT_VALUE     : SIGN? (DIGIT)+ DOT (DIGIT)* EXPONENT?
                 | SIGN? (DIGIT)+ EXPONENT ;
 fragment
 EXPONENT        : ('e'|'E') SIGN? ? DIGIT+ ;
-STRING_VALUE    : DOUBLE_QUOTE CHARACTER* DOUBLE_QUOTE ;
+STRING_VALUE    : DOUBLE_QUOTE ( ESCAPED_QUOTE | ~('\n'|'\r') )*? DOUBLE_QUOTE ;
+fragment 
+ESCAPED_QUOTE   : '\\"';
 ID              : LETTER CHARACTER* ;
 SIGN            : '+' | '-' ;
 
