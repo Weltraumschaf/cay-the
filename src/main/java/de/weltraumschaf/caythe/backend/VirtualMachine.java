@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.nio.ByteBuffer;
@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  */
-final class VirtualMachine {
+public final class VirtualMachine {
 
     private final Register reg = new Register();
     private final Environment env;

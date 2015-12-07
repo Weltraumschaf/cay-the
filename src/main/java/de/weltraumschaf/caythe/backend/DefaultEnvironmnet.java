@@ -1,11 +1,11 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 
 /**
  */
-final class DefaultEnvironmnet implements Environment {
+public final class DefaultEnvironmnet implements Environment {
 
     private final IO io;
 

@@ -1,12 +1,13 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.CayTheParser.*;
-import de.weltraumschaf.caythe.SymbolTable.Entry;
+import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
+import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
+import de.weltraumschaf.caythe.frontend.CayTheParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  */
-final class ByteCodeVisitor extends CayTheBaseVisitor<Program> {
+public final class ByteCodeVisitor extends CayTheBaseVisitor<Program> {
 
     private final StringBuilder log = new StringBuilder();
     private final Pool constants = new Pool();

@@ -18,12 +18,17 @@
     <properties>
         <enforcer.skip>true</enforcer.skip>
 
-        <project.build.mainClass>de.weltraumschaf.caythe.CliApplication</project.build.mainClass>
+        <project.build.packagebase>${project.groupId}.${project.artifactId}</project.build.packagebase>
+        <project.build.mainClass>${project.build.packagebase}.cli.CliApplication</project.build.mainClass>
         <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
+
+        <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
+        <antlr.packageName>${project.build.packagebase}.frontend</antlr.packageName>
+        <antlr.exampleFiles>src/test/resources/examples</antlr.exampleFiles>
+        <antlr.grammarFiles>src/main/antlr4</antlr.grammarFiles>
 
         <commons.version>2.1.0</commons.version>
         <antlr.version>4.5.1-1</antlr.version>
-        <antlr.outputdir>de/weltraumschaf/caythe</antlr.outputdir>
     </properties>
 
     <dependencies>
@@ -53,7 +58,7 @@
     <build>
         <finalName>${project.artifactId}</finalName>
 
-         <resources>
+        <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -105,9 +110,9 @@
                     <showTree>false</showTree>
                     <entryPoint>compilationUnit</entryPoint>
                     <grammarName>CayThe</grammarName>
-                    <packageName>de.weltraumschaf.caythe</packageName>
-                    <exampleFiles>src/test/resources/examples</exampleFiles>
-                    <grammarFiles>src/main/antlr4</grammarFiles>
+                    <packageName>${antlr.packageName}</packageName>
+                    <exampleFiles>${antlr.exampleFiles}</exampleFiles>
+                    <grammarFiles>${antlr.grammarFiles}</grammarFiles>
                 </configuration>
 
                 <executions>

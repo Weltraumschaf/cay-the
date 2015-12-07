@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Collections;
 
 /**
  */
-final class Program {
+public final class Program {
 
     private static final int INTEGER_NUMBER_OF_BYTES = 4;
 

@@ -1,7 +1,7 @@
 grammar CayThe;
 
 @header {
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.frontend;
 }
 
 // Parser rules:

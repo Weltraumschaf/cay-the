@@ -1,19 +1,21 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.cli;
 
+import de.weltraumschaf.caythe.backend.ByteCodeVisitor;
+import de.weltraumschaf.caythe.backend.DefaultEnvironmnet;
+import de.weltraumschaf.caythe.backend.Program;
+import de.weltraumschaf.caythe.backend.VirtualMachine;
+import de.weltraumschaf.caythe.frontend.CayTheParser;
+import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import java.io.IOException;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
 
 /**
+ * This class provides the {@link #main(java.lang.String[]) main entry point} for the command line application.
+ *
+ * @since 1.0.0
  */
 public final class CliApplication extends InvokableAdapter {
-
-    private static final String ENCODING = "UTF-8";
 
     /**
      * Version information.
@@ -64,14 +66,7 @@ public final class CliApplication extends InvokableAdapter {
     }
 
     private Program parse(final String file) throws IOException {
-        final CharStream input = new ANTLRFileStream(file, ENCODING);
-        final CayTheLexer lexer = new CayTheLexer(input);
-        final TokenStream tokens = new CommonTokenStream(lexer);
-        final CayTheParser parser = new CayTheParser(tokens);
-
-        if (debugEnabled) {
-            parser.setErrorHandler(new BailErrorStrategy());
-        }
+        final CayTheParser parser = Parsers.newParser(file, debugEnabled);
 
         return new ByteCodeVisitor().visit(parser.compilationUnit());
     }

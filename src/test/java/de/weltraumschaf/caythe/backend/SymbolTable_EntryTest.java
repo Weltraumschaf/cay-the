@@ -1,6 +1,6 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.SymbolTable.Entry;
+import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 

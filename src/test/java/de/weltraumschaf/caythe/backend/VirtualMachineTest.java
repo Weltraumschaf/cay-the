@@ -1,5 +1,9 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.caythe.backend.VirtualMachine;
+import de.weltraumschaf.caythe.backend.Environment;
+import de.weltraumschaf.caythe.backend.Program;
+import de.weltraumschaf.caythe.backend.Opcodes;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 import static org.junit.Assert.*;

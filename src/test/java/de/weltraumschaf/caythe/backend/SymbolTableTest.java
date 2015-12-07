@@ -1,7 +1,8 @@
 
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.SymbolTable.Entry;
+import de.weltraumschaf.caythe.backend.SymbolTable;
+import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import org.junit.Test;

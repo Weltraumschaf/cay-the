@@ -1,5 +1,5 @@
 
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

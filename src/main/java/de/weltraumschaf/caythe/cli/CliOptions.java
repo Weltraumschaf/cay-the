@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.cli;
 
 import com.beust.jcommander.Parameter;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;

@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe;
+package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.HashMap;
