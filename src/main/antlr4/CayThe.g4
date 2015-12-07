@@ -13,10 +13,10 @@ statement           : expression
                     | whileLoop
                     | ifBranch 
                     | NL* ;
-whileLoop           : 'while' expression block ;
-ifBranch            : 'if' expression block 
-                      ( 'else' 'if' expression block )* 
-                      ( 'else' block )? ;
+whileLoop           : KW_WHILE expression block ;
+ifBranch            : KW_IF expression block 
+                      ( KW_ELSE KW_IF expression block )* 
+                      ( KW_ELSE block )? ;
 block               : LBRACE statements RBRACE ;
 expression          : left=compare ( operator=REL_OPS right=compare )* ;
 compare             : left=term ( operator=ADD_OPS right=term )* ;
@@ -31,6 +31,11 @@ assignment          : id=variable ASSIGN value=expression ;
 printStatement      : 'print' LPAREN expression RPAREN ;
 
 // Lexer rules:
+// Keywords:
+KW_WHILE    : 'while' ;
+KW_IF       : 'if' ;
+KW_ELSE     : 'else' ;
+
 // Operators:
 REL_OPS     : EQUAL | NOTEQUAL | GT | LT | GE | LE ;
 ADD_OPS     : ADD | SUB ;
