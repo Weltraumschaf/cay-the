@@ -6,7 +6,7 @@ package de.weltraumschaf.caythe.frontend;
 
 // Parser rules:
 compilationUnit     : statements EOF ;
-statements          : ( statement NL )*;
+statements          : ( statement NL )* | statement ;
 statement           : expression
                     | assignment
                     | printStatement
