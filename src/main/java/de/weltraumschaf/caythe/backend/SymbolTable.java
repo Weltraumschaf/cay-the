@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.backend;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.HashMap;
 import java.util.Map;
