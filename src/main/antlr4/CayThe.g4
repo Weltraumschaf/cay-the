@@ -25,10 +25,10 @@ factor              : base=atom ( CARET exponent=expression )? ;
 atom                : literal
                     | variable
                     | LPAREN expression RPAREN ;
-literal             : BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ;
+literal             : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) ;
 variable            : ID ;
 assignment          : id=variable ASSIGN value=expression ;
-printStatement      : 'print' LPAREN expression RPAREN ;
+printStatement      : 'print' LPAREN value=expression RPAREN ;
 
 // Lexer rules:
 // Keywords:

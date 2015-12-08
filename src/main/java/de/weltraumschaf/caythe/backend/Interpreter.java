@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.caythe.backend.Pool.Type;
+import de.weltraumschaf.caythe.backend.Pool.Value;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser.*;
@@ -14,8 +16,8 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
     private final Pool constants = new Pool();
     private final Pool variables = new Pool();
     private final SymbolTable table = new SymbolTable();
-    private final Program program = new Program();
     private final Environment env;
+    private Value lastValue = Value.NIL;
 
     public Interpreter(final Environment env) {
         super();
@@ -40,15 +42,21 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
             return defaultResult();
         }
 
-        return visit(compilationUnit);
+        visit(compilationUnit);
+        return defaultResult();
     }
 
     @Override
     public Void visitStatement(final StatementContext ctx) {
         log("Visit statement: '%s'", ctx.getText());
-        final ParseTree child = ctx.getChild(0);
+        final ParseTree statement = ctx.getChild(0);
 
-        return visit(child);
+        if (null == statement) {
+            return defaultResult();
+        }
+
+        visit(statement);
+        return defaultResult();
     }
 
     @Override
@@ -71,24 +79,34 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
     @Override
     public Void visitLiteral(final LiteralContext ctx) {
         log("Visit literal: '%s'", ctx.getText());
-        final String literal = ctx.getChild(0).getText();
+        final String literal = ctx.value.getText();
 
         if (null != ctx.BOOL_VALUE()) {
             log("Recognized bool value.");
-            Boolean.parseBoolean(literal);
+            lastValue = new Value(Type.BOOL, Boolean.parseBoolean(literal));
         } else if (null != ctx.FLOAT_VALUE()) {
             log("Recognized float value.");
-            Float.parseFloat(literal);
+            lastValue = new Value(Type.FLOAT, Float.parseFloat(literal));
         } else if (null != ctx.INTEGER_VALUE()) {
             log("Recognized integer value.");
-            Integer.parseInt(literal);
+            lastValue = new Value(Type.INT, Integer.parseInt(literal));
         } else if (null != ctx.STRING_VALUE()) {
             log("Recognized string value.");
+            lastValue = new Value(Type.STRING, literal.substring(1, literal.length() -1));
         } else {
             throw new IllegalStateException(String.format("Unrecognized literal '%s'!", literal));
         }
 
         return defaultResult();
     }
+
+    @Override
+    public Void visitPrintStatement(final PrintStatementContext ctx) {
+        visit(ctx.value);
+        env.stdOut(lastValue.asString());
+        return defaultResult();
+    }
+
+
 
 }

@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 /**
  * Uses internal buffers for I/O.
  *
@@ -12,17 +14,21 @@ public final class BufferEnvironment implements Environment {
 
     @Override
     public void stdOut(final String output) {
-        out.append(output);
+        out.append(Validate.notNull(output, "output"));
     }
 
     @Override
     public void stdErr(final String output) {
-        err.append(output);
+        err.append(Validate.notNull(output, "output"));
     }
 
     @Override
     public String stdIn() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getOut() {
+        return out.toString();
     }
 
 }
