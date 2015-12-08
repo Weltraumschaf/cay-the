@@ -50,8 +50,8 @@ final class SymbolTable {
             this.name = Validate.notEmpty(name, "name");
         }
 
-        public String getId() {
-            return String.valueOf(id);
+        public int getId() {
+            return id;
         }
 
         public String getName() {

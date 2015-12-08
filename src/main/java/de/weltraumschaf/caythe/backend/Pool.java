@@ -83,6 +83,25 @@ final class Pool {
             return value;
         }
 
+        Value asType(final Type wanted) {
+            if (wanted == type) {
+                return this;
+            }
+
+            switch (wanted) {
+                case BOOL:
+                    return newBool(asBool());
+                case INT:
+                    return newInt(asInt());
+                case FLOAT:
+                    return newFloat(asFloat());
+                case STRING:
+                    return newString(asString());
+            }
+
+            throw new IllegalArgumentException(String.format("Unsupported type '%s'!", wanted));
+        }
+
         Boolean asBool() {
             switch (type) {
                 case NIL:
@@ -178,6 +197,21 @@ final class Pool {
             return "Value{" + "type=" + type + ", value=" + value + '}';
         }
 
+        static Value newBool(final boolean in) {
+            return in ? TRUE : FALSE;
+        }
+
+        static Value newInt(final int in) {
+            return new Value(Type.INT, in);
+        }
+
+        static Value newFloat(final float in) {
+            return new Value(Type.FLOAT, in);
+        }
+
+        static Value newString(final String in) {
+            return new Value(Type.STRING, in);
+        }
     }
 
     /**

@@ -4,7 +4,13 @@ import de.weltraumschaf.caythe.backend.Pool.Type;
 import de.weltraumschaf.caythe.backend.Pool.Value;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
-import de.weltraumschaf.caythe.frontend.CayTheParser.*;
+import de.weltraumschaf.caythe.frontend.CayTheParser;
+import de.weltraumschaf.caythe.frontend.CayTheParser.AssignmentContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.CompilationUnitContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.ExpressionContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.LiteralContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.PrintStatementContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.StatementContext;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -26,11 +32,6 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
 
     private void log(final String msg, final Object... args) {
         log.append(String.format(msg, args)).append('\n');
-    }
-
-    @Override
-    protected Void defaultResult() {
-        return null;
     }
 
     @Override
@@ -73,6 +74,42 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
         }
 
         visit(ctx.value);
+        variables.set(symbol.getId(), lastValue);
+        return defaultResult();
+    }
+
+    @Override
+    public Void visitExpression(final ExpressionContext ctx) {
+        visit(ctx.left);
+        final Value left = lastValue;
+        visit(ctx.right);
+        final Value right = lastValue;
+        final Comparator compare = new Comparator();
+
+        switch (ctx.operator.getType()) {
+            case CayTheParser.EQUAL:
+                lastValue = compare.equal(left, right);
+                break;
+            case CayTheParser.NOT_EQUAL:
+                lastValue = compare.notEqual(left, right);
+                break;
+            case CayTheParser.GREATER_THAN:
+                lastValue = compare.greaterThan(left, right);
+                break;
+            case CayTheParser.LESS_THAN:
+                lastValue = compare.lessThan(left, right);
+                break;
+            case CayTheParser.GREATER_EQUAL:
+                lastValue = compare.greaterEqual(left, right);
+                break;
+            case CayTheParser.LESS_EQUAL:
+                lastValue = compare.lessEqual(left, right);
+                break;
+            default:
+                throw new UnsupportedOperationException(
+                    String.format("Unsupported operator '%s'!", ctx.operator.getType()));
+        }
+
         return defaultResult();
     }
 
@@ -83,16 +120,16 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
 
         if (null != ctx.BOOL_VALUE()) {
             log("Recognized bool value.");
-            lastValue = new Value(Type.BOOL, Boolean.parseBoolean(literal));
+            lastValue = Value.newBool(Boolean.parseBoolean(literal));
         } else if (null != ctx.FLOAT_VALUE()) {
             log("Recognized float value.");
-            lastValue = new Value(Type.FLOAT, Float.parseFloat(literal));
+            lastValue = Value.newFloat(Float.parseFloat(literal));
         } else if (null != ctx.INTEGER_VALUE()) {
             log("Recognized integer value.");
-            lastValue = new Value(Type.INT, Integer.parseInt(literal));
+            lastValue = Value.newInt(Integer.parseInt(literal));
         } else if (null != ctx.STRING_VALUE()) {
             log("Recognized string value.");
-            lastValue = new Value(Type.STRING, literal.substring(1, literal.length() -1));
+            lastValue = Value.newString(literal.substring(1, literal.length() - 1));
         } else {
             throw new IllegalStateException(String.format("Unrecognized literal '%s'!", literal));
         }
@@ -106,7 +143,5 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
         env.stdOut(lastValue.asString());
         return defaultResult();
     }
-
-
 
 }
