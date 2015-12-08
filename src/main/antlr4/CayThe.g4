@@ -14,17 +14,17 @@ statement           : expression
                     | ifBranch 
                     | NL* ;
 whileLoop           : KW_WHILE expression block ;
-ifBranch            : KW_IF expression block 
-                      ( KW_ELSE KW_IF expression block )* 
-                      ( KW_ELSE block )? ;
-block               : LBRACE statements RBRACE ;
+ifBranch            : KW_IF ifBlock=expression block 
+                      ( KW_ELSE KW_IF elseIfBlock=expression block )* 
+                      ( KW_ELSE elseBlock=block )? ;
+block               : LBRACE blockStatements=statements RBRACE ;
 expression          : left=compare ( operator=REL_OPS right=compare )* ;
 compare             : left=term ( operator=ADD_OPS right=term )* ;
 term                : left=factor ( operator=MUL_OPS right=factor )* ;
 factor              : base=atom ( CARET exponent=expression )? ;
 atom                : literal
                     | variable
-                    | LPAREN expression RPAREN ;
+                    | LPAREN value=expression RPAREN ;
 literal             : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) ;
 variable            : ID ;
 assignment          : id=variable ASSIGN value=expression ;
