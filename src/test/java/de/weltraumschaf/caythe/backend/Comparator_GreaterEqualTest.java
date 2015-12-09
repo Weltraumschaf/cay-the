@@ -29,7 +29,7 @@ public class Comparator_GreaterEqualTest {
         this.expected = expected;
     }
 
-    @Parameters(name = "{index}: equal({0}, {1}) = {2}")
+    @Parameters(name = "{index}: greaterEqual({0}, {1}) = {2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
             // left, right, expected
@@ -39,7 +39,7 @@ public class Comparator_GreaterEqualTest {
     }
 
     @Test
-    public void equal() {
+    public void greaterEqual() {
         assertThat(sut.greaterEqual(left, right), is(expected));
     }
 

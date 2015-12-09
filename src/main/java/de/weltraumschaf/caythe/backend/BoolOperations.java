@@ -3,6 +3,9 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.caythe.backend.Pool.Value;
 
 /**
+ * Performs boolean operations on given values.
+ *
+ * @since 1.0.0
  */
 final class BoolOperations {
 

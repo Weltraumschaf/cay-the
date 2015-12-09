@@ -30,7 +30,7 @@ public class Comparator_GreaterThanTest {
         this.expected = expected;
     }
 
-    @Parameters(name = "{index}: equal({0}, {1}) = {2}")
+    @Parameters(name = "{index}: greaterThan({0}, {1}) = {2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
             // left, right, expected
@@ -41,7 +41,7 @@ public class Comparator_GreaterThanTest {
 
     @Test
     @Ignore
-    public void equal() {
+    public void greaterThan() {
         assertThat(sut.greaterThan(left, right), is(expected));
     }
 
