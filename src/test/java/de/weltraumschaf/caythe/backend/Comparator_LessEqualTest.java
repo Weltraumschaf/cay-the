@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Tests for
- * {@link Comparator#lessThan(de.weltraumschaf.caythe.backend.Pool.Value, de.weltraumschaf.caythe.backend.Pool.Value)}.
+ * {@link Comparator#lessEqual(de.weltraumschaf.caythe.backend.Pool.Value, de.weltraumschaf.caythe.backend.Pool.Value)}.
  */
 @RunWith(Parameterized.class)
 public class Comparator_LessEqualTest {
@@ -29,18 +29,33 @@ public class Comparator_LessEqualTest {
         this.expected = expected;
     }
 
-    @Parameters(name = "{index}: lessThan({0}, {1}) = {2}")
+    @Parameters(name = "{index}: lessEqual({0}, {1}) = {2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
             // left, right, expected
-            // NIL:
             {Value.NIL, Value.NIL, Value.TRUE},
+            {Value.TRUE, Value.FALSE, Value.FALSE},
+            {Value.TRUE, Value.TRUE, Value.TRUE},
+            {Value.FALSE, Value.TRUE, Value.TRUE},
+            {Value.TRUE, Value.TRUE, Value.TRUE},
+            {Value.newInt(23), Value.newInt(3), Value.FALSE},
+            {Value.newInt(-2), Value.newInt(3), Value.TRUE},
+            {Value.newInt(3), Value.newInt(3), Value.TRUE},
+            {Value.newFloat(3.14f), Value.newFloat(-3.14f), Value.FALSE},
+            {Value.newFloat(3.14f), Value.newFloat(23.0f), Value.TRUE},
+            {Value.newFloat(3.14f), Value.newFloat(3.14f), Value.TRUE},
+            {Value.newString("bbb"), Value.newString("aaa"), Value.FALSE},
+            {Value.newString("b"), Value.newString("aaa"), Value.FALSE},
+            {Value.newString("aa"), Value.newString("aaa"), Value.TRUE},
+            {Value.TRUE, Value.newInt(0), Value.FALSE},
+            {Value.TRUE, Value.newInt(13), Value.TRUE},
+            {Value.newInt(13), Value.TRUE, Value.FALSE},
         });
     }
 
     @Test
     public void lessThan() {
-        assertThat(sut.lessThan(left, right), is(expected));
+        assertThat(sut.lessEqual(left, right), is(expected));
     }
 
 }

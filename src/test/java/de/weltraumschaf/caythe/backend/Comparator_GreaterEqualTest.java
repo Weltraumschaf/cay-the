@@ -33,8 +33,22 @@ public class Comparator_GreaterEqualTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
             // left, right, expected
-            // NIL:
             {Value.NIL, Value.NIL, Value.TRUE},
+            {Value.TRUE, Value.FALSE, Value.TRUE},
+            {Value.TRUE, Value.TRUE, Value.TRUE},
+            {Value.FALSE, Value.TRUE, Value.FALSE},
+            {Value.newInt(23), Value.newInt(3), Value.TRUE},
+            {Value.newInt(-2), Value.newInt(3), Value.FALSE},
+            {Value.newInt(3), Value.newInt(3), Value.TRUE},
+            {Value.newFloat(3.14f), Value.newFloat(-3.14f), Value.TRUE},
+            {Value.newFloat(3.14f), Value.newFloat(23.0f), Value.FALSE},
+            {Value.newFloat(3.14f), Value.newFloat(3.14f), Value.TRUE},
+            {Value.newString("bbb"), Value.newString("aaa"), Value.TRUE},
+            {Value.newString("b"), Value.newString("aaa"), Value.TRUE},
+            {Value.newString("aa"), Value.newString("aaa"), Value.FALSE},
+            {Value.TRUE, Value.newInt(0), Value.TRUE},
+            {Value.TRUE, Value.newInt(13), Value.TRUE},
+            {Value.newInt(13), Value.TRUE, Value.TRUE},
         });
     }
 

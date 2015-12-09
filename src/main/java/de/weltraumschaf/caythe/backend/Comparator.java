@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.caythe.backend.Pool.Type;
 import de.weltraumschaf.caythe.backend.Pool.Value;
 
 /**
@@ -29,14 +30,34 @@ final class Comparator {
 
     Value greaterThan(final Value left, final Value right) {
         if (sameType(left, right)) {
-
+            if (left.isType(Type.STRING)) {
+                return Value.newBool(left.asString().compareTo(right.asString()) == 1);
+            } else {
+                return Value.newBool(left.asFloat() > right.asFloat());
+            }
         }
 
-        return Value.FALSE;
+        if (left.isNil()) {
+            return greaterThan(left.asType(right.getType()), right);
+        }
+
+        return greaterThan(left, right.asType(left.getType()));
     }
 
     Value lessThan(final Value left, final Value right) {
-        return bool.not(greaterThan(left, right));
+        if (sameType(left, right)) {
+            if (left.isType(Type.STRING)) {
+                return Value.newBool(left.asString().compareTo(right.asString()) == -1);
+            } else {
+                return Value.newBool(left.asFloat() < right.asFloat());
+            }
+        }
+
+        if (left.isNil()) {
+            return lessThan(left.asType(right.getType()), right);
+        }
+
+        return lessThan(left, right.asType(left.getType()));
     }
 
     Value greaterEqual(final Value left, final Value right) {
