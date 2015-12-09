@@ -1,15 +1,13 @@
 package de.weltraumschaf.caythe.cli;
 
+import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.caythe.backend.Interpreter;
 import de.weltraumschaf.caythe.backend.DefaultEnvironmnet;
-import de.weltraumschaf.caythe.backend.Program;
-import de.weltraumschaf.caythe.backend.VirtualMachine;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
-import java.io.IOException;
 
 /**
  * This class provides the {@link #main(java.lang.String[]) main entry point} for the command line application.
@@ -22,11 +20,11 @@ public final class CliApplication extends InvokableAdapter {
      * Version information.
      */
     private final Version version;
-    private final boolean debugEnabled = Boolean.valueOf(System.getProperty("CAYTHE_DEBUG", "false"));
+    private final boolean debugEnabled = Boolean.valueOf(System.getProperty(CayThe.ENV_DEBUG, "false"));
 
     public CliApplication(final String[] args) {
         super(args);
-        version = new Version("/de/weltraumschaf/caythe/version.properties");
+        version = new Version(CayThe.BASE_PACKAGE_DIR  + "/version.properties");
     }
 
     public static void main(final String[] args) {

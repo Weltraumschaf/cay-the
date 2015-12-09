@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.cli;
 
 import com.beust.jcommander.Parameter;
+import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
-import de.weltraumschaf.commons.validate.Validate;
 import java.util.Objects;
 
 /**
@@ -12,7 +12,7 @@ public final class CliOptions {
     /**
      * New line string.
      */
-    private static final String NL = String.format("%n");
+    private static final String NL = CayThe.DEFAULT_NEWLINE;
     private static final String CMD_NAME = "cay-the";
 
     /**
