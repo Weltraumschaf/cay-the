@@ -39,4 +39,12 @@ public class InterpreterTest {
 
         assertThat(env.getOut(), is("3"));
     }
+
+    @Test
+    @Ignore
+    public void whileLoop() throws IOException, URISyntaxException {
+        sut.visit(createParseTree("while.ct"));
+
+        assertThat(env.getOut(), is("0123456789"));
+    }
 }
