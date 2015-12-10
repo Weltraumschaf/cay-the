@@ -9,11 +9,13 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
+ * Implementation which interprets the parsed tree.
+ *
+ * @since 1.0.0
  */
 public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     private final StringBuilder log = new StringBuilder();
-    private final Pool constants = new Pool();
     private final Pool variables = new Pool();
     private final SymbolTable table = new SymbolTable();
     private final Environment env;
@@ -26,10 +28,6 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     @Override
     protected Value defaultResult() {
         return Value.NIL;
-    }
-
-    private void log(final String msg, final Object... args) {
-        log.append(String.format(msg, args)).append('\n');
     }
 
     @Override
@@ -75,32 +73,10 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression(final ExpressionContext ctx) {
-        final Value left = visit(ctx.left);
-
-        if (null == ctx.right) {
-            return left;
-        }
-
-        final Value right = visit(ctx.right);
-        final Comparator compare = new Comparator();
-
-        switch (ctx.operator.getType()) {
-            case CayTheParser.EQUAL:
-                return compare.equal(left, right);
-            case CayTheParser.NOT_EQUAL:
-                return  compare.notEqual(left, right);
-            case CayTheParser.GREATER_THAN:
-                return  compare.greaterThan(left, right);
-            case CayTheParser.LESS_THAN:
-                return  compare.lessThan(left, right);
-            case CayTheParser.GREATER_EQUAL:
-                return  compare.greaterEqual(left, right);
-            case CayTheParser.LESS_EQUAL:
-                return  compare.lessEqual(left, right);
-            default:
-                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
-        }
+    public Value visitPrintStatement(final PrintStatementContext ctx) {
+        final Value value = visit(ctx.value);
+        env.stdOut(value.asString());
+        return value;
     }
 
     @Override
@@ -118,17 +94,145 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitWhileLoop(final WhileLoopContext ctx) {
-        Value condition = visit(ctx.expression());
+        Value condition = visit(ctx.condition);
 
         while (condition.asBool()) {
             visit(ctx.block());
-            condition = visit(ctx.expression());
+            condition = visit(ctx.condition);
         }
 
         return defaultResult();
     }
 
+    @Override
+    public Value visitOrExpression(final OrExpressionContext ctx) {
+        final Value left = visit(ctx.left);
 
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        return new BoolOperations().or(left, right);
+    }
+
+    @Override
+    public Value visitAndExpression(final AndExpressionContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        return new BoolOperations().and(left, right);
+    }
+
+    @Override
+    public Value visitEqualExpression(final EqualExpressionContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        final Comparator compare = new Comparator();
+
+        switch (ctx.operator.getType()) {
+            case CayTheParser.EQUAL:
+                return compare.equal(left, right);
+            case CayTheParser.NOT_EQUAL:
+                return compare.notEqual(left, right);
+            default:
+                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
+        }
+    }
+
+    @Override
+    public Value visitRelationExpression(final RelationExpressionContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        final Comparator compare = new Comparator();
+
+        switch (ctx.operator.getType()) {
+            case CayTheParser.GREATER_THAN:
+                return compare.greaterThan(left, right);
+            case CayTheParser.LESS_THAN:
+                return compare.lessThan(left, right);
+            case CayTheParser.GREATER_EQUAL:
+                return compare.greaterEqual(left, right);
+            case CayTheParser.LESS_EQUAL:
+                return compare.lessEqual(left, right);
+            default:
+                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
+        }
+    }
+
+    @Override
+    public Value visitSimpleExpression(final SimpleExpressionContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        final MathOperations math = new MathOperations();
+
+        switch (ctx.operator.getType()) {
+            case CayTheParser.ADD:
+                return math.add(left, right);
+            case CayTheParser.SUB:
+                return math.sub(left, right);
+            default:
+                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
+        }
+    }
+
+    @Override
+    public Value visitTerm(final TermContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
+        final MathOperations math = new MathOperations();
+
+        switch (ctx.operator.getType()) {
+            case CayTheParser.MUL:
+                return math.mul(left, right);
+            case CayTheParser.DIV:
+                return math.div(left, right);
+            case CayTheParser.MOD:
+                return math.mod(left, right);
+            default:
+                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
+        }
+    }
+
+    @Override
+    public Value visitFactor(final FactorContext ctx) {
+        final Value base = visit(ctx.base);
+
+        if (null == ctx.exponent) {
+            return base;
+        }
+
+        return new MathOperations().pow(base, visit(ctx.exponent));
+    }
+
+    @Override
+    public Value visitNegation(final NegationContext ctx) {
+        return new BoolOperations().not(visit(ctx.atom()));
+    }
 
     @Override
     public Value visitVariable(final VariableContext ctx) {
@@ -142,7 +246,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitLiteral(final LiteralContext ctx) {
+    public Value visitConstant(final ConstantContext ctx) {
         log("Visit literal: '%s'", ctx.getText());
         final String literal = ctx.value.getText();
 
@@ -163,18 +267,15 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
     }
 
-    @Override
-    public Value visitPrintStatement(final PrintStatementContext ctx) {
-        final Value value = visit(ctx.value);
-        env.stdOut(value.asString());
-        return value;
+    private void log(final String msg, final Object... args) {
+        log.append(String.format(msg, args)).append('\n');
     }
 
     private boolean notNull(final Object input) {
         return null != input;
     }
 
-    private SyntaxError error(final Token token, final String msg, final Object ... args) {
+    private SyntaxError error(final Token token, final String msg, final Object... args) {
         return new SyntaxError(String.format(msg, args), token);
     }
 }

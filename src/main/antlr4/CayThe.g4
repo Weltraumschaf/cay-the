@@ -5,30 +5,77 @@ package de.weltraumschaf.caythe.frontend;
 }
 
 // Parser rules:
-compilationUnit     : statements EOF ;
-statements          : ( statement NL )* | statement ;
-statement           : expression
-                    | assignment
-                    | printStatement
-                    | whileLoop
-                    | ifBranch 
-                    | NL* ;
-whileLoop           : KW_WHILE expression block ;
-ifBranch            : KW_IF ifCondition=expression ifBlock=block 
-                      ( KW_ELSE KW_IF elseIfCondition=expression elseIfBlock=block )* 
-                      ( KW_ELSE elseBlock=block )? ;
-block               : LBRACE blockStatements=statements RBRACE ;
-expression          : left=compare ( operator=(EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL) right=compare )* ;
-compare             : left=term ( operator=(ADD | SUB) right=term )* ;
-term                : left=factor ( operator=(MUL | DIV | MOD) right=factor )* ;
-factor              : base=atom ( CARET exponent=expression )? ;
-atom                : literal
-                    | variable
-                    | LPAREN value=expression RPAREN ;
-literal             : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) ;
-variable            : id=ID ;
-assignment          : id=variable ASSIGN value=expression ;
-printStatement      : 'print' LPAREN value=expression RPAREN ;
+compilationUnit     
+    : statements EOF 
+    ;
+statements          
+    : ( statement NL )* | statement 
+    ;
+statement           
+    : assignment
+    | printStatement
+    | whileLoop
+    | ifBranch 
+    | orExpression
+    | NL* 
+    ;
+assignment          
+    : id=variable ASSIGN value=orExpression 
+    ;
+printStatement      
+    : 'print' LPAREN value=orExpression RPAREN 
+    ;                    
+whileLoop           
+    : KW_WHILE condition=orExpression block 
+    ;
+ifBranch            
+    : KW_IF ifCondition=orExpression ifBlock=block 
+    ( KW_ELSE KW_IF elseIfCondition=orExpression elseIfBlock=block )* 
+    ( KW_ELSE elseBlock=block )? 
+    ;
+block               
+    : LBRACE blockStatements=statements RBRACE 
+    ;
+
+orExpression           
+    : left=andExpression ( OR right=andExpression )* 
+    ;
+andExpression          
+    : left=equalExpression ( AND right=equalExpression )* 
+    ;
+equalExpression        
+    : left=relationExpression 
+    ( operator=(EQUAL | NOT_EQUAL) right=relationExpression )* 
+    ;
+relationExpression     
+    : left=simpleExpression 
+    ( operator=(GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL) 
+      right=simpleExpression )*
+    ;
+simpleExpression       
+    : left=term ( operator=(ADD | SUB) right=term )* 
+    ;
+term                    
+    : left=factor ( operator=(MUL | DIV | MOD) right=factor )*
+    ;
+factor                  
+    : base=atom ( CARET exponent=simpleExpression )? 
+    ;
+atom    
+    : variable
+    | constant
+    | LPAREN orExpression RPAREN 
+    | negation
+    ;
+negation
+    : NOT atom
+    ;
+constant             
+    : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) 
+    ;
+variable            
+    : id=ID 
+    ;
 
 // Lexer rules:
 // Keywords:
@@ -49,7 +96,7 @@ MUL             : '*' ;
 DIV             : '/' ;
 MOD             : '%' ;
 ASSIGN      : '=' ;
-BANG        : '!' ;
+NOT         : '!' ;
 TILDE       : '~' ;
 QUESTION    : '?' ;
 COLON       : ':' ;
