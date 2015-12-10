@@ -1,7 +1,5 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.Pool.Value;
-
 /**
  * Performs boolean operations on given values.
  *

@@ -1,8 +1,5 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.Pool.Type;
-import de.weltraumschaf.caythe.backend.Pool.Value;
-
 /**
  * Compares relational given values.
  *

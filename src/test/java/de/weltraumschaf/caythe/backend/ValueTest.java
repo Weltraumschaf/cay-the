@@ -1,17 +1,14 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.Pool.Type;
-import de.weltraumschaf.caythe.backend.Pool.Value;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Tests for {@link Pool.Value}.
+ * Tests for {@link Value}.
  */
-public final class Pool_ValueTest {
+public final class ValueTest {
 
     @Test
     public void equalsAndHashCode() {

@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.Pool.Value;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.hamcrest.Matchers.is;
@@ -16,9 +15,9 @@ import org.junit.runners.Parameterized;
 public class BoolOperations_AndTest {
 
     private final BoolOperations sut = new BoolOperations();
-    private final Pool.Value left;
-    private final Pool.Value right;
-    private final Pool.Value expected;
+    private final Value left;
+    private final Value right;
+    private final Value expected;
 
     public BoolOperations_AndTest(final Value left, final Value right, final Value expected) {
         super();

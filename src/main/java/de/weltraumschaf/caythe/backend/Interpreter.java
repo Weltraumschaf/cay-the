@@ -1,7 +1,5 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.Pool.Type;
-import de.weltraumschaf.caythe.backend.Pool.Value;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
@@ -16,18 +14,22 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  */
-public final class Interpreter extends CayTheBaseVisitor<Void> {
+public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     private final StringBuilder log = new StringBuilder();
     private final Pool constants = new Pool();
     private final Pool variables = new Pool();
     private final SymbolTable table = new SymbolTable();
     private final Environment env;
-    private Value lastValue = Value.NIL;
 
     public Interpreter(final Environment env) {
         super();
         this.env = Validate.notNull(env, "env");
+    }
+
+    @Override
+    protected Value defaultResult() {
+        return Value.NIL;
     }
 
     private void log(final String msg, final Object... args) {
@@ -35,7 +37,7 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
     }
 
     @Override
-    public Void visitCompilationUnit(final CompilationUnitContext ctx) {
+    public Value visitCompilationUnit(final CompilationUnitContext ctx) {
         log("Visit compilation unit: '%s'", ctx.getText());
         final ParseTree compilationUnit = ctx.getChild(0);
 
@@ -43,12 +45,11 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
             return defaultResult();
         }
 
-        visit(compilationUnit);
-        return defaultResult();
+        return visit(compilationUnit);
     }
 
     @Override
-    public Void visitStatement(final StatementContext ctx) {
+    public Value visitStatement(final StatementContext ctx) {
         log("Visit statement: '%s'", ctx.getText());
         final ParseTree statement = ctx.getChild(0);
 
@@ -56,12 +57,11 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
             return defaultResult();
         }
 
-        visit(statement);
-        return defaultResult();
+        return visit(statement);
     }
 
     @Override
-    public Void visitAssignment(final AssignmentContext ctx) {
+    public Value visitAssignment(final AssignmentContext ctx) {
         log("Visit assignment: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
@@ -73,75 +73,68 @@ public final class Interpreter extends CayTheBaseVisitor<Void> {
             symbol = table.enter(identifier);
         }
 
-        visit(ctx.value);
-        variables.set(symbol.getId(), lastValue);
-        return defaultResult();
+        final Value value = visit(ctx.value);
+        variables.set(symbol.getId(), value);
+        return value;
     }
 
     @Override
-    public Void visitExpression(final ExpressionContext ctx) {
-        visit(ctx.left);
-        final Value left = lastValue;
-        visit(ctx.right);
-        final Value right = lastValue;
+    public Value visitExpression(final ExpressionContext ctx) {
+        final Value left = visit(ctx.left);
+
+        if (null == ctx.right) {
+            return left;
+        }
+
+        final Value right = visit(ctx.right);
         final Comparator compare = new Comparator();
 
         switch (ctx.operator.getType()) {
             case CayTheParser.EQUAL:
-                lastValue = compare.equal(left, right);
-                break;
+                return compare.equal(left, right);
             case CayTheParser.NOT_EQUAL:
-                lastValue = compare.notEqual(left, right);
-                break;
+                return  compare.notEqual(left, right);
             case CayTheParser.GREATER_THAN:
-                lastValue = compare.greaterThan(left, right);
-                break;
+                return  compare.greaterThan(left, right);
             case CayTheParser.LESS_THAN:
-                lastValue = compare.lessThan(left, right);
-                break;
+                return  compare.lessThan(left, right);
             case CayTheParser.GREATER_EQUAL:
-                lastValue = compare.greaterEqual(left, right);
-                break;
+                return  compare.greaterEqual(left, right);
             case CayTheParser.LESS_EQUAL:
-                lastValue = compare.lessEqual(left, right);
-                break;
+                return  compare.lessEqual(left, right);
             default:
                 throw new UnsupportedOperationException(
                     String.format("Unsupported operator '%s'!", ctx.operator.getType()));
         }
-
-        return defaultResult();
     }
 
     @Override
-    public Void visitLiteral(final LiteralContext ctx) {
+    public Value visitLiteral(final LiteralContext ctx) {
         log("Visit literal: '%s'", ctx.getText());
         final String literal = ctx.value.getText();
 
         if (null != ctx.BOOL_VALUE()) {
             log("Recognized bool value.");
-            lastValue = Value.newBool(Boolean.parseBoolean(literal));
+            return Value.newBool(Boolean.parseBoolean(literal));
         } else if (null != ctx.FLOAT_VALUE()) {
             log("Recognized float value.");
-            lastValue = Value.newFloat(Float.parseFloat(literal));
+            return Value.newFloat(Float.parseFloat(literal));
         } else if (null != ctx.INTEGER_VALUE()) {
             log("Recognized integer value.");
-            lastValue = Value.newInt(Integer.parseInt(literal));
+            return Value.newInt(Integer.parseInt(literal));
         } else if (null != ctx.STRING_VALUE()) {
             log("Recognized string value.");
-            lastValue = Value.newString(literal.substring(1, literal.length() - 1));
+            return Value.newString(literal.substring(1, literal.length() - 1));
         } else {
             throw new IllegalStateException(String.format("Unrecognized literal '%s'!", literal));
         }
-
-        return defaultResult();
     }
 
     @Override
-    public Void visitPrintStatement(final PrintStatementContext ctx) {
-        visit(ctx.value);
-        env.stdOut(lastValue.asString());
-        return defaultResult();
+    public Value visitPrintStatement(final PrintStatementContext ctx) {
+        final Value value = visit(ctx.value);
+        env.stdOut(value.asString());
+        return value;
     }
 
 }
