@@ -31,6 +31,13 @@
         <antlr.version>4.5.1-1</antlr.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>repo</id>
+            <url>file://${project.basedir}/lib</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
