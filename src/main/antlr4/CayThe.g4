@@ -14,19 +14,19 @@ statement           : expression
                     | ifBranch 
                     | NL* ;
 whileLoop           : KW_WHILE expression block ;
-ifBranch            : KW_IF ifBlock=expression block 
-                      ( KW_ELSE KW_IF elseIfBlock=expression block )* 
+ifBranch            : KW_IF ifCondition=expression ifBlock=block 
+                      ( KW_ELSE KW_IF elseIfCondition=expression elseIfBlock=block )* 
                       ( KW_ELSE elseBlock=block )? ;
 block               : LBRACE blockStatements=statements RBRACE ;
-expression          : left=compare ( operator=REL_OPS right=compare )* ;
-compare             : left=term ( operator=ADD_OPS right=term )* ;
-term                : left=factor ( operator=MUL_OPS right=factor )* ;
+expression          : left=compare ( operator=(EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL) right=compare )* ;
+compare             : left=term ( operator=(ADD | SUB) right=term )* ;
+term                : left=factor ( operator=(MUL | DIV | MOD) right=factor )* ;
 factor              : base=atom ( CARET exponent=expression )? ;
 atom                : literal
                     | variable
                     | LPAREN value=expression RPAREN ;
 literal             : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) ;
-variable            : ID ;
+variable            : id=ID ;
 assignment          : id=variable ASSIGN value=expression ;
 printStatement      : 'print' LPAREN value=expression RPAREN ;
 
@@ -37,17 +37,14 @@ KW_IF       : 'if' ;
 KW_ELSE     : 'else' ;
 
 // Operators:
-REL_OPS         : EQUAL | NOT_EQUAL | GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL ;
 EQUAL           : '==' ;
 LESS_EQUAL      : '<=' ;
 GREATER_EQUAL   : '>=' ;
 NOT_EQUAL       : '!=' ;
 GREATER_THAN    : '>' ;
 LESS_THAN       : '<' ;
-ADD_OPS         : ADD | SUB ;
 ADD             : '+' ;
 SUB             : '-' ;
-MUL_OPS         : MUL | DIV | MOD ;
 MUL             : '*' ;
 DIV             : '/' ;
 MOD             : '%' ;

@@ -27,15 +27,16 @@ public class InterpreterTest {
     }
 
     @Test
-    @Ignore
-    public void number1() throws IOException, URISyntaxException {
-        sut.visit(createParseTree("number1.ct"));
-    }
-
-    @Test
     public void print() throws IOException, URISyntaxException {
         sut.visit(createParseTree("print.ct"));
 
         assertThat(env.getOut(), is("42\\nhello world"));
+    }
+
+    @Test
+    public void ifElse() throws IOException, URISyntaxException {
+        sut.visit(createParseTree("if.ct"));
+
+        assertThat(env.getOut(), is("3"));
     }
 }

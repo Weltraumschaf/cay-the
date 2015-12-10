@@ -6,10 +6,13 @@ import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.CayTheParser.AssignmentContext;
 import de.weltraumschaf.caythe.frontend.CayTheParser.CompilationUnitContext;
 import de.weltraumschaf.caythe.frontend.CayTheParser.ExpressionContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.IfBranchContext;
 import de.weltraumschaf.caythe.frontend.CayTheParser.LiteralContext;
 import de.weltraumschaf.caythe.frontend.CayTheParser.PrintStatementContext;
 import de.weltraumschaf.caythe.frontend.CayTheParser.StatementContext;
+import de.weltraumschaf.caythe.frontend.CayTheParser.VariableContext;
 import de.weltraumschaf.commons.validate.Validate;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
@@ -103,9 +106,32 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
             case CayTheParser.LESS_EQUAL:
                 return  compare.lessEqual(left, right);
             default:
-                throw new UnsupportedOperationException(
-                    String.format("Unsupported operator '%s'!", ctx.operator.getType()));
+                throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
         }
+    }
+
+    @Override
+    public Value visitIfBranch(final IfBranchContext ctx) {
+        if (visit(ctx.ifCondition).asBool() && notNull(ctx.ifBlock)) {
+            return visit(ctx.ifBlock);
+        } else if (notNull(ctx.elseIfCondition) && visit(ctx.elseIfCondition).asBool() && notNull(ctx.elseIfBlock)) {
+            return visit(ctx.elseIfBlock);
+        } else if (notNull(ctx.elseBlock)) {
+            return visit(ctx.elseBlock);
+        }
+
+        return Value.NIL;
+    }
+
+    @Override
+    public Value visitVariable(final VariableContext ctx) {
+        final Entry entry = table.lookup(ctx.id.getText());
+
+        if (null == entry) {
+            throw error(ctx.id, "Access of undeclared variable '%s'", ctx.id.getText());
+        }
+
+        return variables.get(entry.getId());
     }
 
     @Override
@@ -126,7 +152,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
             log("Recognized string value.");
             return Value.newString(literal.substring(1, literal.length() - 1));
         } else {
-            throw new IllegalStateException(String.format("Unrecognized literal '%s'!", literal));
+            throw error(ctx.value, "Unrecognized literal '%s'", literal);
         }
     }
 
@@ -137,4 +163,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         return value;
     }
 
+    private boolean notNull(final Object input) {
+        return null != input;
+    }
+
+    private SyntaxError error(final Token token, final String msg, final Object ... args) {
+        return new SyntaxError(String.format(msg, args), token);
+    }
 }

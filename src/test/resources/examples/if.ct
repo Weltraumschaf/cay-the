@@ -1,10 +1,11 @@
+n = 1
 
 if n <= 0 {
-    print(n)
+    print(1)
 } else if n < 1 {
-    print(n)
+    print(2)
 } else if n < 2 {
-    print(n)
+    print(3)
 } else {
-    print(n)
+    print(4)
 }
