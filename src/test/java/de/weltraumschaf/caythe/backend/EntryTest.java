@@ -1,34 +1,33 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 /**
- * Tests for {@link SymbolTable.Entry}.
+ * Tests for {@link SymbolTable.SymbolEntry}.
  */
-public final class SymbolTable_EntryTest {
+public final class EntryTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(Entry.class).verify();
+        EqualsVerifier.forClass(SymbolEntry.class).verify();
     }
 
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public void idMustNotBeNegative() {
-        new Entry(-1, "foo");
+        new SymbolEntry(-1, "foo", SymbolEntry.Type.CONSTANT);
     }
 
     @Test(expected = NullPointerException.class)
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public void nameMustNotBeNull() {
-        new Entry(0, null);
+        new SymbolEntry(0, null, SymbolEntry.Type.CONSTANT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public void nameMustNotBeEmpty() {
-        new Entry(0, "");
+        new SymbolEntry(0, "", SymbolEntry.Type.CONSTANT);
     }
 }

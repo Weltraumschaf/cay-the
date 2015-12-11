@@ -2,8 +2,9 @@ package de.weltraumschaf.caythe.backend.interpreter;
 
 import de.weltraumschaf.caythe.backend.Environment;
 import de.weltraumschaf.caythe.backend.Pool;
+import de.weltraumschaf.caythe.backend.SymbolEntry;
+import de.weltraumschaf.caythe.backend.SymbolEntry.Type;
 import de.weltraumschaf.caythe.backend.SymbolTable;
-import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import de.weltraumschaf.caythe.backend.SyntaxError;
 import de.weltraumschaf.caythe.backend.Value;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
@@ -22,6 +23,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     private final StringBuilder log = new StringBuilder();
     private final Pool variables = new Pool();
+    private final Pool consants = new Pool();
     private final SymbolTable table = new SymbolTable();
     private final Environment env;
 
@@ -60,20 +62,58 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitAssignment(final AssignmentContext ctx) {
-        log("Visit assignment: '%s'", ctx.getText());
+    public Value visitConstantDeclaration(final ConstantDeclarationContext ctx) {
+        log("Visit constant decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
-        final Entry symbol;
+        if (table.enered(identifier)) {
+            throw error(ctx.id, "Constant '%s' already declared", identifier);
+        }
+
+        final SymbolEntry symbol = table.enter(identifier, SymbolEntry.Type.CONSTANT);
+        final Value value = visit(ctx.value);
+        consants.set(symbol.getId(), value);
+        return value;
+    }
+
+    @Override
+    public Value visitVariableDeclaration(final VariableDeclarationContext ctx) {
+        log("Visit var decl: '%s'", ctx.getText());
+        final String identifier = ctx.id.getText();
 
         if (table.enered(identifier)) {
-            symbol = table.lookup(identifier);
+            throw error(ctx.id, "Variable '%s' already declared", identifier);
+        }
+
+        final SymbolEntry symbol = table.enter(identifier, SymbolEntry.Type.VARIABLE);
+        final Value value;
+
+        if (null == ctx.value) {
+            value = Value.NIL;
         } else {
-            symbol = table.enter(identifier);
+            value = visit(ctx.value);
+        }
+
+        variables.set(symbol.getId(), value);
+        return value;
+    }
+
+    @Override
+    public Value visitAssignment(final AssignmentContext ctx) {
+        final String identifier = ctx.id.getText();
+
+        if (!table.enered(identifier)) {
+            throw error(ctx.id, "Unknown variable '%s'", ctx.id.getText());
+        }
+
+        final SymbolEntry entry = table.lookup(identifier);
+
+        if (entry.getType() == Type.CONSTANT) {
+            throw error(ctx.id, "Can't write constant '%s'", identifier);
         }
 
         final Value value = visit(ctx.value);
-        variables.set(symbol.getId(), value);
+        variables.set(entry.getId(), value);
         return value;
     }
 
@@ -240,14 +280,19 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitVariable(final VariableContext ctx) {
-        final Entry entry = table.lookup(ctx.id.getText());
+    public Value visitVariableOrConstantDereference(final VariableOrConstantDereferenceContext ctx) {
+        final String identifier = ctx.id.getText();
 
-        if (null == entry) {
-            throw error(ctx.id, "Access of undeclared variable '%s'", ctx.id.getText());
+        if (!table.enered(identifier)) {
+            throw error(ctx.id, "Access of undeclared variable/constant '%s'", ctx.id.getText());
         }
 
-        return variables.get(entry.getId());
+        final SymbolEntry entry = table.lookup(identifier);
+        final Value value = entry.getType() == Type.CONSTANT
+            ? consants.get(entry.getId())
+            : variables.get(entry.getId());
+
+        return value;
     }
 
     @Override

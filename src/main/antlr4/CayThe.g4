@@ -12,15 +12,23 @@ statements
     : ( statement NL )* | statement 
     ;
 statement           
-    : assignment
+    : variableDeclaration
+    | constantDeclaration
+    | assignment
     | printStatement
     | whileLoop
     | ifBranch 
     | orExpression
     | NL* 
     ;
-assignment          
-    : id=variable ASSIGN value=orExpression 
+variableDeclaration
+    : KW_VAR id=ID ( ASSIGN value=orExpression )*
+    ;
+constantDeclaration
+    : KW_CONST id=ID ASSIGN value=orExpression
+    ;
+assignment
+    : id=ID ASSIGN value=orExpression
     ;
 printStatement      
     : 'print' LPAREN value=orExpression RPAREN 
@@ -62,7 +70,7 @@ factor
     : base=atom ( CARET exponent=simpleExpression )? 
     ;
 atom    
-    : variable
+    : variableOrConstantDereference
     | constant
     | LPAREN orExpression RPAREN 
     | negation
@@ -73,15 +81,17 @@ negation
 constant             
     : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) 
     ;
-variable            
-    : id=ID 
+variableOrConstantDereference
+    : id=ID
     ;
-
+    
 // Lexer rules:
 // Keywords:
 KW_WHILE    : 'while' ;
 KW_IF       : 'if' ;
 KW_ELSE     : 'else' ;
+KW_VAR      : 'var' ;
+KW_CONST    : 'const' ;
 
 // Operators:
 EQUAL           : '==' ;

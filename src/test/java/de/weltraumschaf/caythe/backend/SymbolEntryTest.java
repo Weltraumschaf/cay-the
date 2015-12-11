@@ -1,7 +1,5 @@
-
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import org.junit.Test;
@@ -10,7 +8,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for {@link SymbolTable}.
  */
-public class SymbolTableTest {
+public class SymbolEntryTest {
 
     private final SymbolTable sut = new SymbolTable();
 
@@ -26,21 +24,21 @@ public class SymbolTableTest {
 
     @Test
     public void enter_oneSymbol() {
-        final Entry symbol = sut.enter("foo");
+        final SymbolEntry symbol = sut.enter("foo", SymbolEntry.Type.CONSTANT);
 
-        assertThat(symbol, is(new Entry(0, "foo")));
+        assertThat(symbol, is(new SymbolEntry(0, "foo", SymbolEntry.Type.CONSTANT)));
         assertThat(sut.enered("foo"), is(true));
         assertThat(sut.lookup("foo"), is(symbol));
     }
 
     @Test
     public void enter_threeSymbol() {
-        final Entry symbolOne = sut.enter("foo");
-        assertThat(symbolOne, is(new Entry(0, "foo")));
-        final Entry symbolTwo = sut.enter("bar");
-        assertThat(symbolTwo, is(new Entry(1, "bar")));
-        final Entry symbolThree = sut.enter("baz");
-        assertThat(symbolThree, is(new Entry(2, "baz")));
+        final SymbolEntry symbolOne = sut.enter("foo", SymbolEntry.Type.CONSTANT);
+        assertThat(symbolOne, is(new SymbolEntry(0, "foo", SymbolEntry.Type.CONSTANT)));
+        final SymbolEntry symbolTwo = sut.enter("bar", SymbolEntry.Type.CONSTANT);
+        assertThat(symbolTwo, is(new SymbolEntry(1, "bar", SymbolEntry.Type.CONSTANT)));
+        final SymbolEntry symbolThree = sut.enter("baz", SymbolEntry.Type.CONSTANT);
+        assertThat(symbolThree, is(new SymbolEntry(2, "baz", SymbolEntry.Type.CONSTANT)));
 
         assertThat(sut.enered("foo"), is(true));
         assertThat(sut.lookup("foo"), is(symbolOne));

@@ -15,7 +15,7 @@ public final class SymbolTable {
     /**
      * Holds the symbol entries mapped by name.
      */
-    private final Map<String, Entry> table = new HashMap<>();
+    private final Map<String, SymbolEntry> table = new HashMap<>();
     /**
      * Maintains the current slot ID for new entries.
      */
@@ -30,7 +30,7 @@ public final class SymbolTable {
      * @param name must not be {@code null} or empty
      * @return never {@code null}
      */
-    public Entry lookup(final String name) {
+    public SymbolEntry lookup(final String name) {
         if (enered(name)) {
             return table.get(name);
         }
@@ -57,82 +57,16 @@ public final class SymbolTable {
      *
      * @param name must not be {@code null} or empty
      * @return never {@code null}, the new entry in the table
+     * @return type {@code null}
      */
-    public Entry enter(final String name) {
+    public SymbolEntry enter(final String name, SymbolEntry.Type type) {
         if (enered(name)) {
             throw new IllegalArgumentException(String.format("Symbal with name '%s' already entered in table!", name));
         }
 
-        final Entry symbol = new Entry(currentSlot++, name);
+        final SymbolEntry symbol = new SymbolEntry(currentSlot++, name, type);
         table.put(name, symbol);
         return symbol;
     }
 
-    /**
-     * Symbol entry.
-     */
-    public static final class Entry {
-
-        /**
-         * The slot ID of the entry.
-         */
-        private final int id;
-        /**
-         * The name of the ID.
-         */
-        private final String name;
-
-        /**
-         * Dedicated constructor.
-         *
-         * @param id must not be negative
-         * @param name must not be {@code null} or empty
-         */
-        public Entry(int id, final String name) {
-            super();
-            Validate.greaterThanOrEqual(id, 0, "id");
-            this.id = id;
-            this.name = Validate.notEmpty(name, "name");
-        }
-
-        /**
-         * Get the slot ID.
-         *
-         * @return not negative
-         */
-        public int getId() {
-            return id;
-        }
-
-        /**
-         * Get the symbol name.
-         *
-         * @return never {@code null} or empty
-         */
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name, id);
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof Entry)) {
-                return false;
-            }
-
-            final Entry other = (Entry) obj;
-            return Objects.equals(name, other.name)
-                && Objects.equals(id, other.id);
-        }
-
-        @Override
-        public String toString() {
-            return "Entry{" + "id=" + id + ", name=" + name + '}';
-        }
-
-    }
 }
