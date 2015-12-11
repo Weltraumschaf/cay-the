@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.cli;
 
 import de.weltraumschaf.caythe.CayThe;
-import de.weltraumschaf.caythe.backend.Interpreter;
+import de.weltraumschaf.caythe.backend.interpreter.Interpreter;
 import de.weltraumschaf.caythe.backend.DefaultEnvironmnet;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;

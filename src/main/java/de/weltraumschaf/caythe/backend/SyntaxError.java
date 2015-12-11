@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;
 
 /**
@@ -7,10 +8,20 @@ import org.antlr.v4.runtime.Token;
  *
  * @since 1.0.0
  */
-final class SyntaxError extends RuntimeException {
+public final class SyntaxError extends RuntimeException {
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param message must not be {@code null} or empty
+     * @param token must not be {@code null} or empty
+     */
     public SyntaxError(final String message, final Token token) {
-        super(String.format("%s (at line %d, column %d)!", message, token.getLine(), token.getCharPositionInLine() + 1));
+        super(String.format(
+            "%s (at line %d, column %d)!",
+            Validate.notEmpty(message, "message"),
+            Validate.notNull(token, "token").getLine(),
+            token.getCharPositionInLine() + 1));
     }
 
 }

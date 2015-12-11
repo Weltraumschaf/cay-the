@@ -1,6 +1,11 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.interpreter;
 
+import de.weltraumschaf.caythe.backend.Environment;
+import de.weltraumschaf.caythe.backend.Pool;
+import de.weltraumschaf.caythe.backend.SymbolTable;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
+import de.weltraumschaf.caythe.backend.SyntaxError;
+import de.weltraumschaf.caythe.backend.Value;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.CayTheParser.*;

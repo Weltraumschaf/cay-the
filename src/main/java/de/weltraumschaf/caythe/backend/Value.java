@@ -17,13 +17,13 @@ public final class Value {
     /**
      * A not available value.
      */
-    static final Value NIL = new Value(Type.NIL, NIL_VALUE);
-    static final Value TRUE = new Value(Type.BOOL, Boolean.TRUE);
-    static final Value FALSE = new Value(Type.BOOL, Boolean.FALSE);
-    static final Value DEFAULT_BOOL = FALSE;
-    static final Value DEFAULT_INT = new Value(Type.INT, 0);
-    static final Value DEFAULT_FLOAT = new Value(Type.FLOAT, 0.0f);
-    static final Value DEFAULT_STRING = new Value(Type.STRING, "");
+    public static final Value NIL = new Value(Type.NIL, NIL_VALUE);
+    public static final Value TRUE = new Value(Type.BOOL, Boolean.TRUE);
+    public static final Value FALSE = new Value(Type.BOOL, Boolean.FALSE);
+    public static final Value DEFAULT_BOOL = FALSE;
+    public static final Value DEFAULT_INT = new Value(Type.INT, 0);
+    public static final Value DEFAULT_FLOAT = new Value(Type.FLOAT, 0.0f);
+    public static final Value DEFAULT_STRING = new Value(Type.STRING, "");
 
     private final Type type;
     private final Object value;
@@ -34,19 +34,19 @@ public final class Value {
         this.value = Validate.notNull(value, "value");
     }
 
-    Type getType() {
+    public Type getType() {
         return type;
     }
 
-    boolean isType(final Type wanted) {
+    public boolean isType(final Type wanted) {
         return type == wanted;
     }
 
-    boolean isNil() {
+    public boolean isNil() {
         return isType(Type.NIL);
     }
 
-    Object getValue() {
+    public Object getValue() {
         if (isNil()) {
             return NIL_VALUE;
         }
@@ -54,7 +54,7 @@ public final class Value {
         return value;
     }
 
-    Value asType(final Type wanted) {
+    public Value asType(final Type wanted) {
         if (wanted == type) {
             return this;
         }
@@ -73,7 +73,7 @@ public final class Value {
         throw new IllegalArgumentException(String.format("Unsupported type '%s'!", wanted));
     }
 
-    Boolean asBool() {
+    public Boolean asBool() {
         switch (type) {
             case NIL:
                 return Boolean.FALSE;
@@ -90,7 +90,7 @@ public final class Value {
         }
     }
 
-    Integer asInt() {
+    public Integer asInt() {
         switch (type) {
             case NIL:
                 return 0;
@@ -111,7 +111,7 @@ public final class Value {
         }
     }
 
-    Float asFloat() {
+    public Float asFloat() {
         switch (type) {
             case NIL:
                 return 0.0f;
@@ -132,7 +132,7 @@ public final class Value {
         }
     }
 
-    String asString() {
+    public String asString() {
         switch (type) {
             case NIL:
                 return "";
@@ -168,19 +168,19 @@ public final class Value {
         return "Value{" + "type=" + type + ", value=" + value + '}';
     }
 
-    static Value newBool(final boolean in) {
+    public static Value newBool(final boolean in) {
         return in ? TRUE : FALSE;
     }
 
-    static Value newInt(final int in) {
+    public static Value newInt(final int in) {
         return new Value(Type.INT, in);
     }
 
-    static Value newFloat(final float in) {
+    public static Value newFloat(final float in) {
         return new Value(Type.FLOAT, in);
     }
 
-    static Value newString(final String in) {
+    public static Value newString(final String in) {
         return new Value(Type.STRING, in);
     }
 }

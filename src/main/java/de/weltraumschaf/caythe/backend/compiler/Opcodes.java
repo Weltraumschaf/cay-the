@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.compiler;
 
 import java.util.Collections;
 import java.util.HashMap;

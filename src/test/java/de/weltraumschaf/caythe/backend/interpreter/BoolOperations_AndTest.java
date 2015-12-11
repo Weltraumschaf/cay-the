@@ -1,5 +1,7 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.interpreter;
 
+import de.weltraumschaf.caythe.backend.Value;
+import de.weltraumschaf.caythe.backend.interpreter.BoolOperations;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.hamcrest.Matchers.is;

@@ -3,7 +3,6 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A pool contains values.
@@ -13,14 +12,22 @@ import java.util.Objects;
  *
  * @since 1.0.0
  */
-final class Pool {
+public final class Pool {
 
     /**
      * Holds the value by its slot ID.
      */
     private final Map<Integer, Value> data = new HashMap<>();
 
-    Value get(final int index) {
+    /**
+     * Get a value from the pool.
+     *
+     * @param index must not be negative
+     * @return never {@code null}, {@link Value.NIL} if value is not present at given index
+     */
+    public Value get(final int index) {
+        Validate.greaterThanOrEqual(index, 0, "index");
+
         if (data.containsKey(index)) {
             return data.get(index);
         }
@@ -28,7 +35,15 @@ final class Pool {
         return Value.NIL;
     }
 
-    void set(final int index, final Value value) {
+    /**
+     * Set value in pool.
+     *
+     * @param index index must not be negative
+     * @param value must not be {@code null}
+     */
+    public void set(final int index, final Value value) {
+        Validate.greaterThanOrEqual(index, 0, "index");
+        Validate.notNull(value, "value");
         data.put(index, value);
     }
 

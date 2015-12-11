@@ -1,4 +1,7 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.interpreter;
+
+import de.weltraumschaf.caythe.backend.Type;
+import de.weltraumschaf.caythe.backend.Value;
 
 /**
  * @since 1.0.0

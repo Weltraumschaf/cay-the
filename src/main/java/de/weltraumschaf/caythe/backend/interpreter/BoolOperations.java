@@ -1,4 +1,6 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.interpreter;
+
+import de.weltraumschaf.caythe.backend.Value;
 
 /**
  * Performs boolean operations on given values.

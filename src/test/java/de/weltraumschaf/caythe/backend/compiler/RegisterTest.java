@@ -1,6 +1,6 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.compiler;
 
-import de.weltraumschaf.caythe.backend.Register;
+import de.weltraumschaf.caythe.backend.compiler.Register;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;

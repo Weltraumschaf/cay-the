@@ -1,7 +1,6 @@
 
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.SymbolTable;
 import de.weltraumschaf.caythe.backend.SymbolTable.Entry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -15,9 +14,13 @@ public class SymbolTableTest {
 
     private final SymbolTable sut = new SymbolTable();
 
-    @Test
-    public void defaultValues() {
+    @Test(expected = IllegalArgumentException.class)
+    public void lookup_notAvailable() {
         assertThat(sut.lookup("foo"), is(nullValue()));
+    }
+
+    @Test
+    public void entered_notAvailable() {
         assertThat(sut.enered("foo"), is(false));
     }
 
