@@ -11,6 +11,7 @@ import org.junit.Test;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 
 /**
  */
@@ -45,5 +46,13 @@ public class InterpreterTest {
         sut.visit(createParseTree("while.ct"));
 
         assertThat(env.getOut(), is("0123456789"));
+    }
+
+    @Test
+//    @Ignore
+    public void complex() throws IOException, URISyntaxException {
+        sut.visit(createParseTree("complex.ct"));
+
+        assertThat(env.getOut(), is("712.560foo1baz2baz3baz4baz5snafu6snafu7snafu8snafu9snafudone"));
     }
 }

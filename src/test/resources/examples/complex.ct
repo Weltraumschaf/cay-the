@@ -1,6 +1,27 @@
 
 print(3 + 4)
 
-a = 3.14 * 4
+var a = 3.14 * 4
 
 print(a)
+
+const x = 10
+var n = 0
+
+while n < x {
+    print(n)
+
+    if n < 1 {
+        print("foo")
+    } else if n < 2 {
+        print("bar")
+    } else if n < 5 {
+        print("baz")
+    } else {
+        print("snafu")
+    }
+
+    n = n + 1
+}
+
+print("done")
