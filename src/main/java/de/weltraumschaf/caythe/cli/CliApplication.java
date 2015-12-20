@@ -20,7 +20,6 @@ public final class CliApplication extends InvokableAdapter {
      * Version information.
      */
     private final Version version;
-    private final boolean debugEnabled = Boolean.valueOf(System.getProperty(CayThe.ENV_DEBUG, "false"));
 
     public CliApplication(final String[] args) {
         super(args);
@@ -28,7 +27,9 @@ public final class CliApplication extends InvokableAdapter {
     }
 
     public static void main(final String[] args) {
-        InvokableAdapter.main(new CliApplication(args));
+        final CliApplication app = new CliApplication(args);
+        app.debug = Boolean.valueOf(System.getenv(CayThe.ENV_DEBUG));
+        InvokableAdapter.main(app);
     }
 
     @Override
@@ -46,7 +47,7 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        final CayTheParser parser = Parsers.newParser(options.getFile(), debugEnabled);
+        final CayTheParser parser = Parsers.newParser(options.getFile(), debug);
         final CayTheBaseVisitor<?> visitor;
 
         if (options.isInterpret()) {
