@@ -3,7 +3,6 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Table to collect symbols for variables and such.

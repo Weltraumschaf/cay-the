@@ -7,6 +7,12 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public final class BuildInTypeSymbol extends BaseSymbol implements Type {
 
+    static final Symbol NIL  = new BuildInTypeSymbol("Nil");
+    static final Symbol BOOL = new BuildInTypeSymbol("Bool");
+    static final Symbol INT = new BuildInTypeSymbol("Int");
+    static final Symbol FLOAT = new BuildInTypeSymbol("Float");
+    static final Symbol STRING = new BuildInTypeSymbol("String");
+
     /**
      * Dedicated constructor.
      *
