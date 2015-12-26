@@ -12,6 +12,7 @@ public final class BuildInTypeSymbol extends BaseSymbol implements Type {
     static final Symbol INT = new BuildInTypeSymbol("Int");
     static final Symbol FLOAT = new BuildInTypeSymbol("Float");
     static final Symbol STRING = new BuildInTypeSymbol("String");
+    static final Symbol FUNCTION = new BuildInTypeSymbol("Function");
 
     /**
      * Dedicated constructor.
