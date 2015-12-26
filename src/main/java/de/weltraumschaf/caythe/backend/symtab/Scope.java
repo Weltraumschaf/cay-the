@@ -1,30 +1,36 @@
-package de.weltraumschaf.caythe.symtab;
+package de.weltraumschaf.caythe.backend.symtab;
 
 /**
+ * @since 1.0.0
  */
 public interface Scope {
 
-    public String getScopeName();
+    /**
+     * Name of scope.
+     *
+     * @return never {@code null} or empty
+     */
+    String getScopeName();
 
     /**
-     * Where to look next for symbols
+     * Where to look next for symbols.
      *
+     * @return may be {@code null}
+     */
+    Scope getEnclosingScope();
+
+    /**
+     * Define a symbol in the current scope.
+     *
+     * @param sym must not be {@code null}
+     */
+    void define(Symbol sym);
+
+    /**
+     * Look up name in this scope or in enclosing scope if not here.
+     *
+     * @param name must not be {@code null} or empty
      * @return
      */
-    public Scope getEnclosingScope();
-
-    /**
-     * Define a symbol in the current scope
-     *
-     * @param sym
-     */
-    public void define(Symbol sym);
-
-    /**
-     * Look up name in this scope or in enclosing scope if not here
-     *
-     * @param name
-     * @return
-     */
-    public Symbol resolve(String name);
+    Symbol resolve(String name);
 }

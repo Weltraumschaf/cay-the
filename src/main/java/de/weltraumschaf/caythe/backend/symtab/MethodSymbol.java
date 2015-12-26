@@ -1,37 +1,62 @@
-package de.weltraumschaf.caythe.symtab;
+package de.weltraumschaf.caythe.backend.symtab;
 
+import de.weltraumschaf.commons.validate.Validate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * This describes methods and functions.
+ * <p>
+ * Methods are symbols with an own local scope. They also always have a {@link #getEnclosingScope() parent scope}.
+ * </p>
+ *
+ * @since 1.0.0
  */
 public final class MethodSymbol extends Symbol implements Scope {
 
-    Map<String, Symbol> orderedArgs = new LinkedHashMap<String, Symbol>();
-    Scope enclosingScope;
+    /**
+     * Arguments of the method.
+     */
+    private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
+    /**
+     * The enclosing scope is either a class or the global scope if it is a function.
+     */
+    private final Scope enclosingScope;
 
-    public MethodSymbol(String name, Type retType, Scope enclosingScope) {
-        super(name, retType);
-        this.enclosingScope = enclosingScope;
+    /**
+     * Dedicated constructor.
+     *
+     * @param name must not be {@code null} or empty
+     * @param returnType must not be {@code null}
+     * @param enclosingScope must not be {@code null}
+     */
+    public MethodSymbol(final String name, final Type returnType, final Scope enclosingScope) {
+        super(name, returnType);
+        this.enclosingScope = Validate.notNull(enclosingScope, "enclosingScope");
     }
 
     @Override
-    public Symbol resolve(String name) {
-        Symbol s = orderedArgs.get(name);
+    public Symbol resolve(final String name) {
+        Validate.notEmpty(name, "name");
+        final Symbol s = orderedArgs.get(name);
+
         if (s != null) {
             return s;
         }
-        // if not here, check any enclosing scope
+
+        // If not here, check any enclosing scope.
         if (getEnclosingScope() != null) {
             return getEnclosingScope().resolve(name);
         }
-        return null; // not found
+
+        return null; // Not found.
     }
 
     @Override
-    public void define(Symbol sym) {
-        orderedArgs.put(sym.name, sym);
-        sym.scope = this; // track the scope in each symbol
+    public void define(final Symbol sym) {
+        Validate.notNull(sym, "sym");
+        orderedArgs.put(sym.getName(), sym);
+        sym.setScope(this); // Track the scope in each symbol.
     }
 
     @Override
@@ -41,7 +66,7 @@ public final class MethodSymbol extends Symbol implements Scope {
 
     @Override
     public String getScopeName() {
-        return name;
+        return getName();
     }
 
     @Override

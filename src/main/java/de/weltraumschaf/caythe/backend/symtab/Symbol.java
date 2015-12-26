@@ -1,24 +1,49 @@
-package de.weltraumschaf.caythe.symtab;
+package de.weltraumschaf.caythe.backend.symtab;
+
+import de.weltraumschaf.commons.validate.Validate;
 
 /**
+ * Describes a found symbol.
+ *
+ * @since 1.0.0
  */
 public class Symbol {
 
-    String name;      // All symbols at least have a name
-    Type type;
-    Scope scope;      // All symbols know what scope contains them.
+    /**
+     * All symbols at least have a name.
+     */
+    private final String name;
+    private final Type type;
+    /**
+     * All symbols know what scope contains them.
+     */
+    private Scope scope;
 
-    public Symbol (String name) {
-        this.name = name;
+    /**
+     * Dedicated constructor.
+     *
+     * @param name must not be {@code null} or empty
+     */
+    public Symbol(final String name) {
+        this(name, null);
     }
 
-    public Symbol (String name, Type type) {
-        this(name);
+    public Symbol(final String name, final Type type) {
+        super();
+        this.name = Validate.notEmpty(name, "name");
         this.type = type;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Scope getScope() {
+        return scope;
+    }
+
+    void setScope(final Scope scope) {
+        this.scope = scope;
     }
 
     @Override
