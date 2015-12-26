@@ -17,7 +17,7 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
     /**
      * Arguments of the method.
      */
-    private final Map<String, BaseSymbol> orderedArgs = new LinkedHashMap<>();
+    private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
     /**
      * The enclosing scope is either a class or the global scope if it is a function.
      */
@@ -36,9 +36,9 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public BaseSymbol resolve(final String name) {
+    public Symbol resolve(final String name) {
         Validate.notEmpty(name, "name");
-        final BaseSymbol s = orderedArgs.get(name);
+        final Symbol s = orderedArgs.get(name);
 
         if (s != null) {
             return s;
@@ -53,10 +53,10 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public void define(final BaseSymbol sym) {
+    public void define(final Symbol sym) {
         Validate.notNull(sym, "sym");
         orderedArgs.put(sym.getName(), sym);
-        sym.setScope(this); // Track the scope in each symbol.
+        ((BaseSymbol)sym).setScope(this); // Track the scope in each symbol.
     }
 
     @Override

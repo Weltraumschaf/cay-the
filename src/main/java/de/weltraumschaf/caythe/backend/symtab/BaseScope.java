@@ -18,7 +18,7 @@ abstract class BaseScope implements Scope {
     /**
      * Symbols in this scope.
      */
-    private final Map<String, BaseSymbol> symbols = new LinkedHashMap<>();
+    private final Map<String, Symbol> symbols = new LinkedHashMap<>();
 
     /**
      * Dedicated constructor.
@@ -31,9 +31,9 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public BaseSymbol resolve(final String name) {
+    public Symbol resolve(final String name) {
         Validate.notEmpty(name, "name");
-        final BaseSymbol s = symbols.get(name);
+        final Symbol s = symbols.get(name);
 
         if (s != null) {
             return s;
@@ -48,10 +48,10 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public void define(final BaseSymbol sym) {
+    public void define(final Symbol sym) {
         Validate.notNull(sym, "sym");
         symbols.put(sym.getName(), sym);
-        sym.setScope(this); // Track the scope in each symbol.
+        ((BaseSymbol)sym).setScope(this); // Track the scope in each symbol.
     }
 
     @Override
