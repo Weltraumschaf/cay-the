@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
-import de.weltraumschaf.commons.validate.Validate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,9 +18,9 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
      */
     private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
     /**
-     * The enclosing scope is either a class or the global scope if it is a function.
+     * Delegate for the local scope of a method.
      */
-    private final Scope enclosingScope;
+    private final Scope scope;
 
     /**
      * Dedicated constructor.
@@ -32,38 +31,27 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
      */
     public MethodSymbol(final String name, final Type returnType, final Scope enclosingScope) {
         super(name, returnType);
-        this.enclosingScope = Validate.notNull(enclosingScope, "enclosingScope");
+        this.scope = new LocalScope(enclosingScope);
     }
 
     @Override
     public Symbol resolve(final String name) {
-        Validate.notEmpty(name, "name");
-
-        if (orderedArgs.containsKey(name)) {
-            return orderedArgs.get(name);
-        }
-
-        return getEnclosing().resolve(name);
+        return scope.resolve(name);
     }
 
     @Override
     public void define(final Symbol sym) {
-        Validate.notNull(sym, "sym");
-        orderedArgs.put(sym.getName(), sym);
-
-        if (sym instanceof BaseSymbol) {
-            ((BaseSymbol) sym).setScope(this); // Track the scope in each symbol.
-        }
+        scope.define(sym);
     }
 
     @Override
     public Scope getEnclosing() {
-        return enclosingScope;
+        return scope.getEnclosing();
     }
 
     @Override
     public boolean hasEnclosing() {
-        return Scope.NULL != enclosingScope;
+        return scope.hasEnclosing();
     }
 
     @Override
