@@ -7,11 +7,19 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public interface Type {
 
+    Type NULL = new Type() {
+
+        @Override
+        public String getName() {
+            return "undefined";
+        }
+    };
+
     /**
      * Name of the type.
      *
      * @return never {@code null} or empty
      */
-    public String getName();
+    String getName();
 
 }

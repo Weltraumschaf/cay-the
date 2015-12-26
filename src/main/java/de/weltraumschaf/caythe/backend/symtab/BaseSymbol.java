@@ -20,35 +20,37 @@ abstract class BaseSymbol implements Symbol {
     /**
      * All symbols know what scope contains them.
      */
-    private Scope scope;
+    private Scope scope = Scope.NULL;
 
     /**
      * Dedicated constructor.
      *
      * @param name must not be {@code null} or empty
+     * @param type must not be {@code null}
      */
-    public BaseSymbol(final String name) {
-        this(name, null);
-    }
-
     public BaseSymbol(final String name, final Type type) {
         super();
         this.name = Validate.notEmpty(name, "name");
-        this.type = type;
+        this.type = Validate.notNull(type, "type");
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @Override
-    public Scope getScope() {
+    public final Scope getScope() {
         return scope;
     }
 
-    void setScope(final Scope scope) {
-        this.scope = scope;
+    /**
+     * Set the scope of the symbol
+     *
+     * @param scope must not be {@code null}
+     */
+    final void setScope(final Scope scope) {
+        this.scope = Validate.notNull(scope, "scope");
     }
 
     @Override

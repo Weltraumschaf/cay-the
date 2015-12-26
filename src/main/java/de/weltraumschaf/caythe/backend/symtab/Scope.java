@@ -5,6 +5,34 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public interface Scope {
 
+    Scope NULL = new Scope() {
+
+        @Override
+        public String getScopeName() {
+            return "";
+        }
+
+        @Override
+        public Scope getEnclosing() {
+            return this;
+        }
+
+        @Override
+        public boolean hasEnclosing() {
+            return false;
+        }
+
+        @Override
+        public void define(final Symbol sym) {
+        }
+
+        @Override
+        public Symbol resolve(final String name) {
+            return Symbol.NULL;
+        }
+
+    };
+
     /**
      * Name of scope.
      *
@@ -17,7 +45,14 @@ public interface Scope {
      *
      * @return may be {@code null}
      */
-    Scope getEnclosingScope();
+    Scope getEnclosing();
+
+    /**
+     * Whether this scope has an enclosing scope.
+     *
+     * @return {@code true} if it has one, else {@code false}
+     */
+    boolean hasEnclosing();
 
     /**
      * Define a symbol in the current scope.

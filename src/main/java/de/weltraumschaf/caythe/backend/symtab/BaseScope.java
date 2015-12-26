@@ -23,15 +23,15 @@ abstract class BaseScope implements Scope {
     /**
      * Dedicated constructor.
      *
-     * @param enclosingScope may be {@code null}
+     * @param enclosingScope must nit be {@code null}
      */
     public BaseScope(final Scope enclosingScope) {
         super();
-        this.enclosingScope = enclosingScope;
+        this.enclosingScope = Validate.notNull(enclosingScope, "enclosingScope");
     }
 
     @Override
-    public Symbol resolve(final String name) {
+    public final Symbol resolve(final String name) {
         Validate.notEmpty(name, "name");
         final Symbol s = symbols.get(name);
 
@@ -48,19 +48,24 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public void define(final Symbol sym) {
+    public final void define(final Symbol sym) {
         Validate.notNull(sym, "sym");
         symbols.put(sym.getName(), sym);
         ((BaseSymbol)sym).setScope(this); // Track the scope in each symbol.
     }
 
     @Override
-    public Scope getEnclosingScope() {
+    public final Scope getEnclosing() {
         return enclosingScope;
     }
 
     @Override
-    public String toString() {
+    public final boolean hasEnclosing() {
+        return Scope.NULL != enclosingScope;
+    }
+
+    @Override
+    public final String toString() {
         return symbols.keySet().toString();
     }
 }

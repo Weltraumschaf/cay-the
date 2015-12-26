@@ -5,7 +5,7 @@ import de.weltraumschaf.commons.validate.Validate;
 /**
  * Describes a local scope.
  * <p>
- * Local scopes always have an {@link #getEnclosingScope() parent scope}.
+ * Local scopes always have an {@link #getEnclosing() parent scope}.
  * </p>
  *
  * @since 1.0.0

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * This describes methods and functions.
  * <p>
- * Methods are symbols with an own local scope. They also always have a {@link #getEnclosingScope() parent scope}.
+ * Methods are symbols with an own local scope. They also always have a {@link #getEnclosing() parent scope}.
  * </p>
  *
  * @since 1.0.0
@@ -45,8 +45,8 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
         }
 
         // If not here, check any enclosing scope.
-        if (getEnclosingScope() != null) {
-            return getEnclosingScope().resolve(name);
+        if (getEnclosing() != null) {
+            return getEnclosing().resolve(name);
         }
 
         return null; // Not found.
@@ -60,8 +60,13 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public Scope getEnclosingScope() {
+    public Scope getEnclosing() {
         return enclosingScope;
+    }
+
+    @Override
+    public boolean hasEnclosing() {
+        return Scope.NULL != enclosingScope;
     }
 
     @Override

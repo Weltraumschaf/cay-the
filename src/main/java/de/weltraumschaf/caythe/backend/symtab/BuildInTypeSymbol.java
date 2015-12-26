@@ -13,6 +13,6 @@ public final class BuildInTypeSymbol extends BaseSymbol implements Type {
      * @param name must not be {@code null} or empty
      */
     public BuildInTypeSymbol(final String name) {
-        super(name);
+        super(name, Type.NULL);
     }
 }
