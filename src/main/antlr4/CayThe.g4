@@ -12,7 +12,8 @@ statements
     : ( statement NL )* | statement 
     ;
 statement           
-    : variableDeclaration
+    : block
+    | variableDeclaration
     | constantDeclaration
     | assignment
     | printStatement
