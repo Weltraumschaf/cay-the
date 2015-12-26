@@ -24,7 +24,7 @@ public interface Scope {
      *
      * @param sym must not be {@code null}
      */
-    void define(Symbol sym);
+    void define(BaseSymbol sym);
 
     /**
      * Look up name in this scope or in enclosing scope if not here.
@@ -32,5 +32,5 @@ public interface Scope {
      * @param name must not be {@code null} or empty
      * @return
      */
-    Symbol resolve(String name);
+    BaseSymbol resolve(String name);
 }

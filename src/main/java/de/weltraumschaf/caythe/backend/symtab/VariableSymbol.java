@@ -5,7 +5,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  *
  * @since 1.0.0
  */
-public final class VariableSymbol extends Symbol {
+public final class VariableSymbol extends BaseSymbol {
 
     /**
      * Dedicated constructor.
@@ -13,7 +13,7 @@ public final class VariableSymbol extends Symbol {
      * @param name must not be {@code null} or empty
      * @param type must not be {@code null}
      */
-    public VariableSymbol(String name, Type type) {
+    public VariableSymbol(final String name, final Type type) {
         super(name, type);
     }
 

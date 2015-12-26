@@ -5,7 +5,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  *
  * @since 1.0.0
  */
-public final class BuildInTypeSymbol extends Symbol implements Type {
+public final class BuildInTypeSymbol extends BaseSymbol implements Type {
 
     /**
      * Dedicated constructor.
