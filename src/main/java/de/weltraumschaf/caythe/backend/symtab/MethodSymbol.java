@@ -15,7 +15,7 @@ import java.util.Map;
 public final class MethodSymbol extends BaseSymbol implements Scope {
 
     /**
-     * Arguments of the method.
+     * Arguments of the method and the local variables.
      */
     private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
     /**
@@ -38,25 +38,22 @@ public final class MethodSymbol extends BaseSymbol implements Scope {
     @Override
     public Symbol resolve(final String name) {
         Validate.notEmpty(name, "name");
-        final Symbol s = orderedArgs.get(name);
 
-        if (s != null) {
-            return s;
+        if (orderedArgs.containsKey(name)) {
+            return orderedArgs.get(name);
         }
 
-        // If not here, check any enclosing scope.
-        if (getEnclosing() != null) {
-            return getEnclosing().resolve(name);
-        }
-
-        return null; // Not found.
+        return getEnclosing().resolve(name);
     }
 
     @Override
     public void define(final Symbol sym) {
         Validate.notNull(sym, "sym");
         orderedArgs.put(sym.getName(), sym);
-        ((BaseSymbol)sym).setScope(this); // Track the scope in each symbol.
+
+        if (sym instanceof BaseSymbol) {
+            ((BaseSymbol) sym).setScope(this); // Track the scope in each symbol.
+        }
     }
 
     @Override
