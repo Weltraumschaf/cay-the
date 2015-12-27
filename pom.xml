@@ -50,7 +50,7 @@
 
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
         <antlr.packageName>${project.build.packagebase}.frontend</antlr.packageName>
-        <antlr.exampleFiles>src/test/resources/examples</antlr.exampleFiles>
+        <antlr.exampleFiles>src/test/caythe</antlr.exampleFiles>
         <antlr.grammarFiles>src/main/antlr4</antlr.grammarFiles>
 
         <commons.version>2.1.0</commons.version>
@@ -100,7 +100,7 @@
                 </excludes>
             </resource>
                 <resource>
-                    <directory>src/test/caythe</directory>
+                    <directory>${antlr.exampleFiles}</directory>
                     <filtering>false</filtering>
                     <includes>
                         <include>**/*.ct</include>
@@ -145,7 +145,7 @@
                     <entryPoint>compilationUnit</entryPoint>
                     <grammarName>CayThe</grammarName>
                     <packageName>${antlr.packageName}</packageName>
-                    <exampleFiles>${antlr.exampleFiles}</exampleFiles>
+                    <exampleFiles>${antlr.exampleFiles}/examples</exampleFiles>
                     <grammarFiles>${antlr.grammarFiles}</grammarFiles>
                 </configuration>
 

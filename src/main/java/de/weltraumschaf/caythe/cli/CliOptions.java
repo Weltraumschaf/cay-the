@@ -56,7 +56,7 @@ public final class CliOptions {
     @Parameter(
         names = {"-i", "--interpret"},
         description = "The given source wil be interpreted.")
-    private boolean interpret;
+    private boolean interpret = true;
     /**
      * File to compile and run.
      */

@@ -55,17 +55,13 @@ abstract class BaseSymbol implements Symbol {
     }
 
     @Override
-    public Value load() {
+    public final Value load() {
         return getScope().load(this);
     }
 
     @Override
     public String toString() {
-        if (type != null) {
-            return '<' + getName() + ":" + type + '>';
-        }
-
-        return getName();
+        return '<' + getName() + ":" + type.getName() + '>';
     }
 
     @Override

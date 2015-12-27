@@ -8,6 +8,7 @@ import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 /**
  * This class provides the {@link #main(java.lang.String[]) main entry point} for the command line application.
@@ -23,7 +24,7 @@ public final class CliApplication extends InvokableAdapter {
 
     public CliApplication(final String[] args) {
         super(args);
-        version = new Version(CayThe.BASE_PACKAGE_DIR  + "/version.properties");
+        version = new Version(CayThe.BASE_PACKAGE_DIR + "/version.properties");
     }
 
     public static void main(final String[] args) {
@@ -56,7 +57,13 @@ public final class CliApplication extends InvokableAdapter {
             throw new UnsupportedOperationException("Not implemented yet!");
         }
 
-        visitor.visit(parser.compilationUnit());
+        try {
+            visitor.visit(parser.compilationUnit());
+        } catch (final ParseCancellationException ex) {
+            getIoStreams().errorln(
+                String.format("Parsing cancelded with message: %s%n at %s",
+                    ex.getMessage(), parser.getCurrentToken()));
+        }
     }
 
     /**

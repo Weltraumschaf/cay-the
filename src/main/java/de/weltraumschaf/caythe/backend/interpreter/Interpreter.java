@@ -4,10 +4,10 @@ import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.SyntaxError;
 import de.weltraumschaf.caythe.backend.symtab.ConstantSymbol;
+import de.weltraumschaf.caythe.backend.symtab.LocalScope;
 import de.weltraumschaf.caythe.backend.symtab.Scope;
 import de.weltraumschaf.caythe.backend.symtab.Symbol;
 import de.weltraumschaf.caythe.backend.symtab.SymbolTable;
-import de.weltraumschaf.caythe.backend.symtab.Type;
 import de.weltraumschaf.caythe.backend.symtab.Value;
 import de.weltraumschaf.caythe.backend.symtab.VariableSymbol;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
@@ -25,8 +25,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     private final StringBuilder log = new StringBuilder();
     private final SymbolTable table = new SymbolTable();
-    private final Scope current = table.getGlobals();
     private final KernelApi kernel;
+    private Scope current = table.getGlobals();
 
     public Interpreter(final Environment env) {
         super();
@@ -60,6 +60,14 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         return visit(statement);
+    }
+
+    @Override
+    public Value visitBlock(final BlockContext ctx) {
+        current = new LocalScope(current);
+        final Value value = super.visit(ctx.blockStatements);
+        current.getEnclosing();
+        return value;
     }
 
     @Override

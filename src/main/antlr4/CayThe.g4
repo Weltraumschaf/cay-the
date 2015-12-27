@@ -23,10 +23,10 @@ statement
     | NL* 
     ;
 variableDeclaration
-    : KW_VAR id=ID ( ASSIGN value=orExpression )*
+    : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )*
     ;
 constantDeclaration
-    : KW_CONST id=ID ASSIGN value=orExpression
+    : KW_CONST type=ID id=ID ASSIGN value=orExpression
     ;
 assignment
     : id=ID ASSIGN value=orExpression
@@ -151,9 +151,13 @@ SIGN            : '+' | '-' ;
 
 // General:
 fragment
-CHARACTER   : DIGIT | LETTER ;
+CHARACTER       : DIGIT | LETTER ;
 fragment
-LETTER      : [a-zA-Z] ;
+LETTER          : LOWER_LETTER | UPPER_LETTER ;
+fragment
+LOWER_LETTER    : [a-z] ;
+fragment
+UPPER_LETTER    : [A-Z] ;
 fragment
 DIGIT       : [0-9] ;
 NL          : '\r'? '\n' ;

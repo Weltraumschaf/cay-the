@@ -62,8 +62,8 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public boolean isDefined(String identifier) {
-        return symbols.containsKey(identifier);
+    public final  boolean isDefined(String identifier) {
+        return symbols.containsKey(identifier) || getEnclosing().isDefined(identifier);
     }
 
     @Override
