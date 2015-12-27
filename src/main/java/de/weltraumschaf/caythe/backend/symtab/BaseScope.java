@@ -62,6 +62,11 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
+    public boolean isDefined(String identifier) {
+        return symbols.containsKey(identifier);
+    }
+
+    @Override
     public String getScopeName() {
         return scopeName;
     }
@@ -77,45 +82,40 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public void store(final ConstantSymbol symbol, final Value value) {
+    public void store(final Symbol symbol, final Value value) {
         Validate.notNull(symbol, "symbol");
         Validate.notNull(value, "value");
 
-        if (constants.containsKey(symbol)) {
-            throw new IllegalStateException(
-                String.format(
-                    "Cant set constant '%' to value '%s' because it is alreaty set with value '%s'!",
-                    symbol.getName(), value, load(symbol)
-                ));
+        if (symbol instanceof ConstantSymbol) {
+            if (constants.containsKey(symbol)) {
+                throw new IllegalStateException(
+                    String.format(
+                        "Cant set constant '%' to value '%s' because it is alreaty set with value '%s'!",
+                        symbol.getName(), value, load(symbol)
+                    ));
+            }
+
+            constants.put(symbol, value);
+        } else if (symbol instanceof VariableSymbol) {
+            variables.put(symbol, value);
         }
-
-        constants.put(symbol, value);
     }
 
     @Override
-    public Value load(final ConstantSymbol symbol) {
+    public Value load(final Symbol symbol) {
         Validate.notNull(symbol, "symbol");
 
-        return constants.containsKey(symbol)
-            ? constants.get(symbol)
-            : Value.NIL;
-    }
-
-    @Override
-    public void store(final VariableSymbol symbol, final Value value) {
-        Validate.notNull(symbol, "symbol");
-        Validate.notNull(value, "value");
-
-        constants.put(symbol, value);
-    }
-
-    @Override
-    public Value load(final VariableSymbol symbol) {
-        Validate.notNull(symbol, "symbol");
-
-        return variables.containsKey(symbol)
-            ? variables.get(symbol)
-            : Value.NIL;
+        if (symbol instanceof ConstantSymbol) {
+            return constants.containsKey(symbol)
+                ? constants.get(symbol)
+                : Value.NIL;
+        } else if (symbol instanceof VariableSymbol) {
+            return variables.containsKey(symbol)
+                ? variables.get(symbol)
+                : Value.NIL;
+        } else {
+            return Value.NIL;
+        }
     }
 
     @Override

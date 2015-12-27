@@ -32,27 +32,22 @@ public interface Scope {
         }
 
         @Override
+        public boolean isDefined(final String identifier) {
+            return false;
+        }
+
+        @Override
         public Symbol resolve(final String name) {
             return Symbol.NULL;
         }
 
         @Override
-        public void store(final ConstantSymbol symbol, final Value value) {
+        public void store(final Symbol symbol, final Value value) {
             // Ignore it.
         }
 
         @Override
-        public Value load(final ConstantSymbol symbol) {
-            return Value.NIL;
-        }
-
-        @Override
-        public void store(final VariableSymbol symbol, final Value value) {
-            // Ignore it.
-        }
-
-        @Override
-        public Value load(final VariableSymbol symbol) {
+        public Value load(final Symbol symbol) {
             return Value.NIL;
         }
 
@@ -86,6 +81,8 @@ public interface Scope {
      */
     void define(Symbol sym);
 
+    boolean isDefined(final String identifier);
+
     /**
      * Look up name in this scope or in enclosing scope if not here.
      *
@@ -95,7 +92,7 @@ public interface Scope {
     Symbol resolve(String name);
 
     /**
-     * Stores a value for a constant.
+     * Stores a value for a constant/variable.
      * <p>
      * Will throw {@link IllegalSateException} if already set.
      * </p>
@@ -103,32 +100,14 @@ public interface Scope {
      * @param symbol must not be {@code null}
      * @param value must not be {@code null}
      */
-    void store(ConstantSymbol symbol, Value value);
+    void store(Symbol symbol, Value value);
 
     /**
-     * Load a value for a constant.
+     * Load a value for a constant/variable.
      *
      * @param symbol must not be {@code null}
      * @return never {@code null}, {@link Value.NIL} if not exist
      */
-    Value load(ConstantSymbol symbol);
+    Value load(Symbol symbol);
 
-    /**
-     * Stores a value for a variable.
-     * <p>
-     * Old values will be overwritten.
-     * </p>
-     *
-     * @param symbol must not be {@code null}
-     * @param value must not be {@code null}
-     */
-    void store(VariableSymbol symbol, Value value);
-
-    /**
-     * Load a value for a constant.
-     *
-     * @param symbol must not be {@code null}
-     * @return never {@code null}, {@link Value.NIL} if not exist
-     */
-    Value load(VariableSymbol symbol);
 }

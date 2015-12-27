@@ -45,6 +45,11 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
+    public boolean isDefined(String identifier) {
+        return scope.isDefined(identifier);
+    }
+
+    @Override
     public Scope getEnclosing() {
         return scope.getEnclosing();
     }
@@ -55,22 +60,12 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public void store(final ConstantSymbol symbol, final Value value) {
+    public void store(final Symbol symbol, final Value value) {
         scope.store(symbol, value);
     }
 
     @Override
-    public Value load(final ConstantSymbol symbol) {
-        return scope.load(symbol);
-    }
-
-    @Override
-    public void store(final VariableSymbol symbol, final Value value) {
-        scope.store(symbol, value);
-    }
-
-    @Override
-    public Value load(final VariableSymbol symbol) {
+    public Value load(final Symbol symbol) {
         return scope.load(symbol);
     }
 

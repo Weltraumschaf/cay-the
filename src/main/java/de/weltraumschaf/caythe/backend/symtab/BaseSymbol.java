@@ -56,13 +56,7 @@ abstract class BaseSymbol implements Symbol {
 
     @Override
     public Value load() {
-        if (this instanceof VariableSymbol) {
-            return getScope().load((VariableSymbol) this);
-        } else if (this instanceof ConstantSymbol) {
-            return getScope().load((ConstantSymbol) this);
-        }
-
-        return Value.NIL;
+        return getScope().load(this);
     }
 
     @Override
