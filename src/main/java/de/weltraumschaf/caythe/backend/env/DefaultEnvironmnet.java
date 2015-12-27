@@ -8,7 +8,7 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @since 1.0.0
  */
-public final class DefaultEnvironmnet extends BaseEnvironment {
+public final class DefaultEnvironmnet implements Environment {
 
     /**
      * Delegate for I/O.
@@ -34,6 +34,5 @@ public final class DefaultEnvironmnet extends BaseEnvironment {
     public String stdIn() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 
 }

@@ -26,10 +26,4 @@ public interface Environment {
      */
     String stdIn();
 
-    /**
-     * Get the heap space.
-     *
-     * @return never {@code null}, always same object
-     */
-    Heap heap();
 }

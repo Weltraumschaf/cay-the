@@ -7,7 +7,7 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @since 1.0.0
  */
-public final class BufferEnvironment extends BaseEnvironment {
+public final class BufferEnvironment implements Environment {
 
     private final StringBuilder out = new StringBuilder();
     private final StringBuilder err = new StringBuilder();
