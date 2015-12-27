@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.backend.symtab;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Common implementation for all scopes.
@@ -11,6 +12,10 @@ import java.util.Map;
  */
 abstract class BaseScope implements Scope {
 
+    /**
+     * Name of the scope.
+     */
+    private final String scopeName;
     /**
      * {@code null} if global (outermost) scope.
      */
@@ -23,10 +28,12 @@ abstract class BaseScope implements Scope {
     /**
      * Dedicated constructor.
      *
+     * @param scopeName must not be {@code null} or empty
      * @param enclosingScope must nit be {@code null}
      */
-    public BaseScope(final Scope enclosingScope) {
+    public BaseScope(final String scopeName, final Scope enclosingScope) {
         super();
+        this.scopeName = Validate.notEmpty(scopeName, "scopeName");
         this.enclosingScope = Validate.notNull(enclosingScope, "enclosingScope");
     }
 
@@ -52,6 +59,11 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
+    public String getScopeName() {
+        return scopeName;
+    }
+
+    @Override
     public final Scope getEnclosing() {
         return enclosingScope;
     }
@@ -65,4 +77,22 @@ abstract class BaseScope implements Scope {
     public final String toString() {
         return symbols.keySet().toString();
     }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(scopeName, enclosingScope, symbols);
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        if (!(obj instanceof BaseScope)) {
+            return false;
+        }
+
+        final BaseScope other = (BaseScope) obj;
+        return Objects.equals(scopeName, other.scopeName)
+            && Objects.equals(enclosingScope, other.enclosingScope)
+            && Objects.equals(symbols, other.symbols);
+    }
+
 }

@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.caythe.backend.env.BufferEnvironment;
 import de.weltraumschaf.caythe.backend.interpreter.Interpreter;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import java.io.File;

@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
 import de.weltraumschaf.commons.validate.Validate;
+import java.util.Objects;
 
 /**
  * Common functionality for all symbols.
@@ -61,4 +62,21 @@ abstract class BaseSymbol implements Symbol {
 
         return getName();
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof BaseSymbol)) {
+            return false;
+        }
+
+        final BaseSymbol other = (BaseSymbol) obj;
+        return Objects.equals(name, other.name)
+            && Objects.equals(type, other.type);
+    }
+
 }

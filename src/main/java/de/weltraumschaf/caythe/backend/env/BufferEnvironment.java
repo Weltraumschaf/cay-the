@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.env;
 
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -7,7 +7,7 @@ import de.weltraumschaf.commons.validate.Validate;
  *
  * @since 1.0.0
  */
-public final class BufferEnvironment implements Environment {
+public final class BufferEnvironment extends BaseEnvironment {
 
     private final StringBuilder out = new StringBuilder();
     private final StringBuilder err = new StringBuilder();

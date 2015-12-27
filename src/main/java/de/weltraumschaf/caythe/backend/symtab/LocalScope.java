@@ -18,11 +18,6 @@ public final class LocalScope extends BaseScope {
      * @param parent must not be {@code null}
      */
     public LocalScope(final Scope parent) {
-        super(Validate.notNull(parent, "parent"));
-    }
-
-    @Override
-    public String getScopeName() {
-        return "local";
+        super("local", Validate.notNull(parent, "parent"));
     }
 }

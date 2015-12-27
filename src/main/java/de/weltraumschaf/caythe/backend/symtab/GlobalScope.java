@@ -17,12 +17,7 @@ public final class GlobalScope extends BaseScope {
      * Dedicated constructor.
      */
     public GlobalScope() {
-        super(Scope.NULL);
-    }
-
-    @Override
-    public String getScopeName() {
-        return "global";
+        super("global", Scope.NULL);
     }
 
 }

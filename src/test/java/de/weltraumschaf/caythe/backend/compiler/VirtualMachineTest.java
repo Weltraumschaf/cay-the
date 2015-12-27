@@ -1,10 +1,11 @@
 package de.weltraumschaf.caythe.backend.compiler;
 
 import de.weltraumschaf.caythe.backend.compiler.VirtualMachine;
-import de.weltraumschaf.caythe.backend.Environment;
-import de.weltraumschaf.caythe.backend.Environment;
+import de.weltraumschaf.caythe.backend.env.Environment;
+import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.compiler.Program;
 import de.weltraumschaf.caythe.backend.compiler.Opcodes;
+import de.weltraumschaf.caythe.backend.env.Heap;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -44,6 +45,11 @@ public class VirtualMachineTest {
 
             @Override
             public String stdIn() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public Heap heap() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });

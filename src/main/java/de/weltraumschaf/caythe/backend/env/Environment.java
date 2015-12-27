@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.backend;
+package de.weltraumschaf.caythe.backend.env;
 
 /**
  * Encapsulates the environment in which a program runs.
@@ -25,4 +25,11 @@ public interface Environment {
      * @return never {@code null}
      */
     String stdIn();
+
+    /**
+     * Get the heap space.
+     *
+     * @return never {@code null}, always same object
+     */
+    Heap heap();
 }

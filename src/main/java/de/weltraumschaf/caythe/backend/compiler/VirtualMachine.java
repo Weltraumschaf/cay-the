@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend.compiler;
 
-import de.weltraumschaf.caythe.backend.Environment;
+import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.commons.validate.Validate;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

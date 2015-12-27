@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
-import de.weltraumschaf.caythe.backend.Environment;
+import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.Pool;
 import de.weltraumschaf.caythe.backend.SymbolEntry;
 import de.weltraumschaf.caythe.backend.SymbolEntry.Type;
