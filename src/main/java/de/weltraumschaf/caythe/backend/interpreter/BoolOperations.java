@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
-import de.weltraumschaf.caythe.backend.Value;
+import de.weltraumschaf.caythe.backend.symtab.Value;
 
 /**
  * Performs boolean operations on given values.

@@ -20,10 +20,10 @@ public final class SymbolTable {
     }
 
     public static void init(final SymbolTable table) {
-        table.globals.define(BuildInTypeSymbol.NIL);
-        table.globals.define(BuildInTypeSymbol.BOOL);
-        table.globals.define(BuildInTypeSymbol.INT);
-        table.globals.define(BuildInTypeSymbol.FLOAT);
-        table.globals.define(BuildInTypeSymbol.STRING);
+        table.globals.define((Symbol) BuildInTypeSymbol.NIL);
+        table.globals.define((Symbol) BuildInTypeSymbol.BOOL);
+        table.globals.define((Symbol) BuildInTypeSymbol.INT);
+        table.globals.define((Symbol) BuildInTypeSymbol.FLOAT);
+        table.globals.define((Symbol) BuildInTypeSymbol.STRING);
     }
 }

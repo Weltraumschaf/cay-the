@@ -1,7 +1,8 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
-import de.weltraumschaf.caythe.backend.Type;
-import de.weltraumschaf.caythe.backend.Value;
+import de.weltraumschaf.caythe.backend.symtab.BuildInTypeSymbol;
+import de.weltraumschaf.caythe.backend.symtab.Type;
+import de.weltraumschaf.caythe.backend.symtab.Value;
 
 /**
  * Compares relational given values.
@@ -30,7 +31,7 @@ final class Comparator {
 
     Value greaterThan(final Value left, final Value right) {
         if (sameType(left, right)) {
-            if (left.isType(Type.STRING)) {
+            if (left.isType(BuildInTypeSymbol.STRING)) {
                 return Value.newBool(left.asString().compareTo(right.asString()) == 1);
             } else {
                 return Value.newBool(left.asFloat() > right.asFloat());
@@ -46,7 +47,7 @@ final class Comparator {
 
     Value lessThan(final Value left, final Value right) {
         if (sameType(left, right)) {
-            if (left.isType(Type.STRING)) {
+            if (left.isType(BuildInTypeSymbol.STRING)) {
                 return Value.newBool(left.asString().compareTo(right.asString()) == -1);
             } else {
                 return Value.newBool(left.asFloat() < right.asFloat());

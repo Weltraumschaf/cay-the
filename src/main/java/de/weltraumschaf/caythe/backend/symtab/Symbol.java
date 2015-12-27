@@ -7,6 +7,9 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public interface Symbol {
 
+    /**
+     * Null object pattern: USed instead of {@code nul}.
+     */
     Symbol NULL = new Symbol() {
 
         @Override

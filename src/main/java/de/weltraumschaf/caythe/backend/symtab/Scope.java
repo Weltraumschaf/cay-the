@@ -1,10 +1,15 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
 /**
+ * Describes the scope of symbols.
+ *
  * @since 1.0.0
  */
 public interface Scope {
 
+    /**
+     * Null object pattern: USed instead of {@code nul}.
+     */
     Scope NULL = new Scope() {
 
         @Override

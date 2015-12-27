@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend.env;
 
 import de.weltraumschaf.caythe.backend.Pool;
-import de.weltraumschaf.caythe.backend.Value;
+import de.weltraumschaf.caythe.backend.symtab.Value;
 import de.weltraumschaf.caythe.backend.symtab.VariableSymbol;
 
 /**

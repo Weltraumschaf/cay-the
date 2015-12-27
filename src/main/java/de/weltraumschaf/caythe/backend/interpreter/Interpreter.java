@@ -6,7 +6,7 @@ import de.weltraumschaf.caythe.backend.SymbolEntry;
 import de.weltraumschaf.caythe.backend.SymbolEntry.Type;
 import de.weltraumschaf.caythe.backend.SymbolTable;
 import de.weltraumschaf.caythe.backend.SyntaxError;
-import de.weltraumschaf.caythe.backend.Value;
+import de.weltraumschaf.caythe.backend.symtab.Value;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.CayTheParser.*;
