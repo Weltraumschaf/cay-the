@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
+import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.Pool;
 import de.weltraumschaf.caythe.backend.SymbolEntry;
@@ -26,10 +27,12 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     private final Pool consants = new Pool();
     private final SymbolTable table = new SymbolTable();
     private final Environment env;
+    private final KernelApi kernel;
 
     public Interpreter(final Environment env) {
         super();
         this.env = Validate.notNull(env, "env");
+        kernel = new KernelApi(env);
     }
 
     @Override
@@ -120,7 +123,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     @Override
     public Value visitPrintStatement(final PrintStatementContext ctx) {
         final Value value = visit(ctx.value);
-        env.stdOut(value.asString());
+        kernel.print(value.asString());
         return value;
     }
 
