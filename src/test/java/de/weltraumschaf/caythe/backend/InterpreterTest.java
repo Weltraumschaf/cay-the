@@ -12,7 +12,6 @@ import org.junit.Test;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Ignore;
 
 /**
  */
