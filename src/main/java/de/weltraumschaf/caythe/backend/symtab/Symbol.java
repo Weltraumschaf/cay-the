@@ -22,6 +22,11 @@ public interface Symbol {
             return Scope.NULL;
         }
 
+        @Override
+        public Value load() {
+            return Value.NIL;
+        }
+
     };
 
     /**
@@ -37,4 +42,11 @@ public interface Symbol {
      * @return never {@code null}
      */
     Scope getScope();
+
+    /**
+     * Short hand to load a value from scope pool.
+     *
+     * @return never {@code null}, maybe {@link Value.NIL}
+     */
+    Value load();
 }

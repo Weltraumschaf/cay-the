@@ -25,6 +25,9 @@ abstract class BaseScope implements Scope {
      */
     private final Map<String, Symbol> symbols = new LinkedHashMap<>();
 
+    private final Map<Symbol, Value> constants = new LinkedHashMap<>();
+    private final Map<Symbol, Value> variables = new LinkedHashMap<>();
+
     /**
      * Dedicated constructor.
      *
@@ -74,13 +77,55 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
+    public void store(final ConstantSymbol symbol, final Value value) {
+        Validate.notNull(symbol, "symbol");
+        Validate.notNull(value, "value");
+
+        if (constants.containsKey(symbol)) {
+            throw new IllegalStateException(
+                String.format(
+                    "Cant set constant '%' to value '%s' because it is alreaty set with value '%s'!",
+                    symbol.getName(), value, load(symbol)
+                ));
+        }
+
+        constants.put(symbol, value);
+    }
+
+    @Override
+    public Value load(final ConstantSymbol symbol) {
+        Validate.notNull(symbol, "symbol");
+
+        return constants.containsKey(symbol)
+            ? constants.get(symbol)
+            : Value.NIL;
+    }
+
+    @Override
+    public void store(final VariableSymbol symbol, final Value value) {
+        Validate.notNull(symbol, "symbol");
+        Validate.notNull(value, "value");
+
+        constants.put(symbol, value);
+    }
+
+    @Override
+    public Value load(final VariableSymbol symbol) {
+        Validate.notNull(symbol, "symbol");
+
+        return variables.containsKey(symbol)
+            ? variables.get(symbol)
+            : Value.NIL;
+    }
+
+    @Override
     public final String toString() {
         return symbols.keySet().toString();
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(scopeName, enclosingScope, symbols);
+        return Objects.hash(scopeName, enclosingScope, symbols, constants, variables);
     }
 
     @Override
@@ -92,7 +137,9 @@ abstract class BaseScope implements Scope {
         final BaseScope other = (BaseScope) obj;
         return Objects.equals(scopeName, other.scopeName)
             && Objects.equals(enclosingScope, other.enclosingScope)
-            && Objects.equals(symbols, other.symbols);
+            && Objects.equals(symbols, other.symbols)
+            && Objects.equals(constants, other.constants)
+            && Objects.equals(variables, other.variables);
     }
 
 }

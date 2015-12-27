@@ -55,6 +55,26 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
+    public void store(final ConstantSymbol symbol, final Value value) {
+        scope.store(symbol, value);
+    }
+
+    @Override
+    public Value load(final ConstantSymbol symbol) {
+        return scope.load(symbol);
+    }
+
+    @Override
+    public void store(final VariableSymbol symbol, final Value value) {
+        scope.store(symbol, value);
+    }
+
+    @Override
+    public Value load(final VariableSymbol symbol) {
+        return scope.load(symbol);
+    }
+
+    @Override
     public String getScopeName() {
         return getName();
     }

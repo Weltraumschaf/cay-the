@@ -36,6 +36,26 @@ public interface Scope {
             return Symbol.NULL;
         }
 
+        @Override
+        public void store(final ConstantSymbol symbol, final Value value) {
+            // Ignore it.
+        }
+
+        @Override
+        public Value load(final ConstantSymbol symbol) {
+            return Value.NIL;
+        }
+
+        @Override
+        public void store(final VariableSymbol symbol, final Value value) {
+            // Ignore it.
+        }
+
+        @Override
+        public Value load(final VariableSymbol symbol) {
+            return Value.NIL;
+        }
+
     };
 
     /**
@@ -73,4 +93,42 @@ public interface Scope {
      * @return
      */
     Symbol resolve(String name);
+
+    /**
+     * Stores a value for a constant.
+     * <p>
+     * Will throw {@link IllegalSateException} if already set.
+     * </p>
+     *
+     * @param symbol must not be {@code null}
+     * @param value must not be {@code null}
+     */
+    void store(ConstantSymbol symbol, Value value);
+
+    /**
+     * Load a value for a constant.
+     *
+     * @param symbol must not be {@code null}
+     * @return never {@code null}, {@link Value.NIL} if not exist
+     */
+    Value load(ConstantSymbol symbol);
+
+    /**
+     * Stores a value for a variable.
+     * <p>
+     * Old values will be overwritten.
+     * </p>
+     *
+     * @param symbol must not be {@code null}
+     * @param value must not be {@code null}
+     */
+    void store(VariableSymbol symbol, Value value);
+
+    /**
+     * Load a value for a constant.
+     *
+     * @param symbol must not be {@code null}
+     * @return never {@code null}, {@link Value.NIL} if not exist
+     */
+    Value load(VariableSymbol symbol);
 }
