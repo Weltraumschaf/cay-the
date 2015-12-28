@@ -8,11 +8,29 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public final class BuildInTypeSymbol extends BaseSymbol implements Type {
 
+    /**
+     * Build in NIL type which represents nothing/not available.
+     */
     public static final Type NIL  = new BuildInTypeSymbol("Nil");
+    /**
+     * Build in boolean type.
+     */
     public static final Type BOOL = new BuildInTypeSymbol("Bool");
+    /**
+     * Build in integer type.
+     */
     public static final Type INT = new BuildInTypeSymbol("Int");
+    /**
+     * Build in float type.
+     */
     public static final Type FLOAT = new BuildInTypeSymbol("Float");
+    /**
+     * Build in string type.
+     */
     public static final Type STRING = new BuildInTypeSymbol("String");
+    /**
+     * Build in function type (functions are first class citizens).
+     */
     public static final Type FUNCTION = new BuildInTypeSymbol("Function");
 
     /**

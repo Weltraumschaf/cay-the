@@ -47,7 +47,7 @@ abstract class BaseSymbol implements Symbol {
     }
 
     /**
-     * Set the scope of the symbol
+     * Set the scope of the symbol.
      *
      * @param scope must not be {@code null}
      */
