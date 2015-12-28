@@ -134,6 +134,7 @@ DOT             : '.' ;
 DOUBLE_QUOTE    : '"' ;
 
 // Types:
+NIL             : 'nil' ;
 BOOL_VALUE      : TRUE | FALSE ;
 TRUE            : 'true' ;
 FALSE           : 'false' ;
