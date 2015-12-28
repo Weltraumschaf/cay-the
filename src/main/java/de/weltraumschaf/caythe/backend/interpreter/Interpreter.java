@@ -8,11 +8,17 @@ import de.weltraumschaf.caythe.backend.symtab.LocalScope;
 import de.weltraumschaf.caythe.backend.symtab.Scope;
 import de.weltraumschaf.caythe.backend.symtab.Symbol;
 import de.weltraumschaf.caythe.backend.symtab.SymbolTable;
+import de.weltraumschaf.caythe.backend.symtab.Type;
 import de.weltraumschaf.caythe.backend.symtab.Value;
 import de.weltraumschaf.caythe.backend.symtab.VariableSymbol;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.CayTheParser.*;
+import de.weltraumschaf.caythe.log.Logger;
+import de.weltraumschaf.caythe.log.Logging;
+import de.weltraumschaf.commons.validate.Validate;
+import java.util.ArrayList;
+import java.util.List;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -23,14 +29,19 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class Interpreter extends CayTheBaseVisitor<Value> {
 
-    private final StringBuilder log = new StringBuilder();
-    private final SymbolTable table = new SymbolTable();
+    private final SymbolTable table = SymbolTable.newTable();
     private final KernelApi kernel;
     private Scope current = table.getGlobals();
+    private final Logger logging;
 
     public Interpreter(final Environment env) {
+        this(env, Logging.newBuffered());
+    }
+
+    public Interpreter(final Environment env, final Logger logging) {
         super();
-        kernel = new KernelApi(env);
+        this.kernel = new KernelApi(env);
+        this.logging = Validate.notNull(logging, "logging");
     }
 
     @Override
@@ -66,7 +77,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitBlock(final BlockContext ctx) {
         current = new LocalScope(current);
         final Value value = super.visit(ctx.blockStatements);
-        current.getEnclosing();
+        current = current.getEnclosing();
         return value;
     }
 
@@ -79,8 +90,21 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
             throw error(ctx.id, "Constant '%s' already declared", identifier);
         }
 
+        final String typeIdentifier = ctx.type.getText();
+
+        if (!current.isDefined(typeIdentifier)) {
+            throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
+        }
+
+        final Symbol type = current.resolve(typeIdentifier);
         final Value value = visit(ctx.value);
+
+        if (!value.isType((Type) type)) {
+            throw error(ctx.value.start, "Can't assign %s to constant with type %s!", value, type);
+        }
+
         final ConstantSymbol symbol = new ConstantSymbol(identifier, value.getType());
+        log("Declare constant: %s = %s", symbol, value);
         current.define(symbol);
         current.store(symbol, value);
         return value;
@@ -95,15 +119,27 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
             throw error(ctx.id, "Variable '%s' already declared", identifier);
         }
 
+        final String typeIdentifier = ctx.type.getText();
+
+        if (!current.isDefined(typeIdentifier)) {
+            throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
+        }
+
+        final Symbol type = current.resolve(typeIdentifier);
         final Value value;
 
         if (null == ctx.value) {
-            value = Value.NIL;
+            value = Value.NIL.asType((Type) type);
         } else {
             value = visit(ctx.value);
+
+            if (!value.isType((Type) type)) {
+                throw error(ctx.value.start, "Can't assign %s to variable with type %s!", value, type);
+            }
         }
 
         final VariableSymbol symbol = new VariableSymbol(identifier, value.getType());
+        log("Declare variable: %s = %s", symbol, value);
         current.define(symbol);
         current.store(symbol, value);
         return value;
@@ -121,6 +157,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         final Value value = visit(ctx.value);
 
         try {
+            log("Assign variable: %s = %s", symbol, value);
             current.store(symbol, value);
         } catch (final IllegalStateException ex) {
             throw error(ctx.id, "Can't write constant '%s'", identifier);
@@ -130,10 +167,36 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitPrintStatement(final PrintStatementContext ctx) {
-        final Value value = visit(ctx.value);
-        kernel.print(value.asString());
-        return value;
+    public Value visitFunctionCall(final FunctionCallContext ctx) {
+        final String functionName = ctx.id.getText();
+        final List<Value> functionArgs = new ArrayList<>();
+
+        for (final OrExpressionContext args : ctx.args) {
+            functionArgs.add(visit(args));
+        }
+
+        log("Calling function %s(%s)", functionName, functionArgs);
+
+        if (functionArgs.size() == 1) {
+            final Value value = functionArgs.get(0);
+
+            if (null != functionName) switch (functionName) {
+                case "print":
+                    kernel.print(value.asString());
+                    break;
+                case "println":
+                    kernel.println(value.asString());
+                    break;
+                case "error":
+                    kernel.error(value.asString());
+                    break;
+                case "errorln":
+                    kernel.errorln(value.asString());
+                    break;
+            }
+        }
+
+        return defaultResult();
     }
 
     @Override
@@ -170,6 +233,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         final Value right = visit(ctx.right);
+        log("Boolean: %s || %s", left, right);
         return new BoolOperations().or(left, right);
     }
 
@@ -182,6 +246,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         final Value right = visit(ctx.right);
+        log("Boolean: %s && %s", left, right);
         return new BoolOperations().and(left, right);
     }
 
@@ -198,8 +263,10 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         switch (ctx.operator.getType()) {
             case CayTheParser.EQUAL:
+                log("Compare: %s == %s", left, right);
                 return compare.equal(left, right);
             case CayTheParser.NOT_EQUAL:
+                log("Compare: %s != %s", left, right);
                 return compare.notEqual(left, right);
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
@@ -219,12 +286,16 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         switch (ctx.operator.getType()) {
             case CayTheParser.GREATER_THAN:
+                log("Compare: %s > %s", left, right);
                 return compare.greaterThan(left, right);
             case CayTheParser.LESS_THAN:
+                log("Compare: %s < %s", left, right);
                 return compare.lessThan(left, right);
             case CayTheParser.GREATER_EQUAL:
+                log("Compare: %s >= %s", left, right);
                 return compare.greaterEqual(left, right);
             case CayTheParser.LESS_EQUAL:
+                log("Compare: %s <= %s", left, right);
                 return compare.lessEqual(left, right);
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
@@ -244,8 +315,10 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         switch (ctx.operator.getType()) {
             case CayTheParser.ADD:
+                log("Math: %s + %s", left, right);
                 return math.add(left, right);
             case CayTheParser.SUB:
+                log("Math: %s - %s", left, right);
                 return math.sub(left, right);
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
@@ -265,10 +338,13 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         switch (ctx.operator.getType()) {
             case CayTheParser.MUL:
+                log("Math: %s * %s", left, right);
                 return math.mul(left, right);
             case CayTheParser.DIV:
+                log("Math: %s / %s", left, right);
                 return math.div(left, right);
             case CayTheParser.MOD:
+                log("Math: %s % %s", left, right);
                 return math.mod(left, right);
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
@@ -288,7 +364,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitNegation(final NegationContext ctx) {
-        return new BoolOperations().not(visit(ctx.atom()));
+        final Value atom = visit(ctx.atom());
+        log("Boolean: ! %s", atom);
+        return new BoolOperations().not(atom);
     }
 
     @Override
@@ -304,8 +382,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitConstant(final ConstantContext ctx) {
-        log("Visit literal: '%s'", ctx.getText());
         final String literal = ctx.value.getText();
+        log("Visit literal: '%s'", literal);
 
         if (null != ctx.BOOL_VALUE()) {
             log("Recognized bool value.");
@@ -325,7 +403,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     private void log(final String msg, final Object... args) {
-        log.append(String.format(msg, args)).append('\n');
+        logging.log(msg, args);
     }
 
     private boolean notNull(final Object input) {

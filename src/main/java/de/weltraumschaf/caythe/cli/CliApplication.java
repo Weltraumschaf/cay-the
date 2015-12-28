@@ -6,8 +6,11 @@ import de.weltraumschaf.caythe.backend.env.DefaultEnvironmnet;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
+import de.weltraumschaf.caythe.log.Logging;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
+import java.io.IOException;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 /**
@@ -33,10 +36,14 @@ public final class CliApplication extends InvokableAdapter {
         InvokableAdapter.main(app);
     }
 
+    private CliOptions setup() throws IOException {
+        Logging.setStdout(getIoStreams().getStdout());
+        version.load();
+        return CliOptions.gatherOptions(getArgs());
+    }
     @Override
     public void execute() throws Exception {
-        version.load();
-        final CliOptions options = CliOptions.gatherOptions(getArgs());
+        final CliOptions options = setup();
 
         if (options.isVersion()) {
             showVersion();
@@ -48,21 +55,37 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        final CayTheParser parser = Parsers.newParser(options.getFile(), debug);
         final CayTheBaseVisitor<?> visitor;
 
         if (options.isInterpret()) {
-            visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()));
+            if (isDebugEnabled()) {
+                visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()), Logging.newSysOut());
+            } else {
+                visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()));
+            }
         } else {
             throw new UnsupportedOperationException("Not implemented yet!");
         }
+
+        parse(options.getFile(), visitor);
+    }
+
+    private void parse(final String filename, final CayTheBaseVisitor<?> visitor) throws RecognitionException, IOException {
+        final CayTheParser parser = Parsers.newParser(filename, isDebugEnabled());
 
         try {
             visitor.visit(parser.compilationUnit());
         } catch (final ParseCancellationException ex) {
             getIoStreams().errorln(
-                String.format("Parsing cancelded with message: %s%n at %s",
-                    ex.getMessage(), parser.getCurrentToken()));
+                String.format("Parsing cancelded with message: %s%n at line %d col %d: %s",
+                    ex.getMessage(),
+                    parser.getCurrentToken().getLine(),
+                    parser.getCurrentToken().getCharPositionInLine(),
+                    parser.getCurrentToken().getText()));
+
+            if (isDebugEnabled()) {
+                getIoStreams().printStackTrace(ex);
+            }
         }
     }
 

@@ -16,14 +16,14 @@ statement
     | variableDeclaration
     | constantDeclaration
     | assignment
-    | printStatement
+    | functionCall
     | whileLoop
     | ifBranch 
     | orExpression
-    | NL* 
+    | NL?
     ;
 variableDeclaration
-    : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )*
+    : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )?
     ;
 constantDeclaration
     : KW_CONST type=ID id=ID ASSIGN value=orExpression
@@ -31,9 +31,9 @@ constantDeclaration
 assignment
     : id=ID ASSIGN value=orExpression
     ;
-printStatement      
-    : 'print' LPAREN value=orExpression RPAREN 
-    ;                    
+functionCall
+    : id=ID LPAREN ( args+=orExpression (',' args+=orExpression)* )? RPAREN 
+    ;
 whileLoop           
     : KW_WHILE condition=orExpression block 
     ;

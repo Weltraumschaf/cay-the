@@ -139,7 +139,7 @@
                 <version>1.3-SNAPSHOT</version>
 
                 <configuration>
-                    <enabled>true</enabled>
+                    <enabled>false</enabled>
                     <verbose>false</verbose>
                     <showTree>false</showTree>
                     <entryPoint>compilationUnit</entryPoint>

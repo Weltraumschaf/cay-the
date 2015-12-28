@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
 /**
- * Describes the scope of symbols.
+ * Describes the scope of symbols and their values, if they have one.
  *
  * @since 1.0.0
  */
@@ -14,7 +14,7 @@ public interface Scope {
 
         @Override
         public String getScopeName() {
-            return "";
+            return "NULL";
         }
 
         @Override
@@ -51,6 +51,11 @@ public interface Scope {
             return Value.NIL;
         }
 
+        @Override
+        public String toString() {
+            return getScopeName();
+        }
+
     };
 
     /**
@@ -81,6 +86,12 @@ public interface Scope {
      */
     void define(Symbol sym);
 
+    /**
+     * Whether the symbol is defined in this scope or an enclosing one.
+     *
+     * @param identifier must not be {@code null} or empty
+     * @return {@code true} if defined, else {@code false}
+     */
     boolean isDefined(final String identifier);
 
     /**

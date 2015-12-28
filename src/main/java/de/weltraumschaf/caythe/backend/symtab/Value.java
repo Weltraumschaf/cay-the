@@ -161,7 +161,10 @@ public final class Value {
 
     @Override
     public String toString() {
-        return "Value{" + "type=" + type + ", value=" + value + '}';
+        return "Value{"
+            + "value=" + (isNil() ? "nil" : value) + ", "
+            + "type=" + type.getName()
+            + '}';
     }
 
     public static Value newBool(final boolean in) {

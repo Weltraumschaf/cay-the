@@ -10,6 +10,7 @@ import java.net.URL;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
+import de.weltraumschaf.caythe.log.Logging;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Ignore;
@@ -19,7 +20,7 @@ import org.junit.Ignore;
 public class InterpreterTest {
 
     private final BufferEnvironment env = new BufferEnvironment();
-    private final Interpreter sut = new Interpreter(env);
+    private final Interpreter sut = new Interpreter(env, Logging.newSysOut());
 
     private ParseTree createParseTree(final String filename) throws IOException, URISyntaxException {
         final URL source = getClass().getResource("/examples/" + filename);

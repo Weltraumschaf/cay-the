@@ -24,8 +24,13 @@ abstract class BaseScope implements Scope {
      * Symbols in this scope.
      */
     private final Map<String, Symbol> symbols = new LinkedHashMap<>();
-
+    /**
+     * Holds the constants of this scope.
+     */
     private final Map<Symbol, Value> constants = new LinkedHashMap<>();
+    /**
+     * Holds the variable of this scope.
+     */
     private final Map<Symbol, Value> variables = new LinkedHashMap<>();
 
     /**
@@ -48,7 +53,11 @@ abstract class BaseScope implements Scope {
             return symbols.get(name);
         }
 
-        return getEnclosing().resolve(name);
+        if (hasEnclosing()) {
+            return getEnclosing().resolve(name);
+        }
+
+        return Symbol.NULL;
     }
 
     @Override
@@ -62,8 +71,8 @@ abstract class BaseScope implements Scope {
     }
 
     @Override
-    public final  boolean isDefined(String identifier) {
-        return symbols.containsKey(identifier) || getEnclosing().isDefined(identifier);
+    public final boolean isDefined(final String identifier) {
+        return symbols.containsKey(identifier) || (hasEnclosing() && getEnclosing().isDefined(identifier));
     }
 
     @Override
@@ -90,7 +99,7 @@ abstract class BaseScope implements Scope {
             if (constants.containsKey(symbol)) {
                 throw new IllegalStateException(
                     String.format(
-                        "Cant set constant '%' to value '%s' because it is alreaty set with value '%s'!",
+                        "Cant set constant '%s' to value '%s' because it is alreaty set with value '%s'!",
                         symbol.getName(), value, load(symbol)
                     ));
             }
@@ -120,7 +129,7 @@ abstract class BaseScope implements Scope {
 
     @Override
     public final String toString() {
-        return symbols.keySet().toString();
+        return String.format("{%s:%s}", getScopeName(), symbols.keySet());
     }
 
     @Override

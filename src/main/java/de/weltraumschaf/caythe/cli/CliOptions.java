@@ -10,12 +10,6 @@ import java.util.Objects;
 public final class CliOptions {
 
     /**
-     * New line string.
-     */
-    private static final String NL = CayThe.DEFAULT_NEWLINE;
-    private static final String CMD_NAME = "cay-the";
-
-    /**
      * Command line usage.
      */
     private static final String USAGE
@@ -34,7 +28,7 @@ public final class CliOptions {
      * Command line options parser.
      */
     private static final JCommanderImproved<CliOptions> PROVIDER
-        = new JCommanderImproved<>(CMD_NAME, CliOptions.class);
+        = new JCommanderImproved<>(CayThe.CMD_NAME, CliOptions.class);
 
     /**
      * Option if help is wanted.
@@ -90,7 +84,7 @@ public final class CliOptions {
      * @return never {@code null} or empty
      */
     public static String usage() {
-        return String.format("Usage: %s %s", CMD_NAME, USAGE);
+        return String.format("Usage: %s %s", CayThe.CMD_NAME, USAGE);
     }
 
     /**

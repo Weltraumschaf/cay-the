@@ -1,12 +1,13 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
 /**
+ * @since 1.0.0
  */
 public final class SymbolTable {
 
     private final Scope globals = new GlobalScope();
 
-    public SymbolTable() {
+    SymbolTable() {
         super();
     }
 
@@ -25,5 +26,11 @@ public final class SymbolTable {
         table.globals.define((Symbol) BuildInTypeSymbol.INT);
         table.globals.define((Symbol) BuildInTypeSymbol.FLOAT);
         table.globals.define((Symbol) BuildInTypeSymbol.STRING);
+    }
+
+    public static SymbolTable newTable() {
+        final SymbolTable table = new SymbolTable();
+        init(table);
+        return table;
     }
 }
