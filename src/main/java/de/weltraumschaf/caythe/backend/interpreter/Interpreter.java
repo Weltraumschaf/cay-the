@@ -102,7 +102,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         final Symbol type = scopeStack.peek().resolve(typeIdentifier);
         final Value value = visit(ctx.value);
 
-        if (!value.isType((Type) type)) {
+        if (!value.isOfType((Type) type)) {
             throw error(ctx.value.start, "Can't assign %s to constant with type %s!", value, type);
         }
 
@@ -136,7 +136,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         } else {
             value = visit(ctx.value);
 
-            if (!value.isType((Type) type)) {
+            if (!value.isOfType((Type) type)) {
                 throw error(ctx.value.start, "Can't assign %s to variable with type %s!", value, type);
             }
         }

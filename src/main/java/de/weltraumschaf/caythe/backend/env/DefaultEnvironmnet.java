@@ -16,6 +16,11 @@ public final class DefaultEnvironmnet implements Environment {
      */
     private final IO io;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param io must not be {@code null}
+     */
     public DefaultEnvironmnet(final IO io) {
         super();
         this.io = Validate.notNull(io, "io");

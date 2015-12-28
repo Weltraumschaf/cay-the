@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.env.BufferEnvironment;
+import de.weltraumschaf.caythe.backend.env.BufferedEnvironment;
 import de.weltraumschaf.caythe.backend.interpreter.Interpreter;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import java.io.File;
@@ -20,7 +20,7 @@ import org.junit.Ignore;
  */
 public class InterpreterTest {
 
-    private final BufferEnvironment env = new BufferEnvironment();
+    private final BufferedEnvironment env = new BufferedEnvironment();
     private final Interpreter sut = new Interpreter(env, Logging.newSysOut());
 
     private ParseTree createParseTree(final String filename) throws IOException, URISyntaxException {

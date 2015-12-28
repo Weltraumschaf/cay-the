@@ -31,8 +31,8 @@ public final class ValueTest {
 
     @Test
     public void isType() {
-        assertThat(new Value(BuildInTypeSymbol.NIL, new Object()).isType(BuildInTypeSymbol.NIL), is(true));
-        assertThat(new Value(BuildInTypeSymbol.NIL, new Object()).isType(BuildInTypeSymbol.INT), is(false));
+        assertThat(new Value(BuildInTypeSymbol.NIL, new Object()).isOfType(BuildInTypeSymbol.NIL), is(true));
+        assertThat(new Value(BuildInTypeSymbol.NIL, new Object()).isOfType(BuildInTypeSymbol.INT), is(false));
     }
 
     @Test

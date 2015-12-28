@@ -8,9 +8,15 @@ import de.weltraumschaf.commons.validate.Validate;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public final class BufferEnvironment implements Environment {
+public final class BufferedEnvironment implements Environment {
 
+    /**
+     * Buffers the content for STDOUT.
+     */
     private final StringBuilder out = new StringBuilder();
+    /**
+     * Buffers the content for STDERR.
+     */
     private final StringBuilder err = new StringBuilder();
 
     @Override
@@ -28,6 +34,11 @@ public final class BufferEnvironment implements Environment {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Get the buffered content for STDOUT.
+     *
+     * @return never {@code null}
+     */
     public String getOut() {
         return out.toString();
     }
