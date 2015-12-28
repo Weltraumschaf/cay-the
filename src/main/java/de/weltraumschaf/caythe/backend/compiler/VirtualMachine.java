@@ -7,19 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The VM executes byte code.
+ *
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class VirtualMachine {
 
+    /**
+     * Holds the register.
+     */
     private final Register reg = new Register();
-    private final Environment env;
+    /**
+     * Holds copy of executed byte code.
+     */
     private final List<Byte> byteCode = new ArrayList<>();
+    /**
+     * USed for I/O.
+     */
+    private final Environment env;
+    /**
+     * Point where the execution is at the moment in {@link #byteCode}.
+     */
     private int instructionPointer;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param env must not be {@code null}
+     */
     public VirtualMachine(final Environment env) {
         super();
         this.env = Validate.notNull(env, "env");
     }
 
+    /**
+     * Runs a program.
+     *
+     * @param prog must not be {@code null}
+     */
     public void run(final Program prog) {
         Validate.notNull(prog, "prog");
         init();
@@ -32,24 +58,47 @@ public final class VirtualMachine {
         }
     }
 
+    /**
+     * Initializes the VM to run a program.
+     */
     private void init() {
         byteCode.clear();
         instructionPointer = 0;
     }
 
+    /**
+     * Return the current byte to execute.
+     *
+     * @return any byte
+     */
     private byte current() {
         return byteCode.get(instructionPointer);
     }
 
+    /**
+     * Whether there are more bytes to execute.
+     *
+     * @return {@code true} if there are more bytes, else {@code false}
+     */
     private boolean hasNext() {
         return instructionPointer < byteCode.size();
     }
 
+    /**
+     * Increment the instruction pointer.
+     */
     private void next() {
         ++instructionPointer;
     }
 
+    /**
+     * Executes a given opcode.
+     *
+     * @param opcode must not be {@code null}
+     */
     private void execute(final Opcodes opcode) {
+        Validate.notNull(opcode, "opcode");
+
         switch (opcode) {
             case INT_STORE:
                 storeInteger();
