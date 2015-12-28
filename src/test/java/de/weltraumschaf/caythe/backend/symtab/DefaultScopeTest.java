@@ -107,6 +107,7 @@ public class DefaultScopeTest {
     @Test(expected = IllegalStateException.class)
     public void store_constantTwiceIsNotAllowed() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
+        sut.define(constant);
         final Value value = new Value(Type.NULL, "bar");
 
         sut.store(constant, value);
