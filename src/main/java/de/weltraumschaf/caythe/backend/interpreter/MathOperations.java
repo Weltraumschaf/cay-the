@@ -5,11 +5,20 @@ import de.weltraumschaf.caythe.backend.symtab.BuildInTypeSymbol;
 import de.weltraumschaf.caythe.backend.symtab.Value;
 
 /**
+ * Provides mathematic operations.
+ *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class MathOperations {
 
+    /**
+     * Adds to values.
+     *
+     * @param left must not be {@code null}
+     * @param right must not be {@code null}
+     * @return never {@code null}
+     */
     Value add(final Value left, final Value right) {
         final Type type = left.getType();
 
@@ -32,6 +41,13 @@ final class MathOperations {
         }
     }
 
+    /**
+     * Subtracts to values.
+     *
+     * @param left must not be {@code null}
+     * @param right must not be {@code null}
+     * @return never {@code null}
+     */
     Value sub(final Value left, final Value right) {
         final Type type = left.getType();
 
@@ -54,6 +70,13 @@ final class MathOperations {
         }
     }
 
+    /**
+     * Multiply to values.
+     *
+     * @param left must not be {@code null}
+     * @param right must not be {@code null}
+     * @return never {@code null}
+     */
     Value mul(final Value left, final Value right) {
         final Type type = left.getType();
 
@@ -76,6 +99,13 @@ final class MathOperations {
         }
     }
 
+    /**
+     * Divides to values.
+     *
+     * @param left must not be {@code null}
+     * @param right must not be {@code null}
+     * @return never {@code null}
+     */
     Value div(final Value left, final Value right) {
         final Type type = left.getType();
 
@@ -98,6 +128,13 @@ final class MathOperations {
         }
     }
 
+    /**
+     * Modulus to values.
+     *
+     * @param left must not be {@code null}
+     * @param right must not be {@code null}
+     * @return never {@code null}
+     */
     Value mod(final Value left, final Value right) {
         final Type type = left.getType();
 
@@ -120,6 +157,13 @@ final class MathOperations {
         }
     }
 
+    /**
+     * Powers a base to an exponent.
+     *
+     * @param base must not be {@code null}
+     * @param exponent must not be {@code null}
+     * @return never {@code null}
+     */
     Value pow(final Value base, final Value exponent) {
         final Type type = base.getType();
 
