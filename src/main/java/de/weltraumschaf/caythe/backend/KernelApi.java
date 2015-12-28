@@ -32,6 +32,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
+    @Native
     public void print(final String output) {
         env.stdOut(output);
     }
@@ -41,6 +42,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
+    @Native
     public void println(final String output) {
         print(output + CayThe.DEFAULT_NEWLINE);
     }
@@ -50,6 +52,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
+    @Native
     public void error(final String output) {
         env.stdErr(output);
     }
@@ -59,6 +62,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
+    @Native
     public void errorln(final String output) {
         error(output + CayThe.DEFAULT_NEWLINE);
     }
@@ -72,6 +76,7 @@ public final class KernelApi {
      *
      * @param code 0 for OK, anything else for errors
      */
+    @Native
     public void exit(final int code) {
         throw new ExitException(code);
     }

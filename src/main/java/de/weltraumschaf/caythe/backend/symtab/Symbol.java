@@ -28,6 +28,11 @@ public interface Symbol {
             return Value.NIL;
         }
 
+        @Override
+        public String toString() {
+            return "NIL";
+        }
+
     };
 
     /**

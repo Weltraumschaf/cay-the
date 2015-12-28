@@ -1,5 +1,10 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * Describes the types built in in the language.
  *
@@ -11,26 +16,32 @@ public final class BuildInTypeSymbol extends BaseSymbol implements Type {
     /**
      * Build in NIL type which represents nothing/not available.
      */
-    public static final Type NIL  = new BuildInTypeSymbol("Nil");
+    @BuildInType
+    public static final Type NIL = new BuildInTypeSymbol("Nil");
     /**
      * Build in boolean type.
      */
+    @BuildInType
     public static final Type BOOL = new BuildInTypeSymbol("Bool");
     /**
      * Build in integer type.
      */
+    @BuildInType
     public static final Type INT = new BuildInTypeSymbol("Int");
     /**
      * Build in float type.
      */
+    @BuildInType
     public static final Type FLOAT = new BuildInTypeSymbol("Float");
     /**
      * Build in string type.
      */
+    @BuildInType
     public static final Type STRING = new BuildInTypeSymbol("String");
     /**
      * Build in function type (functions are first class citizens).
      */
+    @BuildInType
     public static final Type FUNCTION = new BuildInTypeSymbol("Function");
 
     /**
@@ -40,5 +51,10 @@ public final class BuildInTypeSymbol extends BaseSymbol implements Type {
      */
     public BuildInTypeSymbol(final String name) {
         super(name, Type.NULL);
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.FIELD})
+    public static @interface BuildInType {
     }
 }

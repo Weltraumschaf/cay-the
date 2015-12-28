@@ -1,5 +1,10 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
+import de.weltraumschaf.caythe.backend.KernelApi;
+import de.weltraumschaf.caythe.backend.Native;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Holds the global scope and initializes build in types.
  *
@@ -43,11 +48,36 @@ public final class SymbolTable {
      * @param table must not be {@code null}
      */
     public static void init(final SymbolTable table) {
-        table.globals.define((Symbol) BuildInTypeSymbol.NIL);
-        table.globals.define((Symbol) BuildInTypeSymbol.BOOL);
-        table.globals.define((Symbol) BuildInTypeSymbol.INT);
-        table.globals.define((Symbol) BuildInTypeSymbol.FLOAT);
-        table.globals.define((Symbol) BuildInTypeSymbol.STRING);
+        initBuildInTypes(table);
+        initNativeApis(table);
+    }
+
+    private static void initBuildInTypes(final SymbolTable table) {
+        for (final Field field : BuildInTypeSymbol.class.getDeclaredFields()) {
+            if (null == field.getAnnotation(BuildInTypeSymbol.BuildInType.class)) {
+                continue;
+            }
+
+            try {
+                table.globals.define((Symbol) field.get(null));
+            } catch (final IllegalArgumentException | IllegalAccessException ex) {
+                throw new IllegalStateException(ex.getMessage(), ex);
+            }
+        }
+    }
+
+    private static void initNativeApis(final SymbolTable table) {
+        for (final Method api : KernelApi.class.getDeclaredMethods()) {
+            if (null == api.getAnnotation(Native.class)) {
+                continue;
+            }
+
+            table.globals.define(
+                new FunctionSymbol(
+                    api.getName(),
+                    /* no return type */BuildInTypeSymbol.NIL,
+                    table.getGlobals()));
+        }
     }
 
     /**
