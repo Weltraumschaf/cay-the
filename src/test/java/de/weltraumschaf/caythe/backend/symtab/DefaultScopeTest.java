@@ -10,8 +10,7 @@ import static org.junit.Assert.*;
  */
 public class DefaultScopeTest {
 
-    private final Scope sut = new DefaultScope("foo", Scope.NULL) {
-    };
+    private final Scope sut = new DefaultScope("foo", Scope.NULL);
 
     @Test
     public void equalsAndHashCode() {

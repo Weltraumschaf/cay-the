@@ -15,13 +15,9 @@ import java.util.Objects;
 public final class Value {
 
     /**
-     * Value for the {@link #NIL nil object}.
-     */
-    private static final Object NIL_VALUE = new Object();
-    /**
      * A not available value.
      */
-    public static final Value NIL = new Value(BuildInTypeSymbol.NIL, NIL_VALUE);
+    public static final Value NIL = new Value(BuildInTypeSymbol.NIL, Nil.INSTANCE);
     /**
      * Reusable object to represent boolean true constant.
      */
@@ -98,13 +94,10 @@ public final class Value {
 
     /**
      * Get the raw untyped value.
-     * @return
+     *
+     * @return never {@code null}
      */
     public Object getValue() {
-        if (isNil()) {
-            return NIL_VALUE;
-        }
-
         return value;
     }
 
