@@ -157,7 +157,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         try {
             log("Assign variable: %s = %s", symbol, value);
-            current.store(symbol, value);
+            symbol.getScope().store(symbol, value);
         } catch (final IllegalStateException ex) {
             throw error(ctx.id, "Can't write constant '%s'", identifier);
         }

@@ -95,6 +95,14 @@ abstract class DefaultScope implements Scope {
         Validate.notNull(symbol, "symbol");
         Validate.notNull(value, "value");
 
+        if (!isDefined(symbol.getName())) {
+            throw new IllegalStateException(
+                    String.format(
+                        "Trying to store value %s to undefiend %s!",
+                        value, symbol
+                    ));
+        }
+
         if (symbol instanceof ConstantSymbol) {
             if (constants.containsKey(symbol)) {
                 throw new IllegalStateException(

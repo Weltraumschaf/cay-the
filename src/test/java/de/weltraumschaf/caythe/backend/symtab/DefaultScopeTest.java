@@ -65,10 +65,17 @@ public class DefaultScopeTest {
         sut.store(Symbol.NULL, null);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void store_undefined() {
+        sut.store(new VariableSymbol("foo", Type.NULL), Value.NIL);
+    }
+
     @Test
     public void store_variable() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
+        sut.define(constant);
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
+        sut.define(variable);
 
         assertThat(sut.load(constant), is(Value.NIL));
         assertThat(sut.load(variable), is(Value.NIL));
@@ -83,7 +90,9 @@ public class DefaultScopeTest {
     @Test
     public void store_constant() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
+        sut.define(constant);
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
+        sut.define(variable);
 
         assertThat(sut.load(constant), is(Value.NIL));
         assertThat(sut.load(variable), is(Value.NIL));

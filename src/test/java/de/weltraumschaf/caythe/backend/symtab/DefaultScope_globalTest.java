@@ -40,4 +40,21 @@ public class DefaultScope_globalTest {
         assertThat(sut.resolve("foo"), is(constant));
         assertThat(constant.getScope(), sameInstance(sut));
     }
+
+    @Test
+    public void storeAndLoad() {
+        final Symbol variable = new VariableSymbol("foo", Type.NULL);
+        sut.define(variable);
+        final Symbol constant = new ConstantSymbol("bar", Type.NULL);
+        sut.define(constant);
+        final Value foo = new Value(Type.NULL, "foo");
+        sut.store(variable, foo);
+        final Value bar = new Value(Type.NULL, "bar");
+        sut.store(constant, bar);
+
+        assertThat(sut.load(variable), is(foo));
+        assertThat(variable.load(), is(foo));
+        assertThat(sut.load(constant), is(bar));
+        assertThat(constant.load(), is(bar));
+    }
 }
