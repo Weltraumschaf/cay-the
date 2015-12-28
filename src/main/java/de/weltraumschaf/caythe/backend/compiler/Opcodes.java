@@ -35,16 +35,17 @@ enum Opcodes {
     /**
      * Arguments: Output register.
      */
-    PRINT((byte)0x05),
+    PRINT((byte) 0x05),
     /**
-     * Arguments: Register, Value
+     * Arguments: Register, Value.
      */
-    INT_STORE((byte)0x06);
+    INT_STORE((byte) 0x06);
 
     /**
      * Lookup table to create enums from bytes.
      */
     private static final Map<Byte, Opcodes> LOOKUP;
+
     static {
         final Map<Byte, Opcodes> tmp = new HashMap<>();
 
