@@ -5,9 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Enumerates all opcodes implemented by the VM.
+ *
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 enum Opcodes {
 
+    /**
+     * No operation.
+     */
     NOP((byte) 0x00),
     /**
      * Arguments: Operand register, operand register, result register.
@@ -34,6 +41,9 @@ enum Opcodes {
      */
     INT_STORE((byte)0x06);
 
+    /**
+     * Lookup table to create enums from bytes.
+     */
     private static final Map<Byte, Opcodes> LOOKUP;
     static {
         final Map<Byte, Opcodes> tmp = new HashMap<>();
@@ -45,12 +55,25 @@ enum Opcodes {
         LOOKUP = Collections.unmodifiableMap(tmp);
     }
 
+    /**
+     * The byte code of the opcode.
+     */
     private final byte code;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param code any byte
+     */
     private Opcodes(final byte code) {
         this.code = code;
     }
 
+    /**
+     * Get the executable byte.
+     *
+     * @return any byte
+     */
     public byte getCode() {
         return code;
     }
@@ -60,6 +83,15 @@ enum Opcodes {
         return String.format("%s(0x%02X)", name(), code);
     }
 
+    /**
+     * Creates the enum type from given byte.
+     * <p>
+     * Throws {@link IllegalArgumentException} if undefined byte is given.
+     * </p>
+     *
+     * @param opcode any byte.
+     * @return never {@code null}
+     */
     public static Opcodes getFor(final byte opcode) {
         if (LOOKUP.containsKey(opcode)) {
             return LOOKUP.get(opcode);
