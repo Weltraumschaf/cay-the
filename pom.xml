@@ -42,6 +42,9 @@
     </ciManagement>
 
     <properties>
+        <project.build.version.source>1.8</project.build.version.source>
+        <project.build.version.target>1.8</project.build.version.target>
+
         <enforcer.skip>true</enforcer.skip>
 
         <project.build.packagebase>${project.groupId}.${project.artifactId}</project.build.packagebase>

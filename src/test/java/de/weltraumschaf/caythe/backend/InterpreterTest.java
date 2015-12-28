@@ -16,6 +16,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Ignore;
 
 /**
+ * Tests for {@link Interpreter}.
  */
 public class InterpreterTest {
 
@@ -44,6 +45,7 @@ public class InterpreterTest {
     }
 
     @Test
+    @Ignore
     public void whileLoop() throws IOException, URISyntaxException {
         sut.visit(createParseTree("while.ct"));
 
