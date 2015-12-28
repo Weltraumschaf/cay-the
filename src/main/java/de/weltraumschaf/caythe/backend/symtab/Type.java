@@ -11,13 +11,7 @@ public interface Type {
     /**
      * Null object pattern: USed instead of {@code nul}.
      */
-    Type NULL = new Type() {
-
-        @Override
-        public String getName() {
-            return "undefined";
-        }
-    };
+    Type NULL = () -> "undefined";
 
     /**
      * Name of the type.
