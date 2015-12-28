@@ -17,6 +17,7 @@ statement
     | constantDeclaration
     | assignment
     | functionCall
+    | functionDeclaration
     | whileLoop
     | ifBranch 
     | orExpression
@@ -33,6 +34,14 @@ assignment
     ;
 functionCall
     : id=ID LPAREN ( args+=orExpression (',' args+=orExpression)* )? RPAREN 
+    ;
+functionDeclaration
+    : KW_FUNC (returnTypes+=ID (',' returnTypes+=ID)* )? id=ID 
+      LPAREN (args+=formalArgument (',' args+=formalArgument)* )? RPAREN 
+      body=block
+    ;
+formalArgument
+    : type=ID id=ID
     ;
 whileLoop           
     : KW_WHILE condition=orExpression block 
@@ -93,6 +102,8 @@ KW_IF       : 'if' ;
 KW_ELSE     : 'else' ;
 KW_VAR      : 'var' ;
 KW_CONST    : 'const' ;
+KW_FUNC     : 'func' ;
+KW_RETURN   : 'return' ;
 
 // Operators:
 EQUAL           : '==' ;
