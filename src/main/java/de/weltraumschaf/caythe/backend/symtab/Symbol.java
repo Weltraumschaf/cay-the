@@ -15,7 +15,7 @@ public interface Symbol {
 
         @Override
         public String getName() {
-            return "";
+            return "nil";
         }
 
         @Override
