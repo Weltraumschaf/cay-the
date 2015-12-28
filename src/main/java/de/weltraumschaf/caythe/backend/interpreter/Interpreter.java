@@ -197,6 +197,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
                     case "errorln":
                         kernel.errorln(value.asString());
                         break;
+                    case "exit":
+                        kernel.exit(value.asInt());
+                        break;
                 }
             }
         }

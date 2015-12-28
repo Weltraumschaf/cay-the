@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.cli;
 
 import de.weltraumschaf.caythe.CayThe;
+import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.interpreter.Interpreter;
 import de.weltraumschaf.caythe.backend.env.DefaultEnvironmnet;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
@@ -76,6 +77,8 @@ public final class CliApplication extends InvokableAdapter {
 
         try {
             visitor.visit(parser.compilationUnit());
+        } catch (final KernelApi.ExitException ex) {
+            exit(ex.getCode());
         } catch (final ParseCancellationException ex) {
             getIoStreams().errorln(
                 String.format("Parsing cancelded with message: %s%n at line %d col %d: %s",

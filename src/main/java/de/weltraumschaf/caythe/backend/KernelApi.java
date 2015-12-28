@@ -34,4 +34,22 @@ public final class KernelApi {
     public void errorln(final String output) {
         error(output + NL);
     }
+
+    public void exit(final int code) {
+        throw new ExitException(code);
+    }
+
+    public static final class ExitException extends RuntimeException {
+        private final int code;
+
+        public ExitException(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+    }
 }
+
