@@ -122,10 +122,20 @@ public interface Scope {
      */
     Value load(Symbol symbol);
 
+    /**
+     * Create new global scope.
+     *
+     * @return never {@code null}, always new instance
+     */
     static Scope newGlobal() {
         return new DefaultScope("global", NULL) {};
     }
 
+    /**
+     * Create new global scope.
+     *
+     * @return never {@code null}, always new instance
+     */
     static Scope newLocal(final Scope enclosing) {
         return new DefaultScope("local", enclosing) {};
     }
