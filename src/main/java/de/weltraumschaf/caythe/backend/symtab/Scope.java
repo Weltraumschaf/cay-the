@@ -99,7 +99,7 @@ public interface Scope {
      * Look up name in this scope or in enclosing scope if not here.
      *
      * @param name must not be {@code null} or empty
-     * @return
+     * @return the found symbol, unless {@link Symbol#NULL}
      */
     Symbol resolve(String name);
 
@@ -128,16 +128,17 @@ public interface Scope {
      * @return never {@code null}, always new instance
      */
     static Scope newGlobal() {
-        return new DefaultScope("global", NULL) {};
+        return new DefaultScope("global", NULL);
     }
 
     /**
      * Create new global scope.
      *
+     * @param enclosing must not be {@code null}
      * @return never {@code null}, always new instance
      */
     static Scope newLocal(final Scope enclosing) {
-        return new DefaultScope("local", enclosing) {};
+        return new DefaultScope("local", enclosing);
     }
 
 }

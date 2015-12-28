@@ -11,7 +11,7 @@ import java.util.Objects;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-abstract class DefaultScope implements Scope {
+final class DefaultScope implements Scope {
 
     /**
      * Name of the scope.
