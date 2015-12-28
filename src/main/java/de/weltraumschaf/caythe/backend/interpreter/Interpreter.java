@@ -25,6 +25,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * Implementation which interprets the parsed tree.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Interpreter extends CayTheBaseVisitor<Value> {
 

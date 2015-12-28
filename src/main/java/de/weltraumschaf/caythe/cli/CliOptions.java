@@ -6,6 +6,8 @@ import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import java.util.Objects;
 
 /**
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class CliOptions {
 

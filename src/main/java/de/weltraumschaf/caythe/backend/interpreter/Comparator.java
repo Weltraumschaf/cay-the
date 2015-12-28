@@ -1,13 +1,13 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
 import de.weltraumschaf.caythe.backend.symtab.BuildInTypeSymbol;
-import de.weltraumschaf.caythe.backend.symtab.Type;
 import de.weltraumschaf.caythe.backend.symtab.Value;
 
 /**
  * Compares relational given values.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class Comparator {
 

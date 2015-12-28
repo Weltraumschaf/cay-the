@@ -4,6 +4,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  * Describes declared constants.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class ConstantSymbol extends BaseSymbol {
 

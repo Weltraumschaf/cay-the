@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.TokenStream;
  * Factory to create a ready to use parser.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Parsers {
 

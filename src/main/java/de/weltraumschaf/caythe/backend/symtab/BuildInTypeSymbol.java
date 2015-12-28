@@ -4,6 +4,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  * Describes the types built in in the language.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class BuildInTypeSymbol extends BaseSymbol implements Type {
 

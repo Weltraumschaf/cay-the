@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.backend.symtab.Value;
 
 /**
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class MathOperations {
 

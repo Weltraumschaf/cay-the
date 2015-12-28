@@ -5,7 +5,9 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.io.PrintStream;
 
 /**
+ * Logs everything to {@link System.out}.
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class SysOutLogger extends BaseLogger implements Logger {
 

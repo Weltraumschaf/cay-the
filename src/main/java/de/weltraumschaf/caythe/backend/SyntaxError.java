@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.Token;
  * Syntax error with token position.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class SyntaxError extends RuntimeException {
 

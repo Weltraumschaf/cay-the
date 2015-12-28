@@ -7,6 +7,7 @@ import de.weltraumschaf.commons.validate.Validate;
  * Redirects I/O to the given implementation of {@link IO}.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class DefaultEnvironmnet implements Environment {
 

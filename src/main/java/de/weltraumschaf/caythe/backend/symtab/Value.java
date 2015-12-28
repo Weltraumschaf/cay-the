@@ -10,6 +10,7 @@ import java.util.Objects;
  * </p>
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Value {
 

@@ -9,6 +9,7 @@ import java.util.Objects;
  * Common implementation for all scopes.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 abstract class DefaultScope implements Scope {
 

@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.backend.symtab.Value;
  * Performs boolean operations on given values.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class BoolOperations {
 

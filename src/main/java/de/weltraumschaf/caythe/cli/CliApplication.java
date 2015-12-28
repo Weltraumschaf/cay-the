@@ -17,6 +17,7 @@ import org.antlr.v4.runtime.misc.ParseCancellationException;
  * This class provides the {@link #main(java.lang.String[]) main entry point} for the command line application.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class CliApplication extends InvokableAdapter {
 

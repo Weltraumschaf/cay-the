@@ -4,6 +4,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  * Describes the scope of symbols and their values, if they have one.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public interface Scope {
 

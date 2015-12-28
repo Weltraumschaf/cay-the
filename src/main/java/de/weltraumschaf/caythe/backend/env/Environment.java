@@ -4,6 +4,7 @@ package de.weltraumschaf.caythe.backend.env;
  * Encapsulates the environment in which a program runs.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public interface Environment {
 

@@ -1,7 +1,10 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
 /**
+ * Holds the global scope and initializes build in types.
+ *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class SymbolTable {
 

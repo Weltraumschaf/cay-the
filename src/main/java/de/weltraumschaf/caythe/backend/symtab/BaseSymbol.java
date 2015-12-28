@@ -7,6 +7,7 @@ import java.util.Objects;
  * Common functionality for all symbols.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 abstract class BaseSymbol implements Symbol {
 

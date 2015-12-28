@@ -7,6 +7,7 @@ import java.io.PrintStream;
  * Factory to create {@link Logger loggers}.
  *
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Logging {
 

@@ -3,6 +3,8 @@ package de.weltraumschaf.caythe.log;
 import de.weltraumschaf.caythe.CayThe;
 
 /**
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class BufferedLogger extends BaseLogger implements Logger {
 
