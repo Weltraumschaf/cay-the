@@ -2,6 +2,9 @@ package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.caythe.backend.env.Environment;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -45,6 +48,12 @@ public class KernelApiTest {
 
     @Test
     public void exit() {
+        try {
+            sut.exit(42);
+            fail("Expected exception not thrown!");
+        } catch (final KernelApi.ExitException ex) {
+            assertThat(ex.getCode(), is(42));
+        }
     }
 
 }
