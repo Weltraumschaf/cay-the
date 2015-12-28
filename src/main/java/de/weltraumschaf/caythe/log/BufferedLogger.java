@@ -3,11 +3,16 @@ package de.weltraumschaf.caythe.log;
 import de.weltraumschaf.caythe.CayThe;
 
 /**
+ * This implementation buffers all logged content (get the content via {@link #toString()}.
+ *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 final class BufferedLogger extends BaseLogger implements Logger {
 
+    /**
+     * Buffer for content.
+     */
     private final StringBuilder buffer = new StringBuilder();
 
     @Override

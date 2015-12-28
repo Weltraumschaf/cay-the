@@ -11,8 +11,16 @@ import java.io.PrintStream;
  */
 final class SysOutLogger extends BaseLogger implements Logger {
 
+    /**
+     * USed to print the log to.
+     */
     private final PrintStream out;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param out must not be {@code null}
+     */
     SysOutLogger(final PrintStream out) {
         super();
         this.out = Validate.notNull(out, "out");
