@@ -40,4 +40,11 @@ public final class CayThe {
      */
     public static final String ENV_DEBUG = "CAYTHE_DEBUG";
 
+    /**
+     * Private for pure static class.
+     */
+    private CayThe() {
+        super();
+    }
+
 }

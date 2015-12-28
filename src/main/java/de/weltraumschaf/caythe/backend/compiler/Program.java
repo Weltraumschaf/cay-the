@@ -36,7 +36,7 @@ public final class Program {
      *
      * @param register any byte
      */
-     void add(final byte register) {
+    void add(final byte register) {
         byteCode.add(register);
     }
 

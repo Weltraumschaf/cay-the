@@ -221,8 +221,7 @@ public final class Value {
     public String asString() {
         if (type.equals(BuildInTypeSymbol.NIL)) {
             return "";
-        } else if (
-            type.equals(BuildInTypeSymbol.BOOL)
+        } else if (type.equals(BuildInTypeSymbol.BOOL)
             || type.equals(BuildInTypeSymbol.INT)
             || type.equals(BuildInTypeSymbol.FLOAT)) {
             return String.valueOf(value);
