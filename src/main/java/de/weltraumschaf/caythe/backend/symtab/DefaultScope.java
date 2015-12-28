@@ -47,7 +47,7 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public final Symbol resolve(final String name) {
+    public Symbol resolve(final String name) {
         Validate.notEmpty(name, "name");
 
         if (symbols.containsKey(name)) {
@@ -62,7 +62,7 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public final void define(final Symbol sym) {
+    public void define(final Symbol sym) {
         Validate.notNull(sym, "sym");
         symbols.put(sym.getName(), sym);
 
@@ -72,7 +72,7 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public final boolean isDefined(final String identifier) {
+    public boolean isDefined(final String identifier) {
         return symbols.containsKey(identifier) || (hasEnclosing() && getEnclosing().isDefined(identifier));
     }
 
@@ -82,12 +82,12 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public final Scope getEnclosing() {
+    public Scope getEnclosing() {
         return enclosingScope;
     }
 
     @Override
-    public final boolean hasEnclosing() {
+    public boolean hasEnclosing() {
         return Scope.NULL != enclosingScope;
     }
 
@@ -98,10 +98,10 @@ final class DefaultScope implements Scope {
 
         if (!isDefined(symbol.getName())) {
             throw new IllegalStateException(
-                    String.format(
-                        "Trying to store value %s to undefiend %s!",
-                        value, symbol
-                    ));
+                String.format(
+                    "Trying to store value %s to undefiend %s!",
+                    value, symbol
+                ));
         }
 
         if (symbol instanceof ConstantSymbol) {
@@ -137,17 +137,17 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return String.format("{%s:%s}", getScopeName(), symbols.keySet());
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(scopeName, enclosingScope, symbols, constants, variables);
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof DefaultScope)) {
             return false;
         }
