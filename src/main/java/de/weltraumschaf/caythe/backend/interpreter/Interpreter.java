@@ -17,6 +17,8 @@ import de.weltraumschaf.caythe.log.Logger;
 import de.weltraumschaf.caythe.log.Logging;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -31,7 +33,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     private final SymbolTable table = SymbolTable.newTable();
     private final KernelApi kernel;
-    private Scope current = table.getGlobals();
+    private Deque<Scope> scopeStack = new LinkedList<>();
     private final Logger logging;
 
     public Interpreter(final Environment env) {
@@ -42,6 +44,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         super();
         this.kernel = new KernelApi(env);
         this.logging = Validate.notNull(logging, "logging");
+        this.scopeStack.push(table.getGlobals());
     }
 
     @Override
@@ -75,9 +78,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitBlock(final BlockContext ctx) {
-        current = Scope.newLocal(current);
+        scopeStack.push(Scope.newLocal(scopeStack.peek()));
         final Value value = super.visit(ctx.blockStatements);
-        current = current.getEnclosing();
+        scopeStack.pop();
         return value;
     }
 
@@ -86,17 +89,17 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         log("Visit constant decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
-        if (current.isDefined(identifier)) {
+        if (scopeStack.peek().isDefined(identifier)) {
             throw error(ctx.id, "Constant '%s' already declared", identifier);
         }
 
         final String typeIdentifier = ctx.type.getText();
 
-        if (!current.isDefined(typeIdentifier)) {
+        if (!scopeStack.peek().isDefined(typeIdentifier)) {
             throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
         }
 
-        final Symbol type = current.resolve(typeIdentifier);
+        final Symbol type = scopeStack.peek().resolve(typeIdentifier);
         final Value value = visit(ctx.value);
 
         if (!value.isType((Type) type)) {
@@ -105,8 +108,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         final ConstantSymbol symbol = new ConstantSymbol(identifier, value.getType());
         log("Declare constant: %s = %s", symbol, value);
-        current.define(symbol);
-        current.store(symbol, value);
+        scopeStack.peek().define(symbol);
+        scopeStack.peek().store(symbol, value);
         return value;
     }
 
@@ -115,17 +118,17 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         log("Visit var decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
-        if (current.isDefined(identifier)) {
+        if (scopeStack.peek().isDefined(identifier)) {
             throw error(ctx.id, "Variable '%s' already declared", identifier);
         }
 
         final String typeIdentifier = ctx.type.getText();
 
-        if (!current.isDefined(typeIdentifier)) {
+        if (!scopeStack.peek().isDefined(typeIdentifier)) {
             throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
         }
 
-        final Symbol type = current.resolve(typeIdentifier);
+        final Symbol type = scopeStack.peek().resolve(typeIdentifier);
         final Value value;
 
         if (null == ctx.value) {
@@ -140,8 +143,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         final VariableSymbol symbol = new VariableSymbol(identifier, value.getType());
         log("Declare variable: %s = %s", symbol, value);
-        current.define(symbol);
-        current.store(symbol, value);
+        scopeStack.peek().define(symbol);
+        scopeStack.peek().store(symbol, value);
         return value;
     }
 
@@ -149,11 +152,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitAssignment(final AssignmentContext ctx) {
         final String identifier = ctx.id.getText();
 
-        if (!current.isDefined(identifier)) {
+        if (!scopeStack.peek().isDefined(identifier)) {
             throw error(ctx.id, "Unknown variable '%s'", ctx.id.getText());
         }
 
-        final Symbol symbol = current.resolve(identifier);
+        final Symbol symbol = scopeStack.peek().resolve(identifier);
         final Value value = visit(ctx.value);
 
         try {
@@ -180,19 +183,21 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         if (functionArgs.size() == 1) {
             final Value value = functionArgs.get(0);
 
-            if (null != functionName) switch (functionName) {
-                case "print":
-                    kernel.print(value.asString());
-                    break;
-                case "println":
-                    kernel.println(value.asString());
-                    break;
-                case "error":
-                    kernel.error(value.asString());
-                    break;
-                case "errorln":
-                    kernel.errorln(value.asString());
-                    break;
+            if (null != functionName) {
+                switch (functionName) {
+                    case "print":
+                        kernel.print(value.asString());
+                        break;
+                    case "println":
+                        kernel.println(value.asString());
+                        break;
+                    case "error":
+                        kernel.error(value.asString());
+                        break;
+                    case "errorln":
+                        kernel.errorln(value.asString());
+                        break;
+                }
             }
         }
 
@@ -373,11 +378,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitVariableOrConstantDereference(final VariableOrConstantDereferenceContext ctx) {
         final String identifier = ctx.id.getText();
 
-        if (!current.isDefined(identifier)) {
+        if (!scopeStack.peek().isDefined(identifier)) {
             throw error(ctx.id, "Access of undeclared variable/constant '%s'", ctx.id.getText());
         }
 
-        return current.load(current.resolve(identifier));
+        return scopeStack.peek().resolve(identifier).load();
     }
 
     @Override
@@ -403,7 +408,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     private void log(final String msg, final Object... args) {
-        logging.log(msg, args);
+        logging.log(String.format("[%d] %s", scopeStack.size(), msg), args);
     }
 
     private boolean notNull(final Object input) {

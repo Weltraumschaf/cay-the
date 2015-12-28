@@ -45,7 +45,6 @@ public class InterpreterTest {
     }
 
     @Test
-    @Ignore
     public void whileLoop() throws IOException, URISyntaxException {
         sut.visit(createParseTree("while.ct"));
 
@@ -53,7 +52,6 @@ public class InterpreterTest {
     }
 
     @Test
-    @Ignore
     public void complex() throws IOException, URISyntaxException {
         sut.visit(createParseTree("complex.ct"));
 
