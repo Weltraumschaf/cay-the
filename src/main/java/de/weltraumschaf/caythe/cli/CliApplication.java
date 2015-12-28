@@ -27,22 +27,39 @@ public final class CliApplication extends InvokableAdapter {
      */
     private final Version version;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param args must not be {@code null}
+     */
     public CliApplication(final String[] args) {
         super(args);
         version = new Version(CayThe.BASE_PACKAGE_DIR + "/version.properties");
     }
 
+    /**
+     * Invoked from JVM.
+     *
+     * @param args CLI arguments
+     */
     public static void main(final String[] args) {
         final CliApplication app = new CliApplication(args);
         app.debug = Boolean.valueOf(System.getenv(CayThe.ENV_DEBUG));
         InvokableAdapter.main(app);
     }
 
+    /**
+     * Do initial stuff.
+     *
+     * @return never {@code null}
+     * @throws IOException if version file can not be loaded
+     */
     private CliOptions setup() throws IOException {
         Logging.setStdout(getIoStreams().getStdout());
         version.load();
         return CliOptions.gatherOptions(getArgs());
     }
+
     @Override
     public void execute() throws Exception {
         final CliOptions options = setup();
@@ -72,7 +89,14 @@ public final class CliApplication extends InvokableAdapter {
         parse(options.getFile(), visitor);
     }
 
-    private void parse(final String filename, final CayTheBaseVisitor<?> visitor) throws RecognitionException, IOException {
+    /**
+     * Parse and visit the source code.
+     *
+     * @param filename must not be {@code null} or empty
+     * @param visitor must not be {@code null}
+     * @throws IOException if source file can't be read
+     */
+    private void parse(final String filename, final CayTheBaseVisitor<?> visitor) throws IOException {
         final CayTheParser parser = Parsers.newParser(filename, isDebugEnabled());
 
         try {
