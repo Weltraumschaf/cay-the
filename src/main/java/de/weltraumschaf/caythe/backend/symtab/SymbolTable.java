@@ -5,7 +5,7 @@ package de.weltraumschaf.caythe.backend.symtab;
  */
 public final class SymbolTable {
 
-    private final Scope globals = new GlobalScope();
+    private final Scope globals = Scope.newGlobal();
 
     SymbolTable() {
         super();

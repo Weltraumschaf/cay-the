@@ -4,7 +4,6 @@ import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.SyntaxError;
 import de.weltraumschaf.caythe.backend.symtab.ConstantSymbol;
-import de.weltraumschaf.caythe.backend.symtab.LocalScope;
 import de.weltraumschaf.caythe.backend.symtab.Scope;
 import de.weltraumschaf.caythe.backend.symtab.Symbol;
 import de.weltraumschaf.caythe.backend.symtab.SymbolTable;
@@ -75,7 +74,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitBlock(final BlockContext ctx) {
-        current = new LocalScope(current);
+        current = Scope.newLocal(current);
         final Value value = super.visit(ctx.blockStatements);
         current = current.getEnclosing();
         return value;

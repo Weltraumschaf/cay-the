@@ -121,4 +121,12 @@ public interface Scope {
      */
     Value load(Symbol symbol);
 
+    static Scope newGlobal() {
+        return new DefaultScope("global", NULL) {};
+    }
+
+    static Scope newLocal(final Scope enclosing) {
+        return new DefaultScope("local", enclosing) {};
+    }
+
 }

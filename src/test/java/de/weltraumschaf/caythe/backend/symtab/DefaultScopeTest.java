@@ -2,25 +2,25 @@ package de.weltraumschaf.caythe.backend.symtab;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * Tests for {@link GlobalScope}.
+ * Tests for {@link DefaultScope}.
  */
-public class GlobalScopeTest {
+public class DefaultScopeTest {
 
-    private final Scope sut = new GlobalScope();
+    private final Scope sut = new DefaultScope("foo", Scope.NULL) {
+    };
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(GlobalScope.class).verify();
+        EqualsVerifier.forClass(DefaultScope.class).verify();
     }
 
     @Test
     public void getScopeName() {
-        assertThat(sut.getScopeName(), is("global"));
+        assertThat(sut.getScopeName(), is("foo"));
     }
 
     @Test
@@ -46,18 +46,6 @@ public class GlobalScopeTest {
     @Test
     public void resolve_nullSymbolIfNotDefined() {
         assertThat(sut.resolve("foo"), is(Symbol.NULL));
-    }
-
-    @Test
-    public void define() {
-        assertThat(sut.isDefined("foo"), is(false));
-        final Symbol variable = new VariableSymbol("foo", Type.NULL);
-
-        sut.define(variable);
-
-        assertThat(sut.isDefined("foo"), is(true));
-        assertThat(sut.resolve("foo"), is(variable));
-        assertThat(variable.getScope(), sameInstance(sut));
     }
 
     @Test

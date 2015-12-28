@@ -31,7 +31,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
      */
     public FunctionSymbol(final String name, final Type returnType, final Scope enclosingScope) {
         super(name, returnType);
-        this.scope = new LocalScope(enclosingScope);
+        this.scope = Scope.newLocal(enclosingScope);
     }
 
     @Override

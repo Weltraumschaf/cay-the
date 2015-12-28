@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @since 1.0.0
  */
-abstract class BaseScope implements Scope {
+abstract class DefaultScope implements Scope {
 
     /**
      * Name of the scope.
@@ -39,7 +39,7 @@ abstract class BaseScope implements Scope {
      * @param scopeName must not be {@code null} or empty
      * @param enclosingScope must nit be {@code null}
      */
-    public BaseScope(final String scopeName, final Scope enclosingScope) {
+    public DefaultScope(final String scopeName, final Scope enclosingScope) {
         super();
         this.scopeName = Validate.notEmpty(scopeName, "scopeName");
         this.enclosingScope = Validate.notNull(enclosingScope, "enclosingScope");
@@ -139,11 +139,11 @@ abstract class BaseScope implements Scope {
 
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof BaseScope)) {
+        if (!(obj instanceof DefaultScope)) {
             return false;
         }
 
-        final BaseScope other = (BaseScope) obj;
+        final DefaultScope other = (DefaultScope) obj;
         return Objects.equals(scopeName, other.scopeName)
             && Objects.equals(enclosingScope, other.enclosingScope)
             && Objects.equals(symbols, other.symbols)
