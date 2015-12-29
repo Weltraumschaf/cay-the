@@ -14,30 +14,30 @@ public class SymbolTableTest {
 
     @Test
     public void initBuildInTypes() {
-        assertThat(sut.getGlobals().resolve("Bool"), is(BuildInTypeSymbol.BOOL));
-        assertThat(sut.getGlobals().resolve("Float"), is(BuildInTypeSymbol.FLOAT));
-        assertThat(sut.getGlobals().resolve("Function"), is(BuildInTypeSymbol.FUNCTION));
-        assertThat(sut.getGlobals().resolve("Int"), is(BuildInTypeSymbol.INT));
-        assertThat(sut.getGlobals().resolve("Nil"), is(BuildInTypeSymbol.NIL));
-        assertThat(sut.getGlobals().resolve("String"), is(BuildInTypeSymbol.STRING));
+        assertThat(sut.getGlobals().resolveValue("Bool"), is(BuildInTypeSymbol.BOOL));
+        assertThat(sut.getGlobals().resolveValue("Float"), is(BuildInTypeSymbol.FLOAT));
+        assertThat(sut.getGlobals().resolveValue("Function"), is(BuildInTypeSymbol.FUNCTION));
+        assertThat(sut.getGlobals().resolveValue("Int"), is(BuildInTypeSymbol.INT));
+        assertThat(sut.getGlobals().resolveValue("Nil"), is(BuildInTypeSymbol.NIL));
+        assertThat(sut.getGlobals().resolveValue("String"), is(BuildInTypeSymbol.STRING));
     }
 
     @Test
     public void initNativeApis() {
         assertThat(
-            sut.getGlobals().resolve("print"),
+            sut.getGlobals().resolveFunction("print"),
             is(new FunctionSymbol("print", BuildInTypeSymbol.NIL, sut.getGlobals())));
         assertThat(
-            sut.getGlobals().resolve("println"),
+            sut.getGlobals().resolveFunction("println"),
             is(new FunctionSymbol("println", BuildInTypeSymbol.NIL, sut.getGlobals())));
         assertThat(
-            sut.getGlobals().resolve("error"),
+            sut.getGlobals().resolveFunction("error"),
             is(new FunctionSymbol("error", BuildInTypeSymbol.NIL, sut.getGlobals())));
         assertThat(
-            sut.getGlobals().resolve("errorln"),
+            sut.getGlobals().resolveFunction("errorln"),
             is(new FunctionSymbol("errorln", BuildInTypeSymbol.NIL, sut.getGlobals())));
         assertThat(
-            sut.getGlobals().resolve("exit"),
+            sut.getGlobals().resolveFunction("exit"),
             is(new FunctionSymbol("exit", BuildInTypeSymbol.NIL, sut.getGlobals())));
     }
 

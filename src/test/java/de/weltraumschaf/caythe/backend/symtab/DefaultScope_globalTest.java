@@ -19,34 +19,34 @@ public class DefaultScope_globalTest {
 
     @Test
     public void define_variable() {
-        assertThat(sut.isDefined("foo"), is(false));
+        assertThat(sut.isValueDefined("foo"), is(false));
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
 
-        sut.define(variable);
+        sut.defineValue(variable);
 
-        assertThat(sut.isDefined("foo"), is(true));
-        assertThat(sut.resolve("foo"), is(variable));
+        assertThat(sut.isValueDefined("foo"), is(true));
+        assertThat(sut.resolveValue("foo"), is(variable));
         assertThat(variable.getScope(), sameInstance(sut));
     }
 
     @Test
     public void define_constant() {
-        assertThat(sut.isDefined("foo"), is(false));
+        assertThat(sut.isValueDefined("foo"), is(false));
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
 
-        sut.define(constant);
+        sut.defineValue(constant);
 
-        assertThat(sut.isDefined("foo"), is(true));
-        assertThat(sut.resolve("foo"), is(constant));
+        assertThat(sut.isValueDefined("foo"), is(true));
+        assertThat(sut.resolveValue("foo"), is(constant));
         assertThat(constant.getScope(), sameInstance(sut));
     }
 
     @Test
     public void storeAndLoad() {
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
-        sut.define(variable);
+        sut.defineValue(variable);
         final Symbol constant = new ConstantSymbol("bar", Type.NULL);
-        sut.define(constant);
+        sut.defineValue(constant);
         final Value foo = new Value(Type.NULL, "foo");
         sut.store(variable, foo);
         final Value bar = new Value(Type.NULL, "bar");

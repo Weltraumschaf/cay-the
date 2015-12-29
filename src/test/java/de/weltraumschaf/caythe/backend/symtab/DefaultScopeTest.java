@@ -34,17 +34,17 @@ public class DefaultScopeTest {
 
     @Test(expected = NullPointerException.class)
     public void resolve_nameMustNotBeNull() {
-        sut.resolve(null);
+        sut.resolveValue(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void resolve_nameMustNotBeEmpty() {
-        sut.resolve("");
+        sut.resolveValue("");
     }
 
     @Test
     public void resolve_nullSymbolIfNotDefined() {
-        assertThat(sut.resolve("foo"), is(Symbol.NULL));
+        assertThat(sut.resolveValue("foo"), is(Symbol.NULL));
     }
 
     @Test
@@ -72,9 +72,9 @@ public class DefaultScopeTest {
     @Test
     public void store_variable() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
-        sut.define(constant);
+        sut.defineValue(constant);
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
-        sut.define(variable);
+        sut.defineValue(variable);
 
         assertThat(sut.load(constant), is(Value.NIL));
         assertThat(sut.load(variable), is(Value.NIL));
@@ -89,9 +89,9 @@ public class DefaultScopeTest {
     @Test
     public void store_constant() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
-        sut.define(constant);
+        sut.defineValue(constant);
         final Symbol variable = new VariableSymbol("foo", Type.NULL);
-        sut.define(variable);
+        sut.defineValue(variable);
 
         assertThat(sut.load(constant), is(Value.NIL));
         assertThat(sut.load(variable), is(Value.NIL));
@@ -106,7 +106,7 @@ public class DefaultScopeTest {
     @Test(expected = IllegalStateException.class)
     public void store_constantTwiceIsNotAllowed() {
         final Symbol constant = new ConstantSymbol("foo", Type.NULL);
-        sut.define(constant);
+        sut.defineValue(constant);
         final Value value = new Value(Type.NULL, "bar");
 
         sut.store(constant, value);

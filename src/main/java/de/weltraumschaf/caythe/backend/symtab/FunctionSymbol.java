@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * This describes methods and functions.
  * <p>
- * Functions are symbols with an own local scope. They also always have a {@link #getEnclosing() parent scope}.
+ Functions are symbols with an own local values. They also always have a {@link #getEnclosing() parent values}.
  * </p>
  *
  * @since 1.0.0
@@ -19,9 +19,13 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
      */
     private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
     /**
-     * Delegate for the local scope of a method.
+     * Delegate for the local values of a method.
      */
-    private final Scope scope;
+    private final Scope values;
+    /**
+     * Delegate for the local functions of a method.
+     */
+    private final Scope functions;
 
     /**
      * Dedicated constructor.
@@ -32,42 +36,58 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
      */
     public FunctionSymbol(final String name, final Type returnType, final Scope enclosingScope) {
         super(name, returnType);
-        this.scope = Scope.newLocal(enclosingScope);
+        this.values = Scope.newLocal(enclosingScope);
+        this.functions = Scope.newLocal(enclosingScope);
     }
 
     @Override
-    public Symbol resolve(final String name) {
-        return scope.resolve(name);
+    public Symbol resolveValue(final String name) {
+        return values.resolveValue(name);
     }
 
     @Override
-    public void define(final Symbol sym) {
-        scope.define(sym);
+    public void defineValue(final Symbol sym) {
+        values.defineValue(sym);
     }
 
     @Override
-    public boolean isDefined(String identifier) {
-        return scope.isDefined(identifier);
+    public boolean isValueDefined(final String identifier) {
+        return values.isValueDefined(identifier);
+    }
+
+    @Override
+    public void defineFunction(final Symbol sym) {
+        functions.defineFunction(sym);
+    }
+
+    @Override
+    public boolean isFunctionDefined(final String identifier) {
+        return functions.isFunctionDefined(identifier);
+    }
+
+    @Override
+    public Symbol resolveFunction(final String name) {
+        return functions.resolveFunction(name);
     }
 
     @Override
     public Scope getEnclosing() {
-        return scope.getEnclosing();
+        return values.getEnclosing();
     }
 
     @Override
     public boolean hasEnclosing() {
-        return scope.hasEnclosing();
+        return values.hasEnclosing();
     }
 
     @Override
     public void store(final Symbol symbol, final Value value) {
-        scope.store(symbol, value);
+        values.store(symbol, value);
     }
 
     @Override
     public Value load(final Symbol symbol) {
-        return scope.load(symbol);
+        return values.load(symbol);
     }
 
     @Override

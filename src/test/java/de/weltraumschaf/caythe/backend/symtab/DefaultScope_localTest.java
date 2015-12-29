@@ -42,18 +42,18 @@ public class DefaultScope_localTest {
     @Test
     public void define() {
         final VariableSymbol fooInGlobal = new VariableSymbol("foo", Type.NULL);
-        global.define(fooInGlobal);
+        global.defineValue(fooInGlobal);
         final VariableSymbol barInFirst = new VariableSymbol("bar", Type.NULL);
-        first.define(barInFirst);
+        first.defineValue(barInFirst);
         final VariableSymbol bazInSecond = new VariableSymbol("baz", Type.NULL);
-        second.define(bazInSecond);
+        second.defineValue(bazInSecond);
 
-        assertThat(second.isDefined("foo"), is(true));
-        assertThat(second.resolve("foo"), is(fooInGlobal));
-        assertThat(second.isDefined("bar"), is(true));
-        assertThat(second.resolve("bar"), is(barInFirst));
-        assertThat(second.isDefined("baz"), is(true));
-        assertThat(second.resolve("baz"), is(bazInSecond));
+        assertThat(second.isValueDefined("foo"), is(true));
+        assertThat(second.resolveValue("foo"), is(fooInGlobal));
+        assertThat(second.isValueDefined("bar"), is(true));
+        assertThat(second.resolveValue("bar"), is(barInFirst));
+        assertThat(second.isValueDefined("baz"), is(true));
+        assertThat(second.resolveValue("baz"), is(bazInSecond));
     }
 
     @Test

@@ -29,16 +29,16 @@ public interface Scope {
         }
 
         @Override
-        public void define(final Symbol sym) {
+        public void defineValue(final Symbol sym) {
         }
 
         @Override
-        public boolean isDefined(final String identifier) {
+        public boolean isValueDefined(final String identifier) {
             return false;
         }
 
         @Override
-        public Symbol resolve(final String name) {
+        public Symbol resolveValue(final String name) {
             return Symbol.NULL;
         }
 
@@ -55,6 +55,21 @@ public interface Scope {
         @Override
         public String toString() {
             return getScopeName();
+        }
+
+        @Override
+        public void defineFunction(final Symbol sym) {
+            // Ignore it.
+        }
+
+        @Override
+        public boolean isFunctionDefined(final String identifier) {
+            return false;
+        }
+
+        @Override
+        public Symbol resolveFunction(final String name) {
+            return Symbol.NULL;
         }
 
     };
@@ -85,7 +100,7 @@ public interface Scope {
      *
      * @param sym must not be {@code null}
      */
-    void define(Symbol sym);
+    void defineValue(Symbol sym);
 
     /**
      * Whether the symbol is defined in this scope or an enclosing one.
@@ -93,7 +108,7 @@ public interface Scope {
      * @param identifier must not be {@code null} or empty
      * @return {@code true} if defined, else {@code false}
      */
-    boolean isDefined(final String identifier);
+    boolean isValueDefined(final String identifier);
 
     /**
      * Look up name in this scope or in enclosing scope if not here.
@@ -101,7 +116,30 @@ public interface Scope {
      * @param name must not be {@code null} or empty
      * @return the found symbol, unless {@link Symbol#NULL}
      */
-    Symbol resolve(String name);
+    Symbol resolveValue(String name);
+
+    /**
+     * Define a symbol in the current scope.
+     *
+     * @param sym must not be {@code null}
+     */
+    void defineFunction(Symbol sym);
+
+    /**
+     * Whether the symbol is defined in this scope or an enclosing one.
+     *
+     * @param identifier must not be {@code null} or empty
+     * @return {@code true} if defined, else {@code false}
+     */
+    boolean isFunctionDefined(final String identifier);
+
+    /**
+     * Look up name in this scope or in enclosing scope if not here.
+     *
+     * @param name must not be {@code null} or empty
+     * @return the found symbol, unless {@link Symbol#NULL}
+     */
+    Symbol resolveFunction(String name);
 
     /**
      * Stores a value for a constant/variable.

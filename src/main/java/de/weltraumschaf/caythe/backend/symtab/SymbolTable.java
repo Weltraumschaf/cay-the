@@ -59,7 +59,7 @@ public final class SymbolTable {
             }
 
             try {
-                table.globals.define((Symbol) field.get(null));
+                table.globals.defineValue((Symbol) field.get(null));
             } catch (final IllegalArgumentException | IllegalAccessException ex) {
                 throw new IllegalStateException(ex.getMessage(), ex);
             }
@@ -72,7 +72,7 @@ public final class SymbolTable {
                 continue;
             }
 
-            table.globals.define(
+            table.globals.defineFunction(
                 new FunctionSymbol(
                     api.getName(),
                     /* no return type */BuildInTypeSymbol.NIL,

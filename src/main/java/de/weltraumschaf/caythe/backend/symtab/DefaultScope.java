@@ -22,9 +22,13 @@ final class DefaultScope implements Scope {
      */
     private final Scope enclosingScope;
     /**
-     * Symbols in this scope.
+     * Symbols of constants and variables in this scope.
      */
-    private final Map<String, Symbol> symbols = new LinkedHashMap<>();
+    private final Map<String, Symbol> values = new LinkedHashMap<>();
+    /**
+     * Symbols of functions in this scope.
+     */
+    private final Map<String, Symbol> functions = new LinkedHashMap<>();
     /**
      * Holds the constants of this scope.
      */
@@ -47,24 +51,24 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public Symbol resolve(final String name) {
+    public Symbol resolveValue(final String name) {
         Validate.notEmpty(name, "name");
 
-        if (symbols.containsKey(name)) {
-            return symbols.get(name);
+        if (values.containsKey(name)) {
+            return values.get(name);
         }
 
         if (hasEnclosing()) {
-            return getEnclosing().resolve(name);
+            return getEnclosing().resolveValue(name);
         }
 
         return Symbol.NULL;
     }
 
     @Override
-    public void define(final Symbol sym) {
+    public void defineValue(final Symbol sym) {
         Validate.notNull(sym, "sym");
-        symbols.put(sym.getName(), sym);
+        values.put(sym.getName(), sym);
 
         if (sym instanceof BaseSymbol) {
             ((BaseSymbol) sym).setScope(this); // Track the scope in each symbol.
@@ -72,8 +76,38 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public boolean isDefined(final String identifier) {
-        return symbols.containsKey(identifier) || (hasEnclosing() && getEnclosing().isDefined(identifier));
+    public boolean isValueDefined(final String identifier) {
+        return values.containsKey(identifier) || (hasEnclosing() && getEnclosing().isValueDefined(identifier));
+    }
+
+    @Override
+    public Symbol resolveFunction(final String name) {
+        Validate.notEmpty(name, "name");
+
+        if (functions.containsKey(name)) {
+            return functions.get(name);
+        }
+
+        if (hasEnclosing()) {
+            return getEnclosing().resolveFunction(name);
+        }
+
+        return Symbol.NULL;
+    }
+
+    @Override
+    public void defineFunction(final Symbol sym) {
+        Validate.notNull(sym, "sym");
+        functions.put(sym.getName(), sym);
+
+        if (sym instanceof BaseSymbol) {
+            ((BaseSymbol) sym).setScope(this); // Track the scope in each symbol.
+        }
+    }
+
+    @Override
+    public boolean isFunctionDefined(final String identifier) {
+        return functions.containsKey(identifier) || (hasEnclosing() && getEnclosing().isFunctionDefined(identifier));
     }
 
     @Override
@@ -96,7 +130,7 @@ final class DefaultScope implements Scope {
         Validate.notNull(symbol, "symbol");
         Validate.notNull(value, "value");
 
-        if (!isDefined(symbol.getName())) {
+        if (!isValueDefined(symbol.getName())) {
             throw new IllegalStateException(
                 String.format(
                     "Trying to store value %s to undefiend %s!",
@@ -138,12 +172,12 @@ final class DefaultScope implements Scope {
 
     @Override
     public String toString() {
-        return String.format("{%s:%s}", getScopeName(), symbols.keySet());
+        return String.format("{%s:%s}", getScopeName(), values.keySet());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scopeName, enclosingScope, symbols, constants, variables);
+        return Objects.hash(scopeName, enclosingScope, values, constants, variables);
     }
 
     @Override
@@ -155,7 +189,7 @@ final class DefaultScope implements Scope {
         final DefaultScope other = (DefaultScope) obj;
         return Objects.equals(scopeName, other.scopeName)
             && Objects.equals(enclosingScope, other.enclosingScope)
-            && Objects.equals(symbols, other.symbols)
+            && Objects.equals(values, other.values)
             && Objects.equals(constants, other.constants)
             && Objects.equals(variables, other.variables);
     }
