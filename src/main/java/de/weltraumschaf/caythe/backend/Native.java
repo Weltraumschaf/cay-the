@@ -15,4 +15,17 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface Native {
 
+    /**
+     * Lists the return types.
+     *
+     * @return empty means void
+     */
+    String[] returnType() default {};
+    /**
+     * Lists the formal argument types.
+     *
+     * @return empty means void
+     */
+    String[] argumentType() default {};
+
 }
