@@ -4,8 +4,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>20</y>
+      <x>10</x>
+      <y>30</y>
       <w>150</w>
       <h>70</h>
     </coordinates>
@@ -19,8 +19,8 @@ getName():String</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>200</x>
-      <y>20</y>
+      <x>170</x>
+      <y>30</y>
       <w>150</w>
       <h>80</h>
     </coordinates>
@@ -35,10 +35,10 @@ getScope():Scope</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>490</x>
-      <y>20</y>
-      <w>200</w>
-      <h>120</h>
+      <x>500</x>
+      <y>90</y>
+      <w>230</w>
+      <h>190</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 Scope
@@ -46,40 +46,48 @@ Scope
 --
 getScopeName():String
 getEnclosingScope():Scope
-define(Symbol)
-resolve(String):Symbol</panel_attributes>
+defineValue(Symbol)
+isValueDefined(String
+resolveValue(String):Symbol
+defineFunction(Symbol)
+isFunctionDefined(String
+resolveFunction(String):Symbol</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>550</x>
-      <y>210</y>
-      <w>230</w>
-      <h>60</h>
+      <x>680</x>
+      <y>340</y>
+      <w>240</w>
+      <h>130</h>
     </coordinates>
-    <panel_attributes>/BaseScope/
+    <panel_attributes>DefaultScope
 --
+-scopeName
 -enclosingScope:Scope
--symbols:Map&lt;String, Symbol&gt;</panel_attributes>
+-values:Map&lt;String, Symbol&gt;
+-functions:Map&lt;String, Symbol&gt;
+-constants:Map&lt;Symbol, Value&gt;
+-variables:Map&lt;Symbol, Value&gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>560</x>
-      <y>110</y>
-      <w>130</w>
-      <h>120</h>
+      <x>580</x>
+      <y>250</y>
+      <w>240</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>30;30;110;100</additional_attributes>
+    <additional_attributes>30;30;220;90</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>200</x>
-      <y>190</y>
+      <x>170</x>
+      <y>200</y>
       <w>150</w>
       <h>80</h>
     </coordinates>
@@ -93,19 +101,26 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>330</y>
+      <x>10</x>
+      <y>340</y>
       <w>150</w>
-      <h>40</h>
+      <h>130</h>
     </coordinates>
-    <panel_attributes>BuildInTypeSymbol</panel_attributes>
+    <panel_attributes>BuildInTypeSymbol
+--
+_NIL:Type_
+_BOOL:Type_
+_INT:Type_
+_FLOAT:Type_
+_STRING:Type_
+_FUNCTION:Type_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>240</x>
-      <y>70</y>
+      <x>210</x>
+      <y>80</y>
       <w>50</w>
       <h>140</h>
     </coordinates>
@@ -115,8 +130,8 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>90</x>
-      <y>60</y>
+      <x>60</x>
+      <y>70</y>
       <w>50</w>
       <h>290</h>
     </coordinates>
@@ -126,8 +141,8 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>90</x>
-      <y>240</y>
+      <x>60</x>
+      <y>250</y>
       <w>200</w>
       <h>110</h>
     </coordinates>
@@ -137,63 +152,26 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>520</x>
-      <y>330</y>
-      <w>150</w>
-      <h>40</h>
+      <x>330</x>
+      <y>340</y>
+      <w>230</w>
+      <h>130</h>
     </coordinates>
-    <panel_attributes>GlobalScope</panel_attributes>
+    <panel_attributes>FunctionSymbol
+--
+-values:Scope
+-functions:Scope
+-returnTypes:List&lt;Type&gt;
+-argumentTypes:List&lt;Symbol&gt;
+-body:BlockContext
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>560</x>
-      <y>240</y>
-      <w>130</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>110;30;30;90</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>680</x>
-      <y>330</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>LocalScope</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>640</x>
-      <y>240</y>
-      <w>130</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;110;90</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>360</x>
-      <y>330</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>MethodSymbol</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>240</x>
-      <y>240</y>
+      <x>210</x>
+      <y>250</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
@@ -203,19 +181,19 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>410</x>
-      <y>110</y>
-      <w>200</w>
-      <h>240</h>
+      <x>380</x>
+      <y>250</y>
+      <w>250</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>180;30;30;220</additional_attributes>
+    <additional_attributes>230;30;30;90</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>200</x>
-      <y>330</y>
+      <x>170</x>
+      <y>340</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -225,8 +203,8 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>240</x>
-      <y>240</y>
+      <x>210</x>
+      <y>250</y>
       <w>50</w>
       <h>110</h>
     </coordinates>
@@ -236,32 +214,34 @@ resolve(String):Symbol</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>660</x>
-      <y>40</y>
-      <w>190</w>
-      <h>220</h>
+      <x>700</x>
+      <y>90</y>
+      <w>226</w>
+      <h>270</h>
     </coordinates>
     <panel_attributes>lt=-
-m2=0..1</panel_attributes>
-    <additional_attributes>120;200;170;200;170;30;30;30</additional_attributes>
+m2=0..1
+enclosing scope</panel_attributes>
+    <additional_attributes>150;250;150;50;30;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>320</x>
-      <y>40</y>
-      <w>250</w>
-      <h>220</h>
+      <x>290</x>
+      <y>0</y>
+      <w>682</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>lt=-
-m2=0..n</panel_attributes>
-    <additional_attributes>230;200;120;200;120;30;30;30</additional_attributes>
+m2=0..n
+values/functions</panel_attributes>
+    <additional_attributes>600;340;600;50;30;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>130</x>
-      <y>60</y>
+      <x>100</x>
+      <y>70</y>
       <w>90</w>
       <h>210</h>
     </coordinates>
@@ -272,12 +252,48 @@ m2=0..1</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>320</x>
-      <y>110</y>
-      <w>220</w>
-      <h>160</h>
+      <x>290</x>
+      <y>230</y>
+      <w>230</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>30;140;200;140;200;30</additional_attributes>
+    <additional_attributes>30;30;210;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>530</x>
+      <y>350</y>
+      <w>170</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+delegates&gt;</panel_attributes>
+    <additional_attributes>150;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>370</x>
+      <y>520</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>SymbolTable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>490</x>
+      <y>440</y>
+      <w>330</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m2=1
+r1=globals</panel_attributes>
+    <additional_attributes>30;100;310;100;310;30</additional_attributes>
   </element>
 </diagram>
