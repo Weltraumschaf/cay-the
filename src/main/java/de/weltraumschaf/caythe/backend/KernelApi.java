@@ -32,7 +32,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
-    @Native(argumentType="String")
+    @Native(argumentTypes="String")
     public void print(final String output) {
         env.stdOut(output);
     }
@@ -42,7 +42,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
-    @Native(argumentType="String")
+    @Native(argumentTypes="String")
     public void println(final String output) {
         print(output + CayThe.DEFAULT_NEWLINE);
     }
@@ -52,7 +52,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
-    @Native(argumentType="String")
+    @Native(argumentTypes="String")
     public void error(final String output) {
         env.stdErr(output);
     }
@@ -62,7 +62,7 @@ public final class KernelApi {
      *
      * @param output any string
      */
-    @Native(argumentType="String")
+    @Native(argumentTypes="String")
     public void errorln(final String output) {
         error(output + CayThe.DEFAULT_NEWLINE);
     }
@@ -76,7 +76,7 @@ public final class KernelApi {
      *
      * @param code 0 for OK, anything else for errors
      */
-    @Native(argumentType="Int")
+    @Native(argumentTypes="Int")
     public void exit(final int code) {
         throw new ExitException(code);
     }

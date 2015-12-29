@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
 
 /**
  * Indicates methods which implements a native functionality.
@@ -20,12 +21,12 @@ public @interface Native {
      *
      * @return empty means void
      */
-    String[] returnType() default {};
+    String[] returnTypes() default {};
     /**
      * Lists the formal argument types.
      *
      * @return empty means void
      */
-    String[] argumentType() default {};
+    String[] argumentTypes() default {};
 
 }

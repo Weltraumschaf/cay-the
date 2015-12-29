@@ -22,7 +22,7 @@ abstract class BaseSymbol implements Symbol {
     /**
      * All symbols know what scope contains them.
      */
-    private Scope scope = Scope.NULL;
+    private transient Scope scope = Scope.NULL;
 
     /**
      * Dedicated constructor.

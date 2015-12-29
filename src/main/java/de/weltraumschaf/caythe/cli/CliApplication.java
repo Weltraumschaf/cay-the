@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.interpreter.Interpreter;
 import de.weltraumschaf.caythe.backend.env.DefaultEnvironmnet;
+import de.weltraumschaf.caythe.backend.symtab.SymbolTable;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
@@ -11,7 +12,6 @@ import de.weltraumschaf.caythe.log.Logging;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import java.io.IOException;
-import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 /**
@@ -78,7 +78,10 @@ public final class CliApplication extends InvokableAdapter {
 
         if (options.isInterpret()) {
             if (isDebugEnabled()) {
-                visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()), Logging.newSysOut());
+                visitor = new Interpreter(
+                    new DefaultEnvironmnet(getIoStreams()),
+                    SymbolTable.newTable(),
+                    Logging.newSysOut());
             } else {
                 visitor = new Interpreter(new DefaultEnvironmnet(getIoStreams()));
             }

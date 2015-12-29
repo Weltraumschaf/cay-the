@@ -25,18 +25,23 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class Interpreter extends CayTheBaseVisitor<Value> {
 
-    private final SymbolTable table = SymbolTable.newTable();
+    private final SymbolTable table;
     private final KernelApi kernel;
-    private Deque<Scope> scopeStack = new LinkedList<>();
+    private final Deque<Scope> scopeStack = new LinkedList<>();
     private final Logger logging;
 
     public Interpreter(final Environment env) {
-        this(env, Logging.newBuffered());
+        this(env, SymbolTable.newTable());
     }
 
-    public Interpreter(final Environment env, final Logger logging) {
+    public Interpreter(final Environment env, final SymbolTable table) {
+        this(env, table, Logging.newBuffered());
+    }
+
+    public Interpreter(final Environment env, final SymbolTable table, final Logger logging) {
         super();
         this.kernel = new KernelApi(env);
+        this.table = SymbolTable.newTable();
         this.logging = Validate.notNull(logging, "logging");
         this.scopeStack.push(table.getGlobals());
     }
@@ -163,14 +168,73 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         return value;
     }
 
+    private final Deque<List<Symbol>> functionArgumentStack = new LinkedList<>();
+
+    @Override
+    public Value visitFunctionDeclaration(final FunctionDeclarationContext ctx) {
+        final String functionName = ctx.id.getText();
+
+        if (scopeStack.peek().isFunctionDefined(functionName)) {
+            throw error(ctx.id, "Function '%s' is already declared!", functionName);
+        }
+
+        final List<Type> returnTypes = new ArrayList<>();
+
+        for (final Token t : ctx.returnTypes) {
+            final Symbol type = scopeStack.peek().resolveValue(t.getText());
+
+            if (type instanceof Type) {
+                returnTypes.add((Type) type);
+            } else {
+                throw error(t, "Not a type '%s'! Return type must be a type.", type.getName());
+            }
+        }
+
+        functionArgumentStack.push(new ArrayList<>());
+
+        ctx.args.stream().forEach((argument) -> {
+            visit(argument);
+        });
+
+        final FunctionSymbol function = new FunctionSymbol(
+            functionName,
+            returnTypes,
+            functionArgumentStack.pop(),
+            scopeStack.peek());
+        function.body(ctx.body);
+        scopeStack.peek().defineFunction(function);
+        return defaultResult();
+    }
+
+    @Override
+    public Value visitFormalArgument(final FormalArgumentContext ctx) {
+        final String typeName = ctx.type.getText();
+
+        if (!scopeStack.peek().isValueDefined(typeName)) {
+            throw error(ctx.type, "Undefined type '%s'!", typeName);
+        }
+
+        final Symbol type = scopeStack.peek().resolveValue(typeName);
+
+        if (!(type instanceof Type)) {
+            throw error(ctx.type, "Expectibg  type but '%s' is not a type!", typeName);
+        }
+
+        functionArgumentStack.peek().add(
+            new ConstantSymbol(ctx.id.getText(), (Type) type)
+        );
+
+        return defaultResult();
+    }
+
     @Override
     public Value visitFunctionCall(final FunctionCallContext ctx) {
         final String functionName = ctx.id.getText();
         final List<Value> functionArgs = new ArrayList<>();
 
-        for (final OrExpressionContext args : ctx.args) {
+        ctx.args.stream().forEach((args) -> {
             functionArgs.add(visit(args));
-        }
+        });
 
         log("Calling function %s(%s)", functionName, functionArgs);
 

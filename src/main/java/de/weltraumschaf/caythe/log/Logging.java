@@ -49,4 +49,13 @@ public final class Logging {
     public static Logger newBuffered() {
         return new BufferedLogger();
     }
+
+    /**
+     * A logger which ignores everything.
+     *
+     * @return never {@code null}, always same instance
+     */
+    public static Logger newNull() {
+        return Logger.NULL;
+    }
 }

@@ -1,12 +1,17 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import de.weltraumschaf.caythe.frontend.CayTheParser;
+import de.weltraumschaf.commons.validate.Validate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This describes methods and functions.
  * <p>
- Functions are symbols with an own local values. They also always have a {@link #getEnclosing() parent values}.
+ * Functions are symbols with an own local values. They also always have a {@link #getEnclosing() parent values}.
  * </p>
  *
  * @since 1.0.0
@@ -14,30 +19,44 @@ import java.util.Map;
  */
 public final class FunctionSymbol extends BaseSymbol implements Scope {
 
-    /**
-     * Arguments of the method and the local variables.
-     */
-    private final Map<String, Symbol> orderedArgs = new LinkedHashMap<>();
+    public static final List<Type> VOID = Collections.emptyList();
+    public static final List<Symbol> NOARGS = Collections.emptyList();
     /**
      * Delegate for the local values of a method.
      */
-    private final Scope values;
+    private final transient Scope values;
     /**
      * Delegate for the local functions of a method.
      */
-    private final Scope functions;
+    private final transient Scope functions;
+    /**
+     * Unmodifiable.
+     */
+    private final List<Type> returnTypes;
+    /**
+     * Unmodifiable.
+     */
+    private final List<Symbol> argumentTypes;
+    private transient CayTheParser.BlockContext body;
 
     /**
      * Dedicated constructor.
      *
      * @param name must not be {@code null} or empty
-     * @param returnType must not be {@code null}
+     * @param returnTypes must not be {@code null}
+     * @param argumentTypes must not be {@code null}
      * @param enclosingScope must not be {@code null}
      */
-    public FunctionSymbol(final String name, final Type returnType, final Scope enclosingScope) {
-        super(name, returnType);
+    public FunctionSymbol(final String name, final List<Type> returnTypes, final List<Symbol> argumentTypes, final Scope enclosingScope) {
+        super(name, BuildInTypeSymbol.FUNCTION);
         this.values = Scope.newLocal(enclosingScope);
         this.functions = Scope.newLocal(enclosingScope);
+        this.returnTypes = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(returnTypes, "returnTypes")));
+        this.argumentTypes = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(argumentTypes, "argumentTypes")));
+    }
+
+    public void body(final CayTheParser.BlockContext body) {
+        this.body = body;
     }
 
     @Override
@@ -95,9 +114,30 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
         return getName();
     }
 
+    public Collection<Value> evaluate(final Collection<Value> arguments) {
+        return Collections.emptyList();
+    }
+
     @Override
     public String toString() {
-        return "method" + super.toString() + ":" + orderedArgs.values();
+        return String.format("func %s %s(%s)", returnTypes, getName(), argumentTypes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), returnTypes, argumentTypes);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof FunctionSymbol)) {
+            return false;
+        }
+
+        final FunctionSymbol other = (FunctionSymbol) obj;
+        return super.equals(other)
+            && Objects.equals(returnTypes, other.returnTypes)
+            && Objects.equals(argumentTypes, other.argumentTypes);
     }
 
 }

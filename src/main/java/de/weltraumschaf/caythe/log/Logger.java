@@ -9,6 +9,11 @@ package de.weltraumschaf.caythe.log;
 public interface Logger {
 
     /**
+     * Null object implementation.
+     */
+    Logger NULL = (final String msg, Object... args) -> {};
+
+    /**
      * Logs given message interpreted as format string.
      *
      * @param msg must not be {@code null} or empty
