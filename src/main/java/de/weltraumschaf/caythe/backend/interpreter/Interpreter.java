@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.backend.interpreter;
 
-import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.env.Environment;
 import de.weltraumschaf.caythe.backend.SyntaxError;
 import de.weltraumschaf.caythe.backend.symtab.*;
@@ -11,6 +10,7 @@ import de.weltraumschaf.caythe.log.Logger;
 import de.weltraumschaf.caythe.log.Logging;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,9 +25,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class Interpreter extends CayTheBaseVisitor<Value> {
 
+    private final Deque<List<ConstantSymbol>> functionArgumentStack = new LinkedList<>();
+    private final BuildInApiDispatcher nativeApi;
     private final SymbolTable table;
-    private final KernelApi kernel;
-    private final Deque<Scope> scopeStack = new LinkedList<>();
     private final Logger logging;
 
     public Interpreter(final Environment env) {
@@ -40,10 +40,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     public Interpreter(final Environment env, final SymbolTable table, final Logger logging) {
         super();
-        this.kernel = new KernelApi(env);
-        this.table = SymbolTable.newTable();
+        this.table = Validate.notNull(table, "table");
         this.logging = Validate.notNull(logging, "logging");
-        this.scopeStack.push(table.getGlobals());
+        this.nativeApi = new BuildInApiDispatcher(env);
     }
 
     @Override
@@ -77,9 +76,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
     @Override
     public Value visitBlock(final BlockContext ctx) {
-        scopeStack.push(Scope.newLocal(scopeStack.peek()));
+        table.pushNewScope();
         final Value value = super.visit(ctx.blockStatements);
-        scopeStack.pop();
+        table.popScope();
         return value;
     }
 
@@ -88,17 +87,17 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         log("Visit constant decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
-        if (scopeStack.peek().isValueDefined(identifier)) {
+        if (table.currentScope().isValueDefined(identifier)) {
             throw error(ctx.id, "Constant '%s' already declared", identifier);
         }
 
         final String typeIdentifier = ctx.type.getText();
 
-        if (!scopeStack.peek().isValueDefined(typeIdentifier)) {
+        if (!table.currentScope().isValueDefined(typeIdentifier)) {
             throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
         }
 
-        final Symbol type = scopeStack.peek().resolveValue(typeIdentifier);
+        final Symbol type = table.currentScope().resolveValue(typeIdentifier);
         final Value value = visit(ctx.value);
 
         if (!value.isOfType((Type) type)) {
@@ -107,8 +106,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         final ConstantSymbol symbol = new ConstantSymbol(identifier, value.getType());
         log("Declare constant: %s = %s", symbol, value);
-        scopeStack.peek().defineValue(symbol);
-        scopeStack.peek().store(symbol, value);
+        table.currentScope().defineValue(symbol);
+        table.currentScope().store(symbol, value);
         return value;
     }
 
@@ -117,17 +116,17 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         log("Visit var decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
-        if (scopeStack.peek().isValueDefined(identifier)) {
+        if (table.currentScope().isValueDefined(identifier)) {
             throw error(ctx.id, "Variable '%s' already declared", identifier);
         }
 
         final String typeIdentifier = ctx.type.getText();
 
-        if (!scopeStack.peek().isValueDefined(typeIdentifier)) {
+        if (!table.currentScope().isValueDefined(typeIdentifier)) {
             throw error(ctx.type, "Unknown type '%s'", typeIdentifier);
         }
 
-        final Symbol type = scopeStack.peek().resolveValue(typeIdentifier);
+        final Symbol type = table.currentScope().resolveValue(typeIdentifier);
         final Value value;
 
         if (null == ctx.value) {
@@ -142,8 +141,8 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
 
         final VariableSymbol symbol = new VariableSymbol(identifier, value.getType());
         log("Declare variable: %s = %s", symbol, value);
-        scopeStack.peek().defineValue(symbol);
-        scopeStack.peek().store(symbol, value);
+        table.currentScope().defineValue(symbol);
+        table.currentScope().store(symbol, value);
         return value;
     }
 
@@ -151,11 +150,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitAssignment(final AssignmentContext ctx) {
         final String identifier = ctx.id.getText();
 
-        if (!scopeStack.peek().isValueDefined(identifier)) {
+        if (!table.currentScope().isValueDefined(identifier)) {
             throw error(ctx.id, "Unknown variable '%s'", ctx.id.getText());
         }
 
-        final Symbol symbol = scopeStack.peek().resolveValue(identifier);
+        final Symbol symbol = table.currentScope().resolveValue(identifier);
         final Value value = visit(ctx.value);
 
         try {
@@ -168,20 +167,18 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         return value;
     }
 
-    private final Deque<List<Symbol>> functionArgumentStack = new LinkedList<>();
-
     @Override
     public Value visitFunctionDeclaration(final FunctionDeclarationContext ctx) {
         final String functionName = ctx.id.getText();
 
-        if (scopeStack.peek().isFunctionDefined(functionName)) {
+        if (table.currentScope().isFunctionDefined(functionName)) {
             throw error(ctx.id, "Function '%s' is already declared!", functionName);
         }
 
         final List<Type> returnTypes = new ArrayList<>();
 
         for (final Token t : ctx.returnTypes) {
-            final Symbol type = scopeStack.peek().resolveValue(t.getText());
+            final Symbol type = table.currentScope().resolveValue(t.getText());
 
             if (type instanceof Type) {
                 returnTypes.add((Type) type);
@@ -200,9 +197,9 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
             functionName,
             returnTypes,
             functionArgumentStack.pop(),
-            scopeStack.peek());
+            table.currentScope());
         function.body(ctx.body);
-        scopeStack.peek().defineFunction(function);
+        table.currentScope().defineFunction(function);
         return defaultResult();
     }
 
@@ -210,11 +207,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitFormalArgument(final FormalArgumentContext ctx) {
         final String typeName = ctx.type.getText();
 
-        if (!scopeStack.peek().isValueDefined(typeName)) {
+        if (!table.currentScope().isValueDefined(typeName)) {
             throw error(ctx.type, "Undefined type '%s'!", typeName);
         }
 
-        final Symbol type = scopeStack.peek().resolveValue(typeName);
+        final Symbol type = table.currentScope().resolveValue(typeName);
 
         if (!(type instanceof Type)) {
             throw error(ctx.type, "Expectibg  type but '%s' is not a type!", typeName);
@@ -231,37 +228,25 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitFunctionCall(final FunctionCallContext ctx) {
         final String functionName = ctx.id.getText();
         final List<Value> functionArgs = new ArrayList<>();
-
         ctx.args.stream().forEach((args) -> {
             functionArgs.add(visit(args));
         });
 
         log("Calling function %s(%s)", functionName, functionArgs);
+        final Collection<Value> result;
 
-        if (functionArgs.size() == 1) {
-            final Value value = functionArgs.get(0);
-
-            if (null != functionName) {
-                switch (functionName) {
-                    case "print":
-                        kernel.print(value.asString());
-                        break;
-                    case "println":
-                        kernel.println(value.asString());
-                        break;
-                    case "error":
-                        kernel.error(value.asString());
-                        break;
-                    case "errorln":
-                        kernel.errorln(value.asString());
-                        break;
-                    case "exit":
-                        kernel.exit(value.asInt());
-                        break;
-                }
-            }
+        if (table.isBuildInFunction(functionName)) {
+            log("Native function call.");
+            final FunctionSymbol function = table.globalScope().resolveFunction(functionName);
+            result = nativeApi.invoke(function, functionArgs);
+        } else {
+            final FunctionSymbol function = table.currentScope().resolveFunction(functionName);
+            table.pushScope(function);
+            result = function.evaluate(this, functionArgs);
+            table.popScope();
         }
 
+//        return result; // TODO implement return.
         return defaultResult();
     }
 
@@ -439,11 +424,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     public Value visitVariableOrConstantDereference(final VariableOrConstantDereferenceContext ctx) {
         final String identifier = ctx.id.getText();
 
-        if (!scopeStack.peek().isValueDefined(identifier)) {
+        if (!table.currentScope().isValueDefined(identifier)) {
             throw error(ctx.id, "Access of undeclared variable/constant '%s'", ctx.id.getText());
         }
 
-        return scopeStack.peek().resolveValue(identifier).load();
+        return table.currentScope().resolveValue(identifier).load();
     }
 
     @Override
@@ -469,7 +454,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     private void log(final String msg, final Object... args) {
-        logging.log(String.format("[%d] %s", scopeStack.size(), msg), args);
+        logging.log(String.format("[%d] %s", table.scopeDepth(), msg), args);
     }
 
     private boolean notNull(final Object input) {

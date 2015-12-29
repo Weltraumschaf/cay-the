@@ -1,9 +1,9 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
+import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +20,13 @@ import java.util.Objects;
 public final class FunctionSymbol extends BaseSymbol implements Scope {
 
     public static final List<Type> VOID = Collections.emptyList();
-    public static final List<Symbol> NOARGS = Collections.emptyList();
+    public static final List<ConstantSymbol> NOARGS = Collections.emptyList();
+    public static final FunctionSymbol NULL = new FunctionSymbol("_", VOID, NOARGS, Scope.NULL);
+
     /**
      * Delegate for the local values of a method.
      */
-    private final transient Scope values;
+    private transient Scope values;
     /**
      * Delegate for the local functions of a method.
      */
@@ -36,7 +38,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     /**
      * Unmodifiable.
      */
-    private final List<Symbol> argumentTypes;
+    private final List<ConstantSymbol> argumentSymbols;
     private transient CayTheParser.BlockContext body;
 
     /**
@@ -47,16 +49,24 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
      * @param argumentTypes must not be {@code null}
      * @param enclosingScope must not be {@code null}
      */
-    public FunctionSymbol(final String name, final List<Type> returnTypes, final List<Symbol> argumentTypes, final Scope enclosingScope) {
+    public FunctionSymbol(final String name, final List<Type> returnTypes, final List<ConstantSymbol> argumentTypes, final Scope enclosingScope) {
         super(name, BuildInTypeSymbol.FUNCTION);
         this.values = Scope.newLocal(enclosingScope);
         this.functions = Scope.newLocal(enclosingScope);
         this.returnTypes = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(returnTypes, "returnTypes")));
-        this.argumentTypes = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(argumentTypes, "argumentTypes")));
+        this.argumentSymbols = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(argumentTypes, "argumentTypes")));
     }
 
     public void body(final CayTheParser.BlockContext body) {
         this.body = body;
+    }
+
+    public List<Type> getReturnTypes() {
+        return returnTypes;
+    }
+
+    public List<ConstantSymbol> getArgumentTypes() {
+        return argumentSymbols;
     }
 
     @Override
@@ -75,7 +85,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public void defineFunction(final Symbol sym) {
+    public void defineFunction(final FunctionSymbol sym) {
         functions.defineFunction(sym);
     }
 
@@ -85,7 +95,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
-    public Symbol resolveFunction(final String name) {
+    public FunctionSymbol resolveFunction(final String name) {
         return functions.resolveFunction(name);
     }
 
@@ -110,22 +120,49 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     }
 
     @Override
+    public void wipe() {
+        values.wipe();
+    }
+
+    @Override
     public String getScopeName() {
         return getName();
     }
 
-    public Collection<Value> evaluate(final Collection<Value> arguments) {
-        return Collections.emptyList();
+    public List<Value> evaluate(final CayTheBaseVisitor<Value> evaluator, final List<Value> arguments) {
+        if (argumentSymbols.size() != arguments.size()) {
+            throw new IllegalStateException(String.format("Function argument count missmatch! Expected are %d arguemnts, but given were %d.",
+                argumentSymbols.size(), arguments.size()));
+        }
+
+        wipe();
+
+        for (int i = 0; i < arguments.size(); ++i) {
+            final Value argument = arguments.get(i);
+            final ConstantSymbol argumentSymbol = argumentSymbols.get(i);
+
+            if (argument.isOfType(argumentSymbol.getType())) {
+                defineValue(argumentSymbol);
+                store(argumentSymbol, argument);
+            } else {
+                throw new IllegalStateException(String.format("Function argument type missatch on %d argument! Expected type is %s, but given was %s.",
+                    i, argument.getType(), argumentSymbol.getType()));
+            }
+        }
+
+        final List<Value> result = new ArrayList<>();
+        result.add(evaluator.visit(body));
+        return Collections.unmodifiableList(result);
     }
 
     @Override
     public String toString() {
-        return String.format("func %s %s(%s)", returnTypes, getName(), argumentTypes);
+        return String.format("func %s %s(%s)", returnTypes, getName(), argumentSymbols);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), returnTypes, argumentTypes);
+        return Objects.hash(super.hashCode(), returnTypes, argumentSymbols);
     }
 
     @Override
@@ -137,7 +174,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
         final FunctionSymbol other = (FunctionSymbol) obj;
         return super.equals(other)
             && Objects.equals(returnTypes, other.returnTypes)
-            && Objects.equals(argumentTypes, other.argumentTypes);
+            && Objects.equals(argumentSymbols, other.argumentSymbols);
     }
 
 }

@@ -2,10 +2,11 @@ package de.weltraumschaf.caythe.backend.symtab;
 
 import de.weltraumschaf.caythe.backend.KernelApi;
 import de.weltraumschaf.caythe.backend.Native;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public final class SymbolTable {
      * Cached for fast verification lookup.
      */
     private final Collection<String> buildInFunctionNames = new ArrayList<>();
+    private final Deque<Scope> scopeStack = new LinkedList<>();
 
     /**
      * Dedicated constructor.
@@ -37,6 +39,7 @@ public final class SymbolTable {
      */
     SymbolTable() {
         super();
+        scopeStack.push(globals);
     }
 
     /**
@@ -44,8 +47,27 @@ public final class SymbolTable {
      *
      * @return never {@code null}, always same instance
      */
-    public Scope getGlobals() {
+    public Scope globalScope() {
         return globals;
+    }
+
+    public Scope currentScope() {
+        return scopeStack.peek();
+    }
+
+    public void pushNewScope() {
+        pushScope(Scope.newLocal(scopeStack.peek()));
+    }
+    public void pushScope(final Scope newScope) {
+        scopeStack.push(newScope);
+    }
+
+    public void popScope() {
+        scopeStack.pop();
+    }
+
+    public int scopeDepth() {
+        return scopeStack.size();
     }
 
     @Override
@@ -58,13 +80,12 @@ public final class SymbolTable {
         buildInTypeNames.add(type.getName());
     }
 
-    private void defineBuildInFunction(final String name, final List<Type> returnTypes, final List<Symbol> argumentTypes) {
-        globals.defineFunction(
-            new FunctionSymbol(
+    private void defineBuildInFunction(final String name, final List<Type> returnTypes, final List<ConstantSymbol> argumentTypes) {
+        globals.defineFunction(new FunctionSymbol(
                 name,
                 returnTypes,
                 argumentTypes,
-                getGlobals()));
+                globalScope()));
         buildInFunctionNames.add(name);
     }
 
@@ -87,17 +108,9 @@ public final class SymbolTable {
     }
 
     private static void initBuildInTypes(final SymbolTable table) {
-        for (final Field field : BuildInTypeSymbol.class.getDeclaredFields()) {
-            if (null == field.getAnnotation(BuildInTypeSymbol.BuildInType.class)) {
-                continue;
-            }
-
-            try {
-                table.defineBuildInType((Symbol) field.get(null));
-            } catch (final IllegalArgumentException | IllegalAccessException ex) {
-                throw new IllegalStateException(ex.getMessage(), ex);
-            }
-        }
+        BuildInTypeSymbol.values().stream().forEach((buildInType) -> {
+            table.defineBuildInType(buildInType);
+        });
     }
 
     private static void initNativeApis(final SymbolTable table) {
@@ -116,8 +129,8 @@ public final class SymbolTable {
                 returnTypes = new ArrayList<>();
 
                 for (final String type : annotation.returnTypes()) {
-                    if (table.getGlobals().isValueDefined(type)) {
-                        returnTypes.add((Type) table.getGlobals().resolveValue(type));
+                    if (table.globalScope().isValueDefined(type)) {
+                        returnTypes.add((Type) table.globalScope().resolveValue(type));
                     } else {
                         throw new IllegalStateException(
                             String.format(
@@ -127,15 +140,15 @@ public final class SymbolTable {
                 }
             }
 
-            final List<Symbol> formalArguements;
+            final List<ConstantSymbol> formalArguements;
             if (annotation.argumentTypes().length == 0) {
                 formalArguements = FunctionSymbol.NOARGS;
             } else {
                 final Collection<Type> types = new ArrayList<>();
 
                 for (final String type : annotation.argumentTypes()) {
-                    if (table.getGlobals().isValueDefined(type)) {
-                        types.add((Type) table.getGlobals().resolveValue(type));
+                    if (table.globalScope().isValueDefined(type)) {
+                        types.add((Type) table.globalScope().resolveValue(type));
                     } else {
                         throw new IllegalStateException(
                             String.format(
@@ -162,8 +175,8 @@ public final class SymbolTable {
         return table;
     }
 
-    static List<Symbol> arguments(final Type... types) {
-        final List<Symbol> args = new ArrayList<>();
+    static List<ConstantSymbol> arguments(final Type... types) {
+        final List<ConstantSymbol> args = new ArrayList<>();
 
         if (null != types) {
             for (final Type type : types) {

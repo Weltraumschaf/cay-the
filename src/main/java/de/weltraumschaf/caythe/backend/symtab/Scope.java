@@ -58,7 +58,7 @@ public interface Scope {
         }
 
         @Override
-        public void defineFunction(final Symbol sym) {
+        public void defineFunction(final FunctionSymbol sym) {
             // Ignore it.
         }
 
@@ -68,8 +68,13 @@ public interface Scope {
         }
 
         @Override
-        public Symbol resolveFunction(final String name) {
-            return Symbol.NULL;
+        public FunctionSymbol resolveFunction(final String name) {
+            return new FunctionSymbol("", FunctionSymbol.VOID, FunctionSymbol.NOARGS, NULL);
+        }
+
+        @Override
+        public void wipe() {
+            // Ignore it.
         }
 
     };
@@ -123,7 +128,7 @@ public interface Scope {
      *
      * @param sym must not be {@code null}
      */
-    void defineFunction(Symbol sym);
+    void defineFunction(FunctionSymbol sym);
 
     /**
      * Whether the symbol is defined in this scope or an enclosing one.
@@ -139,7 +144,7 @@ public interface Scope {
      * @param name must not be {@code null} or empty
      * @return the found symbol, unless {@link Symbol#NULL}
      */
-    Symbol resolveFunction(String name);
+    FunctionSymbol resolveFunction(String name);
 
     /**
      * Stores a value for a constant/variable.
@@ -159,6 +164,8 @@ public interface Scope {
      * @return never {@code null}, {@link Value.NIL} if not exist
      */
     Value load(Symbol symbol);
+
+    void wipe();
 
     /**
      * Create new global scope.

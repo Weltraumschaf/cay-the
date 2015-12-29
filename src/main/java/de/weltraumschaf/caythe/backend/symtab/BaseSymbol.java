@@ -46,6 +46,10 @@ abstract class BaseSymbol implements Symbol {
         return scope;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     /**
      * Set the scope of the symbol.
      *

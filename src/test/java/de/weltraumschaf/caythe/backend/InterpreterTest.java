@@ -68,32 +68,37 @@ public class InterpreterTest {
     @Test
     public void functionDecls() throws IOException, URISyntaxException {
         sut.visit(createParseTree("functionDecls.ct"));
-        final Scope globals = table.getGlobals();
+        final Scope globals = table.globalScope();
 
+        assertThat(globals.isFunctionDefined("one"), is(true));
         assertThat(globals.resolveFunction("one"),
             is(new FunctionSymbol(
                     "one",
                     FunctionSymbol.VOID,
                     FunctionSymbol.NOARGS,
                     globals)));
+        assertThat(globals.isFunctionDefined("two"), is(true));
         assertThat(globals.resolveFunction("two"),
             is(new FunctionSymbol(
                     "two",
                     Arrays.asList(BuildInTypeSymbol.INT),
                     FunctionSymbol.NOARGS,
                     globals)));
+        assertThat(globals.isFunctionDefined("three"), is(true));
         assertThat(globals.resolveFunction("three"),
             is(new FunctionSymbol(
                     "three",
                     Arrays.asList(BuildInTypeSymbol.INT, BuildInTypeSymbol.FLOAT),
                     FunctionSymbol.NOARGS,
                     globals)));
+        assertThat(globals.isFunctionDefined("four"), is(true));
         assertThat(globals.resolveFunction("four"),
             is(new FunctionSymbol(
                     "four",
                     FunctionSymbol.VOID,
                     Arrays.asList(new ConstantSymbol("a", BuildInTypeSymbol.INT)),
                     globals)));
+        assertThat(globals.isFunctionDefined("five"), is(true));
         assertThat(globals.resolveFunction("five"),
             is(new FunctionSymbol(
                     "five",
@@ -103,6 +108,7 @@ public class InterpreterTest {
                         new ConstantSymbol("b", BuildInTypeSymbol.FLOAT)
                     ),
                     globals)));
+        assertThat(globals.isFunctionDefined("six"), is(true));
         assertThat(globals.resolveFunction("six"),
             is(new FunctionSymbol(
                     "six",
@@ -119,5 +125,16 @@ public class InterpreterTest {
                     ),
                     globals)));
         assertThat(env.getOut(), is(""));
+    }
+
+    @Test
+    public void functionCalls() throws IOException, URISyntaxException {
+        sut.visit(createParseTree("functionCalls.ct"));
+
+        assertThat(env.getOut(), is(String.format(
+            "functiondecl:%n"
+            + "decl end.%n"
+            + "foo%n"
+            + "bar: snafu%n")));
     }
 }

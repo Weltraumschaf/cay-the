@@ -14,12 +14,12 @@ public class SymbolTableTest {
 
     @Test
     public void initBuildInTypes() {
-        assertThat(sut.getGlobals().resolveValue("Bool"), is(BuildInTypeSymbol.BOOL));
-        assertThat(sut.getGlobals().resolveValue("Float"), is(BuildInTypeSymbol.FLOAT));
-        assertThat(sut.getGlobals().resolveValue("Function"), is(BuildInTypeSymbol.FUNCTION));
-        assertThat(sut.getGlobals().resolveValue("Int"), is(BuildInTypeSymbol.INT));
-        assertThat(sut.getGlobals().resolveValue("Nil"), is(BuildInTypeSymbol.NIL));
-        assertThat(sut.getGlobals().resolveValue("String"), is(BuildInTypeSymbol.STRING));
+        assertThat(sut.globalScope().resolveValue("Bool"), is(BuildInTypeSymbol.BOOL));
+        assertThat(sut.globalScope().resolveValue("Float"), is(BuildInTypeSymbol.FLOAT));
+        assertThat(sut.globalScope().resolveValue("Function"), is(BuildInTypeSymbol.FUNCTION));
+        assertThat(sut.globalScope().resolveValue("Int"), is(BuildInTypeSymbol.INT));
+        assertThat(sut.globalScope().resolveValue("Nil"), is(BuildInTypeSymbol.NIL));
+        assertThat(sut.globalScope().resolveValue("String"), is(BuildInTypeSymbol.STRING));
     }
 
     @Test
@@ -37,40 +37,40 @@ public class SymbolTableTest {
     @Test
     public void initNativeApis() {
         assertThat(
-            sut.getGlobals().resolveFunction("print"),
+            sut.globalScope().resolveFunction("print"),
             is(new FunctionSymbol(
                 "print",
                 FunctionSymbol.VOID,
                 SymbolTable.arguments(BuildInTypeSymbol.STRING),
-                sut.getGlobals())));
+                sut.globalScope())));
         assertThat(
-            sut.getGlobals().resolveFunction("println"),
+            sut.globalScope().resolveFunction("println"),
             is(new FunctionSymbol(
                 "println",
                 FunctionSymbol.VOID,
                 SymbolTable.arguments(BuildInTypeSymbol.STRING),
-                sut.getGlobals())));
+                sut.globalScope())));
         assertThat(
-            sut.getGlobals().resolveFunction("error"),
+            sut.globalScope().resolveFunction("error"),
             is(new FunctionSymbol(
                 "error",
                 FunctionSymbol.VOID,
                 SymbolTable.arguments(BuildInTypeSymbol.STRING),
-                sut.getGlobals())));
+                sut.globalScope())));
         assertThat(
-            sut.getGlobals().resolveFunction("errorln"),
+            sut.globalScope().resolveFunction("errorln"),
             is(new FunctionSymbol(
                 "errorln",
                 FunctionSymbol.VOID,
                 SymbolTable.arguments(BuildInTypeSymbol.STRING),
-                sut.getGlobals())));
+                sut.globalScope())));
         assertThat(
-            sut.getGlobals().resolveFunction("exit"),
+            sut.globalScope().resolveFunction("exit"),
             is(new FunctionSymbol(
                 "exit",
                 FunctionSymbol.VOID,
                 SymbolTable.arguments(BuildInTypeSymbol.INT),
-                sut.getGlobals())));
+                sut.globalScope())));
     }
 
     @Test

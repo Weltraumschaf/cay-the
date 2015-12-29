@@ -28,7 +28,7 @@ final class DefaultScope implements Scope {
     /**
      * Symbols of functions in this scope.
      */
-    private final Map<String, Symbol> functions = new LinkedHashMap<>();
+    private final Map<String, FunctionSymbol> functions = new LinkedHashMap<>();
     /**
      * Holds the constants of this scope.
      */
@@ -81,7 +81,7 @@ final class DefaultScope implements Scope {
     }
 
     @Override
-    public Symbol resolveFunction(final String name) {
+    public FunctionSymbol resolveFunction(final String name) {
         Validate.notEmpty(name, "name");
 
         if (functions.containsKey(name)) {
@@ -92,11 +92,11 @@ final class DefaultScope implements Scope {
             return getEnclosing().resolveFunction(name);
         }
 
-        return Symbol.NULL;
+        return FunctionSymbol.NULL;
     }
 
     @Override
-    public void defineFunction(final Symbol sym) {
+    public void defineFunction(final FunctionSymbol sym) {
         Validate.notNull(sym, "sym");
         functions.put(sym.getName(), sym);
 
@@ -171,13 +171,21 @@ final class DefaultScope implements Scope {
     }
 
     @Override
+    public final void wipe() {
+        variables.clear();
+        constants.clear();
+    }
+
+    @Override
     public String toString() {
-        return String.format("{%s:%s}", getScopeName(), values.keySet());
+        return String.format(
+            "{Scope:%s, values: %s, functions: %s}",
+            getScopeName(), values.keySet(), functions.keySet());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scopeName, enclosingScope, values, constants, variables);
+        return Objects.hash(scopeName, enclosingScope, values, functions, constants, variables);
     }
 
     @Override
@@ -190,6 +198,7 @@ final class DefaultScope implements Scope {
         return Objects.equals(scopeName, other.scopeName)
             && Objects.equals(enclosingScope, other.enclosingScope)
             && Objects.equals(values, other.values)
+            && Objects.equals(functions, other.functions)
             && Objects.equals(constants, other.constants)
             && Objects.equals(variables, other.variables);
     }

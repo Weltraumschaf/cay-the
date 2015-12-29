@@ -1,0 +1,15 @@
+
+println("functiondecl:")
+
+func foo() {
+    println("foo")
+}
+
+func bar(String s) {
+    println("bar: " + s)
+}
+
+println("decl end.")
+
+foo()
+bar("snafu")
