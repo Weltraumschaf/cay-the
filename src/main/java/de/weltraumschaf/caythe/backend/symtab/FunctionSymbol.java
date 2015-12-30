@@ -133,8 +133,9 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     // TOdo this code should be moved into interpreter package.
     public ReturnValues evaluate(final CayTheBaseVisitor<ReturnValues> evaluator, final List<Value> arguments) {
         if (argumentSymbols.size() != arguments.size()) {
-            throw new IllegalStateException(String.format("Function argument count missmatch! Expected are %d arguemnts, but given were %d.",
-                argumentSymbols.size(), arguments.size()));
+            throw new IllegalStateException(String.format(
+                "Function's '%s' argument count missmatch! Expected are %d arguemnts, but given were %d.",
+                getName(), argumentSymbols.size(), arguments.size()));
         }
 
         wipe();
@@ -147,8 +148,9 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
                 defineValue(argumentSymbol);
                 store(argumentSymbol, argument);
             } else {
-                throw new IllegalStateException(String.format("Function argument type missatch on %d argument! Expected type is %s, but given was %s.",
-                    i, argument.getType(), argumentSymbol.getType()));
+                throw new IllegalStateException(String.format(
+                    "Function's '%s' argument type missatch on %d argument! Expected type is %s, but given was %s.",
+                    getName(), i, argument.getType(), argumentSymbol.getType()));
             }
         }
 

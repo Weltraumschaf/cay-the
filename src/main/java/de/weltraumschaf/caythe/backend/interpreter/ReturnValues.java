@@ -3,8 +3,11 @@ package de.weltraumschaf.caythe.backend.interpreter;
 import de.weltraumschaf.caythe.backend.symtab.Value;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents multiple return values.
@@ -37,12 +40,12 @@ public final class ReturnValues {
      * @param values must not be {@code null}
      */
     ReturnValues(final Value... values) {
-        super();
-        Validate.notNull(values);
+        this(Arrays.asList(values));
+    }
 
-        for (final Value value : Validate.notNull(values)) {
-            this.values.add(value);
-        }
+    ReturnValues(final Collection<Value> values) {
+        super();
+        this.values.addAll(Validate.notNull(values));
     }
 
     /**
@@ -105,6 +108,26 @@ public final class ReturnValues {
      */
     List<Value> get() {
         return Collections.unmodifiableList(values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(values);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof ReturnValues)) {
+            return false;
+        }
+
+        final ReturnValues other = (ReturnValues) obj;
+        return values.equals(other.values);
+    }
+
+    @Override
+    public String toString() {
+        return values.toString();
     }
 
 }

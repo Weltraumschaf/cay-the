@@ -50,6 +50,10 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
         return ReturnValues.NOTHING;
     }
 
+    private ReturnValues newResult(final Collection<Value>  values) {
+        return new ReturnValues(values);
+    }
+
     private ReturnValues newResult(final Value ... values) {
         return new ReturnValues(values);
     }
@@ -76,6 +80,23 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
         }
 
         return visit(statement);
+    }
+
+    @Override
+    public ReturnValues visitReturnStatement(final ReturnStatementContext ctx) {
+        final List<OrExpressionContext> ret = ctx.ret;
+
+        if (ret.isEmpty()) {
+            return defaultResult();
+        }
+
+        final Collection<Value> accumulator = new ArrayList<>();
+
+        ret.stream().forEach((expression) -> {
+            accumulator.addAll(visit(expression).get());
+        });
+
+        return newResult(accumulator);
     }
 
     @Override

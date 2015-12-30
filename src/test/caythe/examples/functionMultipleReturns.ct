@@ -1,0 +1,23 @@
+println("functiondecl:")
+
+func nothing() {
+    print("nothing")
+}
+
+func Int single() {
+    print("single")
+    return "first"
+}
+
+func Int, Int, Int multi() {
+    print("multi")
+    return "first", "second", "third"
+}
+
+println("decl end.")
+
+var Nil nothing = nothing()
+println(nothing)
+
+//var Int single = single()
+//println(single)

@@ -9,7 +9,13 @@ func bar(String s) {
     println("bar: " + s)
 }
 
+func baz(Int a, Int b) {
+    var Int x = a + b
+    println(x)
+}
+
 println("decl end.")
 
 foo()
 bar("snafu")
+baz(23, 42)

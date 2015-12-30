@@ -13,6 +13,7 @@ statements
     ;
 statement           
     : block
+    | returnStatement
     | variableDeclaration
     | constantDeclaration
     | assignment
@@ -22,6 +23,9 @@ statement
     | ifBranch 
     | orExpression
     | NL?
+    ;
+returnStatement
+    : KW_RETURN (ret+=orExpression (',' ret+=orExpression)* )?
     ;
 variableDeclaration
     : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )?
@@ -80,7 +84,8 @@ factor
     : base=atom ( CARET exponent=simpleExpression )? 
     ;
 atom    
-    : variableOrConstantDereference
+    : functionCall
+    | variableOrConstantDereference
     | constant
     | LPAREN orExpression RPAREN 
     | negation

@@ -6,7 +6,6 @@ import de.weltraumschaf.caythe.backend.symtab.BuildInTypeSymbol;
 import de.weltraumschaf.caythe.backend.symtab.ConstantSymbol;
 import de.weltraumschaf.caythe.backend.symtab.FunctionSymbol;
 import de.weltraumschaf.caythe.backend.symtab.Scope;
-import de.weltraumschaf.caythe.backend.symtab.Symbol;
 import de.weltraumschaf.caythe.backend.symtab.SymbolTable;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import java.io.File;
@@ -135,6 +134,7 @@ public class InterpreterTest {
             "functiondecl:%n"
             + "decl end.%n"
             + "foo%n"
-            + "bar: snafu%n")));
+            + "bar: snafu%n"
+            + "65%n")));
     }
 }
