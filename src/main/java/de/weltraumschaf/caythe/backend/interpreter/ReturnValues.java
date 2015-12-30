@@ -12,7 +12,7 @@ import java.util.List;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-final class ReturnValues {
+public final class ReturnValues {
 
     /**
      * No return values.

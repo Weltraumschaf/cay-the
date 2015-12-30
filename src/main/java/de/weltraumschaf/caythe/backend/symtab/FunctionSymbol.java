@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
+import de.weltraumschaf.caythe.backend.interpreter.ReturnValues;
 import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.commons.validate.Validate;
@@ -129,7 +130,8 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
         return getName();
     }
 
-    public List<Value> evaluate(final CayTheBaseVisitor<Value> evaluator, final List<Value> arguments) {
+    // TOdo this code should be moved into interpreter package.
+    public ReturnValues evaluate(final CayTheBaseVisitor<ReturnValues> evaluator, final List<Value> arguments) {
         if (argumentSymbols.size() != arguments.size()) {
             throw new IllegalStateException(String.format("Function argument count missmatch! Expected are %d arguemnts, but given were %d.",
                 argumentSymbols.size(), arguments.size()));
@@ -150,9 +152,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
             }
         }
 
-        final List<Value> result = new ArrayList<>();
-        result.add(evaluator.visit(body));
-        return Collections.unmodifiableList(result);
+        return evaluator.visit(body);
     }
 
     @Override

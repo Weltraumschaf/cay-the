@@ -49,7 +49,7 @@ final class BuildInApiDispatcher {
      * @param arguments must not be {@code null}
      * @return  never {@code null}, unmodifiable
      */
-    Collection<Value> invoke(final FunctionSymbol function, final List<Value> arguments) {
+    ReturnValues invoke(final FunctionSymbol function, final List<Value> arguments) {
         final int argumentCount = arguments.size();
 
         if (function.getArgumentTypes().size() != argumentCount) {
@@ -86,7 +86,7 @@ final class BuildInApiDispatcher {
             final Object result = method.invoke(kernel, nativeArguments);
 
             return null == result
-                ? Collections.emptyList()
+                ? ReturnValues.NOTHING
                 : verifyResult(cast(result));
         } catch (final NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             throw new IllegalStateException(ex.getMessage(), ex);
@@ -98,8 +98,8 @@ final class BuildInApiDispatcher {
         return (Collection<Value>) in;
     }
 
-    private Collection<Value> verifyResult(final Collection<Value> in) {
+    private ReturnValues verifyResult(final Collection<Value> in) {
         // Todo check size to size of returnTypes from symbol.
-        return in;
+        return new ReturnValues(in.toArray(new Value[0]));
     }
 }

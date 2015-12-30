@@ -23,7 +23,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public final class Interpreter extends CayTheBaseVisitor<Value> {
+public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
 
     private final Deque<List<ConstantSymbol>> functionArgumentStack = new LinkedList<>();
     private final BuildInApiDispatcher nativeApi;
@@ -46,12 +46,16 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    protected Value defaultResult() {
-        return Value.NIL;
+    protected ReturnValues defaultResult() {
+        return ReturnValues.NOTHING;
+    }
+
+    private ReturnValues newResult(final Value ... values) {
+        return new ReturnValues(values);
     }
 
     @Override
-    public Value visitCompilationUnit(final CompilationUnitContext ctx) {
+    public ReturnValues visitCompilationUnit(final CompilationUnitContext ctx) {
         log("Visit compilation unit: '%s'", ctx.getText());
         final ParseTree compilationUnit = ctx.getChild(0);
 
@@ -63,7 +67,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitStatement(final StatementContext ctx) {
+    public ReturnValues visitStatement(final StatementContext ctx) {
         log("Visit statement: '%s'", ctx.getText());
         final ParseTree statement = ctx.getChild(0);
 
@@ -75,15 +79,15 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitBlock(final BlockContext ctx) {
+    public ReturnValues visitBlock(final BlockContext ctx) {
         table.pushNewScope();
-        final Value value = super.visit(ctx.blockStatements);
+        final ReturnValues value = super.visit(ctx.blockStatements);
         table.popScope();
         return value;
     }
 
     @Override
-    public Value visitConstantDeclaration(final ConstantDeclarationContext ctx) {
+    public ReturnValues visitConstantDeclaration(final ConstantDeclarationContext ctx) {
         log("Visit constant decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
@@ -98,21 +102,21 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         final Symbol type = table.currentScope().resolveValue(typeIdentifier);
-        final Value value = visit(ctx.value);
+        final ReturnValues value = visit(ctx.value);
 
-        if (!value.isOfType((Type) type)) {
+        if (!value.getFirst().isOfType((Type) type)) {
             throw error(ctx.value.start, "Can't assign %s to constant with type %s!", value, type);
         }
 
-        final ConstantSymbol symbol = new ConstantSymbol(identifier, value.getType());
+        final ConstantSymbol symbol = new ConstantSymbol(identifier, value.getFirst().getType());
         log("Declare constant: %s = %s", symbol, value);
         table.currentScope().defineValue(symbol);
-        table.currentScope().store(symbol, value);
+        table.currentScope().store(symbol, value.getFirst());
         return value;
     }
 
     @Override
-    public Value visitVariableDeclaration(final VariableDeclarationContext ctx) {
+    public ReturnValues visitVariableDeclaration(final VariableDeclarationContext ctx) {
         log("Visit var decl: '%s'", ctx.getText());
         final String identifier = ctx.id.getText();
 
@@ -127,27 +131,27 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         final Symbol type = table.currentScope().resolveValue(typeIdentifier);
-        final Value value;
+        final ReturnValues value;
 
         if (null == ctx.value) {
-            value = Value.NIL.asType((Type) type);
+            value = defaultResult();
         } else {
             value = visit(ctx.value);
 
-            if (!value.isOfType((Type) type)) {
+            if (!value.getFirst().isOfType((Type) type)) {
                 throw error(ctx.value.start, "Can't assign %s to variable with type %s!", value, type);
             }
         }
 
-        final VariableSymbol symbol = new VariableSymbol(identifier, value.getType());
+        final VariableSymbol symbol = new VariableSymbol(identifier, value.getFirst().getType());
         log("Declare variable: %s = %s", symbol, value);
         table.currentScope().defineValue(symbol);
-        table.currentScope().store(symbol, value);
+        table.currentScope().store(symbol, value.getFirst());
         return value;
     }
 
     @Override
-    public Value visitAssignment(final AssignmentContext ctx) {
+    public ReturnValues visitAssignment(final AssignmentContext ctx) {
         final String identifier = ctx.id.getText();
 
         if (!table.currentScope().isValueDefined(identifier)) {
@@ -155,11 +159,11 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
         }
 
         final Symbol symbol = table.currentScope().resolveValue(identifier);
-        final Value value = visit(ctx.value);
+        final ReturnValues value = visit(ctx.value);
 
         try {
             log("Assign variable: %s = %s", symbol, value);
-            symbol.getScope().store(symbol, value);
+            symbol.getScope().store(symbol, value.getFirst());
         } catch (final IllegalStateException ex) {
             throw error(ctx.id, "Can't write constant '%s'", identifier);
         }
@@ -168,7 +172,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitFunctionDeclaration(final FunctionDeclarationContext ctx) {
+    public ReturnValues visitFunctionDeclaration(final FunctionDeclarationContext ctx) {
         final String functionName = ctx.id.getText();
 
         if (table.currentScope().isFunctionDefined(functionName)) {
@@ -204,7 +208,7 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitFormalArgument(final FormalArgumentContext ctx) {
+    public ReturnValues visitFormalArgument(final FormalArgumentContext ctx) {
         final String typeName = ctx.type.getText();
 
         if (!table.currentScope().isValueDefined(typeName)) {
@@ -225,15 +229,15 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitFunctionCall(final FunctionCallContext ctx) {
+    public ReturnValues visitFunctionCall(final FunctionCallContext ctx) {
         final String functionName = ctx.id.getText();
         final List<Value> functionArgs = new ArrayList<>();
         ctx.args.stream().forEach((args) -> {
-            functionArgs.add(visit(args));
+            functionArgs.addAll(visit(args).get());
         });
 
         log("Calling function %s(%s)", functionName, functionArgs);
-        final Collection<Value> result;
+        final ReturnValues result;
 
         if (table.isBuildInFunction(functionName)) {
             log("Native function call.");
@@ -251,10 +255,10 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitIfBranch(final IfBranchContext ctx) {
-        if (visit(ctx.ifCondition).asBool() && notNull(ctx.ifBlock)) {
+    public ReturnValues visitIfBranch(final IfBranchContext ctx) {
+        if (visit(ctx.ifCondition).getFirst().asBool() && notNull(ctx.ifBlock)) {
             visit(ctx.ifBlock);
-        } else if (notNull(ctx.elseIfCondition) && visit(ctx.elseIfCondition).asBool() && notNull(ctx.elseIfBlock)) {
+        } else if (notNull(ctx.elseIfCondition) && visit(ctx.elseIfCondition).getFirst().asBool() && notNull(ctx.elseIfBlock)) {
             visit(ctx.elseIfBlock);
         } else if (notNull(ctx.elseBlock)) {
             visit(ctx.elseBlock);
@@ -264,190 +268,190 @@ public final class Interpreter extends CayTheBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitWhileLoop(final WhileLoopContext ctx) {
-        Value condition = visit(ctx.condition);
+    public ReturnValues visitWhileLoop(final WhileLoopContext ctx) {
+        Value condition = visit(ctx.condition).getFirst();
 
         while (condition.asBool()) {
             visit(ctx.block());
-            condition = visit(ctx.condition);
+            condition = visit(ctx.condition).getFirst();
         }
 
         return defaultResult();
     }
 
     @Override
-    public Value visitOrExpression(final OrExpressionContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitOrExpression(final OrExpressionContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return new ReturnValues(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         log("Boolean: %s || %s", left, right);
-        return new BoolOperations().or(left, right);
+        return new ReturnValues(new BoolOperations().or(left, right));
     }
 
     @Override
-    public Value visitAndExpression(final AndExpressionContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitAndExpression(final AndExpressionContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return new ReturnValues(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         log("Boolean: %s && %s", left, right);
-        return new BoolOperations().and(left, right);
+        return new ReturnValues(new BoolOperations().and(left, right));
     }
 
     @Override
-    public Value visitEqualExpression(final EqualExpressionContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitEqualExpression(final EqualExpressionContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return newResult(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         final Comparator compare = new Comparator();
 
         switch (ctx.operator.getType()) {
             case CayTheParser.EQUAL:
                 log("Compare: %s == %s", left, right);
-                return compare.equal(left, right);
+                return newResult(compare.equal(left, right));
             case CayTheParser.NOT_EQUAL:
                 log("Compare: %s != %s", left, right);
-                return compare.notEqual(left, right);
+                return newResult(compare.notEqual(left, right));
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
         }
     }
 
     @Override
-    public Value visitRelationExpression(final RelationExpressionContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitRelationExpression(final RelationExpressionContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return newResult(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         final Comparator compare = new Comparator();
 
         switch (ctx.operator.getType()) {
             case CayTheParser.GREATER_THAN:
                 log("Compare: %s > %s", left, right);
-                return compare.greaterThan(left, right);
+                return newResult(compare.greaterThan(left, right));
             case CayTheParser.LESS_THAN:
                 log("Compare: %s < %s", left, right);
-                return compare.lessThan(left, right);
+                return newResult(compare.lessThan(left, right));
             case CayTheParser.GREATER_EQUAL:
                 log("Compare: %s >= %s", left, right);
-                return compare.greaterEqual(left, right);
+                return newResult(compare.greaterEqual(left, right));
             case CayTheParser.LESS_EQUAL:
                 log("Compare: %s <= %s", left, right);
-                return compare.lessEqual(left, right);
+                return newResult(compare.lessEqual(left, right));
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
         }
     }
 
     @Override
-    public Value visitSimpleExpression(final SimpleExpressionContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitSimpleExpression(final SimpleExpressionContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return newResult(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         final MathOperations math = new MathOperations();
 
         switch (ctx.operator.getType()) {
             case CayTheParser.ADD:
                 log("Math: %s + %s", left, right);
-                return math.add(left, right);
+                return newResult(math.add(left, right));
             case CayTheParser.SUB:
                 log("Math: %s - %s", left, right);
-                return math.sub(left, right);
+                return newResult(math.sub(left, right));
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
         }
     }
 
     @Override
-    public Value visitTerm(final TermContext ctx) {
-        final Value left = visit(ctx.left);
+    public ReturnValues visitTerm(final TermContext ctx) {
+        final Value left = visit(ctx.left).getFirst();
 
         if (null == ctx.right) {
-            return left;
+            return newResult(left);
         }
 
-        final Value right = visit(ctx.right);
+        final Value right = visit(ctx.right).getFirst();
         final MathOperations math = new MathOperations();
 
         switch (ctx.operator.getType()) {
             case CayTheParser.MUL:
                 log("Math: %s * %s", left, right);
-                return math.mul(left, right);
+                return newResult(math.mul(left, right));
             case CayTheParser.DIV:
                 log("Math: %s / %s", left, right);
-                return math.div(left, right);
+                return newResult(math.div(left, right));
             case CayTheParser.MOD:
                 log("Math: %s % %s", left, right);
-                return math.mod(left, right);
+                return newResult(math.mod(left, right));
             default:
                 throw error(ctx.operator, "Unsupported operator '%s'", ctx.operator.getText());
         }
     }
 
     @Override
-    public Value visitFactor(final FactorContext ctx) {
-        final Value base = visit(ctx.base);
+    public ReturnValues visitFactor(final FactorContext ctx) {
+        final Value base = visit(ctx.base).getFirst();
 
         if (null == ctx.exponent) {
-            return base;
+            return newResult(base);
         }
 
-        return new MathOperations().pow(base, visit(ctx.exponent));
+        return newResult(new MathOperations().pow(base, visit(ctx.exponent).getFirst()));
     }
 
     @Override
-    public Value visitNegation(final NegationContext ctx) {
-        final Value atom = visit(ctx.atom());
+    public ReturnValues visitNegation(final NegationContext ctx) {
+        final Value atom = visit(ctx.atom()).getFirst();
         log("Boolean: ! %s", atom);
-        return new BoolOperations().not(atom);
+        return newResult(new BoolOperations().not(atom));
     }
 
     @Override
-    public Value visitVariableOrConstantDereference(final VariableOrConstantDereferenceContext ctx) {
+    public ReturnValues visitVariableOrConstantDereference(final VariableOrConstantDereferenceContext ctx) {
         final String identifier = ctx.id.getText();
 
         if (!table.currentScope().isValueDefined(identifier)) {
             throw error(ctx.id, "Access of undeclared variable/constant '%s'", ctx.id.getText());
         }
 
-        return table.currentScope().resolveValue(identifier).load();
+        return newResult(table.currentScope().resolveValue(identifier).load());
     }
 
     @Override
-    public Value visitConstant(final ConstantContext ctx) {
+    public ReturnValues visitConstant(final ConstantContext ctx) {
         final String literal = ctx.value.getText();
         log("Visit literal: '%s'", literal);
 
         if (null != ctx.BOOL_VALUE()) {
             log("Recognized bool value.");
-            return Value.newBool(Boolean.parseBoolean(literal));
+            return newResult(Value.newBool(Boolean.parseBoolean(literal)));
         } else if (null != ctx.FLOAT_VALUE()) {
             log("Recognized float value.");
-            return Value.newFloat(Float.parseFloat(literal));
+            return newResult(Value.newFloat(Float.parseFloat(literal)));
         } else if (null != ctx.INTEGER_VALUE()) {
             log("Recognized integer value.");
-            return Value.newInt(Integer.parseInt(literal));
+            return newResult(Value.newInt(Integer.parseInt(literal)));
         } else if (null != ctx.STRING_VALUE()) {
             log("Recognized string value.");
-            return Value.newString(literal.substring(1, literal.length() - 1));
+            return newResult(Value.newString(literal.substring(1, literal.length() - 1)));
         } else {
             throw error(ctx.value, "Unrecognized literal '%s'", literal);
         }
