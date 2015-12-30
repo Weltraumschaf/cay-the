@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 /**
  * Logs everything to {@link System.out}.
+ *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
@@ -28,11 +29,7 @@ final class SysOutLogger extends BaseLogger implements Logger {
 
     @Override
     public void log(final String msg, final Object... args) {
-        out.print('[');
-        out.print(CayThe.CMD_NAME);
-        out.print(']');
-        out.print(' ');
-        out.println(format(msg, args));
+        out.println(String.format("[%s] %s", CayThe.CMD_NAME, format(msg, args)));
     }
 
 }
