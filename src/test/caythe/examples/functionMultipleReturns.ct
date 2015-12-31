@@ -1,16 +1,16 @@
 println("functiondecl:")
 
 func nothing() {
-    print("nothing")
+    println("nothing")
 }
 
 func Int single() {
-    print("single")
+    println("single")
     return "first"
 }
 
 func Int, Int, Int multi() {
-    print("multi")
+    println("multi")
     return "first", "second", "third"
 }
 

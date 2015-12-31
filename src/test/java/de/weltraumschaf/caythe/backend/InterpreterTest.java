@@ -139,4 +139,15 @@ public class InterpreterTest {
             + "bar: snafu%n"
             + "65%n")));
     }
+
+    @Test
+    public void functionMultipleReturns() throws IOException, URISyntaxException {
+        sut.visit(createParseTree("functionMultipleReturns.ct"));
+
+        assertThat(env.getOut(), is(String.format(
+            "functiondecl:%n"
+            + "decl end.%n"
+            + "nothing%n"
+            + "%n")));
+    }
 }
