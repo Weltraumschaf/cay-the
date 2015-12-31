@@ -100,19 +100,27 @@ public final class CliApplication extends InvokableAdapter {
      * @throws IOException if source file can't be read
      */
     private void parse(final String filename, final CayTheBaseVisitor<?> visitor) throws IOException {
-        final CayTheParser parser = Parsers.newParser(filename, isDebugEnabled());
+        final Parsers parsers = new Parsers(getIoStreams());
+        final CayTheParser parser = parsers.newParser(filename, isDebugEnabled());
 
         try {
             visitor.visit(parser.compilationUnit());
         } catch (final KernelApi.ExitException ex) {
             exit(ex.getCode());
         } catch (final ParseCancellationException ex) {
-            getIoStreams().errorln(
-                String.format("Parsing cancelded with message: %s%n at line %d col %d: %s",
-                    ex.getMessage(),
+            getIoStreams().error(
+                String.format(
+                    "[E] Parsing cancelded at line %d column %d with token '%s'",
                     parser.getCurrentToken().getLine(),
-                    parser.getCurrentToken().getCharPositionInLine(),
+                    parser.getCurrentToken().getCharPositionInLine() + 1,
                     parser.getCurrentToken().getText()));
+
+            if (null != ex.getMessage() && ! ! !ex.getMessage().trim().isEmpty()) {
+                getIoStreams().error(" given message: ");
+                getIoStreams().error(ex.getMessage());
+            }
+
+            getIoStreams().errorln(".");
 
             if (isDebugEnabled()) {
                 getIoStreams().printStackTrace(ex);

@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
 import de.weltraumschaf.caythe.log.Logging;
+import de.weltraumschaf.commons.application.IOStreams;
 import java.util.Arrays;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,7 +33,8 @@ public class InterpreterTest {
     private ParseTree createParseTree(final String filename) throws IOException, URISyntaxException {
         final URL source = getClass().getResource("/examples/" + filename);
         final File file = new File(source.toURI());
-        final CayTheParser parser = Parsers.newParser(file.getAbsolutePath(), true);
+        final Parsers parsers = new Parsers(IOStreams.newDefault());
+        final CayTheParser parser = parsers.newParser(file.getAbsolutePath(), true);
         return parser.compilationUnit();
     }
 
