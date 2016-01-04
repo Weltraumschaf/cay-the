@@ -1,8 +1,7 @@
 package de.weltraumschaf.caythe.backend.symtab;
 
-import de.weltraumschaf.caythe.backend.interpreter.ReturnValues;
-import de.weltraumschaf.caythe.frontend.CayTheBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheParser;
+import de.weltraumschaf.caythe.frontend.CayTheParser.BlockContext;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +26,7 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     /**
      * Delegate for the local values of a method.
      */
-    private transient Scope values;
+    private final transient Scope values;
     /**
      * Delegate for the local functions of a method.
      */
@@ -58,15 +57,19 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
         this.argumentSymbols = Collections.unmodifiableList(new ArrayList<>(Validate.notNull(argumentTypes, "argumentTypes")));
     }
 
-    public void body(final CayTheParser.BlockContext body) {
+    public void steBody(final BlockContext body) {
         this.body = body;
+    }
+
+    public BlockContext getBody() {
+        return body;
     }
 
     public List<Type> getReturnTypes() {
         return returnTypes;
     }
 
-    public List<ConstantSymbol> getArgumentTypes() {
+    public List<ConstantSymbol> getArgumentSymbols() {
         return argumentSymbols;
     }
 
@@ -128,33 +131,6 @@ public final class FunctionSymbol extends BaseSymbol implements Scope {
     @Override
     public String getScopeName() {
         return getName();
-    }
-
-    // TOdo this code should be moved into interpreter package.
-    public ReturnValues evaluate(final CayTheBaseVisitor<ReturnValues> evaluator, final List<Value> arguments) {
-        if (argumentSymbols.size() != arguments.size()) {
-            throw new IllegalStateException(String.format(
-                "Function's '%s' argument count missmatch! Expected are %d arguemnts, but given were %d.",
-                getName(), argumentSymbols.size(), arguments.size()));
-        }
-
-        wipe();
-
-        for (int i = 0; i < arguments.size(); ++i) {
-            final Value argument = arguments.get(i);
-            final ConstantSymbol argumentSymbol = argumentSymbols.get(i);
-
-            if (argument.isOfType(argumentSymbol.getType())) {
-                defineValue(argumentSymbol);
-                store(argumentSymbol, argument);
-            } else {
-                throw new IllegalStateException(String.format(
-                    "Function's '%s' argument type missatch on %d argument! Expected type is %s, but given was %s.",
-                    getName(), i, argument.getType(), argumentSymbol.getType()));
-            }
-        }
-
-        return evaluator.visit(body);
     }
 
     @Override

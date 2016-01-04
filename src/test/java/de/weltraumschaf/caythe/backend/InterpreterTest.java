@@ -34,7 +34,7 @@ public class InterpreterTest {
         final URL source = getClass().getResource("/examples/" + filename);
         final File file = new File(source.toURI());
         final Parsers parsers = new Parsers(IOStreams.newDefault());
-        final CayTheParser parser = parsers.newParser(file.getAbsolutePath(), true);
+        final CayTheParser parser = parsers.newParser(file.getAbsolutePath(), false);
         return parser.compilationUnit();
     }
 

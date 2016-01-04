@@ -16,8 +16,8 @@ func Int, Int, Int multi() {
 
 println("decl end.")
 
-var Nil nothing = nothing()
-println(nothing)
+var Nil n = nothing()
+println(n)
 
-//var Int single = single()
-//println(single)
+var Int s= single()
+//println(s)

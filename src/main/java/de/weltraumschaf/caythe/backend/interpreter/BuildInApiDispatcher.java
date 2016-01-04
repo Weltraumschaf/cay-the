@@ -52,14 +52,14 @@ final class BuildInApiDispatcher {
     ReturnValues invoke(final FunctionSymbol function, final List<Value> arguments) {
         final int argumentCount = arguments.size();
 
-        if (function.getArgumentTypes().size() != argumentCount) {
+        if (function.getArgumentSymbols().size() != argumentCount) {
             throw new IllegalArgumentException(String.format("Argument count missmatch! Expected %d function arguments, but %d given.",
-                function.getArgumentTypes().size(), argumentCount));
+                function.getArgumentSymbols().size(), argumentCount));
         }
 
         final Class<?>[] nativeTypes = new Class[argumentCount];
         final Object[] nativeArguments = new Object[argumentCount];
-        final List<ConstantSymbol> expectedArgumentSymbols = function.getArgumentTypes();
+        final List<ConstantSymbol> expectedArgumentSymbols = function.getArgumentSymbols();
 
         for (int i = 0; i < expectedArgumentSymbols.size(); ++i) {
             final Type type =  expectedArgumentSymbols.get(i).getType();

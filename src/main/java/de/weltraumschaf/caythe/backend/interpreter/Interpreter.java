@@ -50,11 +50,11 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
         return ReturnValues.NOTHING;
     }
 
-    private ReturnValues newResult(final Collection<Value>  values) {
+    private ReturnValues newResult(final Collection<Value> values) {
         return new ReturnValues(values);
     }
 
-    private ReturnValues newResult(final Value ... values) {
+    private ReturnValues newResult(final Value... values) {
         return new ReturnValues(values);
     }
 
@@ -223,7 +223,7 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
             returnTypes,
             functionArgumentStack.pop(),
             table.currentScope());
-        function.body(ctx.body);
+        function.steBody(ctx.body);
         table.currentScope().defineFunction(function);
         return defaultResult();
     }
@@ -258,21 +258,51 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
         });
 
         log("Calling function %s(%s)", functionName, functionArgs);
-        final ReturnValues result;
 
         if (table.isBuildInFunction(functionName)) {
             log("Native function call.");
             final FunctionSymbol function = table.globalScope().resolveFunction(functionName);
-            result = nativeApi.invoke(function, functionArgs);
+            return evaluateNative(function, functionArgs);
         } else {
             final FunctionSymbol function = table.currentScope().resolveFunction(functionName);
-            table.pushScope(function);
-            result = function.evaluate(this, functionArgs);
-            table.popScope();
+            return evaluateRegular(function, functionArgs);
+        }
+    }
+
+    public ReturnValues evaluateNative(final FunctionSymbol function, final List<Value> arguments) {
+        log("Native function call.");
+        return nativeApi.invoke(function, arguments);
+    }
+
+    public ReturnValues evaluateRegular(final FunctionSymbol function, final List<Value> arguments) {
+        table.pushScope(function);
+
+        if (function.getArgumentSymbols().size() != arguments.size()) {
+            throw new IllegalStateException(String.format(
+                "Function's '%s' argument count missmatch! Expected are %d arguemnts, but given were %d.",
+                function.getName(), function.getArgumentSymbols().size(), arguments.size()));
         }
 
-//        return result; // TODO implement return.
-        return defaultResult();
+        function.wipe();
+
+        for (int i = 0; i < arguments.size(); ++i) {
+            final Value argument = arguments.get(i);
+            final ConstantSymbol argumentSymbol = function.getArgumentSymbols().get(i);
+
+            if (argument.isOfType(argumentSymbol.getType())) {
+                function.defineValue(argumentSymbol);
+                function.store(argumentSymbol, argument);
+            } else {
+                throw new IllegalStateException(String.format(
+                    "Function's '%s' argument type missatch on %d argument! Expected type is %s, but given was %s.",
+                    function.getName(), i, argument.getType(), argumentSymbol.getType()));
+            }
+        }
+
+        final ReturnValues result = visit(function.getBody());
+        table.popScope();
+
+        return result;
     }
 
     @Override
