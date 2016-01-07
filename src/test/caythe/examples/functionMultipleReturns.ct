@@ -1,23 +1,31 @@
 println("functiondecl:")
 
 func nothing() {
-    println("nothing")
+    println("nothing() called")
 }
 
 func Int single() {
-    println("single")
+    println("single called")
     return "first"
 }
 
 func Int, Int, Int multi() {
-    println("multi")
-    return "first", "second", "third"
+    println("multi called")
+    return "foo", "bar", "baz"
 }
 
 println("decl end.")
 
 var Nil n = nothing()
+print("nothing: ")
 println(n)
 
-var Int s= single()
-//println(s)
+var Int s = single()
+print("single: ")
+println(s)
+
+//var Int a, Int b, Int c = multi()
+//print("single: ")
+//print(a)
+//print(b)
+//println(c)

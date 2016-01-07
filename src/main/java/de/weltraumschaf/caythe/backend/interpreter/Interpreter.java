@@ -91,10 +91,10 @@ public final class Interpreter extends CayTheBaseVisitor<ReturnValues> {
         }
 
         final Collection<Value> accumulator = new ArrayList<>();
-
-        ret.stream().forEach((expression) -> {
+        for (final OrExpressionContext expression : ret) {
             accumulator.addAll(visit(expression).get());
-        });
+
+        }
 
         return newResult(accumulator);
     }

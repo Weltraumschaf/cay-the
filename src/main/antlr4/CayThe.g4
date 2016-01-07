@@ -13,7 +13,6 @@ statements
     ;
 statement           
     : block
-    | returnStatement
     | variableDeclaration
     | constantDeclaration
     | assignment
@@ -25,7 +24,7 @@ statement
     | NL?
     ;
 returnStatement
-    : KW_RETURN (ret+=orExpression (',' ret+=orExpression)* )?
+    : KW_RETURN (ret+=orExpression (',' ret+=orExpression)* )? NL
     ;
 variableDeclaration
     : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )?
@@ -56,7 +55,7 @@ ifBranch
     ( KW_ELSE elseBlock=block )? 
     ;
 block               
-    : LBRACE blockStatements=statements RBRACE 
+    : LBRACE blockStatements=statements returnStatement? RBRACE 
     ;
 
 orExpression           
