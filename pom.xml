@@ -157,6 +157,16 @@
                         </fileset>
                     </filesets>
                 </configuration>
+
+                <executions>
+                    <execution>
+                        <id>parse-all-exampels</id>
+
+                        <goals>
+                            <goal>parse</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
