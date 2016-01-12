@@ -20,6 +20,7 @@ import de.weltraumschaf.commons.application.IOStreams;
 import java.util.Arrays;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 
 /**
  * Tests for {@link Interpreter}.
@@ -141,6 +142,7 @@ public class InterpreterTest {
     }
 
     @Test
+    @Ignore
     public void functionMultipleReturns() throws IOException, URISyntaxException {
         sut.visit(createParseTree("functionMultipleReturns.ct"));
 
