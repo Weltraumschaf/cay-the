@@ -1,17 +1,78 @@
 \documentclass[a4paper,12pt]{article}
 
+\title{The Perfect Programming Language}
+\author{Sven Strittmatter}
+\date{\today}
+
 \begin{document}
+\maketitle
+\abstract{This paper describes the perfect programming language. We will look at drawback of current programming languages. Then try to describe a programming language  without these drawbacks.}
 
-\section*{First}
+\section*{Motivation}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+TODO
 
-\subsection*{Headings in the `article' Document Style}
+\section*{Ideas}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+\begin{itemize}
+	\item \texttt{unless foo} statt \texttt{if !foo}
+	\item type (int, float) overflows generate exceptions
+	\item compiler checks for right versioning in manifest
+	\item compiler does not allow shot names of identifiers
+\end{itemize}
 
-\section*{Second}
+\subsection*{Source}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+A source file \texttt{MyModule.ct} may look like:
+
+\begin{verbatim}
+var integer foo = 23
+var integer bar // is 0 by default
+var integer baz = foo + bar
+
+const snafu = "Hello !"
+
+function doIt(integer i) {
+    ...
+}
+
+function integer doWhat(integer i, integer j) {
+    return i + j
+}
+
+var result = doWhat(foo, 42)	
+\end{verbatim}
+
+\subsection*{Manifest and Versioning}
+
+A module descriptor \texttt{MyModule.mf} may look like:
+
+\begin{verbatim}
+version 1.0.0
+
+export TypeName
+export TypeName
+export TypeName
+
+Integer main(List<String> args) {
+  return 0
+}
+\end{verbatim}
+
+\section*{Specification}
+\begin{itemize}
+	\item Types
+  	\begin{itemize}
+  		\item integer: 0 by default
+  		\item float: 0.0 by default
+  		\item boolean: false by default
+  		\item string: empty by default
+  	\end{itemize} 
+  	\item Scopes
+  	\begin{itemize}
+  		\item Lexical Scopes
+  		\item Variables are only writable in current scope. What about members of classes?
+  	\end{itemize}
+\end{itemize}
 
 \end{document}
