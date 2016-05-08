@@ -34,7 +34,7 @@ I call it my billion-dollar mistake. It was the invention of the null reference 
 
 TODO
 
-\subsection*{Disappointing}
+\subsection{Disappointing}
 
 In this section I describe things which are very disappointing, e.g. typing boiler plate code.
 
@@ -45,6 +45,85 @@ TODO: Breaces for conditions: if (cond) vs. if cond
 \subsubsection{Unecessary Semicolon}
 
 TODO
+
+\section{What Ideas Are Out There?}
+
+In this section ideas and concepts of already existing languages will be described.
+
+\subsection{Kotlin}
+
+From a blog post from Peter Sommerhoff\cite{kotlin-sommerhoff}:
+
+\subsubsection{Data Classes}
+
+Simple POJOs are declared simpler. Instead of writing boiler plate like:
+
+\begin{verbatim}
+class Book {
+    private String title;
+    private Author author;
+
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+    
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+}
+\end{verbatim}
+
+You can write:
+
+\begin{verbatim}
+data class Book(var title: String, var author: Author) {
+    // ...
+}	
+\end{verbatim}
+
+\subsubsection{Smart Casts}
+
+Instead of:
+
+\begin{verbatim}
+if (node instanceof Leaf) {
+    return ((Leaf) node).symbol;
+}	
+\end{verbatim}
+
+less verbose:
+
+\begin{verbatim}
+if (node is Leaf) {
+    return node.symbol;
+}	
+\end{verbatim}
+
+\subsubsection{Type Inference}
+TODO
+
+\subsubsection{Functional Programming}
+TODO
+
+\subsubsection{Default Arguments}
+TODO
+
+\subsubsection{Named Arguments}
+TODO
+
+\subsubsection{Final Classes}
+
+\begin{quotation}
+Next, Kotlin also supports the principle to either design for inheritance or prohibit it — because in Kotlin, you have to explicitly declare a class as open in order to inherit from it. That way, you have to remember to allow inheritance instead of having to remember to disallow it.\cite{kotlin-sommerhoff}
+\end{quotation}
 
 \section{Ideas}
 
@@ -136,11 +215,17 @@ Integer main(List<String> args) {
 \begin{thebibliography}{56}
 \bibitem{hoare-wiki}
 	Wikipedia,
-	emph{Tony Hoare},
+	\emph{Tony Hoare},
 	\url{https://en.wikipedia.org/wiki/Tony_Hoare}
+	
 \bibitem{hoeare-null}
 	Tony Hoare,
 	\emph{Speaking at a conference in 2009},
 	\url{http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare}
+	
+\bibitem{kotlin-sommerhoff}
+ 	Peter Sommerhoff,
+ 	\emph{Kotlin for Java Developers: 10 Features You Will Love About Kotlin}
+ 	\url{https://www.javacodegeeks.com/2016/05/kotlin-java-developers-10-features-will-love-kotlin.html}
 \end{thebibliography}
 \end{document}
