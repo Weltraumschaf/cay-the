@@ -37,6 +37,7 @@ In this section I describe things which are very disappointing, e.g. typing boil
 	\item type (int, float) overflows generate exceptions
 	\item compiler checks for right versioning in manifest
 	\item compiler does not allow shot names of identifiers
+	\item \texttt{finally} to execute something always at least in functions
 \end{itemize}
 
 \subsection{Source}
@@ -50,12 +51,34 @@ var integer baz = foo + bar
 
 const snafu = "Hello !"
 
-function doIt(integer i) {
+function doIt(Integer i) {
     ...
 }
 
-function integer doWhat(integer i, integer j) {
+function Integer doWhat(Integer i, Integer j) {
     return i + j
+    
+    finally {
+    	// Something which is done before function returns, e.g. clean resources.
+    }
+}
+
+function Integer multiFinallies() {
+	File f = new File("/foo");
+	f.open();
+	
+	finally {
+		f.close()
+	}
+	
+	File d = new File("/tmp");
+	d.open()
+	
+	finally {
+		d.close()
+	}
+	
+	return 42
 }
 
 var result = doWhat(foo, 42)	
