@@ -1,2 +1,3 @@
 nbactions.xml
 .texpadtmp/
+src/**/*.pdf
