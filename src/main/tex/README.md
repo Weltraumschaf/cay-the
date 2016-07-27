@@ -1,6 +1,6 @@
 # LaTeX - Readme
 
-Here in this direcotry the documentation stuff sources is stored.
+Here in this directory the documentation stuff sources is stored.
 
 ## Links
 

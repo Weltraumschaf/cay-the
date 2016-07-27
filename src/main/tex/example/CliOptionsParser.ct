@@ -1,0 +1,36 @@
+/*
+ * This is a helper class which eals mit command line arguments.
+ *
+ * This is a class which means there may be multiple instance of it.
+ */
+class CliOptionsParser {
+
+    // This is the default constructor function and may be ommited.
+    package new() {
+        return this;
+    }
+    
+    /*
+     * This method parses the given strings and creates an option object from it.
+     *
+     * The visibility of this method is {@code package} because by default all
+     * methods are {@code private}.
+     *
+     * @param commandLineArguments the arguents to parse
+     * @return the parsed options object
+     */
+    package parse(List<String> commandLineArguments) {
+        helpFlag
+        versionFlag
+        commandLineArguments.forEach(argument {
+            if "-h" == argument || "--help" == argument || "-?" == argument {
+                helpFlag = true
+            }
+            
+            if "-v" == argument || "--version" == argument {
+                versionFlag = true
+            }
+        })
+        return CliOptions.new(showHelp : helpFlag, showVersion: versionFlag)
+    }
+}

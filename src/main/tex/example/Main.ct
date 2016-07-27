@@ -1,0 +1,59 @@
+/*
+ * This is the main object which provides the main function executed by the VM.
+ *
+ * Objects are not instanciatable: There exist only one of it. The name of an
+ * obejct must start upper case.
+ */
+object Main {
+
+    /*
+     * This is helper class which does all the command line string parsing for us.
+     *
+     * You see that there are no modifiers for this field. By default all fields
+     * are private and immutbale/final.
+     *
+     * The type of the field {@code cliArgParser} is interfered and not necessary 
+     * to write it.
+     */
+    cliArgParser = CliOptionsParser.new();
+    
+    /*
+     * This is the main methode invoked by the VM.
+     *
+     * The VM finds this method by the {@code @Main} annotation. There must be 
+     * only one object method annotated with {@code @Main}, unless a compile 
+     * error raises.
+     *
+     * The method has the visibility {@code export} which means the method is 
+     * visible outside the module. visibilities inside the module are: {@code pulbic},
+     * {@code package}, and {@ private}.
+     *
+     * The method signature is also enforced by the compiler. XXX How is it done?
+     *
+     * @param commandLineArguments the CLI arguments from outside world
+     * @return the exit code, != 0 for error
+     */
+    @Main
+    export Integer execute(List<String> commandLineArguments) {
+        options = cliArgParser.parse(commandLineArguments)
+        exitCode
+        
+        if options.showHelp {
+            displayHelp()
+        } else options.showVersion {
+            displayVersion()
+        } else {
+            exitCode = doSomeThing()
+        }
+        
+        return exitCode
+    }
+    
+    displayHelp() {}
+    
+    displayVersion() {}
+    
+    Integer doSomeThing() {
+        return 0
+    }
+}
