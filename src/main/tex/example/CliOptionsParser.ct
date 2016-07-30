@@ -1,11 +1,11 @@
 /*
- * This is a helper class which eals mit command line arguments.
+ * This is a helper class which deals with command line arguments.
  *
  * This is a class which means there may be multiple instance of it.
  */
 class CliOptionsParser {
 
-    // This is the default constructor function and may be ommited.
+    /* This is the default constructor function and may be omitted. */
     package new() {
         return this;
     }
@@ -16,7 +16,7 @@ class CliOptionsParser {
      * The visibility of this method is {@code package} because by default all
      * methods are {@code private}.
      *
-     * @param commandLineArguments the arguents to parse
+     * @param commandLineArguments the arguments to parse
      * @return the parsed options object
      */
     package parse(List<String> commandLineArguments) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0/EN" "http://www.apple.com/DTDs/ProperyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>fileTypes</key>
+        <array>
+            <string>ct</string>
+        </array>
+        <key>name</key>
+        <string>Caythe</string>
+        <key>foldingStartMarker</key>
+        <string>\{\s*$</string>
+        <key>foldingStopMarker</key>
+        <string>^\s*\}</string>
+        
+        <key>patterns</key>
+        <array>
+            <dict>
+                <key>name</key>
+                <string>keyword.control.ct</string>
+                <key>match</key>
+                <string>\b(return|if|else|delegate)\b</string>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>keyword.other.ct</string>
+                <key>match</key>
+                <string>\b(class|object|interface|annotation|package|public|export)\b</string>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>constant.numeric.ct</string>
+                <key>match</key>
+                <string>\b( (0(x|X)[0-9a-fA-F]*) | (([0-9]+\\.?[0-9]*) | (\\.[0-9]+)) ((e|E)(\\+|-)?[0-9]+)? )\b</string>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>constant.language.ct</string>
+                <key>match</key>
+                <string>\b(true|false)\b</string>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>string.quoted.double.ct</string>
+                <key>begin</key>
+                <string>"</string>
+                <key>end</key>
+                <string>"</string>
+                <key>patterns</key>
+                <array>
+                    <dict>
+                        <key>name</key>
+                        <string>constant.character.escape.ct</string>
+                        <key>match</key>
+                        <string>\\.</string>
+                    </dict>
+                </array>
+            </dict>
+        </array>
+        
+        <key>scopeName</key>
+        <string>source.ct</string>
+        <key>uuid</key>
+        <string>8c934860-b3ad-4c89-9a2b-6c0c8e4978e3</string>
+    </dict>
+</plist>
