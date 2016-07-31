@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0/EN" "http://www.apple.com/DTDs/ProperyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>contactEmailRot13</key>
-        <string>weltraumschaf@googlemail.com</string>
-        <key>contactName</key>
-        <string>Sven Strittmatter</string>
-        <key>description</key>
-        <string>Language grammar, snippets, and more for the Caythe language.</string>
-        <key>name</key>
-        <string>Caythe</string>
-        <key>uuid</key>
-        <string>55df145b-ef02-49a1-b3c4-6eb01c6ebdc7</string>
-    </dict>
+<dict>
+	<key>contactEmailRot13</key>
+	<string>jrygenhzfpuns@tbbtyrznvy.pbz</string>
+	<key>contactName</key>
+	<string>Sven Strittmatter</string>
+	<key>description</key>
+	<string>Language grammar, snippets, and more for the Caythe language.</string>
+	<key>name</key>
+	<string>Caythe</string>
+	<key>uuid</key>
+	<string>55df145b-ef02-49a1-b3c4-6eb01c6ebdc7</string>
+</dict>
 </plist>

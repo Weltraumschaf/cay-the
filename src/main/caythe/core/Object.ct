@@ -1,0 +1,10 @@
+
+/*
+ * This is the base delegate for all other objects.
+ */
+export object Object {
+
+    export method String toString() {
+        return ""
+    }
+}

@@ -1,0 +1,4 @@
+
+export class Float {
+    delegate Number
+}

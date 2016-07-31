@@ -1,0 +1,33 @@
+/*
+ * The manifest file must be named 'Manifesr.mf'.
+ *
+ * This describes the module: Everything inside the direcotry in which the manifest
+ * file lies.
+ */
+ 
+/*
+ * All artifatcs (aka. modules) are identified by a tripple coordinate:
+ * group, artifact, version. This uniquely identifies the module. The general
+ * syntax for a module is {@code group:artifact:version}.
+ *
+ * In the dependnecy managament a module is referenced by:
+ * {@code import de.weltraumschaf:example:1.0.0}
+ *
+ * XXX: What if somone else declares the same coordinates by accident?
+ */
+group       org.caythe
+artifact    core
+version     1.0.0
+
+/*
+ * Each module defines a base namespace. All classes in the module diroctory
+ * has this namespace as prefix. Usually you use the group and artifact for that.
+ * for example the type 'Main' in this module will be accesable from outside by
+ * {@code de.weltraumschaf.example.Main}.
+ *
+ * Q: What if someone also defines the same namespace by accident?
+ * A: You could import a module with an alias:
+ *    {@code import de.weltraumschaf:example:1.0.0 as foo.bar}
+ *    then the type {@code Main} is accesible by {@code foo.bar.Main}.
+ */
+namespace   org.caythe.core

@@ -1,0 +1,11 @@
+
+export object System {
+    
+    delegate Object
+    
+    export property(get) OutputStream stdout
+
+    export property(get) OutputStream stderr
+
+    export property(get) InputStream stdin
+}

@@ -1,0 +1,4 @@
+
+export InputStream {
+    delegate Object
+}

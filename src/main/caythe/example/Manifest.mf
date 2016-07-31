@@ -1,5 +1,6 @@
 /*
- * The manifest file must be named 'Manifesr' (casesensitive w/o file extension).
+ * The manifest file must be named 'Manifesr.mf'.
+ *
  * This describes the module: Everything inside the direcotry in which the manifest
  * file lies.
  */
@@ -29,9 +30,4 @@ version     1.0.0
  *    {@code import de.weltraumschaf:example:1.0.0 as foo.bar}
  *    then the type {@code Main} is accesible by {@code foo.bar.Main}.
  */
-namespace   de.weltraumschaf.example
-
-/*
- * We export the main type which declares the main function executed by the VM.
- */
-export      Main
+namespace de.weltraumschaf.example

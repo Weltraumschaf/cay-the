@@ -5,8 +5,10 @@
  */
 class CliOptionsParser {
 
+    delegate Object
+    
     /* This is the default constructor function and may be omitted. */
-    package new() {
+    package method new() {
         return this;
     }
     
@@ -19,7 +21,7 @@ class CliOptionsParser {
      * @param commandLineArguments the arguments to parse
      * @return the parsed options object
      */
-    package parse(List<String> commandLineArguments) {
+    package method parse(List<String> commandLineArguments) {
         helpFlag
         versionFlag
         commandLineArguments.forEach(argument {
