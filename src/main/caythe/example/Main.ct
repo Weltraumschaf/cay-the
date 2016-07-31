@@ -1,7 +1,11 @@
 /*
  * We want to use the system objct from the core library.
  */
+use org.caythe.core.Main
 use org.caythe.core.System
+use org.caythe.core.basetypes.Integer
+use org.caythe.core.basetypes.String
+use org.caythe.core.collections.List
 
 /*
  * This is the main object which provides the main function executed by the VM.
@@ -64,11 +68,14 @@ export object Main {
     method displayHelp() {}
     
     method displayVersion() {
-        /* It should be possible to get the version from Manifest.mf. */
-        sys.stdout.print("This is version 1.0.0\n")
+        // It should be possible to get the version from Manifest.mf.
+        sys.stdout.print("This is version " + manifest().version() + "\n")
     }
     
     method Integer doSomeThing() {
+		5.tims(index {
+			out.print("${index}. Hello, world!\n")
+		})
         return 0
     }
 }

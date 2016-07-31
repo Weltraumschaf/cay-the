@@ -1,0 +1,6 @@
+use org.caythe.core.basetypes.Integer
+
+export interface List<E> {
+	export method add(E element)
+	export method E get(Integer index)
+}

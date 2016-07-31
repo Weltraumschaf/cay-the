@@ -27,23 +27,9 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(group|artifact|version|namespace)\s+([^ ]*)</string>
+			<string>^\s*(group|artifact|version|namespace|import)\s+([^ ]*)</string>
 			<key>name</key>
 			<string>meta.keyword.manifest.declaration.source.ct</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.package.source.ct</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>^\s*(package)\s+([^ ]*)</string>
-			<key>name</key>
-			<string>meta.keyword.package.source.ct</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -370,7 +356,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(delegate|property|method)\b</string>
+					<string>\b(delegate|property)\b</string>
 					<key>name</key>
 					<string>keyword.other.source.ct</string>
 				</dict>
@@ -382,9 +368,9 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?!new)(?=[\w&lt;].*\s+)(?=[^=]+\()</string>
+					<string>(?=[\w&lt;].*\s+)(?=[^=]+\()</string>
 					<key>end</key>
-					<string>(})|(?=;)</string>
+					<string>(})</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
@@ -605,7 +591,7 @@
 		<key>storage-modifiers</key>
 		<dict>
 			<key>match</key>
-			<string>\b(export|public|protected|modifiable|override)\b</string>
+			<string>\b(export|method|public|package|modifiable|override)\b</string>
 			<key>name</key>
 			<string>storage.modifier.source.ct</string>
 		</dict>

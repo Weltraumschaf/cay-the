@@ -30,4 +30,6 @@ version     1.0.0
  *    {@code import de.weltraumschaf:example:1.0.0 as foo.bar}
  *    then the type {@code Main} is accesible by {@code foo.bar.Main}.
  */
-namespace de.weltraumschaf.example
+namespace	de.weltraumschaf.example
+import		org.caythe:core:1.0.0
+import		org.caythe:testing:1.0.0

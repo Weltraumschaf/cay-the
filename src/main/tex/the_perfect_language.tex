@@ -204,6 +204,71 @@ Integer main(List<String> args) {
 \end{verbatim}
 
 \section{Specification}
+
+\subsection{Tooling}
+
+A lot of languages lack of appropriate tooling and it is necessary to build them first you get productive. A perfect language must come with all necessary tools. Some of them are obvious:
+
+\begin{itemize}
+	\item Interpreter: An interpreter is useful in the first steps of language development, but also useful later to provide endusers a REPL (read eval print loop) tool for playing around with the language without ramp up a whole project and build infrastructure.
+	\item Compiler: Of course there must be a compiler to create byte code for a virtual machine.
+	\item Virtual Machine: For interpreting byte code a virtual machine is necessary. This is implemented as register based VM.
+\end{itemize}
+
+The not so obvious tools are a level above just compiling source code.
+
+\begin{itemize}
+	\item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recomented to use.
+	\item Tester: There is tool which executes tests automatically. Also there is a built in API for unit testing.
+	\item Builder: This is a tool which compiles and links a complete module. It also runs the tester to verify the tests. Also it manages dependneeies of the built module.
+\end{itemize}
+
+\subsection{Module Packaging and Visibility}
+
+A module is a directory containing all source code. It contains one and only one manifest file which declares basic attributes for the module:
+
+\begin{itemize}
+	\item \verb|group|: This declares the group name of the module.
+ 	\item \verb|artifct|: This declares the artifact name of the module.
+ 	\item \verb|version|: This declares the version of the module.
+ 	\item \verb|namespace|: This declares the namespace base of all types in the module.
+\end{itemize}
+
+Also the manifest declares the module dependencies. Modules are referenced by an import and a module coordinate.
+
+An example of a manifest file \verb|moduledir/Manifest.mf|:
+\begin{verbatim}
+	group       de.weltraumschaf
+	artifact	    example
+	version     1.0.0
+	namespace   de.weltraumschaf.example
+	import      org.caythe:core:1.0.0
+	import      org.caythe:testing:1.0.0
+\end{verbatim}
+
+All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All usb directories are packages. For example a class \verb|Foo| in the file \verb|moduledir/Foo.ct| will be referenced by \verb|use de.weltraumschaf.example.Foo|.
+
+From outside modules only types with explicit \verb|export| are visible. So that other modules which import \verb|de.weltraumschaf:example:1.0.0| may see the type \verb|Foo| it must be declared exported:
+\begin{verbatim}
+	export class Foo {
+	
+	}
+\end{verbatim}
+
+Also each method which should be accessible from outside must be declared exported. Methods or types declared \verb|public| are only visible everywhere inside the module. Everything declared \verb|package| is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \verb|package| has the same effect as declaring it \verb|public|. By default methods and types are private.
+
+\begin{verbatim}
+	export class Foo {
+	    export method callableFromOtherModules() { ... }
+	    public method callableFromWholeModule() { ... }
+	    package method callableFromSameDirAndSubDirs() { ... }
+	    // private is the default so there is no keyword for that.
+	    method callableOnlyFromSelf() { ... }
+	}
+\end{verbatim}
+
+TODO:
+
 \begin{itemize}
 	\item Types
   	\begin{itemize}
