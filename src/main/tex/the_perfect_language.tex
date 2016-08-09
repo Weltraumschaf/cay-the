@@ -1,6 +1,13 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{hyperref}
+\usepackage{xargs}
+\usepackage[pdftex,dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\newcommandx{\myfixme}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\mytodo}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\myxxx}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 
 \title{The Perfect Programming Language}
 \author{Sven Strittmatter}
@@ -32,15 +39,15 @@ What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
 I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.	
 \end{quotation} 
 
-TODO Cite some sites why null is bad. Null is one of the most reasons for bugs.
+\mytodo{Cite some sites why null is bad. Null is one of the most reasons for bugs.}
 
 \subsubsection{Checked Exceptions}
 
-TODO Words from Andre Heilsberg (C\#)
+\mytodo{Words from Andre Heilsberg (C\#)}
 
 \subsubsection{Exceptions at All}
 
-TODO They are like goto (Javaslang)
+\mytodo{They are like goto (Javaslang)}
 
 \subsection{Disappointing}
 
@@ -48,11 +55,37 @@ In this section I describe things which are very disappointing, e.g. typing boil
 
 \subsubsection{Annoying Braces}
 
-TODO: Braces for conditions: if (condition) vs. if condition
+\mytodo{Braces for conditions: if (condition) vs. if condition.}
 
 \subsubsection{Unnecessary Semicolon}
 
-TODO
+\mytodo{Write text.}
+
+\subsubsection{Too Many Special Character Methods or Operators}
+
+Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code.
+Some examples from Perl\cite{secret-perl-operators}:
+
+\begin{itemize}
+	\item Spaceship operator: \verb|<=>|
+	\item Eskimo Greeting operator: \verb|}{|
+	\item Goatse operator: \verb|=()=|
+	\item Turtle operator: \verb|@{[]}|
+	\item Inchworm operator: \verb|~~|
+	\item Inchworm-On-A-Stick Operator: \verb|~-|
+	\item Spacestation Operator: \verb|-+-|
+	\item Venus operator: \verb|0+|
+\end{itemize}
+
+Perl is an ancient language, but modern languages also have this problem. Here some examples from Scala\cite{special-operators-scala}:
+
+\begin{itemize}
+	\item Upper, lower and view bounds: \verb|<: >: <%|
+	\item Vararg expansion: \verb|_*|
+	\item Many different meanings: \verb|_|
+\end{itemize}
+
+I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this is may be time saving to type three characters instead of a long function name. This argument counts for me decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
 
 \section{What Ideas Are Out There?}
 
@@ -116,16 +149,16 @@ if (node is Leaf) {
 \end{verbatim}
 
 \subsubsection{Type Inference}
-TODO
+\mytodo{Write text.}
 
 \subsubsection{Functional Programming}
-TODO
+\mytodo{Write text.}
 
 \subsubsection{Default Arguments}
-TODO
+\mytodo{Write text.}
 
 \subsubsection{Named Arguments}
-TODO
+\mytodo{Write text.}
 
 \subsubsection{Final Classes}
 
@@ -136,16 +169,16 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
 \section{Ideas}
 
 \begin{itemize}
-	\item \texttt{unless foo} statt \texttt{if !foo}
+	\item \verb|unless foo| statt \verb|if !foo|
 	\item type (int, float) overflows generate exceptions
 	\item compiler checks for right versioning in manifest
 	\item compiler does not allow shot names of identifiers
-	\item \texttt{finally} to execute something always at least in functions
+	\item \verb|finally| to execute something always at least in functions
 \end{itemize}
 
 \subsection{Source}
 
-A source file \texttt{MyModule.ct} may look like:
+A source file \verb|MyModule.ct| may look like:
 
 \begin{verbatim}
 var integer foo = 23
@@ -189,7 +222,7 @@ var result = doWhat(foo, 42)
 
 \subsection{Manifest and Versioning}
 
-A module descriptor \texttt{MyModule.mf} may look like:
+A module descriptor \verb|MyModule.mf| may look like:
 
 \begin{verbatim}
 version 1.0.0
@@ -267,7 +300,7 @@ Also each method which should be accessible from outside must be declared export
 	}
 \end{verbatim}
 
-TODO:
+\mytodo{Describe the followed items.}:
 
 \begin{itemize}
 	\item Types
@@ -285,7 +318,9 @@ TODO:
 \end{itemize}
 
 \newpage
+
 \begin{thebibliography}{56}
+
 \bibitem{hoare-wiki}
 	Wikipedia,
 	\emph{Tony Hoare},
@@ -300,5 +335,17 @@ TODO:
  	Peter Sommerhoff,
  	\emph{Kotlin for Java Developers: 10 Features You Will Love About Kotlin}
  	\url{https://www.javacodegeeks.com/2016/05/kotlin-java-developers-10-features-will-love-kotlin.html}
+
+\bibitem{secret-perl-operators}
+	Peteris Krumin,
+	\emph{Secret Perl Operators}
+	\url{http://www.catonmat.net/blog/secret-perl-operators/}
+
+\bibitem{special-operators-scala}
+	Daniel C. Sobral.
+	\emph{What do all of Scala's symbolic operators mean?},
+	\url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
+
 \end{thebibliography}
+
 \end{document}
