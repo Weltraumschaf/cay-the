@@ -9,13 +9,13 @@
 \newcommandx{\mytodo}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
 \newcommandx{\myxxx}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 
-\title{The Perfect Programming Language}
+\title{A Perfect Programming Language}
 \author{Sven Strittmatter}
 \date{\today}
 
 \begin{document}
 \maketitle
-\abstract{This paper describes the perfect programming language. We will look at drawback of current programming languages. Then try to describe a programming language  without these drawbacks.}
+\abstract{This paper describes a perfect programming language. We will look at drawbacks of current programming languages. Then try to describe a programming language  without these drawbacks.}
 \newpage
 
 \tableofcontents
@@ -23,13 +23,13 @@
 
 \section{Motivation}
 
-What is my motivation behind this: Creating a new perfect programming language? As of time of writing this I have over a decade of experience in programming stuff. I also have experience in various languages: C++, PHP, JavaScript, Ruby, Perl, Java. Also I saw a lot of Languages. After some disappointment about the languages I used to looked around what others do: Go, Python, Erlang, Prolog, Lisp, ML, OCaml, Scala etc.
+What is my motivation behind this: Describe a new perfect programming language? As of time of writing this I have over a decade of experience in programming stuff. I also have experience in various languages: C++, PHP, JavaScript, Ruby, Perl, Java. Also I saw a lot of languages. After some disappointment about the languages I used I started to look around what others do: Go, Python, Erlang, Prolog, Lisp, ML, OCaml, Scala etc.
 
-More and more I saw different languages and their concepts I recognised that most of them have some drawbacks and I started to think about a programming language without any of these. I'm not shur if it is possible to make such a language, but I think it is worth to think about it.
+More and more I saw different languages and their concepts I recognised that most of them have some drawbacks and I started to think about a programming language without any of these. I'm not sure if it is possible to make such a language, but I think it is worth to think about it.
 
 \subsection{Drawbacks and Fails}
 
-In this section I'll collect all the drawbacks and fails already existing languages have. These are not drawbacks only because I say. All of them have some common sense in the in the community of software craftmenship, clean code developers or others working hard on better software and design. So the points mentioned here are quite common sense for all well exercised developers. In a later section I will describe "disappointing" things which are merely based on my opinion.
+In this section I'll collect all the drawbacks and fails already existing languages have. These are not drawbacks only because I say. All of them have some common sense in the in the community of software craftmanship, clean code developers or others working hard on better software. So the points mentioned here are quite common sense for all well exercised developers. In a later section I will describe "disappointing" things which are merely based on my opinion.
 
 \subsubsection{Null - The Billion Dollar Fail}
 
@@ -51,7 +51,7 @@ I call it my billion-dollar mistake. It was the invention of the null reference 
 
 \subsection{Disappointing}
 
-In this section I describe things which are very disappointing, e.g. typing boiler plate code, parens, semicolons and such. In contrast to the section above these points are merely opinion based. But I try to show why we should think about it.
+In this section I describe things which are very disappointing, e.g. typing boiler plate code, parens, semicolons and such. In contrast to the section before these points are merely opinion based. But I try to show why we should think about it.
 
 \subsubsection{Annoying Braces}
 
@@ -85,7 +85,20 @@ Perl is an ancient language, but modern languages also have this problem. Here s
 	\item Many different meanings: \verb|_|
 \end{itemize}
 
-I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this is may be time saving to type three characters instead of a long function name. This argument counts for me decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
+I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
+
+\subsubsection{Missing Tools}
+
+A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools. What are necessary tools?
+
+All languages have at least a compiler or interpreter. And mostly that's all you get. In my opinion there must be more tools for:
+
+\begin{itemize}
+    \item source code formatting
+    \item create API docs and documentation
+    \item run tests with coverage reports
+    \item dependency management
+\end{itemize}
 
 \section{What Ideas Are Out There?}
 
@@ -240,7 +253,7 @@ Integer main(List<String> args) {
 
 \subsection{Tooling}
 
-A lot of languages lack of appropriate tooling and it is necessary to build them first you get productive. A perfect language must come with all necessary tools. Some of them are obvious:
+A perfect language need tools. Some of them are obvious:
 
 \begin{itemize}
 	\item Interpreter: An interpreter is useful in the first steps of language development, but also useful later to provide endusers a REPL (read eval print loop) tool for playing around with the language without ramp up a whole project and build infrastructure.
@@ -251,9 +264,9 @@ A lot of languages lack of appropriate tooling and it is necessary to build them
 The not so obvious tools are a level above just compiling source code.
 
 \begin{itemize}
-	\item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recomented to use.
+	\item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recommented to use.
 	\item Tester: There is tool which executes tests automatically. Also there is a built in API for unit testing.
-	\item Builder: This is a tool which compiles and links a complete module. It also runs the tester to verify the tests. Also it manages dependneeies of the built module.
+	\item Builder: This is a tool which compiles and links a complete module. It also runs the Tester to verify the tests. Also it manages dependencies of the built module.
 \end{itemize}
 
 \subsection{Module Packaging and Visibility}
@@ -279,25 +292,21 @@ An example of a manifest file \verb|moduledir/Manifest.mf|:
 	import      org.caythe:testing:1.0.0
 \end{verbatim}
 
-All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All usb directories are packages. For example a class \verb|Foo| in the file \verb|moduledir/Foo.ct| will be referenced by \verb|use de.weltraumschaf.example.Foo|.
+All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All sub directories are packages. For example a class \verb|Foo| in the file \verb|moduledir/Foo.ct| will be referenced by \verb|use de.weltraumschaf.example.Foo|. A type is always declared in a single file and a single file can only declare one type. So the File \verb|Foo.ct| declares the type \verb|Foo|. In consequence it is not necessary to type the name of the type again in side the file and renaming the file result in renaming the type.
 
-From outside modules only types with explicit \verb|export| are visible. So that other modules which import \verb|de.weltraumschaf:example:1.0.0| may see the type \verb|Foo| it must be declared exported:
-\begin{verbatim}
-	export class Foo {
-	
-	}
-\end{verbatim}
+From outside modules only types with explicit \verb|export| are visible. So that other modules which import \verb|de.weltraumschaf:example:1.0.0| may see the type \verb|Foo| it must be declared exported.
 
 Also each method which should be accessible from outside must be declared exported. Methods or types declared \verb|public| are only visible everywhere inside the module. Everything declared \verb|package| is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \verb|package| has the same effect as declaring it \verb|public|. By default methods and types are private.
 
 \begin{verbatim}
-	export class Foo {
-	    export method callableFromOtherModules() { ... }
-	    public method callableFromWholeModule() { ... }
-	    package method callableFromSameDirAndSubDirs() { ... }
-	    // private is the default so there is no keyword for that.
-	    method callableOnlyFromSelf() { ... }
-	}
+	export // Exports the type
+	public // Marks the type public
+	
+	export method callableFromOtherModules() { ... }
+	public method callableFromWholeModule() { ... }
+	package method callableFromSameDirAndSubDirs() { ... }
+	// private is the default so there is no keyword for that.
+	method callableOnlyFromSelf() { ... }
 \end{verbatim}
 
 \mytodo{Describe the followed items.}:
@@ -342,7 +351,7 @@ Also each method which should be accessible from outside must be declared export
 	\url{http://www.catonmat.net/blog/secret-perl-operators/}
 
 \bibitem{special-operators-scala}
-	Daniel C. Sobral.
+	Daniel C. Sobral,
 	\emph{What do all of Scala's symbolic operators mean?},
 	\url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
 

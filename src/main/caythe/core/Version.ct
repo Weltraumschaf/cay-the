@@ -2,8 +2,8 @@ use org.caythe.core.basetypes.Integer
 use org.caythe.core.basetypes.String
 
 export class Version {
-	export property(get) Integer major
-	export property(get) Integer minor
-	export property(get) Integer patch
-	export property(get) String suffix
+  export property(get) Integer major
+  export property(get) Integer minor
+  export property(get) Integer patch
+  export property(get) String suffix
 }
