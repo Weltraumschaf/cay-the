@@ -14,5 +14,38 @@ researching for the new perfect language is stored.
 Links  and   quotes  about  programming  language,   their  best/bad  practices,
 drawbacks, new ideas etc.
 
+### General
+
+- [Less is more: language features](http://blog.ploeh.dk/2015/04/13/less-is-more-language-features/)
+- [Goodbye, Object Oriented Programming](https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53)
+- [What are five things you hate about your favorite language?](http://stackoverflow.com/questions/282329/what-are-five-things-you-hate-about-your-favorite-language)
+
+### Functional Programming Paradigms
+
+- [Structure and Interpretation of Computer Programs](https://github.com/sarabander/sicp-pdf)
+- [Lambda Papers](http://library.readscheme.org/page1.html)
+- Java
+    - [Javaslang: a functional library for Java 8+](http://www.javaslang.io/javaslang-docs/)
+    - ["10 signs that Java could easily be more functional but it isn't more for political than for technical reasons. Why?"](https://twitter.com/mariofusco/status/752618195769589760)
+
+### Types and Casting
+
+- [Implicit or eplicit casting](https://ocaml.org/learn/tutorials/basics.html)
+- [The broken promise of static typing](http://labs.ig.com/static-typing-promise)
+
+### Other Languages
+
+- [The Early History Of Smalltalk](http://worrydream.com/EarlyHistoryOfSmalltalk/) (also in `contrib/papers` as PDF)
+- [Verve](http://tadeuzagallo.com/blog/introducing-verve/)
+- [A Scala Either, Left, and Right example (like Option, Some, and None)](http://alvinalexander.com/scala/scala-either-left-right-example-option-some-none-null)
+
+### Lexing and Parsing
+
+- [Building a lexer and parser with Scala's Parser Combinators](https://enear.github.io/2016/03/31/parser-combinators/)
+
+### Interpreters, Virtual Machines, Bytecode
+
+- [Writing a Language in Truffle. Part 1: A Simple, Slow Interpreter](http://cesquivias.github.io/blog/2014/10/13/writing-a-language-in-truffle-part-1-a-simple-slow-interpreter/)
+- [Generating bytecode](http://tomassetti.me/generating-bytecode/)
 
 [latex]:    https://en.wikipedia.org/wiki/LaTeX
