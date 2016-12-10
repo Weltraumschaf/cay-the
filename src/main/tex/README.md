@@ -16,13 +16,14 @@ drawbacks, new ideas etc.
 
 ### General
 
+- [Expressions and Statements](http://www.vanguardsw.com/dphelp4/dph00238.htm) (pocket)
 - [Less is more: language features](http://blog.ploeh.dk/2015/04/13/less-is-more-language-features/)
 - [Goodbye, Object Oriented Programming](https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53)
 - [What are five things you hate about your favorite language?](http://stackoverflow.com/questions/282329/what-are-five-things-you-hate-about-your-favorite-language)
 
 ### Functional Programming Paradigms
 
-- [Structure and Interpretation of Computer Programs](https://github.com/sarabander/sicp-pdf)
+- [Structure and Interpretation of Computer Programs](https://github.com/sarabander/sicp-pdf) (also in `contrib/papers` as PDF)
 - [Lambda Papers](http://library.readscheme.org/page1.html)
 - Java
     - [Javaslang: a functional library for Java 8+](http://www.javaslang.io/javaslang-docs/)
@@ -42,10 +43,15 @@ drawbacks, new ideas etc.
 ### Lexing and Parsing
 
 - [Building a lexer and parser with Scala's Parser Combinators](https://enear.github.io/2016/03/31/parser-combinators/)
+- [Syntax diagrams (or railroad diagrams)](https://en.wikipedia.org/wiki/Syntax_diagram) (pocket)
 
 ### Interpreters, Virtual Machines, Bytecode
 
 - [Writing a Language in Truffle. Part 1: A Simple, Slow Interpreter](http://cesquivias.github.io/blog/2014/10/13/writing-a-language-in-truffle-part-1-a-simple-slow-interpreter/)
 - [Generating bytecode](http://tomassetti.me/generating-bytecode/)
+
+### Memory
+
+- [Memory Management Reference](http://www.memorymanagement.org/index.html)
 
 [latex]:    https://en.wikipedia.org/wiki/LaTeX
