@@ -1,3 +1,6 @@
 nbactions.xml
 .texpadtmp/
-src/**/*.pdf
+*.aux
+*.out
+*.synctex.gz
+*.toc
