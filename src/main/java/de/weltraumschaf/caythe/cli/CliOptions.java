@@ -6,6 +6,8 @@ import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import java.util.Objects;
 
 /**
+ * Command line options.
+ *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
@@ -14,8 +16,7 @@ public final class CliOptions {
     /**
      * Command line usage.
      */
-    private static final String USAGE
-        = " -f|--file <file> [-h] [-v]";
+    private static final String USAGE = "<module_directory> [-h] [-v]";
     /**
      * Help description.
      */
@@ -46,20 +47,6 @@ public final class CliOptions {
         names = {"-v", "--version"},
         description = "Show the version.")
     private boolean version;
-    /**
-     * Option if version is wanted.
-     */
-    @Parameter(
-        names = {"-i", "--interpret"},
-        description = "The given source wil be interpreted.")
-    private boolean interpret = true;
-    /**
-     * File to compile and run.
-     */
-    @Parameter(
-        names = {"-f", "--file"},
-        description = "Show the version.")
-    private String file = "";
 
     /**
      * Convenience method to gather the CLI options.
@@ -67,7 +54,7 @@ public final class CliOptions {
      * @param args must not be {@code null}
      * @return never {@code null}
      */
-    public static CliOptions gatherOptions(final String[] args) {
+    static CliOptions gatherOptions(final String[] args) {
         return PROVIDER.gatherOptions(args);
     }
 
@@ -76,7 +63,7 @@ public final class CliOptions {
      *
      * @return never {@code null} or empty
      */
-    public static String helpMessage() {
+    static String helpMessage() {
         return PROVIDER.helpMessage(USAGE, DESCRIPTION, EXAMPLE);
     }
 
@@ -94,7 +81,7 @@ public final class CliOptions {
      *
      * @return {@code true} for show, else {@code false}
      */
-    public boolean isHelp() {
+    boolean isHelp() {
         return help;
     }
 
@@ -107,26 +94,11 @@ public final class CliOptions {
         return version;
     }
 
-    /**
-     * Whether to interpret the given source.
-     *
-     * @return {@code true} for show, else {@code false}
-     */
-    public boolean isInterpret() {
-        return interpret;
-    }
-
-    public String getFile() {
-        return file;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(
             help,
-            version,
-            interpret,
-            file);
+            version);
     }
 
     @Override
@@ -137,8 +109,6 @@ public final class CliOptions {
 
         final CliOptions other = (CliOptions) obj;
         return Objects.equals(help, other.help)
-            && Objects.equals(version, other.version)
-            && Objects.equals(interpret, other.interpret)
-            && Objects.equals(file, other.file);
+            && Objects.equals(version, other.version);
     }
 }
