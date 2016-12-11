@@ -1,4 +1,4 @@
-grammar CayThe;
+grammar CayTheSource;
 
 @header {
 package de.weltraumschaf.caythe.frontend;

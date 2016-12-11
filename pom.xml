@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.weltraumschaf.organization</groupId>
         <artifactId>organization-parent</artifactId>
-        <version>2.0.8</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>de.weltraumschaf</groupId>
@@ -13,9 +13,34 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Cay-The 1.0</name>
+    <name>Cay-The</name>
     <description>My own programming language.</description>
     <url>http://weltraumschaf.github.com/cay-the/</url>
+
+    <developers>
+        <developer>
+            <id>Weltraumschaf</id>
+            <name>Sven Strittmatter</name>
+            <email>ich@weltraumschaf.de</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>THE BEER-WARE LICENSE</name>
+            <url>http://www.weltraumschaf.de/the-beer-ware-license.txt</url>
+            <distribution>repo</distribution>
+            <comments>
+                LICENSE
+
+                "THE BEER-WARE LICENSE" (Revision 42):
+                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt; wrote this file.
+                As long as you retain this notice you can do whatever you want with
+                this stuff. If we meet some day, and you think this stuff is worth it,
+                you can buy me a beer in return.
+            </comments>
+        </license>
+    </licenses>
 
     <issueManagement>
         <system>GitHub</system>
@@ -45,32 +70,30 @@
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
 
-        <enforcer.skip>true</enforcer.skip>
+        <project.build.mainClass>de.weltraumschaf.caythe.cli.CliApplication</project.build.mainClass>
+        <project.bin.directory>${project.basedir}/bin</project.bin.directory>
+        <project.scripts.directory>${project.basedir}/src/main/scripts</project.scripts.directory>
 
-        <project.build.packagebase>${project.groupId}.${project.artifactId}</project.build.packagebase>
-        <project.build.mainClass>${project.build.packagebase}.cli.CliApplication</project.build.mainClass>
-        <project.build.binDirectory>${project.basedir}/bin</project.build.binDirectory>
+        <generated.source.dir>src/generated/java</generated.source.dir>
 
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
-        <antlr.packageName>${project.build.packagebase}.frontend</antlr.packageName>
-        <antlr.exampleFiles>src/test/caythe</antlr.exampleFiles>
-        <antlr.grammarFiles>src/main/antlr4</antlr.grammarFiles>
-
-        <commons.version>2.1.0</commons.version>
-        <antlr.version>4.5.1-1</antlr.version>
+        <antlr.version>4.5.3</antlr.version>
+        <commons.version>2.2.0</commons.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>application</artifactId>
             <version>${commons.version}</version>
         </dependency>
-        <dependency>
-            <groupId>de.weltraumschaf.commons</groupId>
-            <artifactId>validate</artifactId>
-            <version>${commons.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>jcommander</artifactId>
@@ -78,9 +101,30 @@
         </dependency>
 
         <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>${antlr.version}</version>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>validate</artifactId>
+            <version>${commons.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -95,6 +139,7 @@
                     <include>**/*.properties</include>
                 </includes>
             </resource>
+
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
@@ -102,32 +147,48 @@
                     <exclude>**/*.properties</exclude>
                 </excludes>
             </resource>
-                <resource>
-                    <directory>${antlr.exampleFiles}</directory>
-                    <filtering>false</filtering>
-                    <includes>
-                        <include>**/*.ct</include>
-                    </includes>
-                </resource>
         </resources>
 
         <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.bin.directory}</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>${generated.source.dir}</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>${antlr.version}</version>
 
                 <configuration>
-                    <listener>true</listener>
+                    <listener>false</listener>
                     <visitor>true</visitor>
                     <indentSize>4</indentSize>
                     <lineLength>120</lineLength>
-                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/${antlr.outputdir}</outputDirectory>
+                    <outputDirectory>${generated.source.dir}/${antlr.outputdir}</outputDirectory>
                 </configuration>
 
                 <executions>
                     <execution>
                         <id>generate-grammar</id>
+                        <phase>generate-sources</phase>
 
                         <goals>
                             <goal>antlr4</goal>
@@ -136,6 +197,119 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.10</version>
+
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+
+                        <configuration>
+                            <sources>
+                                <source>${generated.source.dir}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>make-executable-jar</id>
+                        <phase>package</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${project.build.mainClass}</mainClass>
+                                </manifest>
+                            </archive>
+
+                            <descriptorRefs>
+                                <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                            </descriptorRefs>
+
+                            <finalName>${project.build.finalName}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>false</attach>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>make-final-zip-with-wrapper-scripts</id>
+                        <phase>install</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.basedir}/src/assembly/distribution.xml</descriptor>
+                            </descriptors>
+
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+
+                <configuration>
+                    <excludes>
+                        <exclude>de/weltraumschaf/caythe/frontend/*.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>copy-scritps-for-install</id>
+                        <phase>install</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                      todir="${project.bin.directory}"/>
+                                <copy file="${project.scripts.directory}/caythe.sh"
+                                      tofile="${project.bin.directory}/caythe"/>
+                                <chmod dir="${project.bin.directory}" perm="ugo+rx"/>
+                                <chmod perm="ugo+rx">
+                                    <fileset dir="${project.bin.directory}">
+                                        <include name="**/*"/>
+                                        <exclude name="**/*.jar"/>
+                                    </fileset>
+                                </chmod>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
             <plugin>
                 <groupId>de.weltraumschaf.maven</groupId>
                 <artifactId>infallible-maven-plugin</artifactId>
@@ -168,40 +342,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${project.build.mainClass}</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRefs>jar-with-dependencies</descriptorRefs>
-                    </descriptorRefs>
-                    <finalName>${finalName}</finalName>
-                    <outputDirectory>${project.build.binDirectory}</outputDirectory>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <attach>false</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <!-- http://wiki.netbeans.org/MavenCodeCoverage -->
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
+            -->
         </plugins>
     </build>
 </project>

@@ -27,18 +27,7 @@ public final class CayThe {
     /**
      * The command line application name (name of the "binary").
      */
-    public static final String CMD_NAME = "cay-the";
-    /**
-     * Environment variable for enabling debug output.
-     * <p>
-     * Set this variable in the shell before invoking the application:
-     * </p>
-     * <pre>
-     * $> export CAYTHE_DEBUG = true
-     * $> ./bin/caythe -f hello.ct
-     * </pre>
-     */
-    public static final String ENV_DEBUG = "CAYTHE_DEBUG";
+    public static final String CMD_NAME = "caythe";
 
     /**
      * Private for pure static class.

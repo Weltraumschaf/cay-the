@@ -1,19 +1,5 @@
 #!/usr/bin/env sh
 
-#
-# This is the Unix wrapper script to run Cay-The.
-#
-# You have some environment variables available:
-#   - CAYTHE_DEBUG  Set this 'true' and export it to enable debug 
-#                      output to STDOUT.
-#
-# Author "Sven Strittmatter" <weltraumschaf@googlemail.com>
-#
-
-if [ "${CAYTHE_DEBUG}" = "" ] ; then 
-    export CAYTHE_DEBUG=false
-fi
-
 # JVM settings.
 JVM_MIN_HEAP_SPACE="32m"
 JVM_MAX_HEAP_SPACE="128m"
@@ -38,13 +24,9 @@ JAR="${PROGRAM_DIRECTORY}/caythe.jar"
 
 if [ ! -f "${JAR}" ] ; then
     PROJECT_DIR=`dirname "${PROGRAM_DIRECTORY}"`
-    echo "ERROR: JAR file ${JAR} not pressent!"
+    echo "ERROR: JAR file ${JAR} not present!"
     echo "Invoke 'mvn clean install' in the project base directory: ${PROJECT_DIR}."
     exit 1
 fi
 
-if [ "${CAYTHE_DEBUG}" = "true" ] ; then
-    JVM_OPTIONS="${JVM_OPTIONS} -Djcommander.debug=true"
-fi
-
-java ${JVM_OPTIONS} -jar "${JAR}" "$@"
+$JAVA_HOME/bin/java ${JVM_OPTIONS} -jar "${JAR}" "$@"

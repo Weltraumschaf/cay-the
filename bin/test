@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-# Read all .ct file from src/test/caythe/** and run with ./caythe -f.
-# Test fro exit code != 0,
