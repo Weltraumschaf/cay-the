@@ -1,6 +1,14 @@
+# Generated stuff:
 bin/
 src/generated/
+
+# ANTLR stuff:
+*.tokens
+
+# NetBeans stuff:
 nbactions.xml
+
+# LaTeX stuff:
 .texpadtmp/
 *.aux
 *.out
