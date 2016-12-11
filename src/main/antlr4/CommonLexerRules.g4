@@ -1,5 +1,9 @@
 lexer grammar CommonLexerRules;
 
+IDENTIFIER
+    :   LETTER CHARACTER*
+    ;
+
 fragment
 CHARACTER       : DIGIT | LETTER ;
 fragment
