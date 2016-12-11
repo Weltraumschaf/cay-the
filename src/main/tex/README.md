@@ -16,6 +16,7 @@ drawbacks, new ideas etc.
 
 ### Java
 
+- [Jikes RVM (Research Virtual Machine)](http://www.jikesrvm.org)
 - [Java Modeling Language](https://en.wikipedia.org/wiki/Java_Modeling_Language)
 
 ### General
