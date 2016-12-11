@@ -1,6 +1,9 @@
 package de.weltraumschaf.caythe.cli;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import de.weltraumschaf.caythe.CayThe;
+import de.weltraumschaf.caythe.core.InterpreterModule;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import java.io.IOException;
@@ -16,7 +19,15 @@ public final class CliApplication extends InvokableAdapter {
     /**
      * Version information.
      */
-    private final Version version;
+    private final Version version = new Version(CayThe.BASE_PACKAGE_DIR + "/version.properties");
+    /**
+     * Dependency injection configuration.
+     */
+    private final InterpreterModule module = new InterpreterModule();
+    /**
+     * Used to create objects with injected dependencies.
+     */
+    private final Injector injector = Guice.createInjector(module);
 
     /**
      * Dedicated constructor.
@@ -25,7 +36,6 @@ public final class CliApplication extends InvokableAdapter {
      */
     public CliApplication(final String[] args) {
         super(args);
-        version = new Version(CayThe.BASE_PACKAGE_DIR + "/version.properties");
     }
 
     /**
@@ -46,6 +56,7 @@ public final class CliApplication extends InvokableAdapter {
      */
     private CliOptions setup() throws IOException {
         version.load();
+        module.setIoStreams(getIoStreams());
         return CliOptions.gatherOptions(getArgs());
     }
 

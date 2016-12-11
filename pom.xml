@@ -75,8 +75,9 @@
         <project.scripts.directory>${project.basedir}/src/main/scripts</project.scripts.directory>
 
         <generated.source.dir>src/generated/java</generated.source.dir>
-
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
+
+        <guice-core.version>4.1.0</guice-core.version>
         <antlr.version>4.5.3</antlr.version>
         <commons.version>2.2.0</commons.version>
     </properties>
@@ -86,6 +87,12 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>${antlr.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice-core.version}</version>
         </dependency>
 
         <dependency>
@@ -109,16 +116,19 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
