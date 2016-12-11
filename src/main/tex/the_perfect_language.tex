@@ -34,13 +34,99 @@ In this section I'll collect all the drawbacks and fails already existing langua
 
 \subsubsection{Null - The Billion Dollar Fail}
 
-What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
+In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialized value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
+
+\begin{quotation}
+    In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; this use of null pointers can be compared to nullable types and to the Nothing value in an option type.
+
+    A null pointer should not be confused with an uninitialized pointer: A null pointer is guaranteed to compare unequal to any pointer that points to a valid object. However, depending on the language and implementation, an uninitialized pointer may not have any such guarantee. It might compare equal to other, valid pointers; or it might compare equal to null pointers. It might do both at different times.
+\end{quotation}
+
+The first thing to recognize here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
+
+\begin{quotation}
+    Because a null pointer does not point to a meaningful object, an attempt to dereference (ie. access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
+\end{quotation}
+
+To repeat the crucial part: ``... causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not ininitalized or not present value, rather than that dereferencing such will result in program crashes.
+
+Lets see some brief examples of such null dereferences in various common languages:
+
+\textbf{C/C++}
+\begin{verbatim}
+    SomeType *obj = nullptr;
+    obj->methodCall(); // Crashs the program.
+\end{verbatim}
+
+\textbf{Java}
+\begin{verbatim}
+    SomeType obj = null;
+    name.methodCall(); // Crashs the program.
+\end{verbatim}
+
+\textbf{C\#}
+\begin{verbatim}
+    SomeType obj = null;
+    obj.MethodCall(); // Crashs the program.
+\end{verbatim}
+
+\textbf{JavaScript}
+\begin{verbatim}
+    var obj = null;
+    obj.methodCall(); // Crashs the program.
+
+    obj = {methodCall: null};
+    obj.methodCall(); // Crashs the program.
+\end{verbatim}
+
+\textbf{PHP}
+\begin{verbatim}
+    $obj = null;
+    obj->methodCall(); // Crashs the program.    
+\end{verbatim}
+
+\textbf{Python}
+\begin{verbatim}
+    obj = None
+    obj.methodCall() # Crashs the program.
+\end{verbatim}
+
+\textbf{Ruby}
+\begin{verbatim}
+    obj = nil
+    obj.method_call # Crashs the program.
+\end{verbatim}
+
+\textbf{Perl}
+\begin{verbatim}
+    my $obj;
+    $obj->method_call; # Crashs the program.    
+\end{verbatim}
+
+All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphys Law: If there is the posibillity to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
+
+\begin{quotation}
+    One insideous bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. ..., 1-2\% of developer code is devoted to identifying null objects.
+\end{quotation}
+
+Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs are only came from only this kind of bug or from all kinds. What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
 
 \begin{quotation}
 I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.	
 \end{quotation} 
 
-\mytodo{Cite some sites why null is bad. Null is one of the most reasons for bugs.}
+Whatever the real economic amount is, the fact that this kind of bug is completely avoidable by removing null pointers is obvious. To be clear: There is no problem with the concept that a value may or may not be present. Some languages (as described later) has implemented this without null pointers. The problem with null pointers is that everything everywhere may be one and either you put lot of checking code into your software or you risk crashes. In statically typed language this also subverts the type system because every type may be null but the statically checking at compile time can't inform you about this problem. As mentioned above the problem will hit reality first at runtime. There are lot of more problems which will be introduced by null. A list of some is described by Paul Draper in his blog post \textit{The worst mistake of computer science}\cite{draper-worst-mistake-cs}.
+
+Of course there are techniques to circumvent null pointer dereferences in such languages without cluttering up the code with lot of null checks and boiler plate code. You can void using null at all. Use empty strings or zero instead of null. Or use \textit{Null Object Pattern} is a special kind of object of your type which represent an absent value. But these are \textit{workarounds} and introduce the big caveat that a software developer need to know about. Remember yourself starting software development as a novice: You learned ab out that null thing in your language of choice and of course you used it. Why else should it be part of the language, unless to use it?
+
+Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
+
+\textbf{Objective-C}
+\textbf{Go}
+\textbf{Swift}
+\textbf{Haskell}
+\textbf{F\#}
+\textbf{Erlang}
 
 \subsubsection{Checked Exceptions}
 
@@ -330,30 +416,45 @@ Also each method which should be accessible from outside must be declared export
 \newpage
 
 \begin{thebibliography}{56}
+	
+\bibitem{null-wiki}
+    Wikipedia
+    \textit{Null pointer},
+    \url{https://en.wikipedia.org/wiki/Null_pointer}
+
+\bibitem{kent-dyn-err-remediation}
+    Stephen W. Kent
+    \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}
+    \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.140.2544&rep=rep1&type=pdf}
 
 \bibitem{hoare-wiki}
 	Wikipedia,
-	\emph{Tony Hoare},
+	\textit{Tony Hoare},
 	\url{https://en.wikipedia.org/wiki/Tony_Hoare}
 	
 \bibitem{hoeare-null}
 	Tony Hoare,
-	\emph{Speaking at a conference in 2009},
+	\textit{Speaking at a conference in 2009},
 	\url{http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare}
-	
+
+\bibitem{draper-worst-mistake-cs}
+    Paul Draper
+    \textit{The worst mistake of computer science}
+    \url{https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/}
+
 \bibitem{kotlin-sommerhoff}
  	Peter Sommerhoff,
- 	\emph{Kotlin for Java Developers: 10 Features You Will Love About Kotlin}
+ 	\textit{Kotlin for Java Developers: 10 Features You Will Love About Kotlin}
  	\url{https://www.javacodegeeks.com/2016/05/kotlin-java-developers-10-features-will-love-kotlin.html}
 
 \bibitem{secret-perl-operators}
 	Peteris Krumin,
-	\emph{Secret Perl Operators}
+	\textit{Secret Perl Operators}
 	\url{http://www.catonmat.net/blog/secret-perl-operators/}
 
 \bibitem{special-operators-scala}
 	Daniel C. Sobral,
-	\emph{What do all of Scala's symbolic operators mean?},
+	\textit{What do all of Scala's symbolic operators mean?},
 	\url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
 
 \end{thebibliography}

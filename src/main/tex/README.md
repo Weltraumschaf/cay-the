@@ -14,12 +14,25 @@ researching for the new perfect language is stored.
 Links  and   quotes  about  programming  language,   their  best/bad  practices,
 drawbacks, new ideas etc.
 
+### Java
+
+- [Java Modeling Language](https://en.wikipedia.org/wiki/Java_Modeling_Language)
+
 ### General
 
 - [Expressions and Statements](http://www.vanguardsw.com/dphelp4/dph00238.htm) (pocket)
 - [Less is more: language features](http://blog.ploeh.dk/2015/04/13/less-is-more-language-features/)
 - [Goodbye, Object Oriented Programming](https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53)
 - [What are five things you hate about your favorite language?](http://stackoverflow.com/questions/282329/what-are-five-things-you-hate-about-your-favorite-language)
+
+### Null
+
+- [Wikipedia: Null_pointer](https://en.wikipedia.org/wiki/Null_pointer)
+- [Null Pointer Exception](http://wiki.c2.com/?NullPointerException)
+- [Null pointer exceptions hell](http://dobegin.com/npe-hell/)
+- [Are null references really a bad thing?](http://softwareengineering.stackexchange.com/questions/12777/are-null-references-really-a-bad-thing)
+- [Why NULL is Bad?](http://www.yegor256.com/2014/05/13/why-null-is-bad.html)
+- [The worst mistake of computer science](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/)
 
 ### Functional Programming Paradigms
 
