@@ -19,6 +19,10 @@ drawbacks, new ideas etc.
 - [Jikes RVM (Research Virtual Machine)](http://www.jikesrvm.org)
 - [Java Modeling Language](https://en.wikipedia.org/wiki/Java_Modeling_Language)
 
+### Objective-C
+
+- [Objective-C Runtime Programming Guide](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048-CH1-SW1)
+
 ### General
 
 - [Expressions and Statements](http://www.vanguardsw.com/dphelp4/dph00238.htm) (pocket)

@@ -14,6 +14,7 @@
 \date{\today}
 
 \begin{document}
+
 \maketitle
 \abstract{This paper describes a perfect programming language. We will look at drawbacks of current programming languages. Then try to describe a programming language  without these drawbacks.}
 \newpage
@@ -48,7 +49,7 @@ The first thing to recognize here is that different languages implement this con
     Because a null pointer does not point to a meaningful object, an attempt to dereference (ie. access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
-To repeat the crucial part: ``... causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not ininitalized or not present value, rather than that dereferencing such will result in program crashes.
+To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not ininitalized or not present value, rather than that dereferencing such will result in program crashes.
 
 Lets see some brief examples of such null dereferences in various common languages:
 
@@ -106,7 +107,7 @@ Lets see some brief examples of such null dereferences in various common languag
 All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphys Law: If there is the posibillity to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
 \begin{quotation}
-    One insideous bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. ..., 1-2\% of developer code is devoted to identifying null objects.
+    One insideous bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1-2\% of developer code is devoted to identifying null objects.
 \end{quotation}
 
 Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs are only came from only this kind of bug or from all kinds. What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
@@ -121,12 +122,34 @@ Of course there are techniques to circumvent null pointer dereferences in such l
 
 Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
 
-\textbf{Objective-C}
+\textbf{Objective-C}: Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \verb|(void *)0| it is \verb|(id)0|). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
+
+\begin{verbatim}
+    if (name != nil && [name isEqualToString:@"Hello, World!"]) { ... }
+\end{verbatim}
+
+\noindent can be simplified to
+
+\begin{verbatim}
+    if ([name isEqualToString:@"Hello, World!"]) { ... }
+\end{verbatim}
+
+\noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialized references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between unitialized object references (\verb|nil|) and uninitialozed class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
+
 \textbf{Go}
+TODO
+
 \textbf{Swift}
+TODO
+
 \textbf{Haskell}
+TODO
+
 \textbf{F\#}
+TODO
+
 \textbf{Erlang}
+TODO
 
 \subsubsection{Checked Exceptions}
 
