@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Coordinate {
+    public static final Coordinate NULL = new Coordinate("unknown", "unknown", Version.NULL);
     private final String group;
     private final String artifact;
     private final Version version;
@@ -20,6 +21,18 @@ public final class Coordinate {
         this.group = Validate.notEmpty(group, "group");
         this.artifact = Validate.notEmpty(artifact, "artifact");
         this.version = Validate.notNull(version, "version");
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public String getArtifact() {
+        return artifact;
+    }
+
+    public Version getVersion() {
+        return version;
     }
 
     @Override

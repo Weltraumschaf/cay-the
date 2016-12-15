@@ -20,14 +20,6 @@ public final class CliApplication extends InvokableAdapter {
      * Version information.
      */
     private final Version version = new Version(CayThe.BASE_PACKAGE_DIR + "/version.properties");
-    /**
-     * Dependency injection configuration.
-     */
-    private final InterpreterModule module = new InterpreterModule();
-    /**
-     * Used to create objects with injected dependencies.
-     */
-    private final Injector injector = Guice.createInjector(module);
 
     /**
      * Dedicated constructor.
@@ -56,7 +48,6 @@ public final class CliApplication extends InvokableAdapter {
      */
     private CliOptions setup() throws IOException {
         version.load();
-        module.setIoStreams(getIoStreams());
         return CliOptions.gatherOptions(getArgs());
     }
 

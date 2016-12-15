@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import de.weltraumschaf.caythe.frontend.*;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 
 /**
  * Configures the dependency injection.
@@ -13,7 +14,12 @@ import de.weltraumschaf.commons.validate.Validate;
  */
 public class InterpreterModule extends AbstractModule {
 
-    private IO ioStreams;
+    private final IO ioStreams;
+
+    public InterpreterModule(final IO ioStreams) {
+        super();
+        this.ioStreams = Validate.notNull(ioStreams, "ioStreams");
+    }
 
     @Override
     protected void configure() {
@@ -21,12 +27,9 @@ public class InterpreterModule extends AbstractModule {
         bind(IO.class).toInstance(ioStreams);
 
         // ANTLR dependencies.
-        bind(Parsers.class);
-        bind(CayTheManifestVisitor.class).to(CayTheManifestBaseVisitor.class);
-        bind(CayTheSourceVisitor.class).to(CayTheSourceBaseVisitor.class);
+        bind(ANTLRErrorListener.class).to(ErrorListener.class);
+        bind(CayTheManifestVisitor.class).to(DefaultCayTheManifestVisitor.class);
+        bind(CayTheSourceVisitor.class).to(DefaultCayTheSourceVisitor.class);
     }
 
-    public void setIoStreams(final IO ioStreams) {
-        this.ioStreams = Validate.notNull(ioStreams, "ioStreams");
-    }
 }

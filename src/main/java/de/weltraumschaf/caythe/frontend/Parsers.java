@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
+import com.google.inject.Injector;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.*;
 
@@ -14,6 +15,13 @@ import java.io.InputStream;
  */
 public final class Parsers {
 
+    private final Injector injector;
+
+    public Parsers(final Injector injector) {
+        super();
+        this.injector = Validate.notNull(injector, "injector");
+    }
+
     /**
      * Creates a new parser instance for regular source files.
      *
@@ -23,11 +31,8 @@ public final class Parsers {
      */
     public CayTheSourceParser newSourceParser(final InputStream src) throws IOException {
         Validate.notNull(src, "src");
-        final CharStream input = new ANTLRInputStream(src);
-        final Lexer lexer = new CayTheSourceLexer(input);
-        final TokenStream tokens = new CommonTokenStream(lexer);
-
-        return new CayTheSourceParser(tokens);
+        final Lexer lexer = new CayTheSourceLexer(newCharStream(src));
+        return addErrorListener(new CayTheSourceParser(newTokenStream(lexer)));
     }
 
     /**
@@ -39,10 +44,20 @@ public final class Parsers {
      */
     public CayTheManifestParser newManifestParser(final InputStream src) throws IOException {
         Validate.notNull(src, "src");
-        final CharStream input = new ANTLRInputStream(src);
-        final Lexer lexer = new CayTheManifestLexer(input);
-        final TokenStream tokens = new CommonTokenStream(lexer);
+        final Lexer lexer = new CayTheManifestLexer(newCharStream(src));
+        return addErrorListener(new CayTheManifestParser(newTokenStream(lexer)));
+    }
 
-        return new CayTheManifestParser(tokens);
+    private CharStream newCharStream(final InputStream src) throws IOException {
+        return new ANTLRInputStream(src);
+    }
+
+    private TokenStream newTokenStream(final Lexer lexer) {
+        return new CommonTokenStream(lexer);
+    }
+
+    private <P extends Parser> P addErrorListener(final P parser) {
+        parser.addErrorListener(injector.getInstance(ANTLRErrorListener.class));
+        return parser;
     }
 }

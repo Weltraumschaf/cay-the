@@ -4,18 +4,18 @@ IDENTIFIER
     :   LETTER CHARACTER*
     ;
 
-fragment
+//fragment
 CHARACTER       : DIGIT | LETTER ;
-fragment
+//fragment
 LETTER          : LOWER_LETTER | UPPER_LETTER ;
-fragment
+//fragment
 LOWER_LETTER    : [a-z] ;
-fragment
+//fragment
 UPPER_LETTER    : [A-Z] ;
-fragment
-DIGIT       : [0-9] ;
+//fragment
+DIGIT           : [0-9] ;
 
-NL          : '\r'? '\n' ;
+NL              : '\r'? '\n' ;
 
 // Ignored:
 ML_COMMENT  : '/*' .*? '*/'         -> skip ;

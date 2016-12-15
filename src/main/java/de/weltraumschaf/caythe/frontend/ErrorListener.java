@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
+import com.google.inject.Inject;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.BitSet;
@@ -16,12 +17,10 @@ import org.antlr.v4.runtime.misc.Interval;
 /**
  * Custom error listener for the parser.
  *
- * TODO Use logger?
- *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-final class ErrorListener implements ANTLRErrorListener {
+public final class ErrorListener implements ANTLRErrorListener {
 
     /**
      * Used to send the error messages to.
@@ -31,17 +30,24 @@ final class ErrorListener implements ANTLRErrorListener {
      * If {@code false} only {@link #error(java.lang.String) errors} are printed out, if {@code true} everything is
      * printed out.
      */
-    private final boolean debugEnabled;
+    private boolean debugEnabled = true;
 
     /**
      * Dedicated constructor.
      *
      * @param io must not be {@code null}
      */
-    public ErrorListener(final IO io, final boolean debugEnabled) {
+    @Inject
+    public ErrorListener( final IO io) {
         super();
         this.io = Validate.notNull(io, "io");
-        this.debugEnabled = debugEnabled;
+    }
+
+    public void enableDebug() {
+        debugEnabled = true;
+    }
+    public void disableDebug() {
+        debugEnabled = false;
     }
 
     /**

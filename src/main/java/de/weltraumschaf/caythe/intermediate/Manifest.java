@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Manifest {
+    public static final Manifest NULL = new Manifest(Coordinate.NULL, "unknown", Collections.emptyList());
     private final Coordinate coordinate;
     private final String namespace;
     private final Collection<Coordinate> imports;
@@ -34,6 +36,18 @@ public final class Manifest {
         return Objects.equals(coordinate, manifest.coordinate) &&
             Objects.equals(namespace, manifest.namespace) &&
             Objects.equals(imports, manifest.imports);
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public Collection<Coordinate> getImports() {
+        return Collections.unmodifiableCollection(imports);
     }
 
     @Override

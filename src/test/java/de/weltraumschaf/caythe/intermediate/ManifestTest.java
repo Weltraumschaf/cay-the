@@ -5,6 +5,8 @@ import org.junit.Test;
 
 /**
  * Tests for {@link Manifest}.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public class ManifestTest {
 

@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class Version {
+    public static final Version NULL = new Version(0, 0, 0);
     private final int major;
     private final int minor;
     private final int patch;
@@ -20,6 +21,18 @@ public final class Version {
         this.major = Validate.greaterThanOrEqual(major, 0, "major");
         this.minor = Validate.greaterThanOrEqual(minor, 0, "minor");
         this.patch = Validate.greaterThanOrEqual(patch, 0, "patch");
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
+
+    public int getPatch() {
+        return patch;
     }
 
     @Override
