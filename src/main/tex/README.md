@@ -30,6 +30,10 @@ drawbacks, new ideas etc.
 - [Goodbye, Object Oriented Programming](https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53)
 - [What are five things you hate about your favorite language?](http://stackoverflow.com/questions/282329/what-are-five-things-you-hate-about-your-favorite-language)
 
+### Aspecte
+
+TODO
+
 ### Null
 
 - [Wikipedia: Null_pointer](https://en.wikipedia.org/wiki/Null_pointer)
