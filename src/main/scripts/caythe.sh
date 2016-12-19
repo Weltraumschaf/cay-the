@@ -1,32 +1,27 @@
 #!/usr/bin/env sh
 
 # JVM settings.
-JVM_MIN_HEAP_SPACE="32m"
-JVM_MAX_HEAP_SPACE="128m"
-JVM_OPTIONS="-Xms${JVM_MIN_HEAP_SPACE} -Xmx${JVM_MAX_HEAP_SPACE}"
+jvm_min_heap_space="32m"
+jvm_max_heap_space="128m"
+jvm_options="-Xms${jvm_min_heap_space} -Xmx${jvm_max_heap_space}"
 
-PROGRAM="${0}"
+program="${0}"
 
-while [ -h "${PROGRAM}" ]; do
-  LS=`ls -ld "${PROGRAM}"`
-  LINK=`expr "${LS}" : '.*-> \(.*\)$'`
+while [ -h "${program}" ]; do
+  ls=`ls -ld "${program}"`
+  link=`expr "${ls}" : '.*-> \(.*\)$'`
 
-  if expr "${LINK}" : '.*/.*' > /dev/null; then
-    PROGRAM="${LINK}"
+  if expr "${link}" : '.*/.*' > /dev/null; then
+    program="${link}"
   else
-    PROGRAM=`dirname "${PROGRAM}"`/"${LINK}"
+    program=`dirname "${program}"`/"${link}"
   fi
 done
 
-PROGRAM_DIRECTORY=`dirname "${PROGRAM}"`
-
-JAR="${PROGRAM_DIRECTORY}/caythe.jar"
-
-if [ ! -f "${JAR}" ] ; then
-    PROJECT_DIR=`dirname "${PROGRAM_DIRECTORY}"`
-    echo "ERROR: JAR file ${JAR} not present!"
-    echo "Invoke 'mvn clean install' in the project base directory: ${PROJECT_DIR}."
-    exit 1
+java=java
+if test -n "$JAVA_HOME"; then
+    java="$JAVA_HOME/bin/java"
 fi
 
-$JAVA_HOME/bin/java ${JVM_OPTIONS} -jar "${JAR}" "$@"
+exec "$java" ${jvm_options} -jar "${program}" "$@"
+exit 1

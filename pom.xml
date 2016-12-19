@@ -293,8 +293,28 @@
 
                 <executions>
                     <execution>
+                        <id>generate-executable</id>
+                        <phase>integration-test</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target>
+                                <concat destfile="${project.bin.directory}/caythe" binary="yes">
+                                    <fileset file="${project.scripts.directory}/caythe.sh" />
+                                    <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
+                                </concat>
+                                <chmod perm="ugo+rx">
+                                    <fileset file="${project.bin.directory}/caythe" />
+                                </chmod>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-scritps-for-install</id>
-                        <phase>install</phase>
+                        <phase>none</phase>
 
                         <goals>
                             <goal>run</goal>
