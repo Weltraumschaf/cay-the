@@ -25,6 +25,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     private String namespace = NO_LITERAL;
     private Collection<Coordinate> imports = new ArrayList<>();
 
+
     @Override
     protected Manifest defaultResult() {
         return Manifest.NULL;
@@ -52,7 +53,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
             throw error(ctx.start, "Redefined group!");
         }
 
-        return super.visitGroupDirective(ctx);
+        return defaultResult();
     }
 
     @Override
@@ -63,7 +64,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
             throw error(ctx.start, "Redefined artifact!");
         }
 
-        return super.visitArtifactDirective(ctx);
+        return defaultResult();
     }
 
     @Override
@@ -74,37 +75,47 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
             throw error(ctx.start, "Redefined namespace!");
         }
 
-        return super.visitNamespaceDirective(ctx);
+        return defaultResult();
     }
 
     @Override
     public Manifest visitVersionDirective(CayTheManifestParser.VersionDirectiveContext ctx) {
         if (Version.NULL.equals(version)) {
             CayTheManifestParser.VersionContext v = ctx.version();
+            final String identifiers =
+                v.identifiers == null ?
+                    "" :
+                    v.identifiers.getText();
             version = new Version(
                 Integer.parseInt(v.major.getText()),
                 Integer.parseInt(v.minor.getText()),
-                Integer.parseInt(v.patch.getText())
+                Integer.parseInt(v.patch.getText()),
+                identifiers
             );
         } else {
             throw error(ctx.start, "Redefined version!");
         }
 
-        return super.visitVersionDirective(ctx);
+        return defaultResult();
     }
 
     @Override
     public Manifest visitImportDirective(CayTheManifestParser.ImportDirectiveContext ctx) {
         final CayTheManifestParser.VersionContext v = ctx.version();
+        final String identifiers =
+            v.identifiers == null ?
+                "" :
+                v.identifiers.getText();
         imports.add(new Coordinate(
             ctx.group.getText(),
             ctx.artifact.getText(),
             new Version(
                 Integer.parseInt(v.major.getText()),
                 Integer.parseInt(v.minor.getText()),
-                Integer.parseInt(v.patch.getText()))
+                Integer.parseInt(v.patch.getText()),
+                identifiers)
         ));
-        return super.visitImportDirective(ctx);
+        return defaultResult();
     }
 
     private SyntaxError error(final Token token, final String message, final Object ... args) {

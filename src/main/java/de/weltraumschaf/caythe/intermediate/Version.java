@@ -15,12 +15,18 @@ public final class Version {
     private final int major;
     private final int minor;
     private final int patch;
+    private final String identifiers;
 
     public Version(final int major, final int minor, final int patch) {
+        this(major, minor, patch, "");
+    }
+
+    public Version(final int major, final int minor, final int patch, final String identifiers) {
         super();
         this.major = Validate.greaterThanOrEqual(major, 0, "major");
         this.minor = Validate.greaterThanOrEqual(minor, 0, "minor");
         this.patch = Validate.greaterThanOrEqual(patch, 0, "patch");
+        this.identifiers = Validate.notNull(identifiers, "identifiers");
     }
 
     public int getMajor() {
@@ -35,6 +41,10 @@ public final class Version {
         return patch;
     }
 
+    public String getIdentifiers() {
+        return identifiers;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Version)) {
@@ -44,12 +54,13 @@ public final class Version {
         final Version version = (Version) o;
         return major == version.major &&
             minor == version.minor &&
-            patch == version.patch;
+            patch == version.patch &&
+            Objects.equals(identifiers, version.identifiers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(major, minor, patch);
+        return Objects.hash(major, minor, patch, identifiers);
     }
 
     @Override
@@ -58,6 +69,7 @@ public final class Version {
             "major=" + major +
             ", minor=" + minor +
             ", patch=" + patch +
+            ", identifiers=" + identifiers +
             '}';
     }
 }
