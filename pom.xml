@@ -72,6 +72,7 @@
 
         <project.build.mainClass>de.weltraumschaf.caythe.cli.CliApplication</project.build.mainClass>
         <project.bin.directory>${project.basedir}/bin</project.bin.directory>
+        <project.bin.executable>caythe</project.bin.executable>
         <project.scripts.directory>${project.basedir}/src/main/scripts</project.scripts.directory>
 
         <generated.source.dir>src/generated/java</generated.source.dir>
@@ -302,36 +303,15 @@
 
                         <configuration>
                             <target>
-                                <concat destfile="${project.bin.directory}/caythe" binary="yes">
-                                    <fileset file="${project.scripts.directory}/caythe.sh" />
-                                    <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
+                                <concat destfile="${project.build.directory}/${project.bin.executable}" binary="yes">
+                                    <fileset file="${project.scripts.directory}/${project.bin.executable}.sh" />
+                                    <fileset file="${project.build.directory}/${project.bin.executable}.jar" />
                                 </concat>
+                                <copy file="${project.build.directory}/${project.bin.executable}" todir="${project.bin.directory}"/>
                                 <chmod perm="ugo+rx">
-                                    <fileset file="${project.bin.directory}/caythe" />
-                                </chmod>
-                            </target>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-scritps-for-install</id>
-                        <phase>none</phase>
-
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-
-                        <configuration>
-                            <target>
-                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                      todir="${project.bin.directory}"/>
-                                <copy file="${project.scripts.directory}/caythe.sh"
-                                      tofile="${project.bin.directory}/caythe"/>
-                                <chmod dir="${project.bin.directory}" perm="ugo+rx"/>
-                                <chmod perm="ugo+rx">
-                                    <fileset dir="${project.bin.directory}">
-                                        <include name="**/*"/>
-                                        <exclude name="**/*.jar"/>
-                                    </fileset>
+                                    <fileset file="${project.build.directory}/${project.bin.executable}" />
+                                    <!-- The copy task does not preserve the executable/readable bits. -->
+                                    <fileset file="${project.bin.directory}/${project.bin.executable}" />
                                 </chmod>
                             </target>
                         </configuration>

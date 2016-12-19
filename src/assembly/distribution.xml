@@ -10,21 +10,11 @@
 
     <fileSets>
         <fileSet>
-            <directory>src/main/scripts</directory>
-
-            <includes>
-                <include>caythe.sh</include>
-            </includes>
-
-            <outputDirectory>/</outputDirectory>
-        </fileSet>
-
-        <fileSet>
             <directory>${project.build.directory}</directory>
             <outputDirectory>/</outputDirectory>
 
             <includes>
-                <include>${project.build.finalName}.jar</include>
+                <include>${project.bin.executable}</include>
             </includes>
         </fileSet>
     </fileSets>
