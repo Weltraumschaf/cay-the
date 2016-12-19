@@ -11,11 +11,12 @@
     <fileSets>
         <fileSet>
             <directory>${project.build.directory}</directory>
-            <outputDirectory>/</outputDirectory>
 
             <includes>
                 <include>${project.bin.executable}</include>
             </includes>
+
+            <outputDirectory>.</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
