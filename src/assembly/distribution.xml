@@ -16,7 +16,17 @@
                 <include>${project.bin.executable}</include>
             </includes>
 
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>bin</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${latex.output.directory}</directory>
+
+            <includes>
+                <include>*.pdf</include>
+            </includes>
+
+            <outputDirectory>doc</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>

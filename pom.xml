@@ -78,6 +78,14 @@
         <generated.source.dir>src/generated/java</generated.source.dir>
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
+        <!-- LaTeX to PDF generation. -->
+        <latex.command>pandoc</latex.command>
+        <latex.engine>pdflatex</latex.engine>
+        <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
+        <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
+        <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
+
+        <!-- Dependnecy versions. -->
         <guice-core.version>4.1.0</guice-core.version>
         <antlr.version>4.5.3</antlr.version>
         <commons.version>2.2.0</commons.version>
@@ -291,7 +299,30 @@
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
 
+                <dependencies>
+                    <dependency>
+                        <!-- For foreach task. -->
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>20020829</version>
+                    </dependency>
+                </dependencies>
+
                 <executions>
+                    <execution>
+                        <id>pandoc</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target>
+                                <ant antfile="${project.basedir}/src/main/ant/build.xml" target="generate-documentation"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
                     <execution>
                         <id>generate-executable</id>
                         <!-- Run between the two assembly executions. -->

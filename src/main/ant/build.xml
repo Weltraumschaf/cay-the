@@ -1,0 +1,35 @@
+<project name="GenerateDocumentation">
+    <!-- Add the Ant tasks from ant-contrib. -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+    <description>
+        Calls Pandoc on the command line to convert all found TeX files to PDF.
+    </description>
+
+    <target name="generate-documentation">
+        <echo message="Convert LaTeX files to PDF ..."/>
+
+        <mkdir dir="${latex.output.directory}"/>
+
+        <echo message="Collect TeX files from ${latex.source.directory} ..."/>
+
+        <foreach target="generate-pdf" param="tex-file" inheritall="true">
+            <fileset dir="${latex.source.directory}" casesensitive="yes">
+                <include name="**/*.tex"/>
+            </fileset>
+        </foreach>
+
+        <echo message="PDFs generated to ${latex.output.directory}."/>
+    </target>
+
+    <target name="generate-pdf">
+        <basename property="output-file" file="${tex-file}" suffix=".tex"/>
+        <echo message="Generate PDF for ${tex-file} ..."/>
+        <exec executable="${latex.command}" failonerror="true">
+            <arg value="${tex-file}"/>
+            <arg value="--latex-engine=${latex.engine}"/>
+            <arg value="-o"/>
+            <arg value="${latex.output.directory}/${output-file}.pdf"/>
+        </exec>
+    </target>
+</project>

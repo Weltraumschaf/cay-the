@@ -1,4 +1,4 @@
-# LaTeX - Readme
+# Research
 
 Here  in this  directory  the  [LaTeX][latex] documentation/specification  about
 researching for the new perfect language is stored.
