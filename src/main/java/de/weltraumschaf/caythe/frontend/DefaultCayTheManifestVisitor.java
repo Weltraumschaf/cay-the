@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.Token;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Default implementation which converts the parsed tree from a manifest file into intermediate model.
@@ -17,6 +19,13 @@ import java.util.Collections;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisitor<Manifest> {
+
+    private static final Function<String, String> MISSING_DIRECTIVE = (String misingDirective) -> {
+        return String.format(
+            "There is no %s declared in the manifest! A %s directive is mandatory.",
+            misingDirective,
+            misingDirective);
+    };
 
     private static final String NO_LITERAL = "";
     private String group = NO_LITERAL;
@@ -42,6 +51,23 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
                 - no duplicates
                 - versions > 0.0.0
          */
+
+        if (NO_LITERAL.equals(group)) {
+            throw new SyntaxError(MISSING_DIRECTIVE.apply("group"));
+        }
+
+        if (NO_LITERAL.equals(artifact)) {
+            throw new SyntaxError(MISSING_DIRECTIVE.apply("artifact"));
+        }
+
+        if (Version.NULL.equals(version)) {
+            throw new SyntaxError(MISSING_DIRECTIVE.apply("version"));
+        }
+
+        if (NO_LITERAL.equals(namespace)) {
+            throw new SyntaxError(MISSING_DIRECTIVE.apply("namespace"));
+        }
+
         return new Manifest(new Coordinate(group, artifact, version), namespace, imports);
     }
 

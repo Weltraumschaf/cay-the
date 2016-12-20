@@ -30,7 +30,7 @@ public final class ErrorListener implements ANTLRErrorListener {
      * If {@code false} only {@link #error(java.lang.String) errors} are printed out, if {@code true} everything is
      * printed out.
      */
-    private boolean debugEnabled = true;
+    private boolean debugEnabled = false;
 
     /**
      * Dedicated constructor.
