@@ -16,6 +16,7 @@
         <foreach target="generate-pdf" param="tex-file" inheritall="true">
             <fileset dir="${latex.source.directory}" casesensitive="yes">
                 <include name="**/*.tex"/>
+                <exclude name="**/template.tex"/>
             </fileset>
         </foreach>
 
@@ -26,6 +27,13 @@
         <basename property="output-file" file="${tex-file}" suffix=".tex"/>
         <echo message="Generate PDF for ${tex-file} ..."/>
         <exec executable="${latex.command}" failonerror="true">
+            <arg value="-s"/>
+            <arg value="-N"/>
+            <arg value="--toc"/>
+            <arg value="-f"/>
+            <arg value="latex"/>
+            <arg value="--template"/>
+            <arg value="${latex.source.directory}/template.tex"/>
             <arg value="${tex-file}"/>
             <arg value="--latex-engine=${latex.engine}"/>
             <arg value="-o"/>
