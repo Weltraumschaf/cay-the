@@ -18,50 +18,48 @@
 
 \maketitle
 \begin{abstract}
-    Lorem ipsum dolor.
+    This document describes the language specification of the Cay-The language.
 \end{abstract}
 \clearpage
 
 \tableofcontents
 \clearpage
 
-\section{Lorem}
+\section{General}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.
+TODO
 
-\section{Ipsum}
+\subsection{Modules}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.
+The top level artifact is a module which is simply a directory.
 
-\section{Dolor}
+TODO 
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.
+\subsubsection{Directory Structure of a Module}
 
+\begin{verbatim}
+    modulename/
+        +- Manifest.mf
+        +- FileOne.ct
+        +- packgeone
+            +- fileTwo.ct
+            +- FileThree.ct
+\end{verbatim}
+
+\subsubsection{The Manifest}
+
+TODO 
+
+\begin{verbatim}
+    group       de.weltraumschaf
+    artifact    example
+    version     1.0.0
+    namespace   de.weltraumschaf.example
+    import      org.caythe:core:1.0.0
+    import      org.caythe:testing:1.0.0
+\end{verbatim}
 \clearpage
+
 
 \begin{thebibliography}{56}
     
