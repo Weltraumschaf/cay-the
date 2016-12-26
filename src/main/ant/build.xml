@@ -30,6 +30,7 @@
             <arg value="-s"/>
             <arg value="-N"/>
             <arg value="--toc"/>
+            <arg value="--biblatex"/>
             <arg value="-f"/>
             <arg value="latex"/>
             <arg value="--template"/>
