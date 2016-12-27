@@ -27,7 +27,7 @@ public final class CayThe {
     /**
      * The command line application name (name of the "binary").
      */
-    public static final String CMD_NAME = "caythe";
+    public static final String COMMAND_NAME = "caythe";
 
     /**
      * Private for pure static class.

@@ -8,9 +8,7 @@ import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Default implementation which converts the parsed tree from a manifest file into intermediate model.

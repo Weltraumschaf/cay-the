@@ -31,7 +31,7 @@ public class DefaultCayTheManifestVisitorTest {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
     private final IO io = new IOStreams(mock(InputStream.class), System.out, System.err);
-    private final Injector injector = new Injectors(io).newInterpreterInjector();
+    private final Injector injector = new Injectors(io).newInjector();
     private final Parsers parsers = new Parsers(injector);
     @SuppressWarnings("unchecked")
     private final CayTheManifestVisitor<Manifest> sut = injector.getInstance(CayTheManifestVisitor.class);

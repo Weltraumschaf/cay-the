@@ -3,13 +3,14 @@ package de.weltraumschaf.caythe.cli;
 import com.beust.jcommander.Parameter;
 import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
+
 import java.util.Objects;
 
 /**
  * Command line options.
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public final class CliOptions {
 
@@ -31,7 +32,7 @@ public final class CliOptions {
      * Command line options parser.
      */
     private static final JCommanderImproved<CliOptions> PROVIDER
-        = new JCommanderImproved<>(CayThe.CMD_NAME, CliOptions.class);
+        = new JCommanderImproved<>(CayThe.COMMAND_NAME, CliOptions.class);
 
     /**
      * Option if help is wanted.
@@ -73,7 +74,7 @@ public final class CliOptions {
      * @return never {@code null} or empty
      */
     public static String usage() {
-        return String.format("Usage: %s %s", CayThe.CMD_NAME, USAGE);
+        return String.format("Usage: %s %s", CayThe.COMMAND_NAME, USAGE);
     }
 
     /**

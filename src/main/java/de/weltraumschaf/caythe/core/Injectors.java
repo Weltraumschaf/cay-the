@@ -15,7 +15,7 @@ public final class Injectors {
     /**
      * Dependency injection configuration.
      */
-    private final InterpreterModule module;
+    private final DependencyInjectionConfig module;
 
     /**
      * Dedicated constructor.
@@ -24,7 +24,7 @@ public final class Injectors {
      */
     public Injectors(final IO ioStreams) {
         super();
-        this.module = new InterpreterModule(ioStreams);
+        module = new DependencyInjectionConfig(ioStreams);
     }
 
     /**
@@ -32,7 +32,7 @@ public final class Injectors {
      *
      * @return never {@code null}, always new instance
      */
-    public Injector newInterpreterInjector() {
+    public Injector newInjector() {
         return Guice.createInjector(module);
     }
 

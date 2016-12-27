@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.ANTLRErrorListener;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public class InterpreterModule extends AbstractModule {
+public class DependencyInjectionConfig extends AbstractModule {
 
     private final IO ioStreams;
 
-    public InterpreterModule(final IO ioStreams) {
+    public DependencyInjectionConfig(final IO ioStreams) {
         super();
         this.ioStreams = Validate.notNull(ioStreams, "ioStreams");
     }
