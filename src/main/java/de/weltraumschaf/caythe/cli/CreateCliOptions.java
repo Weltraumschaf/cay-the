@@ -4,13 +4,13 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 /**
- * Options for the create sub command.
+ * CliOptions for the create sub command.
  *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 @Parameters(commandDescription = "Creates a module skeleton.")
-final class CreateOptions extends CommonOptions {
+final class CreateCliOptions extends CommonOptions {
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-m", "--module"}, description = "The name of the module. This is used as the directory name.", required = true)

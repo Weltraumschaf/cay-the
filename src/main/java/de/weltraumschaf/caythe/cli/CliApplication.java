@@ -24,7 +24,7 @@ public final class CliApplication extends InvokableAdapter {
     /**
      * Command line arguments.
      */
-    private final Options options = new Options();
+    private final CliOptions cliOptions = new CliOptions();
     /**
      * Provides sub commands.
      */
@@ -57,12 +57,12 @@ public final class CliApplication extends InvokableAdapter {
      */
     private SubCommandName setup() throws ApplicationException {
         try {
-            options.parse(getArgs());
+            cliOptions.parse(getArgs());
         } catch (final ParameterException ex) {
-            throw badArgumentError(ex, options.getParsedCommand());
+            throw badArgumentError(ex, cliOptions.getParsedCommand());
         }
 
-        debug = options.isDebug();
+        debug = cliOptions.isDebug();
 
         try {
             version.load();
@@ -70,7 +70,7 @@ public final class CliApplication extends InvokableAdapter {
             throw new ApplicationException(ExitCodeImpl.FATAL, errorMessage("Can not read version information!", SubCommandName.NONE), ex);
         }
 
-        return options.getParsedCommand();
+        return cliOptions.getParsedCommand();
     }
 
     @Override
@@ -90,12 +90,12 @@ public final class CliApplication extends InvokableAdapter {
      * @throws ApplicationException on any application error such as bad arguments
      */
     private void executeMainCommand() throws ApplicationException {
-        if (options.isHelp()) {
+        if (cliOptions.isHelp()) {
             showHelp();
             return;
         }
 
-        if (options.getMain().isVersion()) {
+        if (cliOptions.getMain().isVersion()) {
             showVersion();
             return;
         }
@@ -112,7 +112,7 @@ public final class CliApplication extends InvokableAdapter {
     private void executeSubCommand(final SubCommandName commandName) throws Exception {
         Validate.notNull(commandName, "commandName");
 
-        if (options.isHelp()) {
+        if (cliOptions.isHelp()) {
             showHelp(commandName);
             return;
         }
@@ -179,7 +179,7 @@ public final class CliApplication extends InvokableAdapter {
             .append("Usage: ")
             .append(CayThe.COMMAND_NAME)
             .append(' ')
-            .append(options.usage(name))
+            .append(cliOptions.usage(name))
             .toString();
     }
 
@@ -191,7 +191,7 @@ public final class CliApplication extends InvokableAdapter {
     }
 
     private void showHelp(final SubCommandName name) {
-        getIoStreams().println(options.help(name));
+        getIoStreams().println(cliOptions.help(name));
     }
 
     /**

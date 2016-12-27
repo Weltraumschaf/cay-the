@@ -1,19 +1,21 @@
 package de.weltraumschaf.caythe.cli;
 
 import com.beust.jcommander.Parameter;
+import de.weltraumschaf.caythe.CayThe;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * Options for the main command.
+ * CliOptions for the main command.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-final class MainOptions extends CommonOptions {
-    static final String DESCRIPTION = "TODO";
-    static final String EXAMPLE = "TODO Add some examples.";
+final class MainCliOptions extends CommonOptions {
+    static final String DESCRIPTION = "This is the command line tool suite for Cay-The.";
+    static final String EXAMPLE = "Create a new empty module scaffold:" +
+        "  $> " + CayThe.COMMAND_NAME + ' ' + SubCommandName.CREATE + " ...";
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"--version"}, description = "Show version.")

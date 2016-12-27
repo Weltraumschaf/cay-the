@@ -1,115 +1,179 @@
 package de.weltraumschaf.caythe.cli;
 
-import com.beust.jcommander.Parameter;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterDescription;
 import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
+import de.weltraumschaf.commons.validate.Validate;
 
-import java.util.Objects;
+import java.util.List;
 
 /**
- * Command line options.
+ * Facade to get CLI options.
  *
- * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public final class CliOptions {
+final class CliOptions {
+    /**
+     * Holds the argument parser.
+     */
+    private JCommander parser;
+    /**
+     * Holds the main program options.
+     */
+    private MainCliOptions main;
+    /**
+     * Holds the create command options.
+     */
+    private CreateCliOptions create;
 
     /**
-     * Command line usage.
+     * Dedicated constructor.
      */
-    private static final String USAGE = "<module_directory> [-h] [-v]";
-    /**
-     * Help description.
-     */
-    private static final String DESCRIPTION = "TODO";
-    /**
-     * Help example.
-     */
-    private static final String EXAMPLE
-        = "TODO";
+    CliOptions() {
+        super();
+        reset();
+    }
 
     /**
-     * Command line options parser.
-     */
-    private static final JCommanderImproved<CliOptions> PROVIDER
-        = new JCommanderImproved<>(CayThe.COMMAND_NAME, CliOptions.class);
-
-    /**
-     * Option if help is wanted.
-     */
-    @Parameter(
-        names = {"-h", "--help"},
-        description = "Show this help.")
-    private boolean help;
-    /**
-     * Option if version is wanted.
-     */
-    @Parameter(
-        names = {"-v", "--version"},
-        description = "Show the version.")
-    private boolean version;
-
-    /**
-     * Convenience method to gather the CLI options.
+     * Get the main program options.
      *
-     * @param args must not be {@code null}
      * @return never {@code null}
      */
-    static CliOptions gatherOptions(final String[] args) {
-        return PROVIDER.gatherOptions(args);
+    MainCliOptions getMain() {
+        return main;
     }
 
     /**
-     * Convenience method to get the help message.
+     * Get the create command options.
      *
-     * @return never {@code null} or empty
+     * @return never {@code null}
      */
-    static String helpMessage() {
-        return PROVIDER.helpMessage(USAGE, DESCRIPTION, EXAMPLE);
+    public CreateCliOptions getCreate() {
+        return create;
     }
 
     /**
-     * Convenience method to get the usage.
+     * Parse the CLI arguments.
+     * <p>
+     * This method {@link #reset() reset} the instance.
+     * </p>
      *
-     * @return never {@code null} or empty
+     * @param args must not be {@code null}
      */
-    public static String usage() {
-        return String.format("Usage: %s %s", CayThe.COMMAND_NAME, USAGE);
+    void parse(final String... args) {
+        reset();
+        parser.parse(Validate.notNull(args, "args"));
     }
 
     /**
-     * Whether to display the help message.
+     * Determine which command was parsed.
      *
-     * @return {@code true} for show, else {@code false}
+     * @return never {@code null}
      */
-    boolean isHelp() {
-        return help;
-    }
+    SubCommandName getParsedCommand() {
+        final String parsedCommand = parser.getParsedCommand();
 
-    /**
-     * Whether to display the version message.
-     *
-     * @return {@code true} for show, else {@code false}
-     */
-    public boolean isVersion() {
-        return version;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-            help,
-            version);
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof CliOptions)) {
-            return false;
+        if (null == parsedCommand) {
+            return SubCommandName.NONE;
         }
 
-        final CliOptions other = (CliOptions) obj;
-        return Objects.equals(help, other.help)
-            && Objects.equals(version, other.version);
+        return SubCommandName.valueOf(parsedCommand.toUpperCase());
+    }
+
+    /**
+     * Get the main usage.
+     * <p>
+     * Shorthand for {@link #usage(SubCommandName)} with {@link SubCommandName#NONE}.
+     * </p>
+     *
+     * @return never {@code null} or empty
+     */
+    String usage() {
+        return usage(SubCommandName.NONE);
+    }
+
+    /**
+     * Get usage for command.
+     *
+     * @param cmd may be {@code null}
+     * @return never {@code null} or empty
+     */
+    String usage(final SubCommandName cmd) {
+        switch (cmd) {
+            case CREATE:
+                return CreateCliOptions.usage();
+            case NONE:
+            default:
+                return MainCliOptions.usage();
+        }
+    }
+
+    /**
+     * Get the main help.
+     * <p>
+     * Shorthand for {@link #help(SubCommandName)} with {@link SubCommandName#NONE}.
+     * </p>
+     *
+     * @return never {@code null} or empty
+     */
+    String help() {
+        return help(SubCommandName.NONE);
+    }
+
+    /**
+     * Get help for command.
+     *
+     * @param cmd may be {@code null}
+     * @return never {@code null} or empty
+     */
+    String help(final SubCommandName cmd) {
+        final String description;
+        final List<ParameterDescription> parameters;
+
+        if (SubCommandName.NONE == cmd) {
+            description = "";//MainCliOptions.DESCRIPTION;
+            parameters = parser.getParameters();
+        } else {
+            description = parser.getCommandDescription(cmd.toString());
+            parameters = parser.getCommands().get(cmd.toString()).getParameters();
+        }
+
+        final String usage = usage(cmd);
+        final String example;
+
+        switch (cmd) {
+            default:
+                example = "";//MainCliOptions.EXAMPLE;
+                break;
+        }
+
+        return JCommanderImproved.helpMessage(
+            usage,
+            description,
+            example,
+            CayThe.COMMAND_NAME,
+            parameters);
+    }
+
+    /**
+     * Resets the instance because it holds state from parsing.
+     */
+    private void reset() {
+        main = new MainCliOptions();
+        create = new CreateCliOptions();
+        parser = new JCommander(main);
+        parser.addCommand(SubCommandName.CREATE.toString(), create);
+    }
+
+    boolean isHelp() {
+        return main.isHelp() || create.isHelp();
+    }
+
+    boolean isDebug() {return main.isDebug() || create.isDebug(); }
+
+    boolean isVerbose() {
+        return false; //install.isVerbose() || create.isVerbose() || publish.isVerbose();
     }
 }

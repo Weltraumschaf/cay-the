@@ -7,13 +7,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link MainOptions}.
+ * Tests for {@link MainCliOptions}.
  */
-public class MainOptionsTest {
+public class MainCliOptionsTest {
 
     @Test
     public void delimitedSubcommandNames() {
-        assertThat(MainOptions.delimitedSubcommandNames(), is("create|compile"));
+        assertThat(MainCliOptions.delimitedSubcommandNames(), is("create|compile"));
     }
 
     @Test
