@@ -1,7 +1,6 @@
 package de.weltraumschaf.caythe.cli;
 
 import com.beust.jcommander.Parameter;
-import de.weltraumschaf.caythe.CayThe;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -12,10 +11,11 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-final class MainCliOptions extends CommonOptions {
+final class MainCliOptions extends CommonCliOptions {
     static final String DESCRIPTION = "This is the command line tool suite for Cay-The.";
-    static final String EXAMPLE = "Create a new empty module scaffold:" +
-        "  $> " + CayThe.COMMAND_NAME + ' ' + SubCommandName.CREATE + " ...";
+    static final String EXAMPLE = ExampleBuilder.crete()
+        .text(CreateCliOptions.EXAMPLE)
+        .toString();
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"--version"}, description = "Show version.")
@@ -36,11 +36,9 @@ final class MainCliOptions extends CommonOptions {
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {
         return new StringBuilder()
-            .append(delimitedSubcommandNames())
-            .append(' ')
-            .append("[--version]")
-            .append(' ')
-            .append(CommonOptions.usage())
+            .append(UsageBuilder.generate(MainCliOptions.class))
+            .append(UsageBuilder.SEPARATOR)
+            .append(CommonCliOptions.usage())
             .toString();
     }
 }

@@ -15,7 +15,7 @@ public final class CayThe {
     /**
      * Default platform depending new line character used for all I/O.
      */
-    public static final String DEFAULT_NEWLINE = String.format("%n");
+    public static final String NL = String.format("%n");
     /**
      * The base package name of the whole application.
      */

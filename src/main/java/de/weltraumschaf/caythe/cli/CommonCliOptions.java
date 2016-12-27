@@ -8,7 +8,7 @@ import com.beust.jcommander.Parameter;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-abstract class CommonOptions {
+abstract class CommonCliOptions {
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-h", "--help"}, description = "Show help.", help = true)
     private boolean help;
@@ -27,6 +27,6 @@ abstract class CommonOptions {
 
     @SuppressWarnings("SameReturnValue")
     static String usage() {
-        return "[-h|--help] [-d|--debug]";
+        return UsageBuilder.generate(CommonCliOptions.class);
     }
 }

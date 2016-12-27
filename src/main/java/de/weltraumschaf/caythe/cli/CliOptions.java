@@ -133,7 +133,7 @@ final class CliOptions {
         final List<ParameterDescription> parameters;
 
         if (SubCommandName.NONE == cmd) {
-            description = "";//MainCliOptions.DESCRIPTION;
+            description = MainCliOptions.DESCRIPTION;
             parameters = parser.getParameters();
         } else {
             description = parser.getCommandDescription(cmd.toString());
@@ -145,7 +145,7 @@ final class CliOptions {
 
         switch (cmd) {
             default:
-                example = "";//MainCliOptions.EXAMPLE;
+                example = MainCliOptions.EXAMPLE;
                 break;
         }
 

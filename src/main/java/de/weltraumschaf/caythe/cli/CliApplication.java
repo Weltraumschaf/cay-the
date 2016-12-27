@@ -175,7 +175,7 @@ public final class CliApplication extends InvokableAdapter {
     private String errorMessage(final String messageFormat, final SubCommandName name, final Object... args) {
         return new StringBuilder()
             .append(String.format(Validate.notEmpty(messageFormat, "messageFormat"), args))
-            .append(CayThe.DEFAULT_NEWLINE)
+            .append(CayThe.NL)
             .append("Usage: ")
             .append(CayThe.COMMAND_NAME)
             .append(' ')
