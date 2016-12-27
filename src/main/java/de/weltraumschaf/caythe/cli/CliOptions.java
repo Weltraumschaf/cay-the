@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Facade to get CLI options.
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 final class CliOptions {
     /**
@@ -101,13 +101,19 @@ final class CliOptions {
      * @return never {@code null} or empty
      */
     String usage(final SubCommandName cmd) {
+        String usage = "";
+
         switch (cmd) {
             case CREATE:
-                return CreateCliOptions.usage();
+                usage += CreateCliOptions.usage();
+                break;
             case NONE:
             default:
-                return MainCliOptions.usage();
+                usage += MainCliOptions.usage();
+                break;
         }
+
+        return usage;
     }
 
     /**
@@ -171,7 +177,9 @@ final class CliOptions {
         return main.isHelp() || create.isHelp();
     }
 
-    boolean isDebug() {return main.isDebug() || create.isDebug(); }
+    boolean isDebug() {
+        return main.isDebug() || create.isDebug();
+    }
 
     boolean isVerbose() {
         return false; //install.isVerbose() || create.isVerbose() || publish.isVerbose();

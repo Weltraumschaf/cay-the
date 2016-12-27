@@ -36,6 +36,8 @@ final class MainCliOptions extends CommonCliOptions {
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {
         return new StringBuilder()
+            .append(delimitedSubcommandNames())
+            .append(UsageBuilder.SEPARATOR)
             .append(UsageBuilder.generate(MainCliOptions.class))
             .append(UsageBuilder.SEPARATOR)
             .append(CommonCliOptions.usage())

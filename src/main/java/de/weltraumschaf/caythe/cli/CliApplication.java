@@ -177,7 +177,6 @@ public final class CliApplication extends InvokableAdapter {
             .append(String.format(Validate.notEmpty(messageFormat, "messageFormat"), args))
             .append(CayThe.NL)
             .append("Usage: ")
-            .append(CayThe.COMMAND_NAME)
             .append(' ')
             .append(cliOptions.usage(name))
             .toString();
