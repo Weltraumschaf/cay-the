@@ -20,6 +20,6 @@ public class MainCliOptionsTest {
     public void usage() {
         assertThat(
             MainCliOptions.usage(),
-            is("create|compile [--version] [-h|--help] [-d|--debug]"));
+            is("create|compile [--version] [-h|--help] [--debug]"));
     }
 }

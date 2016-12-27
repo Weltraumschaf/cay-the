@@ -19,17 +19,17 @@ final class CreateCliOptions extends CommonCliOptions {
         .command("...").nl()
         .toString();
 
-    @Parameter(names = {"-m", "--module"}, description = "The name of the module. This is used as the directory name.", required = true)
-    private String name = "";
-    @Parameter(names = {"-g", "--group"}, description = "")
+    @Parameter(names = {"-d", "--directory"}, description = "Where to store the scaffold. If the directory does not exists it will be created.", required = true)
+    private String directory = "";
+    @Parameter(names = {"-g", "--group"}, description = "The group directory of the module.")
     private String group = "";
-    @Parameter(names = {"-a", "--artifact"}, description = "")
+    @Parameter(names = {"-a", "--artifact"}, description = "The artifact directory of the module.")
     private String artifact = "";
-    @Parameter(names = {"-n", "--namespace"}, description = "")
+    @Parameter(names = {"-n", "--namespace"}, description = "The namespace of the module.")
     private String namespace = "";
 
-    public String getName() {
-        return name;
+    public String getDirectory() {
+        return directory;
     }
 
     public String getGroup() {
@@ -49,7 +49,7 @@ final class CreateCliOptions extends CommonCliOptions {
         return new StringBuilder()
             .append(SubCommandName.CREATE)
             .append(' ')
-            .append("-m|--module <module name> [-g|--group <group>] [-a|--artifact] <artifact> [-n|--namespace <namespace>]")
+            .append(UsageBuilder.generate(CreateCliOptions.class))
             .append(' ')
             .append(CommonCliOptions.usage())
             .toString();

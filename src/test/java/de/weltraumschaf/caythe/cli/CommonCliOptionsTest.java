@@ -12,6 +12,6 @@ public class CommonCliOptionsTest {
 
     @Test
     public void usage() {
-        assertThat(CommonCliOptions.usage(), is("[-h|--help] [-d|--debug]"));
+        assertThat(CommonCliOptions.usage(), is("[-h|--help] [--debug]"));
     }
 }

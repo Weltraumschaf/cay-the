@@ -3,8 +3,8 @@ package de.weltraumschaf.caythe.cli;
 /**
  * Creates sub command instances.
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public interface SubCommandFactory {
     /**
@@ -14,7 +14,8 @@ public interface SubCommandFactory {
      * </p>
      *
      * @param name must not be {@code null}
+     * @param ctx  must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    SubCommand forName(final SubCommandName name);
+    CreateSubCommand forName(SubCommandName name, CliContext ctx);
 }

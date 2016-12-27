@@ -13,13 +13,13 @@ public class CliOptionsTest {
 
     @Test
     public void usage() {
-        assertThat(sut.usage(), is("create|compile [--version] [-h|--help] [-d|--debug]"));
+        assertThat(sut.usage(), is("create|compile [--version] [-h|--help] [--debug]"));
     }
 
     @Test
     public void usage_withSubCommand() {
         assertThat(
             sut.usage(SubCommandName.CREATE),
-            is("create -m|--module <module name> [-g|--group <group>] [-a|--artifact] <artifact> [-n|--namespace <namespace>] [-h|--help] [-d|--debug]"));
+            is("create -d|--directory [-g|--group] [-a|--artifact] [-n|--namespace] [-h|--help] [--debug]"));
     }
 }

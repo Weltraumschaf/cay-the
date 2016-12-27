@@ -14,6 +14,6 @@ public class CreateCliOptionsTest {
     public void usage() {
         assertThat(
             CreateCliOptions.usage(),
-            is("create -m|--module <module name> [-g|--group <group>] [-a|--artifact] <artifact> [-n|--namespace <namespace>] [-h|--help] [-d|--debug]"));
+            is("create -d|--directory [-g|--group] [-a|--artifact] [-n|--namespace] [-h|--help] [--debug]"));
     }
 }

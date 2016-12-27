@@ -24,7 +24,7 @@ public final class CliApplication extends InvokableAdapter {
     /**
      * Command line arguments.
      */
-    private final CliOptions cliOptions = new CliOptions();
+    private final CliOptions options = new CliOptions();
     /**
      * Provides sub commands.
      */
@@ -57,12 +57,12 @@ public final class CliApplication extends InvokableAdapter {
      */
     private SubCommandName setup() throws ApplicationException {
         try {
-            cliOptions.parse(getArgs());
+            options.parse(getArgs());
         } catch (final ParameterException ex) {
-            throw badArgumentError(ex, cliOptions.getParsedCommand());
+            throw badArgumentError(ex, options.getParsedCommand());
         }
 
-        debug = cliOptions.isDebug();
+        debug = options.isDebug();
 
         try {
             version.load();
@@ -70,7 +70,7 @@ public final class CliApplication extends InvokableAdapter {
             throw new ApplicationException(ExitCodeImpl.FATAL, errorMessage("Can not read version information!", SubCommandName.NONE), ex);
         }
 
-        return cliOptions.getParsedCommand();
+        return options.getParsedCommand();
     }
 
     @Override
@@ -90,12 +90,12 @@ public final class CliApplication extends InvokableAdapter {
      * @throws ApplicationException on any application error such as bad arguments
      */
     private void executeMainCommand() throws ApplicationException {
-        if (cliOptions.isHelp()) {
+        if (options.isHelp()) {
             showHelp();
             return;
         }
 
-        if (cliOptions.getMain().isVersion()) {
+        if (options.getMain().isVersion()) {
             showVersion();
             return;
         }
@@ -112,17 +112,12 @@ public final class CliApplication extends InvokableAdapter {
     private void executeSubCommand(final SubCommandName commandName) throws Exception {
         Validate.notNull(commandName, "commandName");
 
-        if (cliOptions.isHelp()) {
+        if (options.isHelp()) {
             showHelp(commandName);
             return;
         }
 
-        switch (commandName) {
-            default:
-                throw badArgumentError("Unsupported command!", commandName);
-        }
-
-//        subCommands.forName(commandName).execute();
+        subCommands.forName(commandName, new CliContext(getIoStreams(), options)).execute();
     }
 
 
@@ -178,7 +173,7 @@ public final class CliApplication extends InvokableAdapter {
             .append(CayThe.NL)
             .append("Usage: ")
             .append(' ')
-            .append(cliOptions.usage(name))
+            .append(options.usage(name))
             .toString();
     }
 
@@ -190,7 +185,7 @@ public final class CliApplication extends InvokableAdapter {
     }
 
     private void showHelp(final SubCommandName name) {
-        getIoStreams().println(cliOptions.help(name));
+        getIoStreams().println(options.help(name));
     }
 
     /**

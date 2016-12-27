@@ -14,7 +14,7 @@ abstract class CommonCliOptions {
     private boolean help;
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-d", "--debug"}, description = "Print debug output such as stack traces to STDOUT.")
+    @Parameter(names = {"--debug"}, description = "Print debug output such as stack traces to STDOUT.")
     private boolean debug;
 
     final boolean isHelp() {

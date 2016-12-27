@@ -67,6 +67,7 @@
     </ciManagement>
 
     <properties>
+        <enforcer.skip>true</enforcer.skip><!-- String template does not enforce. -->
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
 
@@ -79,6 +80,7 @@
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
         <!-- LaTeX to PDF generation. -->
+        <skip.pdf>false</skip.pdf>
         <latex.command>pandoc</latex.command>
         <latex.engine>pdflatex</latex.engine>
         <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
@@ -89,6 +91,7 @@
         <guice-core.version>4.1.0</guice-core.version>
         <antlr.version>4.5.3</antlr.version>
         <commons.version>2.2.0</commons.version>
+        <stringtemplate.version>4.0.2</stringtemplate.version>
     </properties>
 
     <dependencies>
@@ -120,6 +123,12 @@
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>validate</artifactId>
             <version>${commons.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>stringtemplate</artifactId>
+            <version>${stringtemplate.version}</version>
         </dependency>
 
         <dependency>
