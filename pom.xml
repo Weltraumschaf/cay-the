@@ -317,6 +317,7 @@
                         </goals>
 
                         <configuration>
+                            <skip>${skip.pdf}</skip>
                             <target>
                                 <ant antfile="${project.basedir}/src/main/ant/build.xml" target="generate-documentation"/>
                             </target>
