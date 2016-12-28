@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -17,6 +17,7 @@
 \begin{document}
 
 \maketitle
+
 \begin{abstract}
     This paper describes a perfect programming language. We will look at drawbacks of current programming languages. Then try to describe a programming language  without these drawbacks.
 \end{abstract}
@@ -25,17 +26,17 @@
 \tableofcontents
 \clearpage
 
-\section{Motivation}
+\chapter{Motivation}
 
 What is my motivation behind this: Describe a new perfect programming language? As of time of writing this I have over a decade of experience in programming stuff. I also have experience in various languages: C++, PHP, JavaScript, Ruby, Perl, Java. Also I saw a lot of languages. After some disappointment about the languages I used I started to look around what others do: Go, Python, Erlang, Prolog, Lisp, ML, OCaml, Scala etc.
 
 More and more I saw different languages and their concepts I recognised that most of them have some drawbacks and I started to think about a programming language without any of these. I'm not sure if it is possible to make such a language, but I think it is worth to think about it.
 
-\subsection{Drawbacks and Fails}
+\section{Drawbacks and Fails}
 
 In this section I'll collect all the drawbacks and fails already existing languages have. These are not drawbacks only because I say. All of them have some common sense in the in the community of software craftmanship, clean code developers or others working hard on better software. So the points mentioned here are quite common sense for all well exercised developers. In a later section I will describe "disappointing" things which are merely based on my opinion.
 
-\subsubsection{Null - The Billion Dollar Fail}
+\subsection{Null - The Billion Dollar Fail}
 
 In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialized value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
 
@@ -166,27 +167,27 @@ TODO
 \textbf{Erlang}:
 TODO
 
-\subsubsection{Checked Exceptions}
+\subsection{Checked Exceptions}
 
 \mytodo{Words from Andre Heilsberg (C\#)}
 
-\subsubsection{Exceptions at All}
+\subsection{Exceptions at All}
 
 \mytodo{They are like goto (Javaslang)}
 
-\subsection{Disappointing}
+\section{Disappointing}
 
 In this section I describe things which are very disappointing, e.g. typing boiler plate code, parens, semicolons and such. In contrast to the section before these points are merely opinion based. But I try to show why we should think about it.
 
-\subsubsection{Annoying Braces}
+\subsection{Annoying Braces}
 
 \mytodo{Braces for conditions: if (condition) vs. if condition.}
 
-\subsubsection{Unnecessary Semicolon}
+\subsection{Unnecessary Semicolon}
 
 \mytodo{Write text.}
 
-\subsubsection{Too Many Special Character Methods or Operators}
+\subsection{Too Many Special Character Methods or Operators}
 
 Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code.
 Some examples from Perl\cite{secret-perl-operators}:
@@ -212,7 +213,7 @@ Perl is an ancient language, but modern languages also have this problem. Here s
 
 I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
 
-\subsubsection{Missing Tools}
+\subsection{Missing Tools}
 
 A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools. What are necessary tools?
 
@@ -225,15 +226,15 @@ All languages have at least a compiler or interpreter. And mostly that's all you
     \item dependency management
 \end{itemize}
 
-\section{What Ideas Are Out There?}
+\chapter{What Ideas Are Out There?}
 
 In this section ideas and concepts of already existing languages will be described.
 
-\subsection{Kotlin}
+\section{Kotlin}
 
 From a blog post from Peter Sommerhoff\cite{kotlin-sommerhoff}:
 
-\subsubsection{Data Classes}
+\subsection{Data Classes}
 
 Simple POJOs are declared simpler. Instead of writing boiler plate like:
 
@@ -268,7 +269,7 @@ data class Book(var title: String, var author: Author) {
 }	
 \end{verbatim}
 
-\subsubsection{Smart Casts}
+\subsection{Smart Casts}
 
 Instead of:
 
@@ -286,25 +287,25 @@ if (node is Leaf) {
 }	
 \end{verbatim}
 
-\subsubsection{Type Inference}
+\subsection{Type Inference}
 \mytodo{Write text.}
 
-\subsubsection{Functional Programming}
+\subsection{Functional Programming}
 \mytodo{Write text.}
 
-\subsubsection{Default Arguments}
+\subsection{Default Arguments}
 \mytodo{Write text.}
 
-\subsubsection{Named Arguments}
+\subsection{Named Arguments}
 \mytodo{Write text.}
 
-\subsubsection{Final Classes}
+\subsection{Final Classes}
 
 \begin{quotation}
 Next, Kotlin also supports the principle to either design for inheritance or prohibit it — because in Kotlin, you have to explicitly declare a class as open in order to inherit from it. That way, you have to remember to allow inheritance instead of having to remember to disallow it.\cite{kotlin-sommerhoff}
 \end{quotation}
 
-\section{Ideas}
+\chapter{Ideas}
 
 \begin{itemize}
     \item \verb|unless foo| statt \verb|if !foo|
@@ -314,7 +315,7 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
     \item \verb|finally| to execute something always at least in functions
 \end{itemize}
 
-\subsection{Source}
+\section{Source}
 
 A source file \verb|MyModule.ct| may look like:
 
@@ -358,7 +359,7 @@ function Integer multiFinallies() {
 var result = doWhat(foo, 42)	
 \end{verbatim}
 
-\subsection{Manifest and Versioning}
+\section{Manifest and Versioning}
 
 A module descriptor \verb|MyModule.mf| may look like:
 
@@ -376,7 +377,7 @@ Integer main(List<String> args) {
 
 \section{Specification}
 
-\subsection{Tooling}
+\section{Tooling}
 
 A perfect language need tools. Some of them are obvious:
 
@@ -394,7 +395,7 @@ The not so obvious tools are a level above just compiling source code.
     \item Builder: This is a tool which compiles and links a complete module. It also runs the Tester to verify the tests. Also it manages dependencies of the built module.
 \end{itemize}
 
-\subsection{Module Packaging and Visibility}
+\section{Module Packaging and Visibility}
 
 A module is a directory containing all source code. It contains one and only one manifest file which declares basic attributes for the module:
 
