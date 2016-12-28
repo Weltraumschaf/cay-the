@@ -55,25 +55,25 @@ To repeat the crucial part: ``\ldots causes a run-time error or immediate progra
 
 Lets see some brief examples of such null dereferences in various common languages:
 
-\textbf{C/C++}
+\textbf{C/C++}:
 \begin{verbatim}
     SomeType *obj = nullptr;
     obj->methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{Java}
+\textbf{Java}:
 \begin{verbatim}
     SomeType obj = null;
     name.methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{C\#}
+\textbf{C\#}:
 \begin{verbatim}
     SomeType obj = null;
     obj.MethodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{JavaScript}
+\textbf{JavaScript}:
 \begin{verbatim}
     var obj = null;
     obj.methodCall(); // Crashs the program.
@@ -82,34 +82,34 @@ Lets see some brief examples of such null dereferences in various common languag
     obj.methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{PHP}
+\textbf{PHP}:
 \begin{verbatim}
     $obj = null;
     obj->methodCall(); // Crashs the program.    
 \end{verbatim}
 
-\textbf{Python}
+\textbf{Python}:
 \begin{verbatim}
     obj = None
     obj.methodCall() # Crashs the program.
 \end{verbatim}
 
-\textbf{Ruby}
+\textbf{Ruby}:
 \begin{verbatim}
     obj = nil
     obj.method_call # Crashs the program.
 \end{verbatim}
 
-\textbf{Perl}
+\textbf{Perl}:
 \begin{verbatim}
     my $obj;
     $obj->method_call; # Crashs the program.    
 \end{verbatim}
 
-All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphys Law: If there is the posibillity to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
+All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
 \begin{quotation}
-    One insideous bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1-2\% of developer code is devoted to identifying null objects.
+    One insidious bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1-2\% of developer code is devoted to identifying null objects.
 \end{quotation}
 
 Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs are only came from only this kind of bug or from all kinds. What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
@@ -138,19 +138,32 @@ Now the interesting question is: \textit{How to deal with values which may or ma
 
 \noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialized references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between unitialized object references (\verb|nil|) and uninitialozed class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
-\textbf{Go}
+\textbf{Go}: Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \verb|nil| (which is the Go equivalent for \verb|null|), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
+
+\begin{verbatim}
+    var t time.Time
+    t.Day()
+\end{verbatim}
+
+But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function.
+
+because the variable \verb|now| will be properly initialized to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
+
+\begin{verbatim}
+    var t *time.Timer = nil
+    t.Reset(10) // Crashs the program.
+\end{verbatim}
+
+\textbf{Swift}:
 TODO
 
-\textbf{Swift}
+\textbf{Haskell}:
 TODO
 
-\textbf{Haskell}
+\textbf{F\#}:
 TODO
 
-\textbf{F\#}
-TODO
-
-\textbf{Erlang}
+\textbf{Erlang}:
 TODO
 
 \subsubsection{Checked Exceptions}
@@ -481,7 +494,15 @@ Also each method which should be accessible from outside must be declared export
 	Daniel C. Sobral,
 	\textit{What do all of Scala's symbolic operators mean?},
 	\url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
+	
+\bibitem{murphys-law}
+    Wikipedia
+    \textit{Murphy's law}
+    \url{https://en.wikipedia.org/wiki/Murphy's_law}
 
+\bibitem{golang-spec}
+    \textit{The Go Programming Language Specification}
+    \url{https://golang.org/ref/spec}
 \end{thebibliography}
 
 \end{document}
