@@ -56,25 +56,27 @@ To repeat the crucial part: ``\ldots causes a run-time error or immediate progra
 
 Lets see some brief examples of such null dereferences in various common languages:
 
-\textbf{C/C++}:
+\subsubsection{Null in C/C++}
 \begin{verbatim}
     SomeType *obj = nullptr;
     obj->methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{Java}:
+\subsubsection{Null in Java}
 \begin{verbatim}
     SomeType obj = null;
     name.methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{C\#}:
+\subsubsection{Null in C\#}
 \begin{verbatim}
     SomeType obj = null;
     obj.MethodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{JavaScript}:
+\subsubsection{Null in JavaScript}
+In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that null dereferences crashes. Maybe this undefined thing is as bad as null too.
+
 \begin{verbatim}
     var obj = null;
     obj.methodCall(); // Crashs the program.
@@ -83,25 +85,25 @@ Lets see some brief examples of such null dereferences in various common languag
     obj.methodCall(); // Crashs the program.
 \end{verbatim}
 
-\textbf{PHP}:
+\subsubsection{Nul in PHP}
 \begin{verbatim}
     $obj = null;
     obj->methodCall(); // Crashs the program.    
 \end{verbatim}
 
-\textbf{Python}:
+\subsubsection{None in Python}
 \begin{verbatim}
     obj = None
     obj.methodCall() # Crashs the program.
 \end{verbatim}
 
-\textbf{Ruby}:
+\subsubsection{Nil in Ruby}
 \begin{verbatim}
     obj = nil
     obj.method_call # Crashs the program.
 \end{verbatim}
 
-\textbf{Perl}:
+\subsubsection{Null in Perl}
 \begin{verbatim}
     my $obj;
     $obj->method_call; # Crashs the program.    
@@ -125,7 +127,8 @@ Of course there are techniques to circumvent null pointer dereferences in such l
 
 Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
 
-\textbf{Objective-C}: Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \verb|(void *)0| it is \verb|(id)0|). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
+\subsubsection{Nil in Objective-C}
+Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \verb|(void *)0| it is \verb|(id)0|). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
 
 \begin{verbatim}
     if (name != nil && [name isEqualToString:@"Hello, World!"]) { ... }
@@ -139,7 +142,8 @@ Now the interesting question is: \textit{How to deal with values which may or ma
 
 \noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialized references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between unitialized object references (\verb|nil|) and uninitialozed class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
-\textbf{Go}: Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \verb|nil| (which is the Go equivalent for \verb|null|), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
+\subsubsection{Nil in Go}
+Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \verb|nil| (which is the Go equivalent for \verb|null|), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
 
 \begin{verbatim}
     var t time.Time
@@ -155,16 +159,39 @@ because the variable \verb|now| will be properly initialized to a zeroed value. 
     t.Reset(10) // Crashs the program.
 \end{verbatim}
 
-\textbf{Swift}:
+\subsubsection{Nil in Swift}
+
+Nil in Swift is quite similar to Nil in Objective-C:
+
+\begin{quotation}
+    Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.\cite{swift-spec-optional-chaining}
+\end{quotation}
+
+This is done by adding a special operator \verb|?| for the so called \textit{Optional Chaining}, e.g.
+
+\begin{verbatim}
+    john.residence?.numberOfRooms
+\end{verbatim}
+
+This will not fail if \verb|residence| is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. IF the above example is changed to
+
+\begin{verbatim}
+    john.residence!.numberOfRooms
+\end{verbatim}
+
+and \verb|residence| is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
+
+\begin{quotation}
+    The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
+\end{quotation}
+
+\subsubsection{Haskell}
 TODO
 
-\textbf{Haskell}:
+\subsubsection{F\#}
 TODO
 
-\textbf{F\#}:
-TODO
-
-\textbf{Erlang}:
+\subsubsection{Erlang}
 TODO
 
 \subsection{Checked Exceptions}
@@ -454,7 +481,7 @@ Also each method which should be accessible from outside must be declared export
 
 \clearpage
 
-\begin{thebibliography}{0}
+\begin{thebibliography}{10}
 	
 \bibitem{null-wiki}
     Wikipedia
@@ -504,6 +531,13 @@ Also each method which should be accessible from outside must be declared export
 \bibitem{golang-spec}
     \textit{The Go Programming Language Specification}
     \url{https://golang.org/ref/spec}
+    
+    
+\bibitem{swift-spec-optional-chaining}
+    The Swift Programming Language
+    \textit{Optional Chaining}
+    \url{https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/OptionalChaining.html}
+    
 \end{thebibliography}
 
 \end{document}
