@@ -18,7 +18,7 @@
 
 \maketitle
 \begin{abstract}
-    This document describes the language specification of the Cay-The language.
+    This document describes the language specification of the Cay-The language. This not only contains the syntax, but also the build tool chain, runtime environment, dependency management and standard library.
 \end{abstract}
 \clearpage
 
@@ -126,13 +126,19 @@ A manifest also may contain \textit{import} directives to make other artifacts a
     version     1.0.0
     namespace   de.weltraumschaf.example
     
-    import de.weltraumschaf:core:1.2.3
-    import de.weltraumschaf:test:2.0.0
+    import      de.weltraumschaf:core:1.2.3
+    import      de.weltraumschaf:test:2.0.0
 \end{verbatim}
+
+Coordinates must not be duplicated in the imports.
 
 \subsubsection{Submodules}
 
-TODO
+Not specified yet.
+
+\subsubsection{Exported Imports}
+
+Not specified yet.
 
 \clearpage
 
