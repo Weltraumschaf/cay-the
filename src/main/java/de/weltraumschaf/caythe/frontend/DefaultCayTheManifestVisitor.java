@@ -125,18 +125,19 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
 
     @Override
     public Manifest visitImportDirective(CayTheManifestParser.ImportDirectiveContext ctx) {
-        final CayTheManifestParser.VersionContext v = ctx.version();
+        CayTheManifestParser.CoordinateContext coordinate = ctx.coordinate();
+        final CayTheManifestParser.VersionContext version = coordinate.version();
         final String identifiers =
-            v.identifiers == null ?
+            version.identifiers == null ?
                 "" :
-                v.identifiers.getText();
+                version.identifiers.getText();
         imports.add(new Coordinate(
-            ctx.group.getText(),
-            ctx.artifact.getText(),
+            coordinate.group.getText(),
+            coordinate.artifact.getText(),
             new Version(
-                Integer.parseInt(v.major.getText()),
-                Integer.parseInt(v.minor.getText()),
-                Integer.parseInt(v.patch.getText()),
+                Integer.parseInt(version.major.getText()),
+                Integer.parseInt(version.minor.getText()),
+                Integer.parseInt(version.patch.getText()),
                 identifiers)
         ));
         return defaultResult();

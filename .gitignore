@@ -9,6 +9,7 @@ src/generated/
 nbactions.xml
 
 # LaTeX stuff:
+src/latex/*.pdf
 .texpadtmp/
 *.aux
 *.out

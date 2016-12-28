@@ -43,14 +43,17 @@ importDirectives
     ;
 
 importDirective
-    : KW_IMPORT group=fullQualifiedName ':' artifact=fullQualifiedName ':' version
+    : KW_IMPORT coordinate
+    ;
+
+coordinate
+    : group=fullQualifiedName ':' artifact=fullQualifiedName ':' version
     ;
 
 fullQualifiedName
     : IDENTIFIER ('.' IDENTIFIER)*
     ;
 
-// identifiers
 version
     : major=NUMBER '.' minor=NUMBER '.' patch=NUMBER ('-' identifiers=IDENTIFIER)?
     ;
@@ -64,7 +67,7 @@ KW_NAMESPACE    : 'namespace' ;
 KW_IMPORT       : 'import' ;
 
 IDENTIFIER
-    :   LETTER CHARACTER*
+    :   LETTER (CHARACTER | '-')*
     ;
 
 NUMBER

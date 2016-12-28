@@ -25,17 +25,35 @@
 \tableofcontents
 \clearpage
 
+\section{Introduction}
+
+This document describes in detail the whole specification of the Cay-The language. This does not only includes the syntax or the runtime environment, but also the whole module structure, dependency management and build and test tool chain.
+
+\subsection{Conventions in this Document}
+
+Grammar rules are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from ANTLR examples\cite{antlr-grammars}):
+
+\begin{verbatim}
+    sentence    : subject predicate ;
+    subject     : article? noun ;
+    predicate   : verb adverb? ;
+    article     : 'the' | 'a' | 'an' ;
+    noun        : 'cat' | 'dog' | 'Mike' | 'Ireland' ;
+    verb        : 'is' | 'are' | 'runs' ;
+    adverb      : 'quickly' | 'slowly' ;
+\end{verbatim}
+
 \section{General}
 
-TODO
+This section describes the top view: Modules and artifacts. It does not define a lot of syntax. Only the basic needed to define modules.
 
 \subsection{Modules}
 
-The top level artifact is a module which is simply a directory.
-
-TODO 
+The top level artifact is a module which is simply a directory with a file called \verb|Manifest.mf|.
 
 \subsubsection{Directory Structure of a Module}
+
+As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the "module name". The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
 
 \begin{verbatim}
     modulename/
@@ -48,25 +66,89 @@ TODO
 
 \subsubsection{The Manifest}
 
-TODO 
+The manifest file must have the name \verb|Manifest.mf| in the top level directory of the module. Also it must contain some essential key information to describe the module:
+
+\begin{itemize}
+    \item \verb|group|: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g. your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
+    \item \verb|artifact|: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
+    \item \verb|version|: The version string follows the rules of Semantic Versioning\cite{semver}.
+    \item \verb|namespace|: The namespace is also a fullqualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \verb|import org.fancy-lib.core.T|. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a "package structure" for your namespace with directories. 
+\end{itemize}
+
+All these manifest \textit{directives} must be present once and the values must not be blank.
+
+Grammar rule for a \textit{full qualified name} is is: 
+\begin{verbatim}
+    fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;
+    
+    IDENTIFIER :   LETTER (CHARACTER | '-')* ;
+\end{verbatim}
+
+An example manifest may look like:
 
 \begin{verbatim}
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
     namespace   de.weltraumschaf.example
-    import      org.caythe:core:1.0.0
-    import      org.caythe:testing:1.0.0
 \end{verbatim}
+
+\subsubsection{Coordinate}
+
+Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \verb|de.weltraumschaf:example:1.0.0|. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
+
+\begin{verbatim}
+    coordinate 
+        : 
+            group=fullQualifiedName ':' 
+            artifact=fullQualifiedName ':' 
+            version
+        ;
+    version
+        : 
+            major=NUMBER '.' 
+            minor=NUMBER '.' 
+            patch=NUMBER ('-' 
+            identifiers=IDENTIFIER)?
+        ;
+        
+    NUMBER : DIGIT+ ;
+    DIGIT  : [0-9] ;
+\end{verbatim}
+
+\subsubsection{Imports}
+
+A manifest also may contain \textit{import} directives to make other artifacts and their exported types available in the module. The import is simply done by the coordinate of the desired module. E.g. the above manifest now importing two other modules:
+
+\begin{verbatim}
+    group       de.weltraumschaf
+    artifact    example
+    version     1.0.0
+    namespace   de.weltraumschaf.example
+    
+    import de.weltraumschaf:core:1.2.3
+    import de.weltraumschaf:test:2.0.0
+\end{verbatim}
+
+\subsubsection{Submodules}
+
+TODO
+
 \clearpage
 
+\begin{thebibliography}{0}
 
-\begin{thebibliography}{56}
-    
-\bibitem{lorem}
-    Lorem
-    \textit{Lorem ipsum},
-    \url{https://en.wikipedia.org/}
+\bibitem{antlr-docu}
+    \textit{ANTLR 4 Documentation},
+    \url{https://github.com/antlr/antlr4/blob/master/doc/index.md}
+
+\bibitem{antlr-grammars}
+    \textit{Grammars written for ANTLR v4}
+    \url{https://github.com/antlr/grammars-v4}
+
+\bibitem{semver}
+    \textit{Semantic Versioning}
+    \url{http://semver.org}
         
 \end{thebibliography}
 
