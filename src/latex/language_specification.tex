@@ -54,7 +54,7 @@ This section describes the top view: Modules and artifacts. It does not define a
 
 \section{Modules}
 
-The top level artifact is a module which is simply a directory with a file called \verb|Manifest.mf|.
+The top level artifact is a module which is simply a directory with a file called \texttt{Manifest.mf}.
 
 \subsection{Directory Structure of a Module}
 
@@ -71,13 +71,13 @@ As mentioned the module is simply a directory with a manifest file in it. All ty
 
 \subsection{The Manifest}
 
-The manifest file must have the name \verb|Manifest.mf| in the top level directory of the module. Also it must contain some essential key information to describe the module:
+The manifest file must have the name \texttt{Manifest.mf} in the top level directory of the module. Also it must contain some essential key information to describe the module:
 
 \begin{itemize}
-    \item \verb|group|: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g.\ your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
-    \item \verb|artifact|: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
-    \item \verb|version|: The version string follows the rules of Semantic Versioning\cite{semver}.
-    \item \verb|namespace|: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \verb|import org.fancy-lib.core.T|. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a ``package structure'' for your namespace with directories. 
+    \item \texttt{group}: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g.\ your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
+    \item \texttt{artifact}: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
+    \item \texttt{version}: The version string follows the rules of Semantic Versioning\cite{semver}.
+    \item \texttt{namespace}: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \texttt{import org.fancy-lib.core.T}. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a ``package structure'' for your namespace with directories. 
 \end{itemize}
 
 All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
@@ -99,7 +99,7 @@ An example manifest may look like:
 
 \subsection{Coordinate}
 
-Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \verb|de.weltraumschaf:example:1.0.0|. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
+Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \texttt{de.weltraumschaf:example:1.0.0}. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
 
 \begin{verbatim}
     coordinate 
@@ -146,16 +146,16 @@ Not specified yet.
 This chapter contains ideas for the work in progress. This is not part of the official specification!
 
 \begin{itemize}
-    \item \verb|unless foo| statt \verb|if !foo|
+    \item \texttt{unless foo} statt \texttt{if !foo}
     \item type (int, float) overflows generate exceptions
     \item compiler checks for right versioning in manifest
     \item compiler does not allow shot names of identifiers
-    \item \verb|finally| to execute something always at least in functions
+    \item \texttt{finally} to execute something always at least in functions
 \end{itemize}
 
 \section{Source}
 
-A source file \verb|MyType.ct| may look like:
+A source file \texttt{MyType.ct} may look like:
 
 \begin{verbatim}
 var integer foo = 23
@@ -222,15 +222,15 @@ The not so obvious tools are a level above just compiling source code.
 A module is a directory containing all source code. It contains one and only one manifest file which declares basic attributes for the module:
 
 \begin{itemize}
-    \item \verb|group|: This declares the group name of the module.
-    \item \verb|artifact|: This declares the artifact name of the module.
-    \item \verb|version|: This declares the version of the module.
-    \item \verb|namespace|: This declares the namespace base of all types in the module.
+    \item \texttt{group}: This declares the group name of the module.
+    \item \texttt{artifact}: This declares the artifact name of the module.
+    \item \texttt{version}: This declares the version of the module.
+    \item \texttt{namespace}: This declares the namespace base of all types in the module.
 \end{itemize}
 
 Also the manifest declares the module dependencies. Modules are referenced by an import and a module coordinate.
 
-An example of a manifest file \verb|moduledir/Manifest.mf|:
+An example of a manifest file \texttt{moduledir/Manifest.mf}:
 \begin{verbatim}
     group       de.weltraumschaf
     artifact    example
@@ -240,11 +240,11 @@ An example of a manifest file \verb|moduledir/Manifest.mf|:
     import      org.caythe:testing:1.0.0
 \end{verbatim}
 
-All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All sub directories are packages. For example a class \verb|Foo| in the file \verb|moduledir/Foo.ct| will be referenced by \verb|use de.weltraumschaf.example.Foo|. A type is always declared in a single file and a single file can only declare one type. So the File \verb|Foo.ct| declares the type \verb|Foo|. In consequence it is not necessary to type the name of the type again in side the file and renaming the file result in renaming the type.
+All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All sub directories are packages. For example a class \texttt{Foo} in the file \texttt{moduledir/Foo.ct} will be referenced by \texttt{use de.weltraumschaf.example.Foo}. A type is always declared in a single file and a single file can only declare one type. So the File \texttt{Foo.ct} declares the type \texttt{Foo}. In consequence it is not necessary to type the name of the type again in side the file and renaming the file result in renaming the type.
 
-From outside modules only types with explicit \verb|export| are visible. So that other modules which import \verb|de.weltraumschaf:example:1.0.0| may see the type \verb|Foo| it must be declared exported.
+From outside modules only types with explicit \texttt{export} are visible. So that other modules which import \texttt{de.weltraumschaf:example:1.0.0} may see the type \texttt{Foo} it must be declared exported.
 
-Also each method which should be accessible from outside must be declared exported. Methods or types declared \verb|public| are only visible everywhere inside the module. Everything declared \verb|package| is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \verb|package| has the same effect as declaring it \verb|public|. By default methods and types are private.
+Also each method which should be accessible from outside must be declared exported. Methods or types declared \texttt{public} are only visible everywhere inside the module. Everything declared \texttt{package} is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \texttt{package} has the same effect as declaring it \texttt{public}. By default methods and types are private.
 
 \begin{verbatim}
     export // Exports the type

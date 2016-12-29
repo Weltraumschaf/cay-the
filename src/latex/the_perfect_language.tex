@@ -35,7 +35,7 @@ In this section I'll collect all the drawbacks and fails already existing langua
 
 \subsection{Null --- The Billion Dollar Fail}
 
-In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialised value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
+In a lot of programming languages exists a concept of \texttt{null}. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialised value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
 
 \begin{quotation}
     In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; this use of null pointers can be compared to nullable types and to the Nothing value in an option type.
@@ -125,7 +125,7 @@ Of course there are techniques to circumvent null pointer dereferences in such l
 Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
 
 \subsubsection{Nil in Objective-C}
-Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \verb|(void *)0| it is \verb|(id)0|). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
+Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
 
 \begin{verbatim}
     if (name != nil && [name isEqualToString:@"Hello, World!"]) { ... }
@@ -137,10 +137,10 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance to C 
     if ([name isEqualToString:@"Hello, World!"]) { ... }
 \end{verbatim}
 
-\noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between initialised object references (\verb|nil|) and uninitialised class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
+\noindent So it is an opt-in procedure to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between initialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
-Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \verb|nil| (which is the Go equivalent for \verb|null|), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
+Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \texttt{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
 
 \begin{verbatim}
     var t time.Time
@@ -149,7 +149,7 @@ Go has the philosophy that \textit{value types} should be preferred to pointer t
 
 But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function.
 
-because the variable \verb|now| will be properly initialised to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
+because the variable \texttt{now} will be properly initialised to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
 
 \begin{verbatim}
     var t *time.Timer = nil
@@ -164,19 +164,19 @@ Nil in Swift is quite similar to Nil in Objective-C:\@
     Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.\cite{swift-spec-optional-chaining}
 \end{quotation}
 
-This is done by adding a special operator \verb|?| for the so called \textit{Optional Chaining}, e.g.
+This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
 
 \begin{verbatim}
     john.residence?.numberOfRooms
 \end{verbatim}
 
-This will not fail if \verb|residence| is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. IF the above example is changed to
+This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. IF the above example is changed to
 
 \begin{verbatim}
     john.residence!.numberOfRooms
 \end{verbatim}
 
-and \verb|residence| is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
+and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
 
 \begin{quotation}
     The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
@@ -248,22 +248,22 @@ In this section I describe things which are very disappointing, e.g.\ typing boi
 Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code. Some examples from Perl\cite{secret-perl-operators}:
 
 \begin{itemize}
-    \item Spaceship operator: \verb|<=>|
-    \item Eskimo Greeting operator: \verb|}{|
-    \item Goatse operator: \verb|=()=|
-    \item Turtle operator: \verb|@{[]}|
-    \item Inchworm operator: \verb|~~|
-    \item Inchworm-On-A-Stick Operator: \verb|~-|
-    \item Spacestation Operator: \verb|-+-|
-    \item Venus operator: \verb|0+|
+    \item Spaceship operator: \texttt{<=>}
+    \item Eskimo Greeting operator: \texttt{}{}
+    \item Goatse operator: \texttt{=()=}
+    \item Turtle operator: \texttt{@{[]}}
+    \item Inchworm operator: \texttt{~~}
+    \item Inchworm-On-A-Stick Operator: \texttt{~-}
+    \item Spacestation Operator: \texttt{-+-}
+    \item Venus operator: \texttt{0+}
 \end{itemize}
 
 Perl is an ancient language, but modern languages also have this problem. Here some examples from Scala\cite{special-operators-scala}:
 
 \begin{itemize}
-    \item Upper, lower and view bounds: \verb|<: >: <%|
-    \item Vararg expansion: \verb|_*|
-    \item Many different meanings: \verb|_|
+    \item Upper, lower and view bounds: \texttt{<: >: <\%}
+    \item Vararg expansion: \texttt{\_*|}
+    \item Many different meanings: \texttt{\_}
 \end{itemize}
 
 I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
