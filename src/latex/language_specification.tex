@@ -136,6 +136,139 @@ Not specified yet.
 
 Not specified yet.
 
+\chapter{Ideas}
+
+This chapter contains ideas for the work in progress. This is not part of the official specification!
+
+\begin{itemize}
+    \item \verb|unless foo| statt \verb|if !foo|
+    \item type (int, float) overflows generate exceptions
+    \item compiler checks for right versioning in manifest
+    \item compiler does not allow shot names of identifiers
+    \item \verb|finally| to execute something always at least in functions
+\end{itemize}
+
+\section{Source}
+
+A source file \verb|MyType.ct| may look like:
+
+\begin{verbatim}
+var integer foo = 23
+var integer bar // is 0 by default
+var integer baz = foo + bar
+
+const snafu = "Hello !"
+
+function doIt(Integer i) {
+    ...
+}
+
+function Integer doWhat(Integer i, Integer j) {
+    return i + j
+    
+    finally {
+    	// Something which is done before function returns, e.g. clean resources.
+    }
+}
+
+function Integer multiFinallies() {
+    File f = new File("/foo");
+    f.open();
+    
+    finally {
+        f.close()
+    }
+    
+    File d = new File("/tmp");
+    d.open()
+    
+    finally {
+        d.close()
+    }
+    
+    return 42
+}
+
+var result = doWhat(foo, 42)	
+\end{verbatim}
+
+\section{Specification}
+
+\section{Tooling}
+
+A perfect language need tools. Some of them are obvious:
+
+\begin{itemize}
+    \item Interpreter: An interpreter is useful in the first steps of language development, but also useful later to provide endusers a REPL (read eval print loop) tool for playing around with the language without ramp up a whole project and build infrastructure.
+    \item Compiler: Of course there must be a compiler to create byte code for a virtual machine.
+    \item Virtual Machine: For interpreting byte code a virtual machine is necessary. This is implemented as register based VM.
+\end{itemize}
+
+The not so obvious tools are a level above just compiling source code.
+
+\begin{itemize}
+    \item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recommended to use.
+    \item Tester: There is tool which executes tests automatically. Also there is a built in API for unit testing.
+    \item Builder: This is a tool which compiles and links a complete module. It also runs the Tester to verify the tests. Also it manages dependencies of the built module.
+\end{itemize}
+
+\section{Module Packaging and Visibility}
+
+A module is a directory containing all source code. It contains one and only one manifest file which declares basic attributes for the module:
+
+\begin{itemize}
+    \item \verb|group|: This declares the group name of the module.
+    \item \verb|artifact|: This declares the artifact name of the module.
+    \item \verb|version|: This declares the version of the module.
+    \item \verb|namespace|: This declares the namespace base of all types in the module.
+\end{itemize}
+
+Also the manifest declares the module dependencies. Modules are referenced by an import and a module coordinate.
+
+An example of a manifest file \verb|moduledir/Manifest.mf|:
+\begin{verbatim}
+    group       de.weltraumschaf
+    artifact    example
+    version     1.0.0
+    namespace   de.weltraumschaf.example
+    import      org.caythe:core:1.0.0
+    import      org.caythe:testing:1.0.0
+\end{verbatim}
+
+All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All sub directories are packages. For example a class \verb|Foo| in the file \verb|moduledir/Foo.ct| will be referenced by \verb|use de.weltraumschaf.example.Foo|. A type is always declared in a single file and a single file can only declare one type. So the File \verb|Foo.ct| declares the type \verb|Foo|. In consequence it is not necessary to type the name of the type again in side the file and renaming the file result in renaming the type.
+
+From outside modules only types with explicit \verb|export| are visible. So that other modules which import \verb|de.weltraumschaf:example:1.0.0| may see the type \verb|Foo| it must be declared exported.
+
+Also each method which should be accessible from outside must be declared exported. Methods or types declared \verb|public| are only visible everywhere inside the module. Everything declared \verb|package| is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \verb|package| has the same effect as declaring it \verb|public|. By default methods and types are private.
+
+\begin{verbatim}
+    export // Exports the type
+    public // Marks the type public
+
+    export method callableFromOtherModules() { ... }
+    public method callableFromWholeModule() { ... }
+    package method callableFromSameDirAndSubDirs() { ... }
+    // private is the default so there is no keyword for that.
+    method callableOnlyFromSelf() { ... }
+\end{verbatim}
+
+\todo{Describe the followed items.}
+
+\begin{itemize}
+    \item Types
+    \begin{itemize}
+        \item integer: 0 by default
+        \item float: 0.0 by default
+        \item boolean: false by default
+        \item string: empty by default
+    \end{itemize} 
+    \item Scopes
+    \begin{itemize}
+        \item Lexical Scopes
+        \item Variables are only writable in current scope. What about members of classes?
+    \end{itemize}
+\end{itemize}
+
 \clearpage
 
 \begin{thebibliography}{0}
