@@ -6,10 +6,6 @@
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
-\newcommandx{\myfixme}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-\newcommandx{\mytodo}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-\newcommandx{\myxxx}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
-
 \title{A Perfect Programming Language}
 \author{Sven Strittmatter}
 \date{\today}
@@ -186,21 +182,24 @@ and \verb|residence| is \textit{nil} then the program crashes due to a so called
 \end{quotation}
 
 \subsubsection{Haskell}
-TODO
+\todo{Null in Haskell}
 
 \subsubsection{F\#}
-TODO
+\todo{Null in F\#}
 
 \subsubsection{Erlang}
-TODO
+\todo{Null in Erlang}
+
+\subsubsection{Conclusion}
+\todo{Conclusion to null}
 
 \subsection{Checked Exceptions}
 
-\mytodo{Words from Andre Heilsberg (C\#)}
+\todo{Words from Andre Heilsberg (C\#)}
 
 \subsection{Exceptions at All}
 
-\mytodo{They are like goto (Javaslang)}
+\todo{They are like goto (Javaslang)}
 
 \section{Disappointing}
 
@@ -208,16 +207,15 @@ In this section I describe things which are very disappointing, e.g. typing boil
 
 \subsection{Annoying Braces}
 
-\mytodo{Braces for conditions: if (condition) vs. if condition.}
+\todo{Braces for conditions: if (condition) vs. if condition.}
 
 \subsection{Unnecessary Semicolon}
 
-\mytodo{Write text.}
+\todo{Write text for unnecessary semicolons}
 
 \subsection{Too Many Special Character Methods or Operators}
 
-Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code.
-Some examples from Perl\cite{secret-perl-operators}:
+Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code. Some examples from Perl\cite{secret-perl-operators}:
 
 \begin{itemize}
     \item Spaceship operator: \verb|<=>|
@@ -315,16 +313,16 @@ if (node is Leaf) {
 \end{verbatim}
 
 \subsection{Type Inference}
-\mytodo{Write text.}
+\todo{Write text for type inference.}
 
 \subsection{Functional Programming}
-\mytodo{Write text.}
+\todo{Write text for functional programming.}
 
 \subsection{Default Arguments}
-\mytodo{Write text.}
+\todo{Write text for default arguments.}
 
 \subsection{Named Arguments}
-\mytodo{Write text.}
+\todo{Write text for named assignments.}
 
 \subsection{Final Classes}
 
@@ -462,7 +460,7 @@ Also each method which should be accessible from outside must be declared export
     method callableOnlyFromSelf() { ... }
 \end{verbatim}
 
-\mytodo{Describe the followed items.}:
+\todo{Describe the followed items.}:
 
 \begin{itemize}
     \item Types
