@@ -5,6 +5,7 @@
 \usepackage{xargs}
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{upquote}
 
 \title{Cay-The Language Specification}
 \author{Sven Strittmatter}
@@ -52,7 +53,7 @@ The top level artifact is a module which is simply a directory with a file calle
 As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the "module name". The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
 
 \begin{verbatim}
-    module name/
+    module-dir/
         +- Manifest.mf
         +- FileOne.ct
         +- packgeone
@@ -71,12 +72,10 @@ The manifest file must have the name \verb|Manifest.mf| in the top level directo
     \item \verb|namespace|: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \verb|import org.fancy-lib.core.T|. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a "package structure" for your namespace with directories. 
 \end{itemize}
 
-All these manifest \textit{directives} must be present once and the values must not be blank.
+All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
 
-Grammar rule for a \textit{full qualified name} is is: 
 \begin{verbatim}
-    fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;
-    
+    fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;    
     IDENTIFIER :   LETTER (CHARACTER | '-')* ;
 \end{verbatim}
 
@@ -102,12 +101,9 @@ Every module and its final assembled artifact has a unique coordinate to identif
         ;
     version
         : 
-            major=NUMBER '.' 
-            minor=NUMBER '.' 
-            patch=NUMBER ('-' 
-            identifiers=IDENTIFIER)?
-        ;
-        
+            major=NUMBER '.' minor=NUMBER '.' patch=NUMBER 
+            ('-' identifiers=IDENTIFIER)?
+        ;        
     NUMBER : DIGIT+ ;
     DIGIT  : [0-9] ;
 \end{verbatim}
