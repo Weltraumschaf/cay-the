@@ -34,21 +34,21 @@ In this section I'll collect all the drawbacks and fails already existing langua
 
 \subsection{Null - The Billion Dollar Fail}
 
-In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialized value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
+In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialised value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
 
 \begin{quotation}
     In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; this use of null pointers can be compared to nullable types and to the Nothing value in an option type.
 
-    A null pointer should not be confused with an uninitialized pointer: A null pointer is guaranteed to compare unequal to any pointer that points to a valid object. However, depending on the language and implementation, an uninitialized pointer may not have any such guarantee. It might compare equal to other, valid pointers; or it might compare equal to null pointers. It might do both at different times.
+    A null pointer should not be confused with an uninitialised pointer: A null pointer is guaranteed to compare unequal to any pointer that points to a valid object. However, depending on the language and implementation, an uninitialised pointer may not have any such guarantee. It might compare equal to other, valid pointers; or it might compare equal to null pointers. It might do both at different times.
 \end{quotation}
 
-The first thing to recognize here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
+The first thing to recognise here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
 
 \begin{quotation}
-    Because a null pointer does not point to a meaningful object, an attempt to dereference (ie. access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
+    Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.. access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
-To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not ininitalized or not present value, rather than that dereferencing such will result in program crashes.
+To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than that dereferencing such will result in program crashes.
 
 Lets see some brief examples of such null dereferences in various common languages:
 
@@ -136,7 +136,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance to C 
     if ([name isEqualToString:@"Hello, World!"]) { ... }
 \end{verbatim}
 
-\noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialized references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between unitialized object references (\verb|nil|) and uninitialozed class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
+\noindent So it is an opt-in procedure to ask if a value is \verb|nil|: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \verb|nil| in collection types and so there is a special container type singleton for that: \verb|NSNull|. Also there is a distinction between initialised object references (\verb|nil|) and uninitialised class references (\verb|Nil|). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
 Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \verb|nil| (which is the Go equivalent for \verb|null|), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
@@ -148,7 +148,7 @@ Go has the philosophy that \textit{value types} should be preferred to pointer t
 
 But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function.
 
-because the variable \verb|now| will be properly initialized to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
+because the variable \verb|now| will be properly initialised to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
 
 \begin{verbatim}
     var t *time.Timer = nil
@@ -222,6 +222,10 @@ The downside is that \textit{null} may be present due to the fact that in F\# an
 \subsection{Exceptions at All}
 
 \todo{They are like goto (Javaslang)}
+
+\subsection{Compiler Warnings}
+
+\todo{Why are they there? Either it is correct for the compiler or not!}
 
 \section{Disappointing}
 
@@ -437,7 +441,7 @@ A perfect language need tools. Some of them are obvious:
 The not so obvious tools are a level above just compiling source code.
 
 \begin{itemize}
-    \item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recommented to use.
+    \item Formatter: Most languages say not much about how to format it. Therefore almost mostly formatting is a very opinion based thing. This leads to endless discussions in projects involving more than one programmer. Thats the reason why this language provides a formatter with a default which is highly recommended to use.
     \item Tester: There is tool which executes tests automatically. Also there is a built in API for unit testing.
     \item Builder: This is a tool which compiles and links a complete module. It also runs the Tester to verify the tests. Also it manages dependencies of the built module.
 \end{itemize}
@@ -448,7 +452,7 @@ A module is a directory containing all source code. It contains one and only one
 
 \begin{itemize}
     \item \verb|group|: This declares the group name of the module.
-    \item \verb|artifct|: This declares the artifact name of the module.
+    \item \verb|artifact|: This declares the artifact name of the module.
     \item \verb|version|: This declares the version of the module.
     \item \verb|namespace|: This declares the namespace base of all types in the module.
 \end{itemize}
