@@ -24,8 +24,6 @@
     </target>
 
     <target name="generate-pdf">
-        <basename property="output-file" file="${tex-file}" suffix=".tex"/>
-
         <echo message="Linting TeX in ${tex-file} ..."/>
         <basename property="tech-file-basename" file="${tex-file}" suffix=".tex"/>
         <exec executable="${latex.lint}"
