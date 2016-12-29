@@ -85,6 +85,7 @@
         <latex.lint>chktex</latex.lint>
         <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
         <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
+        <latex.filtered.directory>${latex.build.directory}/filtered</latex.filtered.directory>
         <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
 
         <!-- Dependnecy versions. -->
@@ -196,6 +197,45 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter-documentation-sources</id>
+                        <phase>process-sources</phase>
+
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.filtered.directory}</outputDirectory>
+
+                            <resources>
+                                <resource>
+                                    <directory>${latex.source.directory}</directory>
+                                    <filtering>true</filtering>
+
+                                    <includes>
+                                        <include>*.tex</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+
+                            <!--<filters>-->
+                                <!--<filter>${project.basedir}/src/main/filters/tacose.properties</filter>-->
+                            <!--</filters>-->
+
+                            <delimiters>
+                                <delimiter>@*@</delimiter>
+                            </delimiters>
+
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

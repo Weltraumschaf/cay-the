@@ -11,10 +11,10 @@
 
         <mkdir dir="${latex.output.directory}"/>
 
-        <echo message="Collect TeX files from ${latex.source.directory} ..."/>
+        <echo message="Collect TeX files from ${latex.filtered.directory} ..."/>
 
         <foreach target="generate-pdf" param="tex-file" inheritall="true">
-            <fileset dir="${latex.source.directory}" casesensitive="yes">
+            <fileset dir="${latex.filtered.directory}" casesensitive="yes">
                 <include name="**/*.tex"/>
                 <exclude name="**/template.tex"/>
             </fileset>

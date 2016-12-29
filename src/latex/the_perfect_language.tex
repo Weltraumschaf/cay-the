@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[12pt,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -9,7 +9,10 @@
 % https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
 \usepackage{listings}
 
-\title{A Perfect Programming Language}
+\title{%
+    A Perfect Programming Language \\
+    \large --- \\
+    Version @pom.version@}
 \author{Sven Strittmatter}
 \date{\today}
 
@@ -18,12 +21,10 @@
 \maketitle
 
 \begin{abstract}
-    This paper describes a perfect programming language. We will look at drawbacks of current programming languages. Then try to describe a programming language  without these drawbacks.
+This paper describes a perfect programming language. We will look at drawbacks of current programming languages. Then try to describe a programming language  without these drawbacks.
 \end{abstract}
-\clearpage
 
 \tableofcontents
-\clearpage
 
 \chapter{Motivation}
 
@@ -361,8 +362,6 @@ if (node is Leaf) {
 \begin{quotation}
 Next, Kotlin also supports the principle to either design for inheritance or prohibit it — because in Kotlin, you have to explicitly declare a class as open in order to inherit from it. That way, you have to remember to allow inheritance instead of having to remember to disallow it.\cite{kotlin-sommerhoff}
 \end{quotation}
-
-\clearpage
 
 \begin{thebibliography}{100}
 	
