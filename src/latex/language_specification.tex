@@ -28,7 +28,13 @@ This document describes in detail the whole specification of the Cay-The languag
 
 \section{Conventions in this Document}
 
-Grammar rules are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from ANTLR examples\cite{antlr-grammars}):
+\subsection{Key Words to Indicate Requirement Levels}
+
+The key words \textit{must}, \textit{must not}, \textit{required}, \textit{shall}, \textit{shall not}, \textit{should}, \textit{should not}, \textit{recommended}, \textit{may}, and \textit{optional} in this document are to be interpreted as described in RFC 2119\cite{rfc2119}.
+
+\subsection{Syntax Definitions}
+
+Syntax in any form must be be specified by grammars. Grammars are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from ANTLR examples\cite{antlr-grammars}):
 
 \begin{verbatim}
     sentence    : subject predicate ;
@@ -39,6 +45,8 @@ Grammar rules are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from 
     verb        : 'is' | 'are' | 'runs' ;
     adverb      : 'quickly' | 'slowly' ;
 \end{verbatim}
+
+This syntax is similar to \textit{Extended Backus–Naur form}\cite{ebnf-wiki}.
 
 \chapter{General}
 
@@ -267,7 +275,7 @@ Also each method which should be accessible from outside must be declared export
 
 \clearpage
 
-\begin{thebibliography}{0}
+\begin{thebibliography}{100}
 
 \bibitem{antlr-docu}
     \textit{ANTLR 4 Documentation},
@@ -280,7 +288,16 @@ Also each method which should be accessible from outside must be declared export
 \bibitem{semver}
     \textit{Semantic Versioning}
     \url{http://semver.org}
-        
+
+\bibitem{ebnf-wiki}
+    \textit{Extended Backus–Naur form}
+    \url{https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form}
+
+\bibitem{rfc2119}
+    S. Bradner
+    \textit{Key words for use in RFCs to Indicate Requirement Levels}
+    \url{https://tools.ietf.org/html/rfc2119}
+
 \end{thebibliography}
 
 \end{document}
