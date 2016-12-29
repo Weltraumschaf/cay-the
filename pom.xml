@@ -82,6 +82,7 @@
         <!-- LaTeX to PDF generation. -->
         <skip.pdf>false</skip.pdf>
         <latex.command>pdflatex</latex.command>
+        <latex.lint>chktex</latex.lint>
         <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
         <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
         <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
@@ -318,7 +319,7 @@
 
                 <executions>
                     <execution>
-                        <id>pandoc</id>
+                        <id>generte-pdf-from-tex</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>run</goal>

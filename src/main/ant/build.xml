@@ -3,7 +3,7 @@
     <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 
     <description>
-        Calls Pandoc on the command line to convert all found TeX files to PDF.
+        Convert all found TeX files to PDF.
     </description>
 
     <target name="generate-documentation">
@@ -25,10 +25,22 @@
 
     <target name="generate-pdf">
         <basename property="output-file" file="${tex-file}" suffix=".tex"/>
-        <echo message="Generate PDF for ${tex-file} ..."/>
+
+        <echo message="Linting TeX in ${tex-file} ..."/>
+        <basename property="tech-file-basename" file="${tex-file}" suffix=".tex"/>
+        <exec executable="${latex.lint}"
+              dir="${latex.output.directory}"
+              output="${latex.output.directory}/${tech-file-basename}.warnings.log"
+              failonerror="true">
+            <arg value="${tex-file}"/>
+        </exec>
+
+        <echo message="Generate PDF for ${tex-file} 1st pass ..."/>
         <exec executable="${latex.command}" failonerror="true" dir="${latex.output.directory}">
             <arg value="${tex-file}"/>
         </exec>
+
+        <echo message="Generate PDF for ${tex-file} 2nd pass ..."/>
         <exec executable="${latex.command}" failonerror="true" dir="${latex.output.directory}">
             <arg value="${tex-file}"/>
         </exec>
