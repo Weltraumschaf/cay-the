@@ -58,7 +58,7 @@ The top level artifact is a module which is simply a directory with a file calle
 
 \subsection{Directory Structure of a Module}
 
-As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the "module name". The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
+As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the ``module name''. The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
 
 \begin{verbatim}
     module-dir/
@@ -74,10 +74,10 @@ As mentioned the module is simply a directory with a manifest file in it. All ty
 The manifest file must have the name \verb|Manifest.mf| in the top level directory of the module. Also it must contain some essential key information to describe the module:
 
 \begin{itemize}
-    \item \verb|group|: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g. your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
+    \item \verb|group|: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g.\ your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
     \item \verb|artifact|: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
     \item \verb|version|: The version string follows the rules of Semantic Versioning\cite{semver}.
-    \item \verb|namespace|: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \verb|import org.fancy-lib.core.T|. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a "package structure" for your namespace with directories. 
+    \item \verb|namespace|: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \verb|import org.fancy-lib.core.T|. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a ``package structure'' for your namespace with directories. 
 \end{itemize}
 
 All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
@@ -119,7 +119,7 @@ Every module and its final assembled artifact has a unique coordinate to identif
 
 \subsection{Imports}
 
-A manifest also may contain \textit{import} directives to make other artifacts and their exported types available in the module. The import is simply done by the coordinate of the desired module. E.g. the above manifest now importing two other modules:
+A manifest also may contain \textit{import} directives to make other artifacts and their exported types available in the module. The import is simply done by the coordinate of the desired module. E.g.\ the above manifest now importing two other modules:
 
 \begin{verbatim}
     group       de.weltraumschaf
@@ -206,7 +206,7 @@ A perfect language need tools. Some of them are obvious:
 \begin{itemize}
     \item Interpreter: An interpreter is useful in the first steps of language development, but also useful later to provide endusers a REPL (read eval print loop) tool for playing around with the language without ramp up a whole project and build infrastructure.
     \item Compiler: Of course there must be a compiler to create byte code for a virtual machine.
-    \item Virtual Machine: For interpreting byte code a virtual machine is necessary. This is implemented as register based VM.
+    \item Virtual Machine: For interpreting byte code a virtual machine is necessary. This is implemented as register based virtual machine.
 \end{itemize}
 
 The not so obvious tools are a level above just compiling source code.
@@ -292,7 +292,7 @@ Also each method which should be accessible from outside must be declared export
 
 \bibitem{ebnf-wiki}
     \textit{Extended Backus–Naur form}
-    \url{https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form}
+    \url{https://en.wikipedia.org/wiki/Extended_Backus\%E2\%80\%93Naur_form}
 
 \bibitem{rfc2119}
     S. Bradner

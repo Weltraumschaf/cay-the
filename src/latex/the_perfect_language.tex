@@ -31,9 +31,9 @@ More and more I saw different languages and their concepts I recognised that mos
 
 \section{Drawbacks and Fails}
 
-In this section I'll collect all the drawbacks and fails already existing languages have. These are not drawbacks only because I say. All of them have some common sense in the in the community of software craftmanship, clean code developers or others working hard on better software. So the points mentioned here are quite common sense for all well exercised developers. In a later section I will describe "disappointing" things which are merely based on my opinion.
+In this section I'll collect all the drawbacks and fails already existing languages have. These are not drawbacks only because I say. All of them have some common sense in the in the community of software craftmanship, clean code developers or others working hard on better software. So the points mentioned here are quite common sense for all well exercised developers. In a later section I will describe ``disappointing'' things which are merely based on my opinion.
 
-\subsection{Null - The Billion Dollar Fail}
+\subsection{Null --- The Billion Dollar Fail}
 
 In a lot of programming languages exists a concept of \verb|null|. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialised value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
 
@@ -46,7 +46,7 @@ In a lot of programming languages exists a concept of \verb|null|. This is somet
 The first thing to recognise here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
 
 \begin{quotation}
-    Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.. access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
+    Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.\ access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
 To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than that dereferencing such will result in program crashes.
@@ -109,7 +109,7 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
 All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
 \begin{quotation}
-    One insidious bug is the null pointer exception, which by its ”null” nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1-2\% of developer code is devoted to identifying null objects.
+    One insidious bug is the null pointer exception, which by its ``null'' nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1--2\% of developer code is devoted to identifying null objects.
 \end{quotation}
 
 Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs are only came from only this kind of bug or from all kinds. What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
@@ -158,7 +158,7 @@ because the variable \verb|now| will be properly initialised to a zeroed value. 
 
 \subsubsection{Nil in Swift}
 
-Nil in Swift is quite similar to Nil in Objective-C:
+Nil in Swift is quite similar to Nil in Objective-C:\@
 
 \begin{quotation}
     Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.\cite{swift-spec-optional-chaining}
@@ -230,11 +230,11 @@ The downside is that \textit{null} may be present due to the fact that in F\# an
 
 \section{Disappointing}
 
-In this section I describe things which are very disappointing, e.g. typing boiler plate code, parens, semicolons and such. In contrast to the section before these points are merely opinion based. But I try to show why we should think about it.
+In this section I describe things which are very disappointing, e.g.\ typing boiler plate code, parens, semicolons and such. In contrast to the section before these points are merely opinion based. But I try to show why we should think about it.
 
 \subsection{Annoying Braces}
 
-\todo{Braces for conditions: if (condition) vs. if condition.}
+\todo{Braces for conditions: if (condition) vs.\ if condition.}
 
 \subsection{Unnecessary Semicolon}
 
