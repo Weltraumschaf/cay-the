@@ -185,9 +185,6 @@ and \texttt{residence} is \textit{nil} then the program crashes due to a so call
     The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
 \end{quotation}
 
-\subsubsection{Haskell}
-\todo{Null in Haskell}
-
 \subsubsection{Null in F\#}
 
 F\# is a functional language and does not use \textit{null}. This means there is a \textit{null}, but it should not be used. Only for special circumstances:
@@ -212,9 +209,6 @@ And checking the presence is done with pattern matching:
 \end{lstlisting}
 
 The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so also F\# must deal with that. This drawback is forced by the .NET ecosystem in which you can mix the different languages.
-
-\subsubsection{Erlang}
-\todo{Null in Erlang}
 
 \subsubsection{Conclusion}
 
