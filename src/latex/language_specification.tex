@@ -6,6 +6,7 @@
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{upquote}
+\usepackage{dirtree}
 
 \title{%
     Cay-The Language Specification \\
@@ -62,14 +63,14 @@ The top level artifact is a module which is simply a directory with a file calle
 
 As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the ``module name''. The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
 
-\begin{verbatim}
-    module-dir/
-        +- Manifest.mf
-        +- FileOne.ct
-        +- packgeone/
-            +- FileTwo.ct
-            +- FileThree.ct
-\end{verbatim}
+\dirtree{%
+.1 module-dir.
+.2 Manifest.mf.
+.2 FileOne.ct.
+.2 packgeone.
+.3 FileTwo.ct.
+.3 FileThree.ct.
+}
 
 \subsection{The Manifest}
 
