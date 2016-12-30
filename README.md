@@ -22,7 +22,12 @@ documentation in a zip file. To execute Cay-The on the command line simply run:
 
     $> ./bin/caythe -h
 
+### Prerequisite
+
+You need a [Java 8][java8] VM and a Bash compatible shell to run the CLI.
+
 [antlr]:        http://www.antlr.org/
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/caythe-1.0.0-SNAPSHOT-distribution.zip
+[java8]:        https://java.com/en/download/
 [langspec]:     https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/latex/output/language_specification.pdf
 [perfetc-lang]: https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/latex/output/the_perfect_language.pdf
