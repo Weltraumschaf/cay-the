@@ -5,9 +5,7 @@
 \usepackage{xargs}
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-\usepackage{upquote} % To use the ' and " in listings.
-% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
-\usepackage{listings}
+\usepackage{upquote}
 
 \title{%
     A Perfect Programming Language \\
@@ -57,57 +55,57 @@ To repeat the crucial part: ``\ldots causes a run-time error or immediate progra
 Lets see some brief examples of such null dereferences in various common languages:
 
 \subsubsection{Null in C/C++}
-\begin{lstlisting}[language=C++]
+\begin{verbatim}
     SomeType *obj = nullptr;
-    obj->methodCall(); // Crashes the program.
-\end{lstlisting}
+    obj->methodCall(); // Crashs the program.
+\end{verbatim}
 
 \subsubsection{Null in Java}
-\begin{lstlisting}[language=Java]
+\begin{verbatim}
     SomeType obj = null;
-    name.methodCall(); // Crashes the program.
-\end{lstlisting}
+    name.methodCall(); // Crashs the program.
+\end{verbatim}
 
 \subsubsection{Null in C\#}
-\begin{lstlisting}[language={[Sharp]C}]
+\begin{verbatim}
     SomeType obj = null;
     obj.MethodCall(); // Crashs the program.
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Null in JavaScript}
 In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that null dereferences crashes. Maybe this undefined thing is as bad as null too.
 
-\begin{lstlisting}[language=Java]
+\begin{verbatim}
     var obj = null;
-    obj.methodCall(); // Crashes the program.
+    obj.methodCall(); // Crashs the program.
 
     obj = {methodCall: null};
     obj.methodCall(); // Crashs the program.
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Nul in PHP}
-\begin{lstlisting}
+\begin{verbatim}
     $obj = null;
     obj->methodCall(); // Crashs the program.    
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{None in Python}
-\begin{lstlisting}
+\begin{verbatim}
     obj = None
     obj.methodCall() # Crashs the program.
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Nil in Ruby}
-\begin{lstlisting}
+\begin{verbatim}
     obj = nil
     obj.method_call # Crashs the program.
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Null in Perl}
-\begin{lstlisting}
+\begin{verbatim}
     my $obj;
     $obj->method_call; # Crashs the program.    
-\end{lstlisting}
+\end{verbatim}
 
 All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
@@ -130,34 +128,34 @@ Now the interesting question is: \textit{How to deal with values which may or ma
 \subsubsection{Nil in Objective-C}
 Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
 
-\begin{lstlisting}
+\begin{verbatim}
     if (name != nil && [name isEqualToString:@"Hello, World!"]) { ... }
-\end{lstlisting}
+\end{verbatim}
 
 \noindent can be simplified to
 
-\begin{lstlisting}
+\begin{verbatim}
     if ([name isEqualToString:@"Hello, World!"]) { ... }
-\end{lstlisting}
+\end{verbatim}
 
 \noindent So it is an opt-in procedure to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between initialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
 Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \texttt{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
 
-\begin{lstlisting}
+\begin{verbatim}
     var t time.Time
     t.Day()
-\end{lstlisting}
+\end{verbatim}
 
 But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function.
 
 because the variable \texttt{now} will be properly initialised to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
 
-\begin{lstlisting}
+\begin{verbatim}
     var t *time.Timer = nil
     t.Reset(10) // Crashs the program.
-\end{lstlisting}
+\end{verbatim}
 
 \subsubsection{Nil in Swift}
 
@@ -169,15 +167,15 @@ Nil in Swift is quite similar to Nil in Objective-C:\@
 
 This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
 
-\begin{lstlisting}
+\begin{verbatim}
     john.residence?.numberOfRooms
-\end{lstlisting}
+\end{verbatim}
 
 This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. IF the above example is changed to
 
-\begin{lstlisting}
+\begin{verbatim}
     john.residence!.numberOfRooms
-\end{lstlisting}
+\end{verbatim}
 
 and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
 
@@ -195,18 +193,18 @@ F\# is a functional language and does not use \textit{null}. This means there is
 
 So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
 
-\begin{lstlisting}
+\begin{verbatim}
     let keepIfPositive (a : int) = if a > 0 then Some(a) else None
-\end{lstlisting}
+\end{verbatim}
 
 And checking the presence is done with pattern matching:
 
-\begin{lstlisting}
+\begin{verbatim}
     let exists (x : int option) =
         match x with
         | Some(x) -> true
         | None -> false
-\end{lstlisting}
+\end{verbatim}
 
 The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so also F\# must deal with that. This drawback is forced by the .NET ecosystem in which you can mix the different languages.
 
@@ -290,7 +288,7 @@ From a blog post from Peter Sommerhoff\cite{kotlin-sommerhoff}:
 
 Simple POJOs are declared simpler. Instead of writing boiler plate like:
 
-\begin{lstlisting}
+\begin{verbatim}
 class Book {
     private String title;
     private Author author;
@@ -311,33 +309,33 @@ class Book {
         this.author = author;
     }
 }
-\end{lstlisting}
+\end{verbatim}
 
 You can write:
 
-\begin{lstlisting}
+\begin{verbatim}
 data class Book(var title: String, var author: Author) {
     // ...
 }	
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Smart Casts}
 
 Instead of:
 
-\begin{lstlisting}
+\begin{verbatim}
 if (node instanceof Leaf) {
     return ((Leaf) node).symbol;
 }	
-\end{lstlisting}
+\end{verbatim}
 
 less verbose:
 
-\begin{lstlisting}
+\begin{verbatim}
 if (node is Leaf) {
     return node.symbol;
 }	
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Type Inference}
 \todo{Write text for type inference.}
