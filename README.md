@@ -15,6 +15,11 @@ topic. A dense  concetrate about that you can find  in the [paper][perfetc-lang]
 which is part  of this repo. And if I  would do my own language then  it will be
 like in this [specification][langspec].
 
+## Status
+
+This  project  is under  heavy  construction.  A lot  of  things  may change  or
+disappear.
+
 ## Distribution
 
 There  is   a  [distribution][dist]   file  with   the  latest   executable  and
