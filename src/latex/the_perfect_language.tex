@@ -6,6 +6,8 @@
 \usepackage[pdftex,dvipsnames]{xcolor}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{upquote}
+% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+\usepackage{graphicx}
 
 \title{%
     A Perfect Programming Language \\
@@ -215,9 +217,26 @@ The downside is that \textit{null} may be present due to the fact that in F\# an
 
 \subsubsection{Conclusion}
 
-In general there seems to be nothing wrong to have a concept for representing a \textit{not present value} in a program language. But as shown above most implementations do this in a problematic way which make it far to easy to introduce bugs in production which will cause a application crash.
+In general there seems to be nothing wrong to have a concept for representing a \textit{not present value} in a programming language. But as shown above most implementations do this in a problematic way which make it far to easy to introduce bugs in production which will cause an application crash.
 
-\todo{Finish conclusion to null}
+I'm not sure which concept is better: Add a \textit{Maybe Type} to the language (like F\# and many other functional languages does) or a \textit{nil} with \textit{Optional Chaining} (like Objective-C or Swift). Anyway which one or a combination would be the best, or any other concept I didn't get yet. There is one major problem all of them have: If you can introduce third party components which have a classical \textit{null}, then this will leak into your component. For example in your language it is possible to link good old C libraries (a lot of languages allow such), then you have to deal with possible \textit{null pointers} (Figure ~\ref{fig:Null_from_linked_native_libs}). 
+
+\begin{figure}[ht]
+	\centering
+    \includegraphics[width=350pt]{grafics/Null_from_linked_native_libs.pdf}
+    \caption{Null from a linked native library (e.g. a C library)}
+    \label{fig:Null_from_linked_native_libs}
+\end{figure}
+
+That's the reason why F\#, Objective-C and Swift have something like \textit{null} at certain places. In the F\# documentation they recommend to minimise the use of this ``null'' only at a small place in your code, e.g.\ in a wrapper which delegates to the other library and deals with the \textit{null}. You always need such a layer to maintain type conversions. Some languages gives you more or less help to generate this boiler plate code to bind a native third party library. In my opinions such tooling must be part of the official language specification and implementation. Then you can simply automate the dealing with \textit{null} under the hud and completely transparently (Figure
+ ~\ref{fig:Generated_wrapper_for_linked_native_libs}).
+
+\begin{figure}[ht]
+	\centering
+    \includegraphics[width=350pt]{grafics/Generated_wrapper_for_linked_native_libs.pdf}
+    \caption{Auto generated intermediate wrapper which deals with \textit{null} from linked native library (e.g. a C library)}
+    \label{fig:Generated_wrapper_for_linked_native_libs}
+\end{figure}
 
 \subsection{Checked Exceptions}
 
@@ -359,6 +378,8 @@ if (node is Leaf) {
 \begin{quotation}
 Next, Kotlin also supports the principle to either design for inheritance or prohibit it — because in Kotlin, you have to explicitly declare a class as open in order to inherit from it. That way, you have to remember to allow inheritance instead of having to remember to disallow it.\cite{kotlin-sommerhoff}
 \end{quotation}
+
+\listoffigures
 
 \begin{thebibliography}{100}
 	
