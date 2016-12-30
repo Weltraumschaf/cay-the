@@ -45,6 +45,11 @@ TODO
 - [Are null references really a bad thing?](http://softwareengineering.stackexchange.com/questions/12777/are-null-references-really-a-bad-thing)
 - [Why NULL is Bad?](http://www.yegor256.com/2014/05/13/why-null-is-bad.html)
 - [The worst mistake of computer science](https://www.lucidchart.com/techblog/2015/08/31/the-worst-mistake-of-computer-science/)
+- Haskell
+    - http://stackoverflow.com/questions/3962939/whats-the-difference-between-undefined-in-haskell-and-null-in-java
+    - https://en.m.wikipedia.org/wiki/Bottom_type
+    - https://wiki.haskell.org/Undefined
+    - https://wiki.haskell.org/Bottom
 
 ### Functional Programming Paradigms
 
