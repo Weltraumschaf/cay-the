@@ -15,6 +15,14 @@ topic. A dense  concetrate about that you can find  in the [paper][perfetc-lang]
 which is part  of this repo. And if I  would do my own language then  it will be
 like in this [specification][langspec].
 
+## Distribution
+
+There  is   a  [distribution][dist]   file  with   the  latest   executable  and
+documentation in a zip file. To execute Cay-The on the command line simply run:
+
+    $> ./bin/caythe -h
+
 [antlr]:        http://www.antlr.org/
-[langspec]:      https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/latex/output/language_specification.pdf
+[dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/caythe-1.0.0-SNAPSHOT-distribution.zip
+[langspec]:     https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/latex/output/language_specification.pdf
 [perfetc-lang]: https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/target/latex/output/the_perfect_language.pdf
