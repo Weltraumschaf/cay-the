@@ -66,7 +66,7 @@ As mentioned the module is simply a directory with a manifest file in it. All ty
     module-dir/
         +- Manifest.mf
         +- FileOne.ct
-        +- packgeone
+        +- packgeone/
             +- FileTwo.ct
             +- FileThree.ct
 \end{verbatim}
@@ -86,7 +86,7 @@ All these manifest \textit{directives} must be present once and the values must 
 
 \begin{verbatim}
     fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;    
-    IDENTIFIER :   LETTER (CHARACTER | '-')* ;
+    IDENTIFIER : LETTER (CHARACTER | '-')* ;
 \end{verbatim}
 
 \noindent
