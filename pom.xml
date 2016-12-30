@@ -204,7 +204,7 @@
                 <executions>
                     <execution>
                         <id>filter-documentation-sources</id>
-                        <phase>process-sources</phase>
+                        <phase>process-resources</phase>
 
                         <goals>
                             <goal>copy-resources</goal>
@@ -224,15 +224,57 @@
                                 </resource>
                             </resources>
 
-                            <!--<filters>-->
-                                <!--<filter>${project.basedir}/src/main/filters/tacose.properties</filter>-->
-                            <!--</filters>-->
-
                             <delimiters>
                                 <delimiter>@*@</delimiter>
                             </delimiters>
 
                             <useDefaultDelimiters>false</useDefaultDelimiters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.kryshchuk.maven.plugins</groupId>
+                <artifactId>umlet-maven-plugin</artifactId>
+
+                <configuration>
+                    <format>pdf</format>
+
+                    <filesets>
+                        <fileset>
+                            <directory>${latex.source.directory}/grafics</directory>
+                            <includes>
+                                <include>**/*.uxf</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>generate-uml-figures-latex-dev</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>convert</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.source.directory}/grafics</outputDirectory>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-uml-figures-latex-build</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>convert</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.output.directory}/grafics</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
