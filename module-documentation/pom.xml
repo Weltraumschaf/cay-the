@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.weltraumschaf.caythe</groupId>
+        <artifactId>caythe</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>documentation</artifactId>
+    <packaging>jar</packaging>
+    
+    <name>Cay-The :: Documentation</name>
+    <description>This module contains all documentation.</description>
+
+    <properties>
+        <skip.pdf>false</skip.pdf>
+        <latex.command>pdflatex</latex.command>
+        <latex.lint>chktex</latex.lint>
+        <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
+        <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
+        <latex.filtered.directory>${latex.build.directory}/filtered</latex.filtered.directory>
+        <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
+
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter-documentation-sources</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.filtered.directory}</outputDirectory>
+
+                            <resources>
+                                <resource>
+                                    <directory>${latex.source.directory}</directory>
+                                    <filtering>true</filtering>
+
+                                    <includes>
+                                        <include>*.tex</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+
+                            <delimiters>
+                                <delimiter>@*@</delimiter>
+                            </delimiters>
+
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.kryshchuk.maven.plugins</groupId>
+                <artifactId>umlet-maven-plugin</artifactId>
+
+                <configuration>
+                    <format>pdf</format>
+
+                    <filesets>
+                        <fileset>
+                            <directory>${latex.source.directory}/grafics</directory>
+                            <includes>
+                                <include>**/*.uxf</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>generate-uml-figures-latex-dev</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>convert</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.source.directory}/grafics</outputDirectory>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-uml-figures-latex-build</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>convert</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.output.directory}/grafics</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>generte-pdf-from-tex</id>
+                        <phase>prepare-package</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <skip>${skip.pdf}</skip>
+                            <target>
+                                <ant antfile="${project.basedir}/src/ant/build.xml" target="generate-documentation"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>make-final-zip-with-wrapper-scripts</id>
+                        <phase>package</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.assembly-desciptors.directory}/documentation.xml</descriptor>
+                            </descriptors>
+
+                            <attach>true</attach>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <!-- put the default-jar in the none phase to skip it from being created -->
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+
+                <configuration>
+                    <!-- Do not generate a source jar -->
+                    <skipSource>true</skipSource>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

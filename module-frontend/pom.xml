@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.weltraumschaf.caythe</groupId>
+        <artifactId>caythe</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>frontend</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Cay-The :: Frontend</name>
+    <description>
+        This module contains everything related to parsing sources.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>intermediate</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+
+                <configuration>
+                    <listener>false</listener>
+                    <visitor>true</visitor>
+                    <indentSize>4</indentSize>
+                    <lineLength>120</lineLength>
+                    <outputDirectory>${generated.source.dir}/${antlr.outputdir}</outputDirectory>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>generate-grammar</id>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.10</version>
+
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+
+                        <configuration>
+                            <sources>
+                                <source>${generated.source.dir}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+
+                <configuration>
+                    <excludes>
+                        <exclude>de/weltraumschaf/caythe/frontend/*.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--
+            <plugin>
+                <groupId>de.weltraumschaf.maven</groupId>
+                <artifactId>infallible-maven-plugin</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <configuration>
+                    <skip>false</skip>
+                    <startRule>compilationUnit</startRule>
+                    <grammarName>CayThe</grammarName>
+                    <packageName>${antlr.packageName}</packageName>
+
+                    <filesets>
+                        <fileset>
+                            <directory>${antlr.exampleFiles}</directory>
+
+                            <includes>
+                                <include>**/*.ct</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>parse-all-exampels</id>
+
+                        <goals>
+                            <goal>parse</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+        </plugins>
+    </build>
+</project>

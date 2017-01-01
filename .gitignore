@@ -1,6 +1,6 @@
 # Generated stuff:
 bin/
-src/generated/
+*/src/generated/
 
 # ANTLR stuff:
 *.tokens
