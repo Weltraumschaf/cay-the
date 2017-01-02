@@ -85,7 +85,7 @@
 
         <!-- Dependnecy versions. -->
         <guice-core.version>4.1.0</guice-core.version>
-        <antlr.version>4.5.3</antlr.version>
+        <antlr.version>4.6</antlr.version>
         <commons.version>2.2.0</commons.version>
         <stringtemplate.version>4.0.2</stringtemplate.version>
         <junit-addons.version>1.4</junit-addons.version>
