@@ -71,7 +71,7 @@
                     <visitor>true</visitor>
                     <indentSize>4</indentSize>
                     <lineLength>120</lineLength>
-                    <outputDirectory>${generated.source.dir}/${antlr.outputdir}</outputDirectory>
+                    <outputDirectory>${project.generated.sources.dir}/${antlr.outputdir}</outputDirectory>
                 </configuration>
 
                 <executions>
@@ -101,7 +101,7 @@
 
                         <configuration>
                             <sources>
-                                <source>${generated.source.dir}</source>
+                                <source>${project.generated.sources.dir}</source>
                             </sources>
                         </configuration>
                     </execution>

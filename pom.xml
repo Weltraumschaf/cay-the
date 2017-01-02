@@ -81,14 +81,7 @@
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
 
-        <project.assembly-desciptors.directory>${project.basedir}/src/assembly</project.assembly-desciptors.directory>
-        <project.scripts.directory>${project.basedir}/src/main/scripts</project.scripts.directory>
-        <project.it.directory>${project.basedir}/src/it</project.it.directory>
-        <project.it.sources.directory>${project.it.directory}/java</project.it.sources.directory>
-        <project.it.resources.directory>${project.it.directory}/resources</project.it.resources.directory>
-
-        <generated.source.dir>${project.basedir}/src/generated/java</generated.source.dir>
-        <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
+       <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
         <!-- Dependnecy versions. -->
         <guice-core.version>4.1.0</guice-core.version>

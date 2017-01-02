@@ -91,7 +91,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${project.main.resources.directory}</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
@@ -99,7 +99,23 @@
             </resource>
 
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${project.main.resources.directory}</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+
+            <resource>
+                <directory>${project.it.resources.directory}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>${project.it.resources.directory}</directory>
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>**/*.properties</exclude>
@@ -154,7 +170,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${generated.source.dir}</directory>
+                            <directory>${project.generated.sources.dir}</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
@@ -199,7 +215,6 @@
                                 <descriptorRefs>jar-with-dependencies</descriptorRefs>
                             </descriptorRefs>
 
-                            <finalName>${project.build.finalName}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>true</attach>
                         </configuration>
@@ -241,7 +256,7 @@
                         <configuration>
                             <target>
                                 <concat destfile="${project.build.directory}/${project.bin.executable}" binary="yes">
-                                    <fileset file="${project.scripts.directory}/${project.bin.executable}.sh" />
+                                    <fileset file="${project.main.scripts.directory}/${project.bin.executable}.sh" />
                                     <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
                                 </concat>
                                 <chmod perm="ugo+rx">
