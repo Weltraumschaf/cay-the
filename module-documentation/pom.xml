@@ -22,7 +22,6 @@
         <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
         <latex.filtered.directory>${latex.build.directory}/filtered</latex.filtered.directory>
         <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
-
     </properties>
 
     <build>
@@ -135,7 +134,7 @@
 
                 <executions>
                     <execution>
-                        <id>make-final-zip-with-wrapper-scripts</id>
+                        <id>make-final-zip-with-documentation</id>
                         <phase>package</phase>
 
                         <goals>

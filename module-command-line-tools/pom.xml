@@ -16,7 +16,6 @@
 
     <properties>
         <project.build.mainClass>de.weltraumschaf.caythe.cli.CliApplication</project.build.mainClass>
-        <project.bin.directory>${project.basedir}/bin</project.bin.directory>
         <project.bin.executable>caythe</project.bin.executable>
     </properties>
 
@@ -104,13 +103,6 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${project.bin.directory}</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                        <fileset>
                             <directory>${generated.source.dir}</directory>
                             <includes>
                                 <include>**/*</include>
@@ -148,6 +140,25 @@
                             <attach>true</attach>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>make-final-zip-with-binaries</id>
+                        <phase>post-integration-test</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.assembly-desciptors.directory}/binaries.xml</descriptor>
+                            </descriptors>
+
+                            <attach>true</attach>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
 
@@ -156,8 +167,7 @@
 
                 <executions>
                     <execution>
-                        <id>generate-executable</id>
-                        <!-- Run between the two assembly executions. -->
+                        <id>generate-binaries</id>
                         <phase>pre-integration-test</phase>
 
                         <goals>
@@ -170,11 +180,8 @@
                                     <fileset file="${project.scripts.directory}/${project.bin.executable}.sh" />
                                     <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
                                 </concat>
-                                <copy file="${project.build.directory}/${project.bin.executable}" todir="${project.bin.directory}"/>
                                 <chmod perm="ugo+rx">
                                     <fileset file="${project.build.directory}/${project.bin.executable}" />
-                                    <!-- The copy task does not preserve the executable/readable bits. -->
-                                    <fileset file="${project.bin.directory}/${project.bin.executable}" />
                                 </chmod>
                             </target>
                         </configuration>
