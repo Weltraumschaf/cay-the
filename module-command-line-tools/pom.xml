@@ -105,24 +105,7 @@
                     <exclude>**/*.properties</exclude>
                 </excludes>
             </resource>
-
-            <resource>
-                <directory>${project.it.resources.directory}</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-
-            <resource>
-                <directory>${project.it.resources.directory}</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/*.properties</exclude>
-                </excludes>
-            </resource>
         </resources>
-
 
         <plugins>
             <plugin>
@@ -157,6 +140,11 @@
                             <resources>
                                 <resource>
                                     <directory>${project.it.resources.directory}</directory>
+
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.properties</include>
+                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
