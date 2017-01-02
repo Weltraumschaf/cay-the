@@ -83,6 +83,9 @@
 
         <project.assembly-desciptors.directory>${project.basedir}/src/assembly</project.assembly-desciptors.directory>
         <project.scripts.directory>${project.basedir}/src/main/scripts</project.scripts.directory>
+        <project.it.directory>${project.basedir}/src/it</project.it.directory>
+        <project.it.sources.directory>${project.it.directory}/java</project.it.sources.directory>
+        <project.it.resources.directory>${project.it.directory}/resources</project.it.resources.directory>
 
         <generated.source.dir>${project.basedir}/src/generated/java</generated.source.dir>
         <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
@@ -92,6 +95,7 @@
         <antlr.version>4.5.3</antlr.version>
         <commons.version>2.2.0</commons.version>
         <stringtemplate.version>4.0.2</stringtemplate.version>
+        <junit-addons.version>1.4</junit-addons.version>
     </properties>
 
     <dependencyManagement>
@@ -127,9 +131,21 @@
             </dependency>
 
             <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>testing</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>stringtemplate</artifactId>
                 <version>${stringtemplate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit-addons</groupId>
+                <artifactId>junit-addons</artifactId>
+                <version>${junit-addons.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -146,6 +162,18 @@
                             <groupId>ant-contrib</groupId>
                             <artifactId>ant-contrib</artifactId>
                             <version>20020829</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit47</artifactId>
+                            <version>2.19.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
