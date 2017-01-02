@@ -10,7 +10,7 @@
 
     <dependencySets>
         <dependencySet>
-            <outputDirectory>documentation</outputDirectory>
+            <outputDirectory>doc</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
             <unpack>true</unpack>
 
@@ -20,6 +20,15 @@
             </includes>
         </dependencySet>
 
+        <dependencySet>
+            <outputDirectory>bin</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <unpack>true</unpack>
 
+            <includes>
+                <!-- See https://maven.apache.org/plugins/maven-assembly-plugin/assembly.html#class_dependencySet -->
+                <include>de.weltraumschaf.caythe:command-line-tools:zip:*</include>
+            </includes>
+        </dependencySet>
     </dependencySets>
 </assembly>
