@@ -83,7 +83,7 @@
 
        <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
-        <!-- Dependnecy versions. -->
+        <!-- Dependency versions. -->
         <guice-core.version>4.1.0</guice-core.version>
         <antlr.version>4.6</antlr.version>
         <commons.version>2.2.0</commons.version>
