@@ -1,13 +1,21 @@
+\RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[12pt,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[a4paper]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{xargs}
-\usepackage[pdftex,dvipsnames]{xcolor}
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[pdftex, dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos, prependcaption, textsize=tiny]{todonotes}
 \usepackage{upquote}
+\usepackage{ellipsis}
+\usepackage{booktabs}
 % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
 \usepackage{graphicx}
+\usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{dirtree}
 
 \title{%
     A Perfect Programming Language \\
