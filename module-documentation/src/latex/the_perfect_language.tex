@@ -1,5 +1,5 @@
 \RequirePackage[l2tabu, orthodox]{nag}
-\documentclass[12pt,a4paper]{report}
+\documentclass[11pt, a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper]{geometry}
@@ -29,7 +29,7 @@
 \maketitle
 
 \begin{abstract}
-This paper describes what a perfect programming language constitutes. We will look at exisiting programming languages to find what they do well and what are their drawbacks. Then try to describe a programming language  without these drawbacks amd with less possible features to be an expressionful functional language with object orientation.
+This paper tries to describes what a perfect programming language should constitutes of. We will look at existing programming languages to find what they do well and what are their drawbacks. Then try to describe what such a language must and must not have as features.
 \end{abstract}
 
 \tableofcontents
@@ -38,7 +38,7 @@ This paper describes what a perfect programming language constitutes. We will lo
 
 What is my motivation behind this: Describe a new perfect programming language? As of time of writing this I have over a decade of experience in programming stuff. I also have experience in various languages: C++, PHP, JavaScript, Ruby, Perl, Java. Also I saw a lot of languages. After some disappointment about the languages I used I started to look around what others do: Go, Python, Erlang, Prolog, Lisp, ML, OCaml, Scala etc.
 
-More and more I saw different languages and their concepts I recognised that most of them have some drawbacks and I started to think about a programming language without any of these. I'm not sure if it is possible to make such a language, but I think it is worth to think about it.
+More and more I saw different languages and their concepts I recognised that most of them have some drawbacks and I started to think about a programming language without any of these. I'm not sure if it is possible to design such a language, but I think it is worth to think about it.
 
 \section{Drawbacks and Fails}
 
@@ -50,17 +50,15 @@ In a lot of programming languages exists a concept of \texttt{null}. This is som
 
 \begin{quotation}
     In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; this use of null pointers can be compared to nullable types and to the Nothing value in an option type.
-
-    A null pointer should not be confused with an uninitialised pointer: A null pointer is guaranteed to compare unequal to any pointer that points to a valid object. However, depending on the language and implementation, an uninitialised pointer may not have any such guarantee. It might compare equal to other, valid pointers; or it might compare equal to null pointers. It might do both at different times.
 \end{quotation}
 
-The first thing to recognise here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
+The first thing to mention here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
 
 \begin{quotation}
     Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.\ access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
-To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than that dereferencing such will result in program crashes.
+To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than dereferencing such will result in program crashes.
 
 Lets see some brief examples of such null dereferences in various common languages:
 
@@ -83,7 +81,7 @@ Lets see some brief examples of such null dereferences in various common languag
 \end{verbatim}
 
 \subsubsection{Null in JavaScript}
-In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that null dereferences crashes. Maybe this undefined thing is as bad as null too.
+In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that \textit{null dereferences} crashes. Maybe this undefined thing is as bad as null too.
 
 \begin{verbatim}
     var obj = null;
@@ -93,7 +91,7 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
     obj.methodCall(); // Crashes the program.
 \end{verbatim}
 
-\subsubsection{Nul in PHP}
+\subsubsection{Null in PHP}
 \begin{verbatim}
     $obj = null;
     obj->methodCall(); // Crashes the program.    
@@ -117,26 +115,26 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
     $obj->method_call; # Crashes the program.    
 \end{verbatim}
 
-All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not the problem and as a developer you have to deal with this issue. You have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
+All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not a problem rather than the concept of the particular language and as a developer you have to deal with such issues: you have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
 \begin{quotation}
     One insidious bug is the null pointer exception, which by its ``null'' nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1--2\% of developer code is devoted to identifying null objects.
 \end{quotation}
 
-Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs are only came from only this kind of bug or from all kinds. What the inventor Tony Hoare\cite{hoare-wiki} said about null\cite{hoeare-null}:
+Also an important argument is the economic damage done by this kind of bugs. Kent\cite{kent-dyn-err-remediation} cites the NIST that along with developer time and money spent in error checking annually cost of \$59.5 are estimated. From the origin source it is not clear that these costs only came from this kind of bug or from all kinds. Anyway what the real numbers are (it is always difficult to estimate such numbers reliably), the sheer amount mentioned in that paper gives a hint of the the caused damage. This is the same what Tony Hoare\cite{hoare-wiki} the inventor of \textit{null} said later it\cite{hoeare-null} in retrospection:
 
 \begin{quotation}
-I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.	
+    I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.	
 \end{quotation} 
 
-Whatever the real economic amount is, the fact that this kind of bug is completely avoidable by removing null pointers is obvious. To be clear: There is no problem with the concept that a value may or may not be present. Some languages (as described later) has implemented this without null pointers. The problem with null pointers is that everything everywhere may be one and either you put lot of checking code into your software or you risk crashes. In statically typed language this also subverts the type system because every type may be null but the statically checking at compile time can't inform you about this problem. As mentioned above the problem will hit reality first at runtime. There are lot of more problems which will be introduced by null. A list of some is described by Paul Draper in his blog post \textit{The worst mistake of computer science}\cite{draper-worst-mistake-cs}.
+Whatever the real economic damage is, the fact that this kind of bug is completely avoidable by removing null pointers is obvious. To be clear: There is no problem with the concept that a value may or may not be present. Some languages (as described later) has implemented this without null pointers. The problem with null pointers is that everything everywhere may be one and either you put lot of checking code into your software or you risk crashes. In statically typed language this also subverts the type system because every type may be null but the statically checking at compile time can't inform you about this problem. As mentioned above the problem will hit reality first at runtime. There are lot of more problems which will be introduced by null. A list of some is described by Paul Draper in his blog post \textit{The worst mistake of computer science}\cite{draper-worst-mistake-cs}.
 
-Of course there are techniques to circumvent null pointer dereferences in such languages without cluttering up the code with lot of null checks and boiler plate code. You can void using null at all. Use empty strings or zero instead of null. Or use \textit{Null Object Pattern} is a special kind of object of your type which represent an absent value. But these are \textit{workarounds} and introduce the big caveat that a software developer need to know about. Remember yourself starting software development as a novice: You learned ab out that null thing in your language of choice and of course you used it. Why else should it be part of the language, unless to use it?
+Of course there are techniques to circumvent null pointer dereferences in such languages without cluttering up the code with lot of null checks and boiler plate code. You can avoid using null at all. Use empty strings or zero instead of null. Or use \textit{Null Object Pattern} is a special kind of object of your type which represent an absent value. But these are workarounds and introduce the big caveat that a software developer need to know about. Remember yourself starting software development as a novice: You learned about that null thing in your language of choice and of course you used it. Why else should it be part of the language, unless to use it?
 
 Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
 
 \subsubsection{Nil in Objective-C}
-Despite the fact that \textit{Objective-C} has null due to its inheritance to C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
+Despite the fact that \textit{Objective-C} has null due to its inheritance from C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
 
 \begin{verbatim}
     if (name != nil && [name isEqualToString:@"Hello, World!"]) {
@@ -152,7 +150,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance to C 
     }
 \end{verbatim}
 
-\noindent So it is an opt-in procedure to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between initialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
+\noindent So it is an \textit{opt-in procedure} to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between uninitialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
 Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \texttt{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
@@ -162,9 +160,7 @@ Go has the philosophy that \textit{value types} should be preferred to pointer t
     t.Day()
 \end{verbatim}
 
-But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function.
-
-because the variable \texttt{now} will be properly initialised to a zeroed value. But it is possible to have an equivalent to a a \textit{null pointer dereference}:
+But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
 
 \begin{verbatim}
     var t *time.Timer = nil
@@ -185,7 +181,7 @@ This is done by adding a special operator \texttt{?} for the so called \textit{O
     john.residence?.numberOfRooms
 \end{verbatim}
 
-This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. IF the above example is changed to
+This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
 
 \begin{verbatim}
     john.residence!.numberOfRooms
@@ -209,10 +205,13 @@ F\# is a functional language and does not use \textit{null}. This means there is
 So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
 
 \begin{verbatim}
-    let keepIfPositive (a : int) = if a > 0 then Some(a) else None
+    let keepIfPositive (a : int) = 
+        if a > 0 
+        then Some(a) 
+        else None
 \end{verbatim}
 
-And checking the presence is done with pattern matching:
+\noindent And checking the presence is done with pattern matching:
 
 \begin{verbatim}
     let exists (x : int option) =
@@ -221,11 +220,11 @@ And checking the presence is done with pattern matching:
         | None -> false
 \end{verbatim}
 
-The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so also F\# must deal with that. This drawback is forced by the .NET ecosystem in which you can mix the different languages.
+The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
 
 \subsubsection{Conclusion}
 
-In general there seems to be nothing wrong to have a concept for representing a \textit{not present value} in a programming language. But as shown above most implementations do this in a problematic way which make it far to easy to introduce bugs in production which will cause an application crash.
+In general there seems to be nothing wrong to have a concept for representing a \textit{not present value} in a programming language. But as shown above most implementations do this in a problematic way which make it far to easy to introduce bugs in production and will cause an application crash.
 
 I'm not sure which concept is better: Add a \textit{Maybe Type} to the language (like F\# and many other functional languages does) or a \textit{nil} with \textit{Optional Chaining} (like Objective-C or Swift). Anyway which one or a combination would be the best, or any other concept I didn't get yet. There is one major problem all of them have: If you can introduce third party components which have a classical \textit{null}, then this will leak into your component. For example in your language it is possible to link good old C libraries (a lot of languages allow such), then you have to deal with possible \textit{null pointers} (Figure ~\ref{fig:Null_from_linked_native_libs}). 
 
@@ -236,13 +235,13 @@ I'm not sure which concept is better: Add a \textit{Maybe Type} to the language 
     \label{fig:Null_from_linked_native_libs}
 \end{figure}
 
-That's the reason why F\#, Objective-C and Swift have something like \textit{null} at certain places. In the F\# documentation they recommend to minimise the use of this ``null'' only at a small place in your code, e.g.\ in a wrapper which delegates to the other library and deals with the \textit{null}. You always need such a layer to maintain type conversions. Some languages gives you more or less help to generate this boiler plate code to bind a native third party library. In my opinions such tooling must be part of the official language specification and implementation. Then you can simply automate the dealing with \textit{null} under the hud and completely transparently (Figure
+That's the reason why F\#, Objective-C and Swift have something like \textit{null} at certain places. In the F\# documentation they recommend to minimise the use of this ``null'' only at a small place in your code, e.g.\ in a wrapper which delegates to the other library and deals with the \textit{null}. You always need such a layer to maintain type conversions. Some languages gives you more or less help to generate this boiler plate code to bind a native third party library. In my opinions such tooling must be part of the official language specification and implementation. Then you can simply automate the dealing with \textit{null} under the hood and completely transparently (Figure
  ~\ref{fig:Generated_wrapper_for_linked_native_libs}).
 
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=350pt]{grafics/Generated_wrapper_for_linked_native_libs.pdf}
-    \caption{Auto generated de.weltraumschaf.caythe.intermediate wrapper which deals with \textit{null} from linked native library (e.g. a C library)}
+    \caption{Auto generated wrapper which deals with \textit{null} from linked native library (e.g. a C library)}
     \label{fig:Generated_wrapper_for_linked_native_libs}
 \end{figure}
 
