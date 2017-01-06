@@ -167,7 +167,7 @@ Go has the philosophy that \textit{value types} should be preferred to pointer t
     t.Day()
 \end{verbatim}
 
-But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
+\noindent But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
 
 \begin{verbatim}
     var t *time.Timer = nil
@@ -182,19 +182,19 @@ Nil in Swift is quite similar to Nil in Objective-C:\@
     Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.\cite{swift-spec-optional-chaining}
 \end{quotation}
 
-This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
+\noindent This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
 
 \begin{verbatim}
     john.residence?.numberOfRooms
 \end{verbatim}
 
-This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
+\noindent This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
 
 \begin{verbatim}
     john.residence!.numberOfRooms
 \end{verbatim}
 
-and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
+\noindent and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
 
 \begin{quotation}
     The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
@@ -208,8 +208,7 @@ F\# is a functional language and does not use \textit{null}. This means there is
     The null value is not normally used in F\# for values or variables. However, null appears as an abnormal value in certain situations. If a type is defined in F\#, null is not permitted as a regular value unless the AllowNullLiteral attribute is applied to the type. If a type is defined in some other .NET language, null is a possible value, and when you are interoperating with such types, your F\# code might encounter null values.\cite{null-in-fsharp}
 \end{quotation}
 
-\noindent
-So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
+\noindent So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
 
 \begin{verbatim}
     let keepIfPositive (a : int) = 
@@ -227,7 +226,7 @@ So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simp
         | None -> false
 \end{verbatim}
 
-The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
+\noindent The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
 
 \subsubsection{Conclusion}
 
