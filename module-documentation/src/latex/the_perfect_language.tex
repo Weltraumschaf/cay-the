@@ -11,11 +11,11 @@
 \usepackage{upquote}
 \usepackage{ellipsis}
 \usepackage{booktabs}
-% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
-\usepackage{graphicx}
+\usepackage{graphicx} % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+\usepackage{dirtree}
+\PassOptionsToPackage{hyphens}{url}
 \usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{dirtree}
 
 \title{%
     A Perfect Programming Language \\
@@ -436,6 +436,7 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
     \url{https://en.wikipedia.org/wiki/Murphy's_law}
 
 \bibitem{golang-spec}
+    Go Programming Language,
     \textit{The Go Programming Language Specification},
     \url{https://golang.org/ref/spec}
 
