@@ -303,15 +303,16 @@ I don't want to blame Perl or Scala in particular here. Other languages does thi
 
 \subsection{Missing Tools}
 
-A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools. What are necessary tools?
+A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools: a \textit{language tool chain}. What are necessary tools?
 
-All languages have at least a compiler or interpreter. And mostly that's all you get. In my opinion there must be more tools for:
+All languages have at least a compiler or interpreter. And mostly that is all you get. But to be productive to create more than simple small applications a developer (team) need tools for
 
 \begin{itemize}
-    \item source code formatting
-    \item create API docs and documentation
-    \item run tests with coverage reports
-    \item dependency management
+    \item compile and link all sources to a usable self contained binary or library.
+    \item manage dependencies so that they do not interfere with each other when they have same modules in different versions as transitive dependency.
+    \item executes test code (unit, integration, and system tests) and report code coverage.
+    \item source code formatting and linting.
+    \item create API documentation for a module.
 \end{itemize}
 
 \chapter{What Ideas Are Out There?}
