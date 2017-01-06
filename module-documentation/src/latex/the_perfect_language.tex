@@ -13,9 +13,16 @@
 \usepackage{booktabs}
 \usepackage{graphicx} % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
 \usepackage{dirtree}
+\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist{itemsep=.1em}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
 \urlstyle{same} % don't use monospace font for urls
+
+\renewcommand{\labelitemi}{$-$}
+\renewcommand{\labelitemii}{$-$}
+\renewcommand{\labelitemiii}{$-$}
+\renewcommand{\labelitemiv}{$-$}
 
 \title{%
     A Perfect Programming Language \\
