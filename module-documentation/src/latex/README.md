@@ -8,6 +8,8 @@ researching for the new perfect language is stored.
 - [Getting started with LaTeX](http://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/)
 - [LaTeX/Source Code Listings](https://en.m.wikibooks.org/wiki/LaTeX/Source_Code_Listings)
 - [LaTeX Editors](http://texwelt.de/wissen/fragen/884/welcher-latex-editor-fur-einsteiger-empfehlenswert)
+- [9 essential LaTeX packages everyone should use](http://www.howtotex.com/packages/9-essential-latex-packages-everyone-should-use/)
+- [What packages do people load by default in LaTeX?](http://tex.stackexchange.com/questions/553/what-packages-do-people-load-by-default-in-latex)
 - http://tex.stackexchange.com/questions/179803/why-doesnt-pandoc-convert-citations-correctly-from-markdown-to-latex
 - http://tex.stackexchange.com/questions/13509/biblatex-in-a-nutshell-for-beginners
 - http://www.bibtex.org/Using/de/
