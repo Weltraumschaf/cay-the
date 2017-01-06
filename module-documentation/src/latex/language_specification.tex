@@ -15,7 +15,7 @@
 \usepackage{dirtree}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
-\urlstyle{same}  % don't use monospace font for urls
+\urlstyle{same} % don't use monospace font for urls
 
 \title{%
     Cay-The Language Specification \\
@@ -114,17 +114,17 @@ An example manifest may look like:
 Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \texttt{de.weltraumschaf:example:1.0.0}. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
 
 \begin{verbatim}
-    coordinate 
-        : 
-            group=fullQualifiedName ':' 
-            artifact=fullQualifiedName ':' 
+    coordinate
+        :
+            group=fullQualifiedName ':'
+            artifact=fullQualifiedName ':'
             version
         ;
     version
         : 
-            major=NUMBER '.' minor=NUMBER '.' patch=NUMBER 
+            major=NUMBER '.' minor=NUMBER '.' patch=NUMBER
             ('-' identifiers=IDENTIFIER)?
-        ;        
+        ;
     NUMBER : DIGIT+ ;
     DIGIT  : [0-9] ;
 \end{verbatim}
@@ -138,7 +138,7 @@ A manifest also may contain \textit{import} directives to make other artifacts a
     artifact    example
     version     1.0.0
     namespace   de.weltraumschaf.example
-    
+
     import      de.weltraumschaf:core:1.2.3
     import      de.weltraumschaf:test:2.0.0
 \end{verbatim}
@@ -184,25 +184,25 @@ function Integer doWhat(Integer i, Integer j) {
     return i + j
     
     finally {
-    	// Something which is done before function returns, e.g. clean resources.
+        // Something which is done before function returns, e.g. clean resources.
     }
 }
 
 function Integer multiFinallies() {
     File f = new File("/foo");
     f.open();
-    
+
     finally {
         f.close()
     }
-    
+
     File d = new File("/tmp");
     d.open()
-    
+
     finally {
         d.close()
     }
-    
+
     return 42
 }
 
@@ -248,6 +248,7 @@ An example of a manifest file \texttt{moduledir/Manifest.mf}:
     artifact    example
     version     1.0.0
     namespace   de.weltraumschaf.example
+
     import      org.caythe:core:1.0.0
     import      org.caythe:testing:1.0.0
 \end{verbatim}

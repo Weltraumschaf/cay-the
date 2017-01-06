@@ -15,7 +15,7 @@
 \usepackage{dirtree}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
-\urlstyle{same}  % don't use monospace font for urls
+\urlstyle{same} % don't use monospace font for urls
 
 \title{%
     A Perfect Programming Language \\
@@ -94,7 +94,7 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
 \subsubsection{Null in PHP}
 \begin{verbatim}
     $obj = null;
-    obj->methodCall(); // Crashes the program.    
+    obj->methodCall(); // Crashes the program.
 \end{verbatim}
 
 \subsubsection{None in Python}
@@ -112,7 +112,7 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
 \subsubsection{Null in Perl}
 \begin{verbatim}
     my $obj;
-    $obj->method_call; # Crashes the program.    
+    $obj->method_call; # Crashes the program.
 \end{verbatim}
 
 All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not a problem rather than the concept of the particular language and as a developer you have to deal with such issues: you have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
@@ -138,7 +138,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance from 
 
 \begin{verbatim}
     if (name != nil && [name isEqualToString:@"Hello, World!"]) {
-        ... 
+        ...
     }
 \end{verbatim}
 
@@ -146,7 +146,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance from 
 
 \begin{verbatim}
     if ([name isEqualToString:@"Hello, World!"]) { 
-        ... 
+        ...
     }
 \end{verbatim}
 
@@ -229,9 +229,9 @@ In general there seems to be nothing wrong to have a concept for representing a 
 I'm not sure which concept is better: Add a \textit{Maybe Type} to the language (like F\# and many other functional languages does) or a \textit{nil} with \textit{Optional Chaining} (like Objective-C or Swift). Anyway which one or a combination would be the best, or any other concept I didn't get yet. There is one major problem all of them have: If you can introduce third party components which have a classical \textit{null}, then this will leak into your component. For example in your language it is possible to link good old C libraries (a lot of languages allow such), then you have to deal with possible \textit{null pointers} (Figure ~\ref{fig:Null_from_linked_native_libs}). 
 
 \begin{figure}[ht]
-	\centering
+    \centering
     \includegraphics[width=350pt]{grafics/Null_from_linked_native_libs.pdf}
-    \caption{Null from a linked native library (e.g. a C library)}
+    \caption{Null from a linked native library (e.g.\ a C library)}
     \label{fig:Null_from_linked_native_libs}
 \end{figure}
 
@@ -239,9 +239,9 @@ That's the reason why F\#, Objective-C and Swift have something like \textit{nul
  ~\ref{fig:Generated_wrapper_for_linked_native_libs}).
 
 \begin{figure}[ht]
-	\centering
+    \centering
     \includegraphics[width=350pt]{grafics/Generated_wrapper_for_linked_native_libs.pdf}
-    \caption{Auto generated wrapper which deals with \textit{null} from linked native library (e.g. a C library)}
+    \caption{Auto generated wrapper which deals with \textit{null} from linked native library (e.g.\ a C library)}
     \label{fig:Generated_wrapper_for_linked_native_libs}
 \end{figure}
 
@@ -347,7 +347,7 @@ You can write:
 \begin{verbatim}
 data class Book(var title: String, var author: Author) {
     // ...
-}	
+}
 \end{verbatim}
 
 \subsection{Smart Casts}
@@ -357,7 +357,7 @@ Instead of:
 \begin{verbatim}
 if (node instanceof Leaf) {
     return ((Leaf) node).symbol;
-}	
+}
 \end{verbatim}
 
 less verbose:
@@ -365,7 +365,7 @@ less verbose:
 \begin{verbatim}
 if (node is Leaf) {
     return node.symbol;
-}	
+}
 \end{verbatim}
 
 \subsection{Type Inference}
@@ -401,14 +401,14 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
     \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.140.2544&rep=rep1&type=pdf}
 
 \bibitem{hoare-wiki}
-	Wikipedia,
-	\textit{Tony Hoare},
-	\url{https://en.wikipedia.org/wiki/Tony_Hoare}
-	
+    Wikipedia,
+    \textit{Tony Hoare},
+    \url{https://en.wikipedia.org/wiki/Tony_Hoare}
+    
 \bibitem{hoeare-null}
-	Tony Hoare,
-	\textit{Speaking at a conference in 2009},
-	\url{http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare}
+    Tony Hoare,
+    \textit{Speaking at a conference in 2009},
+    \url{http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare}
 
 \bibitem{draper-worst-mistake-cs}
     Paul Draper,
@@ -421,15 +421,15 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
  	\url{https://www.javacodegeeks.com/2016/05/kotlin-java-developers-10-features-will-love-kotlin.html}
 
 \bibitem{secret-perl-operators}
-	Peteris Krumin,
-	\textit{Secret Perl Operators},
-	\url{http://www.catonmat.net/blog/secret-perl-operators/}
+    Peteris Krumin,
+    \textit{Secret Perl Operators},
+    \url{http://www.catonmat.net/blog/secret-perl-operators/}
 
 \bibitem{special-operators-scala}
-	Daniel C. Sobral,
-	\textit{What do all of Scala's symbolic operators mean?},
-	\url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
-	
+    Daniel C. Sobral,
+    \textit{What do all of Scala's symbolic operators mean?},
+    \url{http://stackoverflow.com/questions/7888944/what-do-all-of-scalas-symbolic-operators-mean}
+    
 \bibitem{murphys-law}
     Wikipedia,
     \textit{Murphy's law},
@@ -449,13 +449,12 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
     F\# Language Reference,
     \textit{This topic describes how the null value is used in F\#},
     \url{https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/values/null-values}.
-    
+
 \bibitem{optional-in-fsharp}
     F\# Language Reference,
     \textit{Options},
     \url{https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/options}
-    
+
 \end{thebibliography}
 
 \end{document}
-
