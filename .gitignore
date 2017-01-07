@@ -9,7 +9,7 @@ bin/
 nbactions.xml
 
 # LaTeX stuff:
-src/latex/**/*.pdf
+**/src/latex/**/*.pdf
 .texpadtmp/
 *.aux
 *.out
