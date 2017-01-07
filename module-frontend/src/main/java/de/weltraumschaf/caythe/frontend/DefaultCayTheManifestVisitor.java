@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.intermediate.Coordinate;
-import de.weltraumschaf.caythe.intermediate.Manifest;
-import de.weltraumschaf.caythe.intermediate.Version;
+import de.weltraumschaf.caythe.intermediate.model.Coordinate;
+import de.weltraumschaf.caythe.intermediate.model.Manifest;
+import de.weltraumschaf.caythe.intermediate.model.Version;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;
 

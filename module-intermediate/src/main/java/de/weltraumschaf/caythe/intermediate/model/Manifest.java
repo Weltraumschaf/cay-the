@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 

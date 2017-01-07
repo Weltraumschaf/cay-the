@@ -2,9 +2,9 @@ package de.weltraumschaf.caythe.frontend;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.weltraumschaf.caythe.intermediate.Coordinate;
-import de.weltraumschaf.caythe.intermediate.Manifest;
-import de.weltraumschaf.caythe.intermediate.Version;
+import de.weltraumschaf.caythe.intermediate.model.Coordinate;
+import de.weltraumschaf.caythe.intermediate.model.Manifest;
+import de.weltraumschaf.caythe.intermediate.model.Version;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
