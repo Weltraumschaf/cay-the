@@ -15,7 +15,7 @@
 
         <foreach target="generate-pdf" param="tex-file" inheritall="true">
             <fileset dir="${latex.filtered.directory}" casesensitive="yes">
-                <include name="**/*.tex"/>
+                <include name="*.tex"/>
             </fileset>
         </foreach>
 

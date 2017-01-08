@@ -1,60 +1,7 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt,a4paper]{report}
 
-\usepackage[utf8]{inputenc}
-\usepackage[a4paper]{geometry}
-\usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{xargs}
-\usepackage[pdftex, dvipsnames, usenames]{xcolor}
-\usepackage[colorinlistoftodos, prependcaption, textsize=tiny]{todonotes}
-\usepackage{upquote}
-\usepackage{ellipsis}
-\usepackage{booktabs}
-\usepackage{graphicx} % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
-\usepackage{dirtree}  % Required for directory trees.
-\usepackage{listings} % Required for inserting code snippets.
-\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
-\setlist{itemsep=.1em}
-\PassOptionsToPackage{hyphens}{url}
-\usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
-\urlstyle{same} % don't use monospace font for urls
-
-% Use dash for items in lists:
-\renewcommand{\labelitemi}{$-$}
-\renewcommand{\labelitemii}{$-$}
-\renewcommand{\labelitemiii}{$-$}
-\renewcommand{\labelitemiv}{$-$}
-
-% Own syntax highlighting:
-% http://www.latextemplates.com/template/code-snippet
-% http://www.stud.math.ntnu.no/kurs/latexdocs/listings.pdf
-\lstset{
-    basicstyle=\ttfamily, % The default font size and style of the code.
-    breakatwhitespace=true, % If true, only allows line breaks at white space.
-    breaklines=true, % Automatic line breaking (prevents code from protruding outside the box).
-    tabsize=2, % Number of spaces per tab in the code
-    captionpos=b, % Sets the caption position: b for bottom; t for top
-    numbersep=10pt, % Distance of line numbers from the code box.
-    numberstyle=\tiny\color{Gray}, % Style used for line numbers.
-    firstnumber=1, % Line numbers begin at line 1.
-    stepnumber=1, % The step distance between line numbers, i.e. how often will lines be    numbered.
-}
-\lstdefinelanguage{CayThe}{
-    %escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
-    keywordstyle=\textbf, 
-    morekeywords={group, artifact, version, namespace, import, export, public, package, method},
-    sensitive=true,
-    numbers=none, % Location of line numbers, can take the values of: none, left, right
-    showstringspaces=false, % Don't put marks in string spaces
-    showtabs=false, % Display tabs in the code as lines.
-    morestring=[b]",
-    %stringstyle=\color{Purple}, % Strings are purple.
-    morecomment=[l]{//}, 
-    morecomment=[s]{/*}{*/},
-}
-
-% -----------------------------------------------------------------------------------
+\input{includes/preamble.tex}
 
 \title{%
     Cay-The Language Specification \\

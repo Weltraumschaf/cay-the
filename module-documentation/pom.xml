@@ -58,6 +58,29 @@
                             <useDefaultDelimiters>false</useDefaultDelimiters>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>copy-documentation-includes</id>
+                        <phase>process-resources</phase>
+
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${latex.output.directory}/includes</outputDirectory>
+
+                            <resources>
+                                <resource>
+                                    <directory>${latex.source.directory}/includes</directory>
+
+                                    <includes>
+                                        <include>*.tex</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
