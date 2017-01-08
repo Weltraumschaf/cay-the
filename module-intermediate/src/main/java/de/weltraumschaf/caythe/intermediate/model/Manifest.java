@@ -2,10 +2,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The information from a module manifest.
@@ -23,7 +20,7 @@ public final class Manifest {
         super();
         this.coordinate = Validate.notNull(coordinate, "coordinate");
         this.namespace = Validate.notEmpty(namespace, "namespace");
-        this.imports = new HashSet<>(Validate.notNull(imports, "imports"));
+        this.imports = new ArrayList<>(Validate.notNull(imports, "imports"));
     }
 
     @Override

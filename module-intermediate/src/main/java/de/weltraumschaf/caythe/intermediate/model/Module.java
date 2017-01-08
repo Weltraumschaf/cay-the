@@ -11,6 +11,8 @@ import java.util.Objects;
  * </p>
  */
 public final class Module {
+    public static final Module NULL = new Module(Manifest.NULL);
+
     private final Manifest manifest;
 
     public Module(final Manifest manifest) {

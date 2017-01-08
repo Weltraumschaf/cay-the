@@ -14,6 +14,16 @@ final class Compressor {
 
     private static final int BUFFER_SIZE = 1024;
 
+    /**
+     * Compresses the given byte array.
+     * <p>
+     * If {@code null} or empty is given then an empty array will be returned.
+     * </p>
+     * 
+     * @param data
+     *        maybe {@code null} or empty
+     * @return never {@code null}, maybe empty
+     */
     byte[] compress(final byte[] data) {
         if (null == data || data.length == 0) {
             return new byte[0];
@@ -40,6 +50,16 @@ final class Compressor {
         return outputStream.toByteArray();
     }
 
+    /**
+     * Decompresses the given byte array.
+     * <p>
+     * If {@code null} or empty is given then an empty array will be returned.
+     * </p>
+     * 
+     * @param data
+     *        maybe {@code null} or empty
+     * @return never {@code null}, maybe empty
+     */
     byte[] decompress(final byte[] data) throws DataFormatException {
         if (null == data || data.length == 0) {
             return new byte[0];

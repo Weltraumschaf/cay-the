@@ -4,7 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
-import de.weltraumschaf.caythe.intermediate.model.Version;
+import static de.weltraumschaf.caythe.intermediate.model.Version.*;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -253,10 +253,10 @@ public class DefaultCayTheManifestVisitorTest {
 
         final Manifest manifest = sut.visit(parser(src).manifest());
 
-        assertThat(manifest.getCoordinate(), is(new Coordinate("de.weltraumschaf", "example", new Version(1, 2, 3))));
+        assertThat(manifest.getCoordinate(), is(new Coordinate("de.weltraumschaf", "example", version(1, 2, 3))));
         assertThat(manifest.getNamespace(), is("de.weltraumschaf.example"));
         assertThat(manifest.getImports(),
-            containsInAnyOrder(new Coordinate("de.weltraumschaf", "core", new Version(4, 5, 6)),
-                new Coordinate("de.weltraumschaf", "test", new Version(7, 8, 9))));
+            containsInAnyOrder(new Coordinate("de.weltraumschaf", "core", version(4, 5, 6)),
+                new Coordinate("de.weltraumschaf", "test", version(7, 8, 9))));
     }
 }
