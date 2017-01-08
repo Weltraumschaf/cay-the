@@ -34,13 +34,27 @@ The key words \textit{must}, \textit{must not}, \textit{required}, \textit{shall
 Syntax in any form must be be specified by grammars. Grammars are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from ANTLR examples\cite{antlr-grammars}):
 
 \begin{lstlisting}
-    sentence    : subject predicate ;
-    subject     : article? noun ;
-    predicate   : verb adverb? ;
-    article     : 'the' | 'a' | 'an' ;
-    noun        : 'cat' | 'dog' | 'Mike' | 'Ireland' ;
-    verb        : 'is' | 'are' | 'runs' ;
-    adverb      : 'quickly' | 'slowly' ;
+    sentence    
+        : subject predicate
+        ;
+    subject
+        : article? noun 
+        ;
+    predicate
+        : verb adverb?
+        ;
+    article
+        : 'the' | 'a' | 'an' 
+        ;
+    noun
+        : 'cat' | 'dog' | 'Mike' | 'Ireland'
+        ;
+    verb
+        : 'is' | 'are' | 'runs' 
+        ;
+    adverb
+        : 'quickly' | 'slowly'
+        ;
 \end{lstlisting}
 
 \noindent This syntax is similar to \textit{Extended Backus–Naur form}\cite{ebnf-wiki}.
@@ -80,8 +94,12 @@ The manifest file must have the name \texttt{Manifest.mf} in the top level direc
 All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
 
 \begin{lstlisting}
-    fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;    
-    IDENTIFIER : LETTER (CHARACTER | '-')* ;
+    fullQualifiedName 
+        : IDENTIFIER ('.' IDENTIFIER)*
+        ;
+    IDENTIFIER 
+        : LETTER (CHARACTER | '-')*
+        ;
 \end{lstlisting}
 
 \noindent An example manifest may look like:
