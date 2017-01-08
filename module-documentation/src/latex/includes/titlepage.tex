@@ -1,0 +1,19 @@
+\makeatletter
+% Customize the title.
+% http://www.latextemplates.com/cat/title-pages
+\renewcommand{\maketitle}{\begingroup
+    \hbox{
+        \hspace*{0.05\textwidth} % Whitespace to the left of the title page.
+        \rule{3pt}{\textheight}
+        \hspace*{0.07\textwidth} % Whitespace between the vertical line and title page text.
+        \parbox[b]{0.95\textwidth}{ % Paragraph box which restricts text to less than the width of the page
+            {\noindent\Huge\bfseries\@title\\[0.3\baselineskip] \LARGE Version @(pom.version)}\\[2\baselineskip]
+            {\large \textit{\@date}}\\[4\baselineskip] 
+            {\Large \textsc{\@author}}
+
+            \vspace{0.5\textheight} % Whitespace between the title block and the publisher
+            {\noindent www.weltraumschaf.de}\\[\baselineskip] 
+        }
+    }
+\endgroup}
+\makeatother
