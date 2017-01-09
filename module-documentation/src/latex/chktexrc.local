@@ -1,3 +1,5 @@
+# http://tex.stackexchange.com/questions/263101/how-to-supress-chktex-errors-in-minted-environment
+
 VerbEnvir {
-    verbatim comment listing
+    verbatim comment listing lstlisting verbatimtab rawhtml errexam picture texdraw
 }
