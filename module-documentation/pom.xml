@@ -15,7 +15,6 @@
     <description>This module contains all documentation.</description>
 
     <properties>
-        <skip.pdf>false</skip.pdf>
         <latex.command>pdflatex</latex.command>
         <latex.lint>chktex</latex.lint>
         <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
@@ -122,7 +121,6 @@
                         </goals>
 
                         <configuration>
-                            <skip>${skip.pdf}</skip>
                             <target>
                                 <ant antfile="${project.basedir}/src/ant/build.xml" target="generate-documentation"/>
                             </target>
