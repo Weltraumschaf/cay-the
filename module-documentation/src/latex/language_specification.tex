@@ -1,39 +1,18 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt,a4paper]{report}
 
-\usepackage[utf8]{inputenc}
-\usepackage[a4paper]{geometry}
-\usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{xargs}
-\usepackage[pdftex, dvipsnames]{xcolor}
-\usepackage[colorinlistoftodos, prependcaption, textsize=tiny]{todonotes}
-\usepackage{upquote}
-\usepackage{ellipsis}
-\usepackage{booktabs}
-\usepackage{graphicx} % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
-\usepackage{dirtree}
-\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
-\setlist{itemsep=.1em}
-\PassOptionsToPackage{hyphens}{url}
-\usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
-\urlstyle{same} % don't use monospace font for urls
+\input{includes/preamble.tex}
+\input{includes/titlepage.tex}
 
-\renewcommand{\labelitemi}{$-$}
-\renewcommand{\labelitemii}{$-$}
-\renewcommand{\labelitemiii}{$-$}
-\renewcommand{\labelitemiv}{$-$}
 
-\title{%
-    Cay-The Language Specification \\
-    \large --- \\
-    Version @pom.version@}
+\title{Cay-The Language Specification}
 \author{Sven Strittmatter}
 \date{\today}
 
 \begin{document}
 
 \maketitle
+\thispagestyle{empty}
 
 \begin{abstract}
     This document describes the language specification of the Cay-The language. This not only contains the syntax, but also the build tool chain, runtime environment, dependency management and standard library.
@@ -55,15 +34,29 @@ The key words \textit{must}, \textit{must not}, \textit{required}, \textit{shall
 
 Syntax in any form must be be specified by grammars. Grammars are written in the ANTLR syntax\cite{antlr-docu}, e.g. (took from ANTLR examples\cite{antlr-grammars}):
 
-\begin{verbatim}
-    sentence    : subject predicate ;
-    subject     : article? noun ;
-    predicate   : verb adverb? ;
-    article     : 'the' | 'a' | 'an' ;
-    noun        : 'cat' | 'dog' | 'Mike' | 'Ireland' ;
-    verb        : 'is' | 'are' | 'runs' ;
-    adverb      : 'quickly' | 'slowly' ;
-\end{verbatim}
+\begin{lstlisting}
+    sentence    
+        : subject predicate
+        ;
+    subject
+        : article? noun 
+        ;
+    predicate
+        : verb adverb?
+        ;
+    article
+        : 'the' | 'a' | 'an' 
+        ;
+    noun
+        : 'cat' | 'dog' | 'Mike' | 'Ireland'
+        ;
+    verb
+        : 'is' | 'are' | 'runs' 
+        ;
+    adverb
+        : 'quickly' | 'slowly'
+        ;
+\end{lstlisting}
 
 \noindent This syntax is similar to \textit{Extended Backus–Naur form}\cite{ebnf-wiki}.
 
@@ -101,26 +94,29 @@ The manifest file must have the name \texttt{Manifest.mf} in the top level direc
 
 All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
 
-\begin{verbatim}
-    fullQualifiedName : IDENTIFIER ('.' IDENTIFIER)* ;    
-    IDENTIFIER : LETTER (CHARACTER | '-')* ;
-\end{verbatim}
+\begin{lstlisting}
+    fullQualifiedName 
+        : IDENTIFIER ('.' IDENTIFIER)*
+        ;
+    IDENTIFIER 
+        : LETTER (CHARACTER | '-')*
+        ;
+\end{lstlisting}
 
-\noindent
-An example manifest may look like:
+\noindent An example manifest may look like:
 
-\begin{verbatim}
+\begin{lstlisting}[language=CayThe]
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
     namespace   de.weltraumschaf.example
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Coordinate}
 
 Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \texttt{de.weltraumschaf:example:1.0.0}. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
 
-\begin{verbatim}
+\begin{lstlisting}
     coordinate
         :
             group=fullQualifiedName ':'
@@ -134,13 +130,13 @@ Every module and its final assembled artifact has a unique coordinate to identif
         ;
     NUMBER : DIGIT+ ;
     DIGIT  : [0-9] ;
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Imports}
 
 A manifest also may contain \textit{import} directives to make other artifacts and their exported types available in the module. The import is simply done by the coordinate of the desired module. E.g.\ the above manifest now importing two other modules:
 
-\begin{verbatim}
+\begin{lstlisting}[language=CayThe]
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
@@ -148,7 +144,7 @@ A manifest also may contain \textit{import} directives to make other artifacts a
 
     import      de.weltraumschaf:core:1.2.3
     import      de.weltraumschaf:test:2.0.0
-\end{verbatim}
+\end{lstlisting}
 
 Coordinates must not be duplicated in the imports.
 
@@ -176,7 +172,7 @@ This chapter contains ideas for the work in progress. This is not part of the of
 
 A source file \texttt{MyType.ct} may look like:
 
-\begin{verbatim}
+\begin{lstlisting}[language=CayThe]
 var integer foo = 23
 var integer bar // is 0 by default
 var integer baz = foo + bar
@@ -214,7 +210,7 @@ function Integer multiFinallies() {
 }
 
 var result = doWhat(foo, 42)	
-\end{verbatim}
+\end{lstlisting}
 
 \section{Specification}
 
@@ -250,7 +246,7 @@ A module is a directory containing all source code. It contains one and only one
 Also the manifest declares the module dependencies. Modules are referenced by an import and a module coordinate.
 
 An example of a manifest file \texttt{moduledir/Manifest.mf}:
-\begin{verbatim}
+\begin{lstlisting}[language=CayThe]
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
@@ -258,7 +254,7 @@ An example of a manifest file \texttt{moduledir/Manifest.mf}:
 
     import      org.caythe:core:1.0.0
     import      org.caythe:testing:1.0.0
-\end{verbatim}
+\end{lstlisting}
 
 All types declared in the root of the module directory are referenced by the package name given by the namespace declaration. All sub directories are packages. For example a class \texttt{Foo} in the file \texttt{moduledir/Foo.ct} will be referenced by \texttt{use de.weltraumschaf.example.Foo}. A type is always declared in a single file and a single file can only declare one type. So the File \texttt{Foo.ct} declares the type \texttt{Foo}. In consequence it is not necessary to type the name of the type again in side the file and renaming the file result in renaming the type.
 
@@ -266,7 +262,7 @@ From outside modules only types with explicit \texttt{export} are visible. So th
 
 Also each method which should be accessible from outside must be declared exported. Methods or types declared \texttt{public} are only visible everywhere inside the module. Everything declared \texttt{package} is only visible in its directory and all sub directories. So a type or method in the root module directory declaring \texttt{package} has the same effect as declaring it \texttt{public}. By default methods and types are private.
 
-\begin{verbatim}
+\begin{lstlisting}[language=CayThe]
     export // Exports the type
     public // Marks the type public
 
@@ -275,7 +271,7 @@ Also each method which should be accessible from outside must be declared export
     package method callableFromSameDirAndSubDirs() { ... }
     // private is the default so there is no keyword for that.
     method callableOnlyFromSelf() { ... }
-\end{verbatim}
+\end{lstlisting}
 
 \todo{Describe the followed items.}
 

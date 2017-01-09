@@ -1,17 +1,18 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.model;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 /**
- * Tests for {@link Manifest}.
+ * Tests for {@link Coordinate}.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public class ManifestTest {
+public class CoordinateTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(Manifest.class).verify();
+        EqualsVerifier.forClass(Coordinate.class).verify();
     }
+
 }

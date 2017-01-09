@@ -11,11 +11,17 @@
 
         <mkdir dir="${latex.output.directory}"/>
 
+        <copy todir="${latex.output.directory}/includes">
+            <fileset dir="${latex.filtered.directory}/includes" casesensitive="yes">
+                <include name="*.tex"/>
+            </fileset>
+        </copy>
+
         <echo message="Collect TeX files from ${latex.filtered.directory} ..."/>
 
         <foreach target="generate-pdf" param="tex-file" inheritall="true">
             <fileset dir="${latex.filtered.directory}" casesensitive="yes">
-                <include name="**/*.tex"/>
+                <include name="*.tex"/>
             </fileset>
         </foreach>
 

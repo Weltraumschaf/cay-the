@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.model;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;

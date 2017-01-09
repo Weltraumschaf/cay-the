@@ -28,6 +28,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+
                 <executions>
                     <execution>
                         <id>filter-documentation-sources</id>
@@ -47,12 +48,13 @@
 
                                     <includes>
                                         <include>*.tex</include>
+                                        <include>includes/*.tex</include>
                                     </includes>
                                 </resource>
                             </resources>
 
                             <delimiters>
-                                <delimiter>@*@</delimiter>
+                                <delimiter>@(*)</delimiter>
                             </delimiters>
 
                             <useDefaultDelimiters>false</useDefaultDelimiters>

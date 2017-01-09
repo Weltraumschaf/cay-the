@@ -9,10 +9,4 @@ bin/
 nbactions.xml
 
 # LaTeX stuff:
-src/latex/**/*.pdf
-.texpadtmp/
-*.aux
-*.out
-*.synctex.gz
-*.toc
-*.lof
+**/src/latex/**/*.pdf

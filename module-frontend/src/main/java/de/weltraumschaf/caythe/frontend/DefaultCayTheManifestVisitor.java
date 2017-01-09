@@ -1,8 +1,9 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.intermediate.Coordinate;
-import de.weltraumschaf.caythe.intermediate.Manifest;
-import de.weltraumschaf.caythe.intermediate.Version;
+import de.weltraumschaf.caythe.intermediate.model.Coordinate;
+import de.weltraumschaf.caythe.intermediate.model.Manifest;
+import de.weltraumschaf.caythe.intermediate.model.Version;
+import static de.weltraumschaf.caythe.intermediate.model.Version.*;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;
 
@@ -110,7 +111,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
                 v.identifiers == null ?
                     "" :
                     v.identifiers.getText();
-            version = new Version(
+            version = version(
                 Integer.parseInt(v.major.getText()),
                 Integer.parseInt(v.minor.getText()),
                 Integer.parseInt(v.patch.getText()),
@@ -134,7 +135,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
         imports.add(new Coordinate(
             coordinate.group.getText(),
             coordinate.artifact.getText(),
-            new Version(
+            version(
                 Integer.parseInt(version.major.getText()),
                 Integer.parseInt(version.minor.getText()),
                 Integer.parseInt(version.patch.getText()),
