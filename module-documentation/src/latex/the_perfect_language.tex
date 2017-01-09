@@ -289,6 +289,8 @@ Also most languages allow to have no space after the \textit{control keyword}
 
 \subsection{Unnecessary Semicolon}
 
+\todo{Read \url{https://en.wikipedia.org/wiki/Semicolon\#Programming} and \url{http://se.ethz.ch/\~meyer/publications/hoare/evolution.pdf}}
+
 One of the most superfluous things in programming languages is the semicolon necessary to end a statement. The only reason for this was in former time when some engineers decided it will be a good idea to put more than one statement into a line\footnote{Allegedly it was first introduced by ALGOL 60 (\url{https://en.wikipedia.org/wiki/ALGOL_60}).}. The necessity for that were the small sized screens from that former time. They only had twenty-five lines but eighty columns. So it seemed to be a good idea. But nowadays it is common sense that it is not a good idea to put more than one statement in a line for readability and understanding of code. So from a parser perspective it is totally unnecessary to delimit statements with a special character unless you put more than one statement in each line. A lot of languages show that semicolons are not necessary to delimit statements: Ruby, Python, Go, Swift etc. But some of these language allow to delimit statements to be terminated with a semicolon. So you can put more than one statement into a line. But as mentioned this is nowadays not considered a good practice. Instead of allowing this for some really rare circumstances where it would be helpful it is better to not add this feature at all to circumvent abuse of this feature.
 
 \subsection{Too Many Special Character Methods or Operators}
