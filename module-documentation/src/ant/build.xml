@@ -35,6 +35,8 @@
               dir="${latex.output.directory}"
               output="${latex.output.directory}/${tech-file-basename}.warnings.log"
               failonerror="true">
+            <arg value="-l"/>
+            <arg value="${latex.lint.rc}"/>
             <arg value="${tex-file}"/>
         </exec>
 

@@ -16,11 +16,12 @@
 
     <properties>
         <latex.command>pdflatex</latex.command>
-        <latex.lint>chktex</latex.lint>
         <latex.source.directory>${project.basedir}/src/latex</latex.source.directory>
         <latex.build.directory>${project.build.directory}/latex</latex.build.directory>
         <latex.filtered.directory>${latex.build.directory}/filtered</latex.filtered.directory>
         <latex.output.directory>${latex.build.directory}/output</latex.output.directory>
+        <latex.lint>chktex</latex.lint>
+        <latex.lint.rc>${latex.source.directory}/chktexrc.local</latex.lint.rc>
     </properties>
 
     <build>
