@@ -54,7 +54,7 @@
                             </resources>
 
                             <delimiters>
-                                <delimiter>@(*)</delimiter>
+                                <delimiter>§</delimiter>
                             </delimiters>
 
                             <useDefaultDelimiters>false</useDefaultDelimiters>
