@@ -250,15 +250,15 @@ In this section I describe things which are very disappointing, e.g.\ typing boi
 In lot of languages it is necessary to encapsulate conditionals in control structures with braces. The examples below are written in Java, but it is the same in C/C++/C\#/Objective-C/PHP/JavaScript etc. pp. Let's look into the most common control structures:
 
 \begin{lstlisting}[language=Java]
-    if (a > 0 && b < 10) { // ... }
+    if (a > 0 && b < 10) { ... }
     
-    for (String s : stringCollection) { // ... }
+    for (String s : stringCollection) { ... }
     
-    for (int i = 0; i < 10; ++i) { // ... }
+    for (int i = 0; i < 10; ++i) { ... }
     
-    switch (a) { // ... }
+    switch (a) { ... }
     
-    while (a < 10) { // ... }
+    while (a < 10) { ... }
 \end{lstlisting}
 
 \noindent The common pattern is always
@@ -274,7 +274,7 @@ The only exception to this are control structures with only one statement. In mo
 Also most languages allow to have no space after the \textit{control keyword}
 
 \begin{lstlisting}[language=Java]
-    if(a > 0 && b < 10) { // ... }
+    if(a > 0 && b < 10) { ... }
 \end{lstlisting}
 
 \noindent But this is also in most communities considered a bad practice. It does not increase the readability. So if we define that there must always be at last one  space after the keyword and the curly braces to group the statements together  then we can remove the braces to group the condition:
