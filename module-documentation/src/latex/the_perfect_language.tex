@@ -237,9 +237,13 @@ That's the reason why F\#, Objective-C and Swift have something like \textit{nul
 
 \todo{They are like goto (Javaslang)}
 
-\subsection{Compiler Warnings}
+\subsection{Compiler or Interpreter Warnings}
 
-\todo{Why are they there? Either it is correct for the compiler or not!}
+Most languages (no matter if thy are compiled or interpreted) have some kind of warnings. The intention of these warnings is to tell the developer that he maybe did something wrong and should really reconsider the code. In the most cases the warnings are legit and the affected code should be changed to remove the warning to avoid bugs.
+
+The fact about warnings is in my experience that they almost always are ignored. A lot of languages just do not display them by default. For example in PHP\footnote{\url{http://php.net/manual/en/function.error-reporting.php}} notices are not reported by default. So you get no message when you use an not existing array index or variable which may introduce subtle bugs. Despite that you can completely disable any reporting about errors. The same counts four Java: By default the compiler does not report warnings. This is the same story for pretty much every language. 
+
+So what is the sense of warnings when they are ignored widely? In my opinion no sense! Either you did it right in your code or you did not. The compiler/interpreter should either stop with an error which tells you what you did not right or it should shut up because it is legit what the developer did. So in a modern high level language there should not be something like suppressible warnings. There should only be errors which stops the compilation/interpretation at all. So that developers cannot ignore them.
 
 \subsection{Goto}
 
