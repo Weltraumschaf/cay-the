@@ -241,6 +241,39 @@ That's the reason why F\#, Objective-C and Swift have something like \textit{nul
 
 \todo{Why are they there? Either it is correct for the compiler or not!}
 
+\subsection{Goto}
+
+Some languages offers a keyword named \texttt{goto}. The intention of it is to provide a way to jump away from the current code location to some other location (identified by line number or a named label depending on the languages implementation). To jump around in your code is a quite natural thing if you do Assembler or machine code because there you do not have high level control structures. E.g. a simple if-statement in machine code is done by testing a register for a certain condition and depending on the result either continue the execution or jump over some instructions to continue at an other point in the program.
+
+Kernighan and Ritchie say about \textit{goto} in the book The C Programming Language\cite{c-programming-lang}:
+
+\begin{quotation}
+    C provides the infinitely-abusable \texttt{goto} statement, and labels to branch to. Formally, the \texttt{goto} is never necessary, and in practice it is almost always easy to write code without it. We have not used \texttt{goto} in this book.
+    Nevertheless, there are a few situations where \texttt{goto}s may find place. The most common is to abandon processing in some deeply nested structure, such as breaking out of two or more loops at once. The \texttt{break} statement cannot be used directly since it only exits from the inner loop.
+\end{quotation}
+
+So this is very clear: The \textit{goto} statement introduce a great chance to abuse. And this is what most developers saw when thy stumbled upon \textit{goto} in production code. And this is why nowadays \textit{goto} is considered a bad practice. Because it makes the code very hard to read. 
+
+The reason Kernighan and Ritchie describes for when to use \textit{goto} seems to be legit. The provide an example in their book\cite{c-programming-lang}:
+
+\begin{lstlisting}[language=C]
+    for ( ... ) {
+        for ( ... ) {
+            ...
+            if (disaster) {
+                goto error;
+            }
+        }
+    }
+    
+    error:
+        clena up the mess
+\end{lstlisting}
+
+One may argue that they are completely right and one need \textit{goto} to do some error recovery like that. But also nowadays code like that is considered bad practice too. Because it has a way to high Cyclomatic complexity\footnote{\url{https://en.wikipedia.org/wiki/Cyclomatic_complexity}}. This means you should not use deeply nested control structures like in the example above because it makes the code less testable, robust and reusable.
+
+So there is absolute no reason to add a feature like \textit{goto} to a modern high level language.
+
 \section{Disappointing}
 
 In this section I describe things which are very disappointing, e.g.\ typing boiler plate code, parens, semicolons and such. In contrast to the section before these points are merely opinion based. But I try to show why we should think about it.
@@ -480,6 +513,10 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
     \textit{Options},
     \url{https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/options}
 
+\bibitem{c-programming-lang}
+    The C Programming Language (2nd Edition),
+    \textit{Brian W. Kernighan, Dennis M. Ritchie}
+    Prentice Hall Software Series, 1988
 \end{thebibliography}
 
 \end{document}
