@@ -67,7 +67,7 @@ To repeat the crucial part: ``\ldots causes a run-time error or immediate progra
 \subsubsection{Null in JavaScript}
 In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that \textit{null dereferences} crashes. Maybe this undefined thing is as bad as null too.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=JavaScript]
     var obj = null;
     obj.methodCall(); // Crashes the program.
 
@@ -185,21 +185,23 @@ F\# is a functional language and does not use \textit{null}. This means there is
 \end{quotation}
  So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
 
-\begin{lstlisting}
+\begin{lstlisting}[language=FSharp]
     let keepIfPositive (a : int) = 
         if a > 0 
         then Some(a) 
         else None
 \end{lstlisting}
- And checking the presence is done with pattern matching:
 
-\begin{lstlisting}
+And checking the presence is done with pattern matching:
+
+\begin{lstlisting}[language=FSharp]
     let exists (x : int option) =
         match x with
         | Some(x) -> true
         | None -> false
 \end{lstlisting}
- The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
+
+The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
 
 \subsubsection{Conclusion}
 
