@@ -35,16 +35,16 @@ In this section I'll collect all the drawbacks and fails some already existing l
 In a lot of programming languages exists a concept of \texttt{null}. This is sometimes called a \textit{null reference} or \textit{null pointer}. Most would have seen such a thing somewhere in their career and have a vague idea what it is: Some not initialised value. Let's have a look what Wikipedia\cite{null-wiki} says what it is:
 
 \begin{quotation}
-    In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; this use of null pointers can be compared to nullable types and to the Nothing value in an option type.
+    In computing, a null pointer has a value reserved for indicating that the pointer does not refer to a valid object. Programs routinely use null pointers to represent conditions such as the end of a list of unknown length or the failure to perform some action; \dots
 \end{quotation}
 
-The first thing to mention here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate of the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
+The first thing to mention here is that different languages implement this concept differently. We do not want to dig to deep into these implementation details but concentrate on the perspective of a user of such languages: The problem then arises is the so called \textit{null dereferencing}. From the same Wikipedia\cite{null-wiki} article:
 
 \begin{quotation}
     Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.\ access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
-To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than dereferencing such will result in program crashes. Lets see some brief examples of such \textit{null} dereferences in various common languages:
+To repeat the crucial part: ``\dots causes a run-time error or immediate program crash.'' To be clear: the problem is not a concept for a not initialised or not present value, rather than dereferencing such will result in program crashes. Lets see some brief examples of such \textit{null dereferences} in various common languages:
 
 \subsubsection{Null in C/C++}
 \begin{lstlisting}[language=C++]
@@ -65,7 +65,7 @@ To repeat the crucial part: ``\ldots causes a run-time error or immediate progra
 \end{lstlisting}
 
 \subsubsection{Null in JavaScript}
-In JavaScript there is also \textit{undefined}. It is slightly different than null, but this does not matter for the fact that \textit{null dereferences} crashes. Maybe this undefined thing is as bad as null too.
+In JavaScript there is also \textit{undefined}. It is slightly different than \textit{null}, but this does not matter for the fact that \textit{null dereferences} crashes. Maybe this \textit{undefined} thing is as bad as null too.
 
 \begin{lstlisting}[language=JavaScript]
     var obj = null;
@@ -99,7 +99,7 @@ In JavaScript there is also \textit{undefined}. It is slightly different than nu
     $obj->method_call; # Crashes the program.
 \end{lstlisting}
 
-All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not a problem rather than the concept of the particular language and as a developer you have to deal with such issues: you have to write your program either that you do not produce such null values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. So as a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
+All these examples above will compile/translate without any error, but will crash tremendously at runtime. Some might say this is not a problem rather than the concept of the particular language and as a developer you have to deal with such issues: you have to write your program either that you do not produce such \textit{null} values or you deal with them correctly. But this is easier said than done. To paraphrase Murphy's law\cite{murphys-law}: If there is the possibility to make something wrong, then someone will do it wrong at some point in time. As a result developers tend to clutter up code with null checks (called defensive programming). Which will make the code harder to read and reason. As Kent\cite{kent-dyn-err-remediation} stated in his paper \textit{Dynamic Error Remediation: A Case Study with Null Pointer Exceptions}:
 
 \begin{quotation}
     One insidious bug is the null pointer exception, which by its ``null'' nature is hard for programmers to fix. These bugs indicate that nothing was found in memory where something should have been, giving programmers very little to work with to fix the bug besides a stack trace. Null pointer exceptions sometimes show themselves only with certain inputs, making these bugs difficult to find before deployment. \ldots, 1--2\% of developer code is devoted to identifying null objects.
@@ -111,14 +111,14 @@ Also an important argument is the economic damage done by this kind of bugs. Ken
     I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.	
 \end{quotation} 
 
-Whatever the real economic damage is, the fact that this kind of bug is completely avoidable by removing null pointers is obvious. To be clear: There is no problem with the concept that a value may or may not be present. Some languages (as described later) has implemented this without null pointers. The problem with null pointers is that everything everywhere may be one and either you put lot of checking code into your software or you risk crashes. In statically typed language this also subverts the type system because every type may be null but the statically checking at compile time can't inform you about this problem. As mentioned above the problem will hit reality first at runtime. There are lot of more problems which will be introduced by null. A list of some is described by Paul Draper in his blog post \textit{The worst mistake of computer science}\cite{draper-worst-mistake-cs}.
+Whatever the real economic damage is, the fact that this kind of bug is completely avoidable by removing \textit{null pointers} is obvious. To be clear: There is no problem with the concept that a value may or may not be present. Some languages (as described later) has implemented this without \textit{null pointers}. The problem with \textit{null pointers} is that everything everywhere may be one and either you put lot of checking code into your software or you risk crashes. In statically typed language this also subverts the type system because every type may be null but the statically checking at compile time can't inform you about this problem. As mentioned above the problem will hit reality first at runtime. There are lot of more problems which will be introduced by \textit{null}. A list of some is described by Paul Draper in his blog post \textit{The worst mistake of computer science}\cite{draper-worst-mistake-cs}.
 
-Of course there are techniques to circumvent null pointer dereferences in such languages without cluttering up the code with lot of null checks and boiler plate code. You can avoid using null at all. Use empty strings or zero instead of null. Or use \textit{Null Object Pattern} is a special kind of object of your type which represent an absent value. But these are workarounds and introduce the big caveat that a software developer need to know about. Remember yourself starting software development as a novice: You learned about that null thing in your language of choice and of course you used it. Why else should it be part of the language, unless to use it?
+Of course there are techniques to circumvent \textit{null pointer dereferences} in such languages without cluttering up the code with lot of null checks and boiler plate code. You can avoid using null at all. Use empty strings, zero instead of zero, or use \textit{Null Object Pattern}\footnote{\url{https://en.wikipedia.org/wiki/Null_Object_pattern}}. But these are workarounds and introduce the big caveat that a software developer need to know about. Remember yourself starting software development as a novice: You learned about that null thing in your language of choice and of course you used it. Why else should it be part of the language, unless to use it?
 
 Now the interesting question is: \textit{How to deal with values which may or may not be present without introducing null pointers?} Let's look at some languages which try this:
 
 \subsubsection{Nil in Objective-C}
-Despite the fact that \textit{Objective-C} has null due to its inheritance from C (because it is build on top of C). It has an interesting concept called \textit{nil}. It is nearly the same as the C null (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
+Despite the fact that \textit{Objective-C} has \textit{null} due to its inheritance from C (because it is build on top of C). It has an interesting concept called \texttt{nil}. It is nearly the same as the C \textit{null} (instead of \texttt{(void *)0} it is \texttt{(id)0}). The big difference is that you can send method calls to \textit{nil} without getting an error. The call is simply ignored and returns \textit{nil} as result. So consecutive calls will not fail. This obviates defensive programming as mentioned above. For example a if-expression like
 
 \begin{lstlisting}[language={[Objective]C}]
     if (name != nil && [name isEqualToString:@"Hello, World!"]) {
@@ -137,14 +137,14 @@ can be simplified to
 So it is an \textit{opt-in procedure} to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between uninitialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
-Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \texttt{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
+Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \textit{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
 
 \begin{lstlisting}
     var t time.Time
     t.Day()
 \end{lstlisting}
 
-But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
+But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That means all primitive values such as numbers, booleans, character sequences, collections etc.\ are set to at least a zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But as downside it is possible to have an equivalent to a \textit{null pointer dereference}:
 
 \begin{lstlisting}
     var t *time.Timer = nil
@@ -165,12 +165,12 @@ This is done by adding a special operator \texttt{?} for the so called \textit{O
     john.residence?.numberOfRooms
 \end{lstlisting}
 
-This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
+This will not fail if \texttt{residence} is \texttt{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
 
 \begin{lstlisting}
     john.residence!.numberOfRooms
 \end{lstlisting}
- and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
+ and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \texttt{nil}:
 
 \begin{quotation}
     The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
@@ -201,7 +201,7 @@ And checking the presence is done with pattern matching:
         | None -> false
 \end{lstlisting}
 
-The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
+The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code and this does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
 
 \subsubsection{Conclusion}
 
@@ -216,7 +216,7 @@ I'm not sure which concept is better: Add a \textit{Maybe Type} to the language 
     \label{fig:Null_from_linked_native_libs}
 \end{figure}
 
-That's the reason why F\#, Objective-C and Swift have something like \textit{null} at certain places. In the F\# documentation they recommend to minimise the use of this ``null'' only at a small place in your code, e.g.\ in a wrapper which delegates to the other library and deals with the \textit{null}. You always need such a layer to maintain type conversions. Some languages gives you more or less help to generate this boiler plate code to bind a native third party library. In my opinions such tooling must be part of the official language specification and implementation. Then you can simply automate the dealing with \textit{null} under the hood and completely transparently (Figure
+That's the reason why F\#, Objective-C and Swift have something like \textit{null} at certain places. In the F\# documentation they recommend to minimise the use of this ``null'' only at a small place in your code, e.g.\ in a wrapper which delegates to the other library and deals with the \textit{null}. You always need such a layer to maintain type conversions. Some languages gives you more or less help to generate this boiler plate code to bind a native third party library. In my opinion such tooling must be part of the official language specification and implementation. Then you can simply automate the dealing with \textit{null} under the hood and completely transparently (Figure
  ~\ref{fig:Generated_wrapper_for_linked_native_libs}).
 
 \begin{figure}[ht]
@@ -238,22 +238,22 @@ That's the reason why F\#, Objective-C and Swift have something like \textit{nul
 
 Most languages (no matter if thy are compiled or interpreted) have some kind of warnings. The intention of these warnings is to tell the developer that he maybe did something wrong and should really reconsider the code. In the most cases the warnings are legit and the affected code should be changed to remove the warning to avoid bugs.
 
-The fact about warnings is in my experience that they almost always are ignored. A lot of languages just do not display them by default. For example in PHP\footnote{\url{http://php.net/manual/en/function.error-reporting.php}} notices are not reported by default. So you get no message when you use an not existing array index or variable which may introduce subtle bugs. Despite that you can completely disable any reporting about errors. The same counts four Java: By default the compiler does not report warnings. This is the same story for pretty much every language. 
+The fact about warnings is in my experience that they almost always are ignored. A lot of languages just do not display them by default. For example in PHP\footnote{\url{http://php.net/manual/en/function.error-reporting.php}} notices are not reported by default. So you get no message when you use a not existing array index or variable which may introduce subtle bugs. Despite that you can completely disable any reporting about errors. The same counts for Java: By default the compiler does not report warnings. This is the same story for pretty much every language. 
 
-So what is the sense of warnings when they are ignored widely? In my opinion no sense! Either you did it right in your code or you did not. The compiler/interpreter should either stop with an error which tells you what you did not right or it should shut up because it is legit what the developer did. So in a modern high level language there should not be something like suppressible warnings. There should only be errors which stops the compilation/interpretation at all. So that developers cannot ignore them.
+So what is the sense of warnings when they are ignored widely? In my opinion no sense! Either you did it right in your code or you did not. The compiler/interpreter should either stop with an error which tells you what you did not right or it should shut up because it is legit what the developer did. So in a modern high level language there should not be something like suppressible warnings. There should only be errors which stops the compilation/interpretation at all. So that developers can not ignore them.
 
 \subsection{Goto}
 
 Some languages offers a keyword named \texttt{goto}. The intention of it is to provide a way to jump away from the current code location to some other location (identified by line number or a named label depending on the languages implementation). To jump around in your code is a quite natural thing if you do Assembler or machine code because there you do not have high level control structures. E.g. a simple if-statement in machine code is done by testing a register for a certain condition and depending on the result either continue the execution or jump over some instructions to continue at an other point in the program.
 
-Kernighan and Ritchie say about \textit{goto} in the book The C Programming Language\cite{c-programming-lang}:
+Kernighan and Ritchie say about \textit{goto} in the book \textit{The C Programming Language}\cite{c-programming-lang}:
 
 \begin{quotation}
-    C provides the infinitely-abusable \texttt{goto} statement, and labels to branch to. Formally, the \texttt{goto} is never necessary, and in practice it is almost always easy to write code without it. We have not used \texttt{goto} in this book.
-    Nevertheless, there are a few situations where \texttt{goto}s may find place. The most common is to abandon processing in some deeply nested structure, such as breaking out of two or more loops at once. The \texttt{break} statement cannot be used directly since it only exits from the inner loop.
+    C provides the infinitely-abusable goto statement, and labels to branch to. Formally, the goto is never necessary, and in practice it is almost always easy to write code without it. We have not used goto in this book.
+    Nevertheless, there are a few situations where gotos may find place. The most common is to abandon processing in some deeply nested structure, such as breaking out of two or more loops at once. The break statement cannot be used directly since it only exits from the inner loop.
 \end{quotation}
 
-So this is very clear: The \textit{goto} statement introduce a great chance to abuse. And this is what most developers saw when thy stumbled upon \textit{goto} in production code. And this is why nowadays \textit{goto} is considered a bad practice. Because it makes the code very hard to read. 
+So this is very clear: The \textit{goto} statement introduce a great chance to abuse it. And this is what most developers saw when thy stumbled upon \textit{goto} in production code. This is why nowadays \textit{goto} is considered a bad practice. Because it makes the code very hard to read, if the control flow jumps wildly around in the source code.
 
 The reason Kernighan and Ritchie describes for when to use \textit{goto} seems to be legit. The provide an example in their book\cite{c-programming-lang}:
 
@@ -303,7 +303,7 @@ The common pattern is always
     }
 \end{lstlisting}
 
-The only exception to this are control structures with only one statement. In most languages then the curly braces can be omitted. Nowadays this is strongly considered as bad practice because it introduce the possibility of bugs: Someone adds a second line but forget the curly braces to group them to a block. So this feature should not be added to a new programming language. The argument that it requires more memory and space on the screen is obsolete nowadays.
+The only exception to this are control structures with only one statement. In most languages then the curly braces are optional. Nowadays this is strongly considered as bad practice because it introduce the possibility of bugs: Someone adds a second line but forget the curly braces to group them as a block. So this feature should not be added to a new programming language. The argument that it requires more memory and space on the screen is obsolete nowadays.
 
 Also most languages allow to have no space after the \textit{control keyword}
 
@@ -319,15 +319,17 @@ But this is also in most communities considered a bad practice. It does not incr
     }
 \end{lstlisting}
 
-A parse will consider the keyword as token, skips the next white space, and then recognize everything up to the open curly brace as conditional expression.
+A parser will consider the keyword as token, skips the next white space, and then recognize everything up to the open curly brace as conditional expression.
 
 \subsection{Unnecessary Semicolon}
 
 \todo{Read \url{https://en.wikipedia.org/wiki/Semicolon\#Programming} and \url{http://se.ethz.ch/\~meyer/publications/hoare/evolution.pdf}}
 
-One of the most superfluous things in programming languages is the semicolon necessary to end a statement. The only reason for this was in former time when some engineers decided it will be a good idea to put more than one statement into a line\footnote{Allegedly it was first introduced by ALGOL 60 (\url{https://en.wikipedia.org/wiki/ALGOL_60}).}. The necessity for that were the small sized screens from that former time. They only had twenty-five lines but eighty columns. So it seemed to be a good idea. But nowadays it is common sense that it is not a good idea to put more than one statement in a line for readability and understanding of code. So from a parser perspective it is totally unnecessary to delimit statements with a special character unless you put more than one statement in each line. A lot of languages show that semicolons are not necessary to delimit statements: Ruby, Python, Go, Swift etc. But some of these language allow to delimit statements to be terminated with a semicolon. So you can put more than one statement into a line. But as mentioned this is nowadays not considered a good practice. Instead of allowing this for some really rare circumstances where it would be helpful it is better to not add this feature at all to circumvent abuse of this feature.
+One of the most superfluous things in programming languages is the semicolon necessary to terminate a statement. The only reason for this was in former time when some engineers decided it will be a good idea to put more than one statement into a line\footnote{Allegedly it was first introduced by ALGOL 60 (\url{https://en.wikipedia.org/wiki/ALGOL_60}).}. The necessity for that were the small sized screens from that former time. They only had twenty-five lines but eighty columns. So it seemed to be a good idea. But nowadays it is common sense that it is not a good idea to put more than one statement in a line for readability and understanding of code. So from a parser perspective it is totally unnecessary to delimit statements with a special character unless you put more than one statement in each line. A lot of languages show that semicolons are not necessary to delimit statements: Ruby, Python, Go, Swift etc. But some of these language allow to delimit statements to be terminated with a semicolon. So you can put more than one statement into a line. But as mentioned this is nowadays not considered a good practice. Instead of allowing this for some really rare circumstances where it would be helpful it is better to not add this feature at all to circumvent abuse of this feature.
 
 \subsection{Too Many Special Character Methods or Operators}
+
+\todo{Revise section about operators.}
 
 Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code. Some examples from Perl\cite{secret-perl-operators}:
 
@@ -352,7 +354,9 @@ Perl is an ancient language, but modern languages also have this problem. Here s
 
 I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
 
-\subsection{Missing Tools}
+\subsection{Build Tool Chain}
+
+\todo{Revise section about build tool chain}
 
 A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools: a \textit{language tool chain}. What are necessary tools?
 
