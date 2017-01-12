@@ -43,7 +43,7 @@ The first thing to mention here is that different languages implement this conce
     Because a null pointer does not point to a meaningful object, an attempt to dereference (i.e.\ access the data stored at that memory location) a null pointer usually (but not always) causes a run-time error or immediate program crash.
 \end{quotation}
 
-\noindent To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than dereferencing such will result in program crashes. Lets see some brief examples of such \textit{null} dereferences in various common languages:
+To repeat the crucial part: ``\ldots causes a run-time error or immediate program crash''. To be clear: the problem is not a concept for a not initialised or not present value, rather than dereferencing such will result in program crashes. Lets see some brief examples of such \textit{null} dereferences in various common languages:
 
 \subsubsection{Null in C/C++}
 \begin{lstlisting}[language=C++]
@@ -125,7 +125,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance from 
     }
 \end{lstlisting}
 
-\noindent can be simplified to
+can be simplified to
 
 \begin{lstlisting}[language={[Objective]C}]
     if ([name isEqualToString:@"Hello, World!"]) { 
@@ -133,7 +133,7 @@ Despite the fact that \textit{Objective-C} has null due to its inheritance from 
     }
 \end{lstlisting}
 
-\noindent So it is an \textit{opt-in procedure} to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between uninitialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
+So it is an \textit{opt-in procedure} to ask if a value is \texttt{nil}: In the special case you do not want it you can react on it, but by default the program does not crash. But \textit{Objective-C} has some drawbacks in the field of not initialised references: First it has the C null as mentioned above. This introduces the risk that it is used (if someone didn't know better). Second it is not possible to store \texttt{nil} in collection types and so there is a special container type singleton for that: \texttt{NSNull}. Also there is a distinction between uninitialised object references (\texttt{nil}) and uninitialised class references (\texttt{Nil}). This makes the whole thing complicated and error prone if someone is not familiar with the whole concept.
 
 \subsubsection{Nil in Go}
 Go has the philosophy that \textit{value types} should be preferred to pointer types. So a value type will never be \texttt{nil} (which is the Go equivalent for \texttt{null}), but a value which has all its properties set to a zero value\cite{golang-spec}. So this example will never fail
@@ -143,7 +143,7 @@ Go has the philosophy that \textit{value types} should be preferred to pointer t
     t.Day()
 \end{lstlisting}
 
-\noindent But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
+But there are no checks if this is done intentionally or if the developer only forgot to call a constructor function. But it will not crash the application because the variable \texttt{t} will be properly initialised to a zeroed value. That mean all primitive values such as numbers, booleans, character sequences, collections etc./ are set to an zero equivalent value. Because of the fact that all complex data structures are made of these primitives it is possible to create zeroed values transitively. But it is possible to have an equivalent to a \textit{null pointer dereference}:
 
 \begin{lstlisting}
     var t *time.Timer = nil
@@ -158,19 +158,18 @@ Nil in Swift is quite similar to Nil in Objective-C:\@
     Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.\cite{swift-spec-optional-chaining}
 \end{quotation}
 
-\noindent This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
+This is done by adding a special operator \texttt{?} for the so called \textit{Optional Chaining}, e.g.
 
 \begin{lstlisting}
     john.residence?.numberOfRooms
 \end{lstlisting}
 
-\noindent This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
+This will not fail if \texttt{residence} is \textit{nil}. But it introduces the drawback named \textit{Forced Unwrapping}. If the above example is changed to
 
 \begin{lstlisting}
     john.residence!.numberOfRooms
 \end{lstlisting}
-
-\noindent and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
+ and \texttt{residence} is \textit{nil} then the program crashes due to a so called \textit{Forced Unwrapping} of \textit{nil}:
 
 \begin{quotation}
     The main difference is that optional chaining fails gracefully when the optional is nil, whereas forced unwrapping triggers a runtime error when the optional is nil.\cite{swift-spec-optional-chaining}
@@ -183,8 +182,7 @@ F\# is a functional language and does not use \textit{null}. This means there is
 \begin{quotation}
     The null value is not normally used in F\# for values or variables. However, null appears as an abnormal value in certain situations. If a type is defined in F\#, null is not permitted as a regular value unless the AllowNullLiteral attribute is applied to the type. If a type is defined in some other .NET language, null is a possible value, and when you are interoperating with such types, your F\# code might encounter null values.\cite{null-in-fsharp}
 \end{quotation}
-
-\noindent So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
+ So by default F\# uses the concept of optionals\cite{optional-in-fsharp}. A simple example:
 
 \begin{lstlisting}
     let keepIfPositive (a : int) = 
@@ -192,8 +190,7 @@ F\# is a functional language and does not use \textit{null}. This means there is
         then Some(a) 
         else None
 \end{lstlisting}
-
-\noindent And checking the presence is done with pattern matching:
+ And checking the presence is done with pattern matching:
 
 \begin{lstlisting}
     let exists (x : int option) =
@@ -201,8 +198,7 @@ F\# is a functional language and does not use \textit{null}. This means there is
         | Some(x) -> true
         | None -> false
 \end{lstlisting}
-
-\noindent The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
+ The downside is that \textit{null} may be present due to the fact that in F\# any other .NET language code can be imported. So you can use C\# code in your F\#. C\# does have \textit{null} and so F\# must deal with that. This drawback is enforced by the .NET ecosystem in which you can mix the different languages.
 
 \subsubsection{Conclusion}
 
@@ -296,7 +292,7 @@ In lot of languages it is necessary to encapsulate conditionals in control struc
     while (a < 10) { ... }
 \end{lstlisting}
 
-\noindent The common pattern is always
+The common pattern is always
 
 \begin{lstlisting}
     CONTROL-KEYWORD ( <<condition>> ) { 
@@ -312,7 +308,7 @@ Also most languages allow to have no space after the \textit{control keyword}
     if(a > 0 && b < 10) { ... }
 \end{lstlisting}
 
-\noindent But this is also in most communities considered a bad practice. It does not increase the readability. So if we define that there must always be at last one  space after the keyword and the curly braces to group the statements together  then we can remove the braces to group the condition:
+But this is also in most communities considered a bad practice. It does not increase the readability. So if we define that there must always be at last one  space after the keyword and the curly braces to group the statements together  then we can remove the braces to group the condition:
 
 \begin{lstlisting}
     CONTROL-KEYWORD <<condition>> { 
@@ -320,7 +316,7 @@ Also most languages allow to have no space after the \textit{control keyword}
     }
 \end{lstlisting}
 
-\noindent A parse will consider the keyword as token, skips the next white space, and then recognize everything up to the open curly brace as conditional expression.
+A parse will consider the keyword as token, skips the next white space, and then recognize everything up to the open curly brace as conditional expression.
 
 \subsection{Unnecessary Semicolon}
 
