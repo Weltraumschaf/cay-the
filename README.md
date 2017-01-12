@@ -35,4 +35,4 @@ You need a [Java 8][java8] VM and a Bash compatible shell to run the CLI.
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-distribution/target/distribution-1.0.0-SNAPSHOT.zip
 [java8]:        https://java.com/en/download/
 [langspec]:     https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-documentation/target/latex/output/language_specification.pdf
-[perfetc-lang]: https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-documentation/target/latex/output/the_perfect_language.pdf
+[perfetc-lang]: https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-documentation/target/latex/output/a_perfect_programming_language.pdf
