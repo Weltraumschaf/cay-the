@@ -93,6 +93,24 @@
 
                 <executions>
                     <execution>
+                        <id>add-antlr-grammars</id>
+                        <phase>generate-resources</phase>
+
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/antlr4</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>add-antlr-generated-sources</id>
                         <phase>generate-sources</phase>
 
                         <goals>
