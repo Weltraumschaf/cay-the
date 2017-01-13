@@ -329,7 +329,7 @@ One of the most superfluous things in programming languages is the semicolon nec
 
 \subsection{Too Many Special Character Methods or Operators}
 
-\todo{Revise section about operators.}
+Each programming language provides some special symbols. Usually the operators are such. E.g.\ for math operations there are operators such as \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}. There is no problem with such simple operators. The problem arises when the language provides a mass of special kind operators a novice programmer is not used to.
 
 Looking at Perl or Scala as a beginner you will notice a lot of strange characters in the code. Some examples from Perl\cite{secret-perl-operators}:
 
@@ -344,7 +344,7 @@ Looking at Perl or Scala as a beginner you will notice a lot of strange characte
     \item Venus operator: \texttt{0+}
 \end{itemize}
 
-Perl is an ancient language, but modern languages also have this problem. Here some examples from Scala\cite{special-operators-scala}:
+Perl is an ancient language and we may argue that in former time this was a good idee to save space or typing, but modern languages also have this problem. Here some examples from Scala\cite{special-operators-scala}:
 
 \begin{itemize}
     \item Upper, lower and view bounds: \texttt{<: >: <\%}
@@ -352,7 +352,14 @@ Perl is an ancient language, but modern languages also have this problem. Here s
     \item Many different meanings: \texttt{\_}
 \end{itemize}
 
-I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors. Today we all have super power driven editors or IDEs with intellisense and auto completion. So there is no reason to confuse developers without years of experience with strange characters.
+I don't want to blame Perl or Scala in particular here. Other languages does this also: Haskell, Ruby etc. Especially functional languages tend to strange characters to name functions, methods or operators. In my opinion this violates the rule that source code should be least astonishing. Of course for a professional developer this may be time saving to type three characters instead of a long function name. This argument counted decades ago when the developers only had dumb text editors and small sized screens. Today we all have super power driven editors or IDEs with intellisense and auto completion and large scaled screens. So there is no reason to confuse developers without years of experience with strange characters.
+
+I would also go even further: Some operators we are used to in almost every language should be reconsidered:
+
+\begin{itemize}
+    \item \textbf{Negation}: Most languages use the \texttt{!} to negate an expression. But this small character is often overseen. For example for a code fragment like \texttt{if (!foo) ...} it is very easy to oversee the not operator and remove it accidentally when refactotring the code. Some software projects state the rule that a condition like that must be written as \texttt{if (!!!foo) ...} or \texttt{if (false == foo) ...} to make the negation more obvious. This could be circumvented by replacing the \texttt{!} operator completely by a keyword \texttt{not}: \texttt{if (not foo) ...}. Some languages provide both possibilities, but I would strongly recommend only one way to not confuse novice programmers what to use. Also the idea of the control structucre \texttt{unless (foo) ...} instead of \texttt{if (not foo) ...} should be considered.
+    \item \textbf{Logical Operators}: Most languages provide operators for boolean operations (e.g. \texttt{\&\&}, \texttt{||}) for logical \textit{and} and \textit{or}. The operator for \texttt{exclusive or} are more various over languages. Here it would be easier to provide also keywords: \texttt{and}, \texttt{or}, and \texttt{xor}.
+\end{itemize}
 
 \subsection{Build Tool Chain}
 
@@ -374,7 +381,7 @@ All languages have at least a compiler or interpreter. And mostly that is all yo
 
 \subsection{Inheritance}
 
-\todo{Composition is favoured over inheritance. Describe sophsiticated delegation model built into a language.}
+\todo{Composition is favoured over inheritance. Describe sophisiticated delegation model built into a language.}
 
 \subsection{Visibility}
 
