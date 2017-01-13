@@ -18,17 +18,20 @@
 \usepackage{graphicx} % https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
 \usepackage{dirtree}  % Required for directory trees.
 \usepackage{listings} % Required for inserting code snippets.
-\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
-\setlist{itemsep=.1em}
-\PassOptionsToPackage{hyphens}{url}
-\usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
-\urlstyle{same} % don't use monospace font for urls
 
+\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist[enumerate]{noitemsep}
+\setlist[itemize]{noitemsep}
+\setlist[description]{noitemsep}
 % Use dash for items in lists:
 \renewcommand{\labelitemi}{$-$}
 \renewcommand{\labelitemii}{$-$}
 \renewcommand{\labelitemiii}{$-$}
 \renewcommand{\labelitemiv}{$-$}
+
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[colorlinks=false, pdfborder={0 0 0}, unicode=true]{hyperref}
+\urlstyle{same} % don't use monospace font for urls
 
 % Own syntax highlighting:
 % http://www.latextemplates.com/template/code-snippet
