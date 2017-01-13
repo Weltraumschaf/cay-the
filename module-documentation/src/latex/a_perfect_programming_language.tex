@@ -361,27 +361,27 @@ I would also go even further: Some operators we are used to in almost every lang
     \item \textbf{Logical Operators}: Most languages provide operators for boolean operations (e.g. \texttt{\&\&}, \texttt{||}) for logical \textit{and} and \textit{or}. The operator for \texttt{exclusive or} are more various over languages. Here it would be easier to provide also keywords: \texttt{and}, \texttt{or}, and \texttt{xor}.
 \end{itemize}
 
-\subsection{Build Tool Chain}
+\subsection{Language Tool Chain}
 
-\todo{Revise section about build tool chain}
-
-A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools: a \textit{language tool chain}. What are necessary tools?
+A lot of languages lack of appropriate tooling and it is necessary to build them first before you get productive. A perfect language must come with all necessary tools: a \textit{language tool chain}. What are necessary tools which should be provided by such a tool chain?
 
 All languages have at least a compiler or interpreter. And mostly that is all you get. But to be productive to create more than simple small applications a developer (team) need tools for
 
 \begin{itemize}
-    \item compile and link all sources to a usable self contained binary or library.
+    \item compile and link all sources to a usable self contained\footnote{In my opinion everything should be self contained so you circumvent the problem that final artifacts require libraries in different versions. Each artifact comes with all its dependencies. This will consume more disk space, but this is not an issue anymore.} binary or library.
     \item manage dependencies so that they do not interfere with each other when they have same modules in different versions as transitive dependency.
     \item executes test code (unit, integration, and system tests) and report code coverage.
     \item source code formatting and linting.
     \item create API documentation for a module.
 \end{itemize}
 
+The Go\footnote{\url{https://golang.org/doc/cmd}} programming language is a good example for that. It provided from start a comprehensive tool chain to maintain the above mentioned tasks. One negative example is Java where you have to compile all your classes by self and put all dependencies on the classpath etc. pp., unless you use tools like Maven\footnote{\url{https://maven.apache.org/}} or Ant\footnote{\url{http://ant.apache.org/}}. But botch of these tools came years after the first release of Java. That's a reason why you can find nowadays software projects which only builds in a particular IDE on a particular system. When talking to the developers they always say: ``We never heard about Maven/Ant etc.'' There are also other examples: For C you need to now about \textit{make}. But there exists different flavours/implementation of make (GNU make\footnote{\url{https://www.gnu.org/software/make/}}, CMake\footnote{\url{https://cmake.org/}}, DMake\footnote{\url{https://www.openoffice.org/tools/dmake/}} etc.) and of course they are not full compatible. If all necessary tools are provided by the language itself with sane defaults and specification, then there is not the problem that every project has its own build mechanics incompatible to each other. Also you loose the necessity to discuss how to do it with everybody. Remember how long you discussed the last time in a team how to configure the code formatter. Easy solution: The language ships one code formatter with only one sane default format: No discussions about tabs versus spaces or such anymore.
+
 \section{Other Disadvantages}
 
 \subsection{Inheritance}
 
-\todo{Composition is favoured over inheritance. Describe sophisiticated delegation model built into a language.}
+\todo{Composition is favoured over inheritance. Describe sophisticated delegation model built into a language.}
 
 \subsection{Visibility}
 
