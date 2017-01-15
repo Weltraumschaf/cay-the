@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>50</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Animal
+--
+--
+eat()
+sleap()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>90</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Cat
+--
+delegate:Animal
+--
+playWithBallOfWool()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Dog
+--
+delegate:Animal
+--
+retrieve()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>40</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+delegates to &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>80</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+delegates to &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+</diagram>

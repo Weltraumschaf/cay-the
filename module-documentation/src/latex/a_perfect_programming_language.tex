@@ -393,7 +393,82 @@ The Go\footnote{\url{https://golang.org/doc/cmd}} programming language is a good
 
 \subsection{Inheritance}
 
-\todo{Composition is favoured over inheritance. Describe sophisticated delegation model built into a language.}
+On of the very first concepts you learn when starting with \textit{object oriented programming (OOP} is \textit{inheritance}. Typically you will be introduced to the concept of \textit{OOP} by describing your problem domain in the programming language like real world objects. There will come up an example like: You have dog objects and cat objects. They have properties and behaviour in common and some properties and behaviour which distinguishes them. The parts which are common will be represented as properties and behaviour of a common parent class (Figure ~\ref{fig:Classical_inheritance_example}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=350pt]{grafics/Classical_inheritance_example.pdf}
+    \caption{Example of a classical inheritance.}
+    \label{fig:Classical_inheritance_example}
+\end{figure}
+
+This is a very helpful example, if you have to write a software for a vet or zoo. In most software only a small part can be modelled like this. Usually this is the domain model. A lot of more code you will have for all the other stuff which makes you software run: There must be classes for file operations, for the user interface, for network operations, for user authentication etc. pp. How to model this like real world objects? That's quite bit more difficult than the animal example. In theory you should look at all these classes and model them accordingly to the animal example: Common property and behaviour should be extracted in a parent class. But in fact you will see a lot inheritance only to get access to a functionality of another object. To give an example suitable to the above animals: You add the property that a dog have four legs. Later someone would say that cats also have four legs and pulls up that property to the animal type. But then you have to add some snakes and birds to your domain model. Both of them does not have four legs. The snake has no legs and birds have two of them. So lets introduce some more types (Figure ~\ref{fig:Classical_inheritance_with_more_parents}). One may say that the numbers of legs should be a property in the animal class. That would be of course the better design, but here it to demonstrate the generel principle behind inheritance and the danger of creating overly complex inheritance trees. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=350pt]{grafics/Classical_inheritance_with_more_parents.pdf}
+    \caption{A slightly more complex inheritance example.}
+    \label{fig:Classical_inheritance_with_more_parents}
+\end{figure}
+
+So what is the problem with inheritance and why do some state that \textit{composition should be favoured over inheritance}? One of the problems is that inheritance exposes a subclass to details of its parent's implementation and so breaks encapsulation\cite{gang-of-four}. This would make the software less testable and robust and also may introduce subtle bugs (e.g.\ overridable method call in constructor). Another problem is that for a good designed model with inheritance it should respect the \textit{Liskov substitution principle}\footnote{\url{https://en.wikipedia.org/wiki/Liskov_substitution_principle}}. Which simply says that whenever you can pass a animal type (from above example) into a method, then this method must work correct also if you pass in a dog or cat. This is often not the case in software systems when inheritance is used only to obtain some functionality from another class. The typical case of: There is a function which does exactly what I want, but copy and paste is evil, so lets extend that class. How difficult it is to do this correctly is mentioned in an excellent article\footnote{\url{http://www.artima.com/lejava/articles/equality.html}} about how to implement the \texttt{Object\#equals(Object)} right in Java for subclasses. Also problematic is the fact that inheritance in most languages is done at compile time. If you want to give the dog in the example above another parent class, then you must recompile and redeploy the software. In most languages there is no chance to change a parent class at runtime (which is necessary to enable static type checking at compile time). And last but not least there is multiple inheritance. Most languages does not allow it to circumvent the \texttt{Diamond problem}\footnote{\url{https://en.wikipedia.org/wiki/Multiple_inheritance\#The_diamond_problem}}. In such languages you will be faced with the problem that your domain model requires multiple inheritance, but you have to workaround it to fit into the single inheritance. All this leads to unnecessary complex code and boiler plate code.
+
+In contrast composition bypass these problems. With composition our animal example will look like different: The dog and animal class will have a property holding an instance of an animal object and delegates the all method calls to it (Figure ~\ref{fig:Composition_example}). With this approach you have not to leak the internals of the common animal class into the subclasses and therefore you need not to break the encapsulation. Also you may change the animal class at runtime. This makes code often more testable because you can inject a mock implementation of the animal type. Also it provides a easy solution to the \textit{Diamond problem}: You can declare as many delegates you want, but you decide which methods to use of them. If you have two delegates with the same method and you need both of them you can just rename the delegate method for one or both of them.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=350pt]{grafics/Composition_example.pdf}
+    \caption{Now the same example with composition instead of inheritacne.}
+    \label{fig:Composition_example}
+\end{figure}
+
+The major downside of this delegation in most languages is that you need to write lot of boilerplate code. For example in Java the animal example will look like:
+
+\begin{lstlisting}[language=Java]
+    class Animal {
+        void eat() { ... }
+        void sleep() { ... }
+    }
+    
+    class Dog {
+        private Animal delegate = new Animal();
+        
+        void eat() { delegate.eat(); }
+        void sleep() { delegate.sleep(); }
+        void retrieve() { ... }
+    }
+    
+    class Cat {
+        private Animal delegate = new Animal();
+    
+        void eat() { delegate.eat(); }
+        void sleep() { delegate.sleep(); }
+        void playWithBallOfWool() { ... }
+    }
+\end{lstlisting}
+
+Most modern IDEs support the developer by auto generating such boiler plate code. But nevertheless it clutters up the code. In a modern \textit{OOP} language it would be nice to let the compiler do this for you. So there should be language constructs to support such composition, e.g.
+
+\begin{lstlisting}
+    class Animal {
+        void eat() { ... }
+        void sleep() { ... }
+    }
+    
+    class Dog {
+        delegate Animal;
+        
+        void retrieve() { ... }
+    }
+    
+    class Cat {
+        delegate Animal;
+    
+        void playWithBallOfWool() { ... }
+    }
+\end{lstlisting}
+
+Obviously this implies that a common type like the animal in the above examples must not be abstract. In consequence if a feature like inheritance is completely removed fro the feature set of a language such abstract classes are not necessary. In classical \textit{OOP} you may want to prohibit one from creating an animal object because it make no sense to have such an object. But in a composition style it makes total sense.
 
 \subsection{Visibility}
 
@@ -580,8 +655,14 @@ Next, Kotlin also supports the principle to either design for inheritance or pro
 
 \bibitem{c-programming-lang}
     The C Programming Language (2nd Edition),
-    \textit{Brian W. Kernighan, Dennis M. Ritchie}
+    \textit{Brian W. Kernighan, Dennis M. Ritchie},
     Prentice Hall Software Series, 1988
+
+\bibitem{gang-of-four}
+    Design Patterns: Elements of Reusable Object-Oriented Software,
+    \textit{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides},
+    Prentice Hall, 1994
+
 \end{thebibliography}
 
 \end{document}
