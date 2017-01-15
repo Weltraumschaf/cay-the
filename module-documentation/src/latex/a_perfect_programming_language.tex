@@ -472,8 +472,123 @@ Obviously this implies that a common type like the animal in the above examples 
 
 \subsection{Visibility}
 
-\todo{By default everything is private. Explicit open visibility. For outside of a module types/methods/constants must be exported.}
-\todo{Package private includes sub packages.}
+Most languages in the \textit{OOP} have the feature to declare the visibility of certain pars (namely the properties, methods and types). The general rule of \textit{OOP} is to hide as much of the implementation details as possible. But the problem with most language implementation is that the defaults are way to weak. So for example in Java the default visibility (if you give the compiler no hint) is package private, which means that everything else in the same package may access it. This is then exacerbated by various IDEs which mostly have the default to mark everything public which is auto generated, unless you change your default. Most novice programmer do not do this and thus produce way to public APIs. The problem with that is that this leads to tangled call which violates layers and abstractions. And the problem is that making things less visible later on is very difficult, unless you want to break existing code.\todo{Add reference to \url{https://martinfowler.com/ieeeSoftware/published.pdf}}
+
+\subsubsection{Properties}
+
+By default properties should always be private. There is no reason to expose them outside of the type, unless to violate the encapsulation and information hiding principle of \textit{OOP}. But sometimes you need to read or write such a property from outside. Typically you introduce setter and getter methods for your property. But this also clutters up your code. For example in Java you would write:
+
+\begin{lstlisting}[language=Java]
+    class Type {
+        private String peropertyOne;
+        private String peropertyTwo;
+        private String peropertyThree;
+        ...
+        
+        String getPropertyOne() {
+            return propertyOne;
+        }
+        
+        void setPropertyOne(String newPropertyOne) {
+            propertyOne = newPropertyOne;
+        }
+        
+        String getPropertyTwo() {
+            return propertyTwo;
+        }
+        
+        void setPropertyTwo(String newPropertyTwo) {
+            propertyTwo = newPropertyTwo;
+        }
+        
+        String getPropertyThree() {
+            return propertyThree;
+        }
+        
+        void setPropertyThree(String newPropertyThree) {
+            propertyThree = newPropertyThree;
+        }
+        
+        ...
+    }
+\end{lstlisting}
+
+Without a vast amount of self discipline this will not work out well. Wouldn't it be nicer to let the compiler auto generate such getters and setters?
+
+\begin{lstlisting}
+    class Type {
+        property String peropertyOne;
+        property String peropertyTwo;
+        property String peropertyThree;
+    }
+\end{lstlisting}
+
+This woul lead into much cleaner code and less work for developers. But there must be some modifiers to tell whether such propert is readable or writable:
+
+\begin{lstlisting}
+    class Type {
+        property(read) String peropertyOne;
+        property(read, write) String peropertyTwo;
+        property(write) String peropertyThree;
+    }
+\end{lstlisting}
+
+\todo{Find examples which does this already (Objective-C, C\#, Swift?).}
+    
+\subsubsection{Methods}
+
+In contrast to properties methods sometimes should be more visible than private because a object which only have private methods will not be very useful. But the above mentioned points about the defaults also holds here. For example in Java by default methods are package private and most IDEs generate new method stubs public. This will lead to the same problems. So in a modern programming language the default visibility for methods should always be private and only if the developer decides it would be a good idea the visibility must be opened explicit by a keyword.
+
+Most languages provide four levels of visibilities for methods:
+
+\begin{description}
+    \item[private] The method is only accessible from within the same type which declares that method.
+    \item[package private] Only objects which type is declared in the same package as the type declaring the method can access that method.
+    \item[protected] Every type which extends this type can access a protected method from that parent.\footnote{In a language which does not have inheritance, but a delegation model (as described above) may not need this level of visibility.}
+    \item[public] Every other object can access a public method.
+\end{description}
+
+The problem arises with the \textit{public} level because in most languages public methods are also accessible from other modules. Fowler calls this published API\todo{Reference to Article about published interfaces.}. Sometimes your design requires to open the visibility of methods to \textit{public} so that you can call them from another package, but you do not want that some client code which uses your module calls it. The only way you have in e.g.\ in Java is to document that in your method documentation that nobody should use that method. Problem is nobody will read that. A solution would be to add one more level to mark methods that they are \textit{exported} so that \textit{public} methods are not automatically published into the wild.
+
+\subsubsection{Types}
+
+For types also the same holds as for methods described above. But the default visibility of a type must not be \textit{private} because such type would be quite useless because no other code could use it. Instead of a sane default is \textit{package private} and a type must be explicitly marked \textit{public}. Also it would be useful to have the additional level to export a type like described for methods.
+
+One aspect of the \textit{package private} level should be reconsidered: In most languages \textit{package private} means that only types from within the same package (which merely means same directory). But lets imagine an example where you have a library which provides some serializers: You have a factory which creates them (example in Java):
+
+\begin{lstlisting}[language=Java]
+    public interface Serliazer { ... }
+    
+    public class Factory {
+        public Serliazer createFoo() { 
+            return new FooSerliazer();
+        }
+        
+        public Serliazer createBar() { 
+            return new BarSerliazer();
+        }
+    }    
+    
+    FooSerliazer implements Serliazer { ... }
+
+    BarSerliazer implements Serliazer { ... }
+\end{lstlisting}
+
+Of course you want to make the implementations package private so that only the factory can create instances. All other types in your module or client code from other modules must use the factory. In Java and lot of other languages this works fine as long as all types are in the same package. But if the implementations of the concrete serializers become more complex and have more own types incorporated you would put them in own sub packages like:
+\\
+\dirtree{%
+.1 serializer.
+.2 Serliazer.
+.2 Factory.
+.2 foo.
+.3 FooSerliazer.
+.3 \dots.
+.2 bar.
+.3 BarSerliazer.
+.3 \dots.
+}
+
+To get this work in Java you must make the implementations (\texttt{FooSerliazer} and \texttt{BarSerliazer} public, unless the Factory can not access them. This introduces the risk that a consumer of that API may also use these types directly which is highly undesired. A solution may be that \textit{package private} also works for sub packages. Means in the above example that everything in the package \texttt{serializer} can see anything which is \textit{package private} in its subpackages. A point to discuss further: If this is only possible from top down in the package hierarchy (which is essential for the above problem) or should it also work from bottom up (should the subpackages also see anything \textit{package private}) from its superordinated packages). Definitely it must be prohibited to see \textit{package private} from sibling packes (everything inside the package \texttt{foo} must not see anything from package \texttt{bar}, unless it is \textit{public}.
 
 \subsection{Static}
 
