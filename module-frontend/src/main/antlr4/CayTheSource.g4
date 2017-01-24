@@ -4,185 +4,190 @@ grammar CayTheSource;
 package de.weltraumschaf.caythe.frontend;
 }
 
-// Parser rules:
-compilationUnit     
-    : statements EOF 
-    ;
-statements          
-    : ( statement NL )* | statement 
-    ;
-statement           
-    : block
-    | variableDeclaration
-    | constantDeclaration
-    | assignment
-    | functionCall
-    | functionDeclaration
-    | whileLoop
-    | ifBranch 
-    | orExpression
-    | NL?
-    ;
-returnStatement
-    : KW_RETURN (ret+=orExpression (',' ret+=orExpression)* )? NL
-    ;
-variableDeclaration
-    : KW_VAR type=ID id=ID ( ASSIGN value=orExpression )?
-    ;
-constantDeclaration
-    : KW_CONST type=ID id=ID ASSIGN value=orExpression
-    ;
-assignment
-    : id=ID ASSIGN value=orExpression
-    ;
-functionCall
-    : id=ID LPAREN ( args+=orExpression (',' args+=orExpression)* )? RPAREN 
-    ;
-functionDeclaration
-    : KW_FUNC (returnTypes+=ID (',' returnTypes+=ID)* )? id=ID 
-      LPAREN (args+=formalArgument (',' args+=formalArgument)* )? RPAREN 
-      body=block
-    ;
-formalArgument
-    : type=ID id=ID
-    ;
-whileLoop           
-    : KW_WHILE condition=orExpression block 
-    ;
-ifBranch            
-    : KW_IF ifCondition=orExpression ifBlock=block 
-    ( KW_ELSE KW_IF elseIfCondition=orExpression elseIfBlock=block )* 
-    ( KW_ELSE elseBlock=block )? 
-    ;
-block               
-    : LBRACE blockStatements=statements returnStatement? RBRACE 
+/*
+ * Statements must be terminated with ';'. Expressions always return a value.
+ */
+
+// Parser production rules:
+///////////////////////////
+
+unit
+   : statement* EOF
+   ;
+
+statement
+    : assignStatement
+    | letStatement
+    | constStatement
+    | returnStatement
+    | expressionStatement
+    | ifExpression
     ;
 
-orExpression           
-    : left=andExpression ( OR right=andExpression )* 
+letStatement
+    : KW_LET ( IDENTIFIER SEMICOLON | assignStatement )
     ;
-andExpression          
-    : left=equalExpression ( AND right=equalExpression )* 
+
+constStatement
+    : KW_CONST assignStatement
     ;
-equalExpression        
-    : left=relationExpression 
-    ( operator=(EQUAL | NOT_EQUAL) right=relationExpression )* 
+
+assignStatement
+    // Is the assoc property here really necessary?
+    : <assoc=right> IDENTIFIER OP_ASSIGN expression SEMICOLON
     ;
-relationExpression     
-    : left=simpleExpression 
-    ( operator=(GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL) 
-      right=simpleExpression )*
+
+returnStatement
+    : KW_RETURN expression SEMICOLON
     ;
-simpleExpression       
-    : left=term ( operator=(ADD | SUB) right=term )* 
+
+expressionStatement
+    : expression SEMICOLON
     ;
-term                    
-    : left=factor ( operator=(MUL | DIV | MOD) right=factor )*
+
+expression
+    // Here we define the operator precedence because ANTLR4 can deal with left recursion.
+    : operator=( OP_NOT | OP_SUB ) operand=expression                              # negationOperation
+    | <assoc=right> firstOperand=expression OP_POW secondOperand=expression                                    # powerOperation
+    | firstOperand=expression operator=( OP_MUL | OP_DIV | OP_MOD ) secondOperand=expression                   # multiplicativeOperation
+    | firstOperand=expression operator=( OP_ADD | OP_SUB ) secondOperand=expression                            # additiveOperation
+    | firstOperand=expression operator=( RELOP_LT |RELOP_LTE | RELOP_GT | RELOP_GTE ) secondOperand=expression # relationOperation
+    | firstOperand=expression operator=( RELOP_EQ | RELOP_NEQ ) secondOperand=expression                       # equalOperation
+    | firstOperand=expression OP_AND secondOperand=expression                                                  # logicalAndOperation
+    | firstOperand=expression OP_OR secondOperand=expression                                                   # logicalOrOperation
+    | L_PAREN expression R_PAREN                                                    # nestedExpression // Grouped expression.
+    | expression L_BRACKET expression R_BRACKET                                     # subscriptExpression // foo[1] or bar["name"].
+    | literalExpression                                                             # literalExpressionAlternative
+    | ifExpression                                                                  # ifExpressionAlternative
+    | callExpression                                                                # callExpressionAlternative
     ;
-factor                  
-    : base=atom ( CARET exponent=simpleExpression )? 
+
+literalExpression
+    : literal
+    | functionLiteral
+    | arrayLiteral
+    | hashLiteral
     ;
-atom    
-    : functionCall
-    | variableOrConstantDereference
-    | constant
-    | LPAREN orExpression RPAREN 
-    | negation
+
+literal
+    : NULL              # nullLiteral
+    | BOOLEAN           # booleanLiteral
+    | FLOAT             # floatLiteral
+    | INTEGER           # integerLiteral
+    | STRING            # stringLiteral
+    | IDENTIFIER        # identifierLiteral
     ;
-negation
-    : NOT atom
+
+functionLiteral
+    : KW_FUNCTION L_PAREN functionArguments? R_PAREN L_BRACE statement+ R_BRACE
     ;
-constant             
-    : value=( BOOL_VALUE | INTEGER_VALUE | FLOAT_VALUE | STRING_VALUE ) 
+
+functionArguments
+    : IDENTIFIER ( COMMA IDENTIFIER )*
     ;
-variableOrConstantDereference
-    : id=ID
+
+arrayLiteral
+    : L_BRACKET expressionList? R_BRACKET
     ;
-    
-// Lexer rules:
-// Keywords:
-KW_WHILE    : 'while' ;
-KW_IF       : 'if' ;
-KW_ELSE     : 'else' ;
-KW_VAR      : 'var' ;
-KW_CONST    : 'const' ;
-KW_FUNC     : 'func' ;
-KW_RETURN   : 'return' ;
+
+hashLiteral
+    : L_BRACE hashValues? R_BRACE
+    ;
+
+hashValues
+    : hashPair ( COMMA hashPair )*
+    ;
+
+hashPair
+    : expression COLON expression
+    ;
+
+ifExpression
+    // We want at least one statetement or exactly one expression.
+    : KW_IF L_PAREN expression R_PAREN L_BRACE ( statement+ | expression ) R_BRACE
+        ( KW_ELSE L_BRACE ( statement+ | expression ) R_BRACE )?
+    ;
+
+callExpression
+    : IDENTIFIER L_PAREN expressionList? R_PAREN
+    ;
+
+expressionList
+    : expression ( COMMA expression )*
+    ;
+
+// Lexer tokens:
+////////////////
 
 // Operators:
-EQUAL           : '==' ;
-LESS_EQUAL      : '<=' ;
-GREATER_EQUAL   : '>=' ;
-NOT_EQUAL       : '!=' ;
-GREATER_THAN    : '>' ;
-LESS_THAN       : '<' ;
-ADD             : '+' ;
-SUB             : '-' ;
-MUL             : '*' ;
-DIV             : '/' ;
-MOD             : '%' ;
-ASSIGN      : '=' ;
-NOT         : '!' ;
-TILDE       : '~' ;
-QUESTION    : '?' ;
+OP_ASSIGN   : '=' ;
+OP_ADD      : '+' ;
+OP_SUB      : '-' ;
+OP_MUL      : '*' ;
+OP_DIV      : '/' ;
+OP_MOD      : '%' ;
+OP_POW      : '^' ;
+
+OP_AND      : '&&' ;
+OP_OR       : '||' ;
+OP_NOT      : '!' ;
+
+RELOP_LT    : '<' ;
+RELOP_LTE   : '<=' ;
+RELOP_GT    : '>' ;
+RELOP_GTE   : '>=' ;
+RELOP_EQ    : '==' ;
+RELOP_NEQ   : '!=' ;
+
+
+// Delimiters:
+COMMA       : ',' ;
+SEMICOLON   : ';' ;
 COLON       : ':' ;
-AND         : '&&' ;
-OR          : '||' ;
-INC         : '++' ;
-DEC         : '--' ;
-BITAND      : '&' ;
-BITOR       : '|' ;
-CARET       : '^' ;
-ARROW       : '->' ;
-COLONCOLON  : '::' ;
+L_PAREN     : '(' ;
+R_PAREN     : ')' ;
+L_BRACE     : '{' ;
+R_BRACE     : '}' ;
+L_BRACKET   : '[' ;
+R_BRACKET   : ']' ;
 
-// Structureing:
-LPAREN          : '(' ;
-RPAREN          : ')' ;
-LBRACE          : '{' ;
-RBRACE          : '}' ;
-LBRACK          : '[' ;
-RBRACK          : ']' ;
-SEMI            : ';' ;
-COMMA           : ',' ;
-DOT             : '.' ;
-DOUBLE_QUOTE    : '"' ;
 
-// Types:
-NIL             : 'nil' ;
-BOOL_VALUE      : TRUE | FALSE ;
-TRUE            : 'true' ;
-FALSE           : 'false' ;
-INTEGER_VALUE   : SIGN? DIGIT+ ;
-FLOAT_VALUE     : SIGN? (DIGIT)+ DOT (DIGIT)* EXPONENT?
-                | SIGN? DOT (DIGIT)+ EXPONENT?
-                | SIGN? (DIGIT)+ EXPONENT ;
-fragment
-EXPONENT        : ('e'|'E') SIGN? ? DIGIT+ ;
-STRING_VALUE    : DOUBLE_QUOTE ( ESCAPED_QUOTE | ~('\n'|'\r') )*? DOUBLE_QUOTE ;
-fragment 
-ESCAPED_QUOTE   : '\\"';
-ID              : LETTER CHARACTER* ;
-SIGN            : '+' | '-' ;
+// Keywords:
+KW_LET      : 'let' ;
+KW_CONST    : 'const' ;
+KW_FUNCTION : 'fn' ;
+// Control structures:
+KW_RETURN   : 'return' ;
+KW_IF       : 'if' ;
+KW_ELSE     : 'else' ;
+KW_FOR      : 'loop' ;
+KW_BREAK    : 'break' ;
+KW_CONTINUE : 'continue' ;
+KW_SWITCH   : 'switch' ;
+KW_CASE     : 'case' ;
+KW_DEFAULT  : 'default' ;
 
-IDENTIFIER
-    :   LETTER CHARACTER*
-    ;
+INTEGER : DIGIT+ ;
+FLOAT   : (DIGIT)+ '.' (DIGIT)* EXPONENT?
+        | '.' (DIGIT)+ EXPONENT?
+        | (DIGIT)+ EXPONENT ;
+fragment
+EXPONENT: ('e'|'E') ('+' | '-') ? ? DIGIT+ ;
+BOOLEAN : ( TRUE | FALSE ) ;
+STRING  : '"' ( ~'"' | '\\' '"')* '"' ;
 
-fragment
-CHARACTER       : DIGIT | LETTER ;
-fragment
-LETTER          : LOWER_LETTER | UPPER_LETTER ;
-fragment
-LOWER_LETTER    : [a-z] ;
-fragment
-UPPER_LETTER    : [A-Z] ;
-fragment
-DIGIT           : [0-9] ;
+// Must be defined after keywords. Instead keywords will be recognized as identifier.
+IDENTIFIER  : LETTER ALPHANUM* ;
+ALPHANUM    : LETTER | DIGIT ;
+LETTER      : [a-zA-Z] ;
+DIGIT       : [0-9] ;
 
-NL              : '\r'? '\n' ;
+// Literal values:
+TRUE    : 'true' ;
+FALSE   : 'false' ;
+NULL    : 'null' ;
 
-// Ignored:
-ML_COMMENT  : '/*' .*? '*/'         -> skip ;
-SL_COMMENT  : '//' ~[\r\n]* NL      -> skip ;
-WS          : [ \t\u000C]+          -> skip ;
+// Ignored stuff:
+MULTILINE_COMMENT   : '/*' .*? '*/'     -> channel(HIDDEN) ;
+SINGLELINE_COMMENT  : '//' .*? '\n'     -> channel(HIDDEN) ;
+WHITESPACE          : [ \t\r\n\u000C]+  -> skip ;
