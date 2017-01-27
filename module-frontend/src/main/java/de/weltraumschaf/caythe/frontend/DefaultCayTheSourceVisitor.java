@@ -53,6 +53,29 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     }
 
     @Override
+    public ObjectType visitIfExpression(CayTheSourceParser.IfExpressionContext ctx) {
+        debugger.debug("Visit if expression: %s", ctx.getText());
+        final ObjectType result;
+
+        if (visit(ctx.condition).castToBoolean().value()) {
+            debugger.debug("Condition of if expression evaluates to true.");
+            result = visit(ctx.consequence);
+        } else {
+            debugger.debug("Condition of if expression evaluates to false.");
+
+            if (ctx.alternative == null) {
+                result = defaultResult();
+            } else {
+                debugger.debug("Evaluate consequence.");
+                result = visit(ctx.alternative);
+            }
+        }
+
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
     public ObjectType visitEqualOperation(CayTheSourceParser.EqualOperationContext ctx) {
         debugger.debug("Visit equal operation: %s", ctx.getText());
         final ObjectType left = visit(ctx.firstOperand);

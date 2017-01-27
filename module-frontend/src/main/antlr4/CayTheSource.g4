@@ -104,8 +104,13 @@ hashPair
 
 ifExpression
     // We want at least one statetement or exactly one expression.
-    : KW_IF L_PAREN expression R_PAREN L_BRACE ( statement+ | expression ) R_BRACE
-        ( KW_ELSE L_BRACE ( statement+ | expression ) R_BRACE )?
+    : KW_IF L_PAREN condition=expression R_PAREN
+        L_BRACE consequence=ifBlock R_BRACE
+        ( KW_ELSE L_BRACE alternative=ifBlock R_BRACE )?
+    ;
+
+ifBlock
+    : statement+ | expression
     ;
 
 callExpression
