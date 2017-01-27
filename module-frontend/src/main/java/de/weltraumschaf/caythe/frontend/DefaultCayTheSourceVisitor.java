@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.frontend.experimental.Debugger;
 import de.weltraumschaf.caythe.frontend.experimental.Environment;
+import de.weltraumschaf.caythe.frontend.experimental.operations.Operations;
 import de.weltraumschaf.caythe.frontend.experimental.types.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -16,6 +17,7 @@ import java.util.Objects;
 public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<ObjectType> {
 
     private final Debugger debugger = new Debugger().on();
+    private final Operations ops = new Operations();
     private final Environment rootScope = new Environment();
 
     @Override
@@ -56,50 +58,41 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         final ObjectType left = visit(ctx.firstOperand);
         final String operator = ctx.operator.getText();
         final ObjectType right = visit(ctx.secondOperand);
-        final BooleanType result = BooleanType.valueOf(Objects.equals(left, right));
         debugger.debug("Comparing: %s %s %s", left, operator, right);
+        final ObjectType result;
 
         switch (operator) {
             case "==":
+                result = ops.rel().equal(left, right);
                 debugger.returnValue(result);
                 return result;
             case "!=":
-                debugger.returnValue(result.not());
-                return result.not();
+                result = ops.rel().notEqual(left, right);
+                return result;
             default:
                 throw new RuntimeException("Unsupported operator: " + ctx.operator.getText() + "!");
         }
     }
 
     @Override
-    public ObjectType visitPowerOperation(CayTheSourceParser.PowerOperationContext ctx) {
-        debugger.debug("Visit power operation: %s", ctx.getText());
-        final FloatType left = visit(ctx.firstOperand).castToFloat();
-        final FloatType right = visit(ctx.secondOperand).castToFloat();
-        final FloatType result = new FloatType(Math.pow(left.value(), right.value()));
-        debugger.returnValue(result);
-        return result;
-    }
-
-    @Override
     public ObjectType visitRelationOperation(CayTheSourceParser.RelationOperationContext ctx) {
         debugger.debug("Visit relation operation: %s", ctx.getText());
-        final FloatType left = visit(ctx.firstOperand).castToFloat();
-        final FloatType right = visit(ctx.secondOperand).castToFloat();
-        final BooleanType result;
+        final ObjectType left = visit(ctx.firstOperand);
+        final ObjectType right = visit(ctx.secondOperand);
+        final ObjectType result;
 
         switch (ctx.operator.getText()) {
             case "<":
-                result = BooleanType.valueOf(left.value() < right.value());
+                result = ops.rel().lessThan(left, right);
                 break;
             case "<=":
-                result = BooleanType.valueOf(left.value() <= right.value());
+                result = ops.rel().lessThanOrEqual(left, right);
                 break;
             case ">":
-                result = BooleanType.valueOf(left.value() > right.value());
+                result = ops.rel().greaterThan(left, right);;
                 break;
             case ">=":
-                result = BooleanType.valueOf(left.value() >= right.value());
+                result = ops.rel().greaterThanOrEqual(left, right);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
@@ -109,6 +102,15 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         return result;
     }
 
+    @Override
+    public ObjectType visitPowerOperation(CayTheSourceParser.PowerOperationContext ctx) {
+        debugger.debug("Visit power operation: %s", ctx.getText());
+        final ObjectType left = visit(ctx.firstOperand);
+        final ObjectType right = visit(ctx.secondOperand);
+        final ObjectType result = ops.math().power(left, right);
+        debugger.returnValue(result);
+        return result;
+    }
 
     @Override
     public ObjectType visitAdditiveOperation(CayTheSourceParser.AdditiveOperationContext ctx) {
@@ -119,31 +121,10 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
 
         switch (ctx.operator.getText()) {
             case "+":
-                switch (left.type()) {
-                    case INTEGER:
-                        result = new IntegerType(left.castToInteger().value() + right.castToInteger().value());
-                        break;
-                    case FLOAT:
-                        result = new FloatType(left.castToFloat().value() + right.castToFloat().value());
-                        break;
-                    case STRING:
-                        result = new StringType(left.castToString().value() + right.castToString().value());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
-                }
+                result = ops.math().add(left, right);
                 break;
             case "-":
-                switch (left.type()) {
-                    case INTEGER:
-                        result = new IntegerType(left.castToInteger().value() - right.castToInteger().value());
-                        break;
-                    case FLOAT:
-                        result = new FloatType(left.castToFloat().value() - right.castToFloat().value());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
-                }
+                result = ops.math().subtract(left, right);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
@@ -162,40 +143,13 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
 
         switch (ctx.operator.getText()) {
             case "*":
-                switch (left.type()) {
-                    case INTEGER:
-                        result = new IntegerType(left.castToInteger().value() * right.castToInteger().value());
-                        break;
-                    case FLOAT:
-                        result = new FloatType(left.castToFloat().value() * right.castToFloat().value());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
-                }
+                result = ops.math().multiply(left, right);
                 break;
             case "/":
-                switch (left.type()) {
-                    case INTEGER:
-                        result = new IntegerType(left.castToInteger().value() / right.castToInteger().value());
-                        break;
-                    case FLOAT:
-                        result = new FloatType(left.castToFloat().value() / right.castToFloat().value());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
-                }
+                result = ops.math().divide(left, right);
                 break;
             case "%":
-                switch (left.type()) {
-                    case INTEGER:
-                        result = new IntegerType(left.castToInteger().value() % right.castToInteger().value());
-                        break;
-                    case FLOAT:
-                        result = new FloatType(left.castToFloat().value() % right.castToFloat().value());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
-                }
+                result = ops.math().modulo(left, right);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
@@ -208,9 +162,9 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     @Override
     public ObjectType visitLogicalOrOperation(CayTheSourceParser.LogicalOrOperationContext ctx) {
         debugger.debug("Visit logical or operation: %s", ctx.getText());
-        final BooleanType left = visit(ctx.firstOperand).castToBoolean();
-        final BooleanType right = visit(ctx.secondOperand).castToBoolean();
-        final BooleanType result = BooleanType.valueOf(left.value() || right.value());
+        final ObjectType left = visit(ctx.firstOperand);
+        final ObjectType right = visit(ctx.secondOperand);
+        final BooleanType result = ops.logic().or(left, right);
         debugger.returnValue(result);
         return result;
     }
@@ -218,9 +172,9 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     @Override
     public ObjectType visitLogicalAndOperation(CayTheSourceParser.LogicalAndOperationContext ctx) {
         debugger.debug("Visit logical and operation: %s", ctx.getText());
-        final BooleanType left = visit(ctx.firstOperand).castToBoolean();
-        final BooleanType right = visit(ctx.secondOperand).castToBoolean();
-        final BooleanType result = BooleanType.valueOf(left.value() && right.value());
+        final ObjectType left = visit(ctx.firstOperand);
+        final ObjectType right = visit(ctx.secondOperand);
+        final BooleanType result = ops.logic().and(left, right);
         debugger.returnValue(result);
         return result;
     }
@@ -233,15 +187,9 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         final ObjectType result;
 
         if ("!".equals(ctx.operator.getText())) {
-            result = operand.castToBoolean().not();
+            result = ops.logic().not(operand);
         } else if ("-".equals(ctx.operator.getText())) {
-            if (operand.isOf(Type.INTEGER)) {
-                result = new IntegerType(-operand.castToInteger().value());
-            } else if (operand.isOf(Type.FLOAT)) {
-                result = new FloatType(-operand.castToFloat().value());
-            } else {
-                throw new UnsupportedOperationException("Can't negate type " + operand.type() + "!");
-            }
+            result = ops.math().negate(operand);
         } else {
             throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
         }
