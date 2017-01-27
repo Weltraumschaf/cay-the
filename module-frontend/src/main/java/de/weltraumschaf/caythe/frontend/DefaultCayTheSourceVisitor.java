@@ -6,6 +6,9 @@ import de.weltraumschaf.caythe.frontend.experimental.operations.Operations;
 import de.weltraumschaf.caythe.frontend.experimental.types.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -272,6 +275,22 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
             throw new RuntimeException("There is no variable " + identifier + " declared!");
         }
 
+        debugger.returnValue(value);
+        return value;
+    }
+
+    @Override
+    public ObjectType visitFunctionLiteral(CayTheSourceParser.FunctionLiteralContext ctx) {
+        debugger.debug("Visit function literal: %s", ctx.getText());
+        final Collection<String> parameterIdentifiers = new ArrayList<>();
+
+        if (ctx.arguments != null) {
+            for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {
+                parameterIdentifiers.add(identifier.getText());
+            }
+        }
+
+        final FunctionType value = new FunctionType(rootScope.createChild(), parameterIdentifiers, ctx.body);
         debugger.returnValue(value);
         return value;
     }

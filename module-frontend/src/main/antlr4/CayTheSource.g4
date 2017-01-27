@@ -79,7 +79,7 @@ literal
     ;
 
 functionLiteral
-    : KW_FUNCTION L_PAREN functionArguments? R_PAREN L_BRACE statement+ R_BRACE
+    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN L_BRACE body=statement+ R_BRACE
     ;
 
 functionArguments

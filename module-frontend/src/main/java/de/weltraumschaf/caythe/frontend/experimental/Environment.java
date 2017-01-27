@@ -14,7 +14,7 @@ public final class Environment {
         this(null);
     }
 
-    public Environment(final Environment outer) {
+    private Environment(final Environment outer) {
         super();
         this.outer = outer;
     }
@@ -45,5 +45,9 @@ public final class Environment {
         }
 
         return false;
+    }
+
+    public Environment createChild() {
+        return new Environment(this);
     }
 }

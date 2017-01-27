@@ -41,4 +41,5 @@ public interface ObjectType {
     default StringType castToString() {
         throw new UnsupportedOperationException("Can't cast " + getClass().getSimpleName() + " to string type!");
     }
+
 }
