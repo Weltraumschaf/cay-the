@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
+import de.weltraumschaf.caythe.frontend.experimental.BuiltInFunction;
 import de.weltraumschaf.caythe.frontend.experimental.Debugger;
 import de.weltraumschaf.caythe.frontend.experimental.Environment;
 import de.weltraumschaf.caythe.frontend.experimental.operations.Operations;
@@ -7,7 +8,6 @@ import de.weltraumschaf.caythe.frontend.experimental.types.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
@@ -29,6 +29,13 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     public DefaultCayTheSourceVisitor() {
         super();
         currentScope.push(new Environment());
+        registerBuiltIns();
+    }
+
+    private void registerBuiltIns() {
+        for (final BuiltInFunction fn : BuiltInFunction.values()) {
+            currentScope.peek().set(fn.identifier(), fn.object());
+        }
     }
 
     @Override
@@ -117,7 +124,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 }
 
                 final Environment functionScope = function.getClosureScope().createChild();
-                final  int argumentsCount = parameterIdentifiers.size();
+                final int argumentsCount = parameterIdentifiers.size();
 
                 for (int i = 0; i < argumentsCount; ++i) {
                     final String name = parameterIdentifiers.get(i);
@@ -131,6 +138,14 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 debugger.debug("Evaluate body of function: %s", identifier);
                 result = visit(function.getBody());
                 currentScope.pop();
+            } else if (assignedValue.isOf(Type.BUILTIN)) {
+                final List<ObjectType> arguments = new ArrayList<>();
+                for (CayTheSourceParser.ExpressionContext expression : ctx.arguments.expression()) {
+                    arguments.add(visit(expression));
+                }
+                final BuiltinType function = (BuiltinType) assignedValue;
+                debugger.debug("Call built in function: %s(%s)", identifier, arguments);
+                result = function.apply(arguments);
             } else {
                 throw newError(ctx.identifier, "Assigned value '%s' is not a function!", identifier);
             }
