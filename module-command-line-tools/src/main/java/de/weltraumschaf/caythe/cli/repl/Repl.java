@@ -47,6 +47,7 @@ final class Repl {
      * Flag to signal that the loop should be exited.
      */
     private boolean exit;
+    private boolean debug;
 
     /**
      * Dedicated constructor.
@@ -60,6 +61,7 @@ final class Repl {
     }
 
     void debug(boolean debug) {
+        this.debug = debug;
         visitor.debug(debug);
     }
 
@@ -94,9 +96,14 @@ final class Repl {
                 }
 
                 io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.inspect()).reset().toString());
-            } catch (final EvaluationError e) {
-                io.errorln(e.getMessage());
-                e.printStackTrace(io.getStderr());
+            } catch (final RuntimeException e) {
+                if (null != e.getMessage()) {
+                    io.errorln(e.getMessage());
+                }
+
+                if (debug) {
+                    e.printStackTrace(io.getStderr());
+                }
             }
         }
     }

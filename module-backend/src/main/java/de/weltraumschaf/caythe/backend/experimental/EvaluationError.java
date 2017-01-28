@@ -15,7 +15,7 @@ public final class EvaluationError extends RuntimeException {
     }
 
     public static EvaluationError newError(final Token position, final String messageFormat, final Object... args) {
-        final StringBuilder buffer = new StringBuilder();
+        final StringBuilder buffer = new StringBuilder("[E] ");
         buffer.append(String.format(messageFormat, args));
 
         if (position != null) {

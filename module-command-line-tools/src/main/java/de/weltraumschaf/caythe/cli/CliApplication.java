@@ -77,10 +77,20 @@ public final class CliApplication extends InvokableAdapter {
     public void execute() throws Exception {
         final SubCommandName commandName = setup();
 
-        if (SubCommandName.NONE == commandName) {
-            executeMainCommand();
-        } else {
-            executeSubCommand(commandName);
+        try {
+            if (SubCommandName.NONE == commandName) {
+                executeMainCommand();
+            } else {
+                executeSubCommand(commandName);
+            }
+        } catch (final RuntimeException e) {
+            getIoStreams().errorln(e.getMessage());
+
+            if (isDebugEnabled()) {
+                getIoStreams().printStackTrace(e);
+            }
+
+            exit(ExitCodeImpl.FATAL);
         }
     }
 

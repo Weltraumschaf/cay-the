@@ -193,14 +193,14 @@ public final class CliOptions {
     }
 
     boolean isHelp() {
-        return main.isHelp() || create.isHelp();
+        return main.isHelp() || create.isHelp() || repl.isHelp() || run.isHelp();
     }
 
     boolean isDebug() {
-        return main.isDebug() || create.isDebug();
+        return main.isDebug() || create.isDebug() || repl.isDebug() || run.isDebug();
     }
 
     boolean isVerbose() {
-        return false; //install.isVerbose() || create.isVerbose() || publish.isVerbose();
+        return false;//create.isVerbose() || repl.isVerbose() || run.isVerbose()
     }
 }
