@@ -247,6 +247,8 @@
                                     <redirector outputproperty="redirector.out">
                                         <outputmapper type="merge" to="${bats.testResults.filename}"/>
                                     </redirector>
+                                    <env key="SUT" value="${project.build.directory}/${project.bin.executable}"/>
+                                    <env key="FIXTURE_DIR" value="${project.test.resources.directory}/bats"/>
                                     <arg value="--tap"/>
                                     <arg value="${bats.testSource.directory}"/>
                                 </exec>

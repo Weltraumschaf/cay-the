@@ -64,6 +64,10 @@ public final class CliOptions {
         return repl;
     }
 
+    public RunCliOptions getRun() {
+        return run;
+    }
+
     /**
      * Parse the CLI arguments.
      * <p>
@@ -203,4 +207,5 @@ public final class CliOptions {
     boolean isVerbose() {
         return false;//create.isVerbose() || repl.isVerbose() || run.isVerbose()
     }
+
 }

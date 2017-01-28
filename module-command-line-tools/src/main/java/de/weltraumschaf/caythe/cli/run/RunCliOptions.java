@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.cli.run;
 
+import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 import de.weltraumschaf.caythe.cli.CommonCliOptions;
@@ -15,6 +16,13 @@ public final class RunCliOptions extends CommonCliOptions {
         .text("Run a module:").nl()
         .command("TODO").nl()
         .toString();
+
+    @Parameter(names = {"-f", "--file"}, description = "The file to run", required = true)
+    private String file = "";
+
+    public String getFile() {
+        return file;
+    }
 
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {
