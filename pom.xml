@@ -72,6 +72,7 @@
         <module>module-command-line-tools</module>
         <module>module-frontend</module>
         <module>module-intermediate</module>
+        <module>module-backend</module>
         <module>module-documentation</module>
         <module>module-distribution</module>
     </modules>
