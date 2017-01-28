@@ -1,6 +1,10 @@
 package de.weltraumschaf.caythe.frontend.experimental;
 
 public final class Debugger {
+    /**
+     * It is one more because we use two method levels here in the class.
+     */
+    private static final int CALLER_LEVEL = 3;
     private boolean enabled;
 
     public Debugger on() {
@@ -22,7 +26,13 @@ public final class Debugger {
     }
 
     public Debugger returnValue(final Object value) {
-        debug("Return value: %s", value);
+        debug("Return value from %s(): %s", findCaller(), value);
         return this;
+    }
+
+    private String findCaller() {
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        final StackTraceElement callerStack = stackTrace[CALLER_LEVEL];
+        return callerStack.getMethodName();
     }
 }
