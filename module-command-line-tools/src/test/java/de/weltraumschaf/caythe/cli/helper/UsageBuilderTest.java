@@ -1,6 +1,7 @@
-package de.weltraumschaf.caythe.cli;
+package de.weltraumschaf.caythe.cli.helper;
 
 import com.beust.jcommander.Parameter;
+import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

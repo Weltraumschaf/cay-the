@@ -3,6 +3,10 @@ package de.weltraumschaf.caythe.cli;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterDescription;
 import de.weltraumschaf.caythe.CayThe;
+import de.weltraumschaf.caythe.cli.create.CreateCliOptions;
+import de.weltraumschaf.caythe.cli.repl.ReplCliOptions;
+import de.weltraumschaf.caythe.cli.repl.ReplSubCommand;
+import de.weltraumschaf.caythe.cli.run.RunCliOptions;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -14,7 +18,7 @@ import java.util.List;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-final class CliOptions {
+public final class CliOptions {
     /**
      * Holds the argument parser.
      */
@@ -27,6 +31,8 @@ final class CliOptions {
      * Holds the create command options.
      */
     private CreateCliOptions create;
+    private ReplCliOptions repl;
+    private RunCliOptions run;
 
     /**
      * Dedicated constructor.
@@ -107,6 +113,11 @@ final class CliOptions {
             case CREATE:
                 usage += CreateCliOptions.usage();
                 break;
+            case REPL:
+                usage += ReplCliOptions.usage();
+                break;
+            case RUN:
+                usage += RunCliOptions.usage();
             case NONE:
             default:
                 usage += MainCliOptions.usage();
@@ -168,9 +179,13 @@ final class CliOptions {
      */
     private void reset() {
         main = new MainCliOptions();
-        create = new CreateCliOptions();
         parser = new JCommander(main);
+        create = new CreateCliOptions();
         parser.addCommand(SubCommandName.CREATE.toString(), create);
+        repl = new ReplCliOptions();
+        parser.addCommand(SubCommandName.REPL.toString(), repl);
+        run = new RunCliOptions();
+        parser.addCommand(SubCommandName.RUN.toString(), run);
     }
 
     boolean isHelp() {

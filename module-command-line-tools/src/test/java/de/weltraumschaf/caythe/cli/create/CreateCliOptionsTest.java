@@ -1,5 +1,6 @@
-package de.weltraumschaf.caythe.cli;
+package de.weltraumschaf.caythe.cli.create;
 
+import de.weltraumschaf.caythe.cli.create.CreateCliOptions;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

@@ -1,7 +1,11 @@
-package de.weltraumschaf.caythe.cli;
+package de.weltraumschaf.caythe.cli.create;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+import de.weltraumschaf.caythe.cli.CommonCliOptions;
+import de.weltraumschaf.caythe.cli.SubCommandName;
+import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
+import de.weltraumschaf.caythe.cli.helper.ExampleBuilder;
 
 /**
  * CliOptions for the create sub command.
@@ -10,11 +14,11 @@ import com.beust.jcommander.Parameters;
  * @since 1.0.0
  */
 @Parameters(commandDescription = "Creates a module scaffold.")
-@SuppressWarnings( {"CanBeFinal", "unused", "FieldCanBeLocal"})
-final class CreateCliOptions extends CommonCliOptions {
+@SuppressWarnings( {"unused", "FieldCanBeLocal"})
+public final class CreateCliOptions extends CommonCliOptions {
 
 
-    static final String EXAMPLE = ExampleBuilder.crete(SubCommandName.CREATE)
+    public static final String EXAMPLE = ExampleBuilder.crete(SubCommandName.CREATE)
         .text("Create a new empty module scaffold:").nl()
         .command("...").nl()
         .toString();

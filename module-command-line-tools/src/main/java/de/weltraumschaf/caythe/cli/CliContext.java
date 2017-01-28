@@ -6,7 +6,7 @@ import de.weltraumschaf.commons.validate.Validate;
 /**
  * Context to cary around things necessary in the context of the CLI.
  */
-final class CliContext {
+public final class CliContext {
 
     private final IO io;
     private final CliOptions options;
@@ -17,11 +17,11 @@ final class CliContext {
         this.options = Validate.notNull(options, "options");
     }
 
-    IO getIo() {
+    public IO getIo() {
         return io;
     }
 
-    CliOptions getOptions() {
+    public CliOptions getOptions() {
         return options;
     }
 }

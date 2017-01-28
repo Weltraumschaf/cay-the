@@ -17,5 +17,5 @@ public interface SubCommandFactory {
      * @param ctx  must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    CreateSubCommand forName(SubCommandName name, CliContext ctx);
+    SubCommand forName(SubCommandName name, CliContext ctx);
 }

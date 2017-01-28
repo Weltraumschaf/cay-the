@@ -6,7 +6,7 @@ package de.weltraumschaf.caythe.cli;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-interface SubCommand {
+public interface SubCommand {
     /**
      * Executes the sub command.
      *

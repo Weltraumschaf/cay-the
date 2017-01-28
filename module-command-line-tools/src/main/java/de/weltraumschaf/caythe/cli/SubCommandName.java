@@ -19,7 +19,15 @@ public enum SubCommandName {
      * Subcommand to create the scaffold for a new module.
      */
     CREATE,
-    COMPILE;
+    COMPILE,
+    /**
+     * Interprets the given sources.
+     */
+    RUN,
+    /**
+     * Starts a REPL.
+     */
+    REPL;
 
     @Override
     public String toString() {

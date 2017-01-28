@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.cli;
+package de.weltraumschaf.caythe.cli.helper;
 
 import com.beust.jcommander.Parameter;
 import de.weltraumschaf.commons.validate.Validate;
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 /**
  * Helper classes to generate a usage string for classes annotated with {@link com.beust.jcommander.Parameter}.
  */
-final class UsageBuilder {
+public final class UsageBuilder {
 
-    static final char SEPARATOR = ' ';
+    public static final char SEPARATOR = ' ';
 
-    static String generate(final Class toInspect) {
+    public static String generate(final Class toInspect) {
         Validate.notNull(toInspect, "toInspect");
         final StringBuilder required = new StringBuilder();
         final StringBuilder optional = new StringBuilder();
