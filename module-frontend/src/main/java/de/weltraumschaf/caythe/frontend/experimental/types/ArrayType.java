@@ -53,4 +53,8 @@ public final class ArrayType implements ObjectType {
             "elements=" + elements +
             '}';
     }
+
+    public List<ObjectType> value() {
+        return elements;
+    }
 }

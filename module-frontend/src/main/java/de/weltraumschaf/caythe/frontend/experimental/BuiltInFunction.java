@@ -1,8 +1,6 @@
 package de.weltraumschaf.caythe.frontend.experimental;
 
-import de.weltraumschaf.caythe.frontend.experimental.types.BuiltinType;
-import de.weltraumschaf.caythe.frontend.experimental.types.NullType;
-import de.weltraumschaf.caythe.frontend.experimental.types.ObjectType;
+import de.weltraumschaf.caythe.frontend.experimental.types.*;
 
 public enum BuiltInFunction {
     PUTS("puts");
@@ -20,6 +18,12 @@ public enum BuiltInFunction {
     public BuiltinType object() {
         return new BuiltinType(args -> {
             for (final ObjectType arg : args) {
+                if (arg.isOf(Type.ARRAY)) {
+                    for (final ObjectType o : ((ArrayType)arg).value()) {
+                        System.out.println(o.inspect());
+                    }
+                }
+
                 System.out.println(arg.inspect());
             }
             return NullType.NULL;

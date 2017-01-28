@@ -48,15 +48,13 @@ puts(aString);
 
 let myArray = ["one", "two", "three"];
 puts(myArray[1]);
-/*
 puts(["foo", "bar", "baz"]);
 let array = fn() {
     return ["foo", "bar", "baz"];
 };
 
-array()[2];
+puts(array()[2]);
 
 let emptyHash = {};
 let myHash = {"name": "Jimmy", "age": 72, "band": "Led Zeppelin"};
 puts(myHash["name"]);
-*/

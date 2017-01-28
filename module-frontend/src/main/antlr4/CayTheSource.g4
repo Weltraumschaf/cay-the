@@ -91,7 +91,7 @@ arrayLiteral
     ;
 
 hashLiteral
-    : L_BRACE hashValues? R_BRACE
+    : L_BRACE values=hashValues? R_BRACE
     ;
 
 hashValues
@@ -99,7 +99,7 @@ hashValues
     ;
 
 hashPair
-    : expression COLON expression
+    : key=expression COLON value=expression
     ;
 
 ifExpression

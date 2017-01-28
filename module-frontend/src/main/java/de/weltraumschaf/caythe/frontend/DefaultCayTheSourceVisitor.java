@@ -3,9 +3,7 @@ package de.weltraumschaf.caythe.frontend;
 import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newError;
 import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newUnsupportedOperatorError;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -115,7 +113,10 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 final FunctionType function = (FunctionType) assignedValue;
                 debugger.debug("Extend function scope for: %s", identifier);
                 final List<String> parameterIdentifiers = function.getParameterIdentifiers();
-                final List<CayTheSourceParser.ExpressionContext> argumentExpressions = ctx.arguments.expression();
+                final List<CayTheSourceParser.ExpressionContext> argumentExpressions
+                    = ctx.arguments == null ?
+                    Collections.emptyList() :
+                    ctx.arguments.expression();
 
                 if (parameterIdentifiers.size() != argumentExpressions.size()) {
                     throw newError(
@@ -412,12 +413,41 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
 
     @Override
     public ObjectType visitArrayLiteral(CayTheSourceParser.ArrayLiteralContext ctx) {
+        debugger.debug("Visit array literal: %s", ctx.getText());
         final List<ObjectType> values = new ArrayList<>();
 
         for (final CayTheSourceParser.ExpressionContext expression : ctx.values.expression()) {
             values.add(visit(expression));
         }
 
-        return new ArrayType(values);
+        final ArrayType result = new ArrayType(values);
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
+    public ObjectType visitHashLiteral(CayTheSourceParser.HashLiteralContext ctx) {
+        debugger.debug("Visit hash literal: %s", ctx.getText());
+        final Map<ObjectType, ObjectType> values = new HashMap<>();
+
+        if (ctx.values != null) {
+            for (final CayTheSourceParser.HashPairContext pair : ctx.values.hashPair()) {
+                final ObjectType key = visit(pair.key);
+
+                if (values.containsKey(key)) {
+                    throw newError(pair.key.getStart(), "Duplicate key given '%s'!", key.inspect());
+                }
+
+                if (pair.value == null) {
+                    throw newError(pair.key.getStart(), "Missing value for key '%s'!", key.inspect());
+                }
+
+                values.put(key, visit(pair.value));
+            }
+        }
+
+        final HashType result = new HashType(values);
+        debugger.returnValue(result);
+        return result;
     }
 }
