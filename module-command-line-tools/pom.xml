@@ -17,6 +17,11 @@
     <properties>
         <project.build.mainClass>de.weltraumschaf.caythe.cli.CliApplication</project.build.mainClass>
         <project.bin.executable>caythe</project.bin.executable>
+
+        <bats.command>/usr/local/bin/bats</bats.command>
+        <bats.testSource.directory>${project.basedir}/src/test/bats</bats.testSource.directory>
+        <bats.build.directory>${project.build.directory}/bats</bats.build.directory>
+        <bats.testResults.filename>${bats.build.directory}/bats_testResutls.tap</bats.testResults.filename>
     </properties>
 
     <dependencies>
@@ -181,6 +186,61 @@
             </plugin>
 
             <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>generate-binaries</id>
+                        <phase>pre-integration-test</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target>
+                                <concat destfile="${project.build.directory}/${project.bin.executable}" binary="yes">
+                                    <fileset file="${project.main.scripts.directory}/${project.bin.executable}.sh" />
+                                    <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
+                                </concat>
+                                <chmod perm="ugo+rx">
+                                    <fileset file="${project.build.directory}/${project.bin.executable}" />
+                                </chmod>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>bats-cli-tests</id>
+                        <phase>integration-test</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target name="Bats CLI tests">
+                                <mkdir dir="${bats.build.directory}"/>
+                                <exec executable="${bats.command}"
+                                      dir="${bats.build.directory}"
+                                      failonerror="true">
+                                    <redirector outputproperty="redirector.out">
+                                        <outputmapper type="merge" to="${bats.testResults.filename}"/>
+                                    </redirector>
+                                    <arg value="--tap"/>
+                                    <arg value="${bats.testSource.directory}"/>
+                                </exec>
+                                <echo message="-------------------------------------------------------"/>
+                                <echo message=" T E S T S"/>
+                                <echo message="-------------------------------------------------------"/>
+                                <echo message="${redirector.out}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
 
                 <executions>
@@ -223,34 +283,6 @@
 
                             <attach>true</attach>
                             <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-
-                <executions>
-                    <execution>
-                        <id>generate-binaries</id>
-                        <phase>pre-integration-test</phase>
-
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-
-                        <configuration>
-                            <target>
-                                <concat destfile="${project.build.directory}/${project.bin.executable}" binary="yes">
-                                    <fileset file="${project.main.scripts.directory}/${project.bin.executable}.sh" />
-                                    <fileset file="${project.build.directory}/${project.build.finalName}.jar" />
-                                </concat>
-                                <chmod perm="ugo+rx">
-                                    <fileset file="${project.build.directory}/${project.bin.executable}" />
-                                </chmod>
-                            </target>
                         </configuration>
                     </execution>
                 </executions>
