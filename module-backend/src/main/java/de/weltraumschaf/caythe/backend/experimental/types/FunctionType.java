@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend.experimental.types;
 
-import de.weltraumschaf.caythe.backend.CayTheSourceParser;
+import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.backend.experimental.Environment;
 
 import java.util.List;

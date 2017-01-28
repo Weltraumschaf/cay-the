@@ -14,6 +14,6 @@ final class DependencyInjectionConfig extends AbstractModule {
     @Override
     protected void configure() {
         bind(ANTLRErrorListener.class).to(ErrorListener.class);
-        bind(de.weltraumschaf.caythe.backend.CayTheManifestVisitor.class).to(DefaultCayTheManifestVisitor.class);
+        bind(CayTheManifestVisitor.class).to(DefaultCayTheManifestVisitor.class);
     }
 }

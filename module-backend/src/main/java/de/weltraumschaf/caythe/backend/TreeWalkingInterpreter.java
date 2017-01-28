@@ -5,6 +5,8 @@ import static de.weltraumschaf.caythe.backend.experimental.EvaluationError.newUn
 
 import java.util.*;
 
+import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
+import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -275,7 +277,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
                 result = ops.rel().lessThanOrEqual(left, right);
                 break;
             case ">":
-                result = ops.rel().greaterThan(left, right);;
+                result = ops.rel().greaterThan(left, right);
                 break;
             case ">=":
                 result = ops.rel().greaterThanOrEqual(left, right);

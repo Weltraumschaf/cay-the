@@ -2,12 +2,6 @@ package de.weltraumschaf.caythe.frontend;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.weltraumschaf.caythe.backend.*;
-import de.weltraumschaf.caythe.backend.CayTheManifestParser;
-import de.weltraumschaf.caythe.frontend.DefaultCayTheManifestVisitor;
-import de.weltraumschaf.caythe.frontend.DependencyInjectionConfig;
-import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.frontend.SyntaxError;
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import static de.weltraumschaf.caythe.intermediate.model.Version.*;
@@ -36,13 +30,13 @@ public class DefaultCayTheManifestVisitorTest {
     private final Injector injector = Guice.createInjector(new DependencyInjectionConfig());
     private final Parsers parsers = new Parsers(injector);
     @SuppressWarnings("unchecked")
-    private final de.weltraumschaf.caythe.backend.CayTheManifestVisitor<Manifest> sut = injector.getInstance(de.weltraumschaf.caythe.backend.CayTheManifestVisitor.class);
+    private final CayTheManifestVisitor<Manifest> sut = injector.getInstance(CayTheManifestVisitor.class);
 
     private InputStream stream(final String input) {
         return new ByteArrayInputStream(input.getBytes());
     }
 
-    private de.weltraumschaf.caythe.backend.CayTheManifestParser parser(final String input) throws IOException {
+    private CayTheManifestParser parser(final String input) throws IOException {
         return parser(stream(input));
     }
 

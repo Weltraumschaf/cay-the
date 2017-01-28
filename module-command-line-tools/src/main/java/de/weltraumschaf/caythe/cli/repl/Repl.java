@@ -1,10 +1,9 @@
 package de.weltraumschaf.caythe.cli.repl;
 
 import de.weltraumschaf.caythe.CayThe;
-import de.weltraumschaf.caythe.backend.CayTheSourceParser;
+import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.backend.TreeWalkingInterpreter;
 import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.backend.experimental.EvaluationError;
 import de.weltraumschaf.caythe.backend.experimental.types.NullType;
 import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
 import de.weltraumschaf.commons.application.IO;
