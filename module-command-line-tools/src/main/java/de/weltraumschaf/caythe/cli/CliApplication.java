@@ -117,7 +117,7 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        subCommands.forName(commandName, new CliContext(getIoStreams(), options)).execute();
+        subCommands.forName(commandName, new CliContext(getIoStreams(), options, version)).execute();
     }
 
 

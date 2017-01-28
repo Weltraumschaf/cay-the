@@ -13,6 +13,8 @@ public final class ReplSubCommand implements SubCommand {
 
     @Override
     public void execute() throws Exception {
-        ctx.getIo().errorln("Command repl is not implemented yet!");
+        final Repl repl = new Repl(ctx.getIo(), ctx.getVersion());
+        repl.debug(ctx.getOptions().getRepl().isDebug());
+        repl.start();
     }
 }

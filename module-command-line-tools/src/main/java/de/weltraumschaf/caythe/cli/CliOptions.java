@@ -47,7 +47,7 @@ public final class CliOptions {
      *
      * @return never {@code null}
      */
-    MainCliOptions getMain() {
+    public MainCliOptions getMain() {
         return main;
     }
 
@@ -58,6 +58,10 @@ public final class CliOptions {
      */
     public CreateCliOptions getCreate() {
         return create;
+    }
+
+    public ReplCliOptions getRepl() {
+        return repl;
     }
 
     /**

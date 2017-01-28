@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.*;
@@ -16,6 +17,10 @@ import java.io.InputStream;
 public final class Parsers {
 
     private final Injector injector;
+
+    public Parsers() {
+        this(Guice.createInjector(new DependencyInjectionConfig()));
+    }
 
     public Parsers(final Injector injector) {
         super();

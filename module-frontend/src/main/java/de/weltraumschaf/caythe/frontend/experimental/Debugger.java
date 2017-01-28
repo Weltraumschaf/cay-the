@@ -19,7 +19,7 @@ public final class Debugger {
 
     public Debugger debug(final String fmt, final Object ... args) {
         if (enabled) {
-            System.out.println(String.format(fmt, args));
+            System.out.println("[D] " + String.format(fmt, args));
         }
 
         return this;

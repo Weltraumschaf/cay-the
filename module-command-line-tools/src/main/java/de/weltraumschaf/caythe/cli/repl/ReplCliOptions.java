@@ -9,7 +9,7 @@ import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
 
 @Parameters(commandDescription = "Starts a REPL.")
 @SuppressWarnings( {"unused", "FieldCanBeLocal"})
-public final class ReplCliOptions {
+public final class ReplCliOptions extends CommonCliOptions {
 
     public static final String EXAMPLE = ExampleBuilder.crete(SubCommandName.CREATE)
         .text("Start the repl:").nl()

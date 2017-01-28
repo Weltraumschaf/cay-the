@@ -9,7 +9,7 @@ import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
 
 @Parameters(commandDescription = "Interprets the given module.")
 @SuppressWarnings( {"unused", "FieldCanBeLocal"})
-public final class RunCliOptions {
+public final class RunCliOptions extends CommonCliOptions {
 
     public static final String EXAMPLE = ExampleBuilder.crete(SubCommandName.RUN)
         .text("Run a module:").nl()

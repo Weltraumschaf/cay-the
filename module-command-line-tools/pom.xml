@@ -15,6 +15,8 @@
     <description>This module provides all command line tools.</description>
 
     <properties>
+        <jline.version>2.14.2</jline.version>
+
         <project.build.mainClass>de.weltraumschaf.caythe.cli.CliApplication</project.build.mainClass>
         <project.bin.executable>caythe</project.bin.executable>
 
@@ -28,6 +30,12 @@
         <dependency>
             <groupId>de.weltraumschaf.caythe</groupId>
             <artifactId>core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>frontend</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -54,6 +62,12 @@
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>stringtemplate</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>${jline.version}</version>
         </dependency>
 
         <dependency>

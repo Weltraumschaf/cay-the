@@ -5,6 +5,7 @@ import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newU
 
 import java.util.*;
 
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import de.weltraumschaf.caythe.frontend.experimental.BuiltInFunction;
@@ -37,9 +38,43 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         }
     }
 
+    public void debug(boolean debug) {
+        if (debug) {
+            debugger.on();
+        } else {
+            debugger.off();
+        }
+    }
+
     @Override
     protected ObjectType defaultResult() {
         return NullType.NULL;
+    }
+
+    @Override
+    public ObjectType visitUnit(CayTheSourceParser.UnitContext ctx) {
+        debugger.debug("Visit unit: %s", ctx.getText());
+        ObjectType result = defaultResult();
+
+        for (CayTheSourceParser.StatementContext statement : ctx.statement()) {
+            result = visit(statement);
+        }
+
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
+    public ObjectType visitStatement(CayTheSourceParser.StatementContext ctx) {
+        debugger.debug("Visit statement: %s", ctx.getText());
+        ObjectType result = defaultResult();
+
+        for (final ParseTree child : ctx.children) {
+            result = visit(child);
+        }
+
+        debugger.returnValue(result);
+        return result;
     }
 
     @Override
@@ -66,13 +101,22 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         }
 
         currentScope.peek().set(identifier, value);
-        return defaultResult();
+        debugger.returnValue(value);
+        return value;
     }
 
     @Override
     public ObjectType visitReturnStatement(CayTheSourceParser.ReturnStatementContext ctx) {
         debugger.debug("Visit return statement: %s", ctx.getText());
         final ObjectType result = visit(ctx.value);
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
+    public ObjectType visitExpressionStatement(CayTheSourceParser.ExpressionStatementContext ctx) {
+        debugger.debug("Visit expression statement: %s", ctx.getText());
+        final ObjectType result = visit(ctx.expression());
         debugger.returnValue(result);
         return result;
     }
@@ -450,4 +494,5 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         debugger.returnValue(result);
         return result;
     }
+
 }
