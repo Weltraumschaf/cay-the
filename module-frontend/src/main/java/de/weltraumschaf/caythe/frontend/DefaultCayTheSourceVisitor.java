@@ -9,7 +9,10 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+import java.util.Stack;
+
+import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newError;
+import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newUnsupportedOperatorError;
 
 /**
  * Default implementation which converts the parsed tree from a source file into intermediate model.
@@ -21,7 +24,12 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
 
     private final Debugger debugger = new Debugger().on();
     private final Operations ops = new Operations();
-    private final Environment rootScope = new Environment();
+    private final Stack<Environment> currentScope = new Stack<>();
+
+    public DefaultCayTheSourceVisitor() {
+        super();
+        currentScope.push(new Environment());
+    }
 
     @Override
     protected ObjectType defaultResult() {
@@ -43,16 +51,24 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
             // This is let w/ assignment: let a = 1 + 2;
             identifier = assignment.IDENTIFIER().getText();
 
-            if (rootScope.has(identifier)) {
-                throw new RuntimeException("Variable with identifier '" + identifier + "' already defined!");
+            if (currentScope.peek().has(identifier)) {
+                throw newError(assignment.IDENTIFIER().getSymbol(), "Variable with identifier '%s' already defined!", identifier);
             }
 
             value = visit(assignment.expression());
-            debugger.debug("Set variable with identifier '%s' with value: ", identifier, value);
+            debugger.debug("Set variable: %s = %s", identifier, value);
         }
 
-        rootScope.set(identifier, value);
+        currentScope.peek().set(identifier, value);
         return defaultResult();
+    }
+
+    @Override
+    public ObjectType visitReturnStatement(CayTheSourceParser.ReturnStatementContext ctx) {
+        debugger.debug("Visit return statement: %s", ctx.getText());
+        final ObjectType result = visit(ctx.value);
+        debugger.returnValue(result);
+        return result;
     }
 
     @Override
@@ -79,6 +95,54 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     }
 
     @Override
+    public ObjectType visitCallExpression(CayTheSourceParser.CallExpressionContext ctx) {
+        debugger.debug("Visit call expression: %s", ctx.getText());
+        final String identifier = ctx.identifier.getText();
+        final ObjectType result;
+
+        if (currentScope.peek().has(identifier)) {
+            final ObjectType assignedValue = currentScope.peek().get(identifier);
+
+            if (assignedValue.isOf(Type.FUNCTION)) {
+                final FunctionType function = (FunctionType) assignedValue;
+                debugger.debug("Extend function scope for: %s", identifier);
+                final List<String> parameterIdentifiers = function.getParameterIdentifiers();
+                final List<CayTheSourceParser.ExpressionContext> argumentExpressions = ctx.arguments.expression();
+
+                if (parameterIdentifiers.size() != argumentExpressions.size()) {
+                    throw newError(
+                        ctx.identifier,
+                        "Argument count mismatch for function '%s'! Expected number of arguments is %d given number is %d.",
+                        identifier, parameterIdentifiers.size(), argumentExpressions.size());
+                }
+
+                final Environment functionScope = function.getClosureScope().createChild();
+                final  int argumentsCount = parameterIdentifiers.size();
+
+                for (int i = 0; i < argumentsCount; ++i) {
+                    final String name = parameterIdentifiers.get(i);
+                    final ObjectType value = visit(argumentExpressions.get(i));
+                    debugger.debug("Extend function scope with argument: %s = %s", name, value);
+                    functionScope.set(name, value);
+                }
+
+                currentScope.push(functionScope);
+
+                debugger.debug("Evaluate body of function: %s", identifier);
+                result = visit(function.getBody());
+                currentScope.pop();
+            } else {
+                throw newError(ctx.identifier, "Assigned value '%s' is not a function!", identifier);
+            }
+        }else {
+            throw newError(ctx.identifier, "Undefined function '%s'!", identifier);
+        }
+
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
     public ObjectType visitEqualOperation(CayTheSourceParser.EqualOperationContext ctx) {
         debugger.debug("Visit equal operation: %s", ctx.getText());
         final ObjectType left = visit(ctx.firstOperand);
@@ -96,7 +160,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 result = ops.rel().notEqual(left, right);
                 return result;
             default:
-                throw new RuntimeException("Unsupported operator: " + ctx.operator.getText() + "!");
+                throw newUnsupportedOperatorError(ctx.operator);
         }
     }
 
@@ -121,7 +185,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 result = ops.rel().greaterThanOrEqual(left, right);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
+                throw newUnsupportedOperatorError(ctx.operator);
         }
 
         debugger.returnValue(result);
@@ -153,7 +217,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 result = ops.math().subtract(left, right);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
+                throw newUnsupportedOperatorError(ctx.operator);
         }
 
         debugger.returnValue(result);
@@ -178,7 +242,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
                 result = ops.math().modulo(left, right);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
+                throw newUnsupportedOperatorError(ctx.operator);
         }
 
         debugger.returnValue(result);
@@ -217,7 +281,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         } else if ("-".equals(ctx.operator.getText())) {
             result = ops.math().negate(operand);
         } else {
-            throw new UnsupportedOperationException("Unknown operator " + ctx.operator.getText() + "!");
+            throw newUnsupportedOperatorError(ctx.operator);
         }
 
         debugger.returnValue(result);
@@ -269,10 +333,10 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     public ObjectType visitIdentifierLiteral(CayTheSourceParser.IdentifierLiteralContext ctx) {
         debugger.debug("Visit identifier literal: %s", ctx.getText());
         final String identifier = ctx.IDENTIFIER().getText();
-        final ObjectType value = rootScope.get(identifier);
+        final ObjectType value = currentScope.peek().get(identifier);
 
         if (value.isOf(Type.NULL)) {
-            throw new RuntimeException("There is no variable " + identifier + " declared!");
+            throw newError(ctx.IDENTIFIER().getSymbol(), "There is no variable '%s' declared!", identifier);
         }
 
         debugger.returnValue(value);
@@ -282,7 +346,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
     @Override
     public ObjectType visitFunctionLiteral(CayTheSourceParser.FunctionLiteralContext ctx) {
         debugger.debug("Visit function literal: %s", ctx.getText());
-        final Collection<String> parameterIdentifiers = new ArrayList<>();
+        final List<String> parameterIdentifiers = new ArrayList<>();
 
         if (ctx.arguments != null) {
             for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {
@@ -290,7 +354,7 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
             }
         }
 
-        final FunctionType value = new FunctionType(rootScope.createChild(), parameterIdentifiers, ctx.body);
+        final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.body);
         debugger.returnValue(value);
         return value;
     }

@@ -3,16 +3,16 @@ package de.weltraumschaf.caythe.frontend.experimental.types;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.experimental.Environment;
 
-import java.util.Collection;
+import java.util.List;
 
 public class FunctionType implements ObjectType {
-    private final Environment scope;
-    private final Collection<String> parameterIdentifiers;
+    private final Environment closureScope;
+    private final List<String> parameterIdentifiers;
     private final CayTheSourceParser.StatementContext body;
 
-    public FunctionType(Environment scope, Collection<String> parameterIdentifiers, CayTheSourceParser.StatementContext body) {
+    public FunctionType(Environment scope, List<String> parameterIdentifiers, CayTheSourceParser.StatementContext body) {
         super();
-        this.scope = scope;
+        this.closureScope = scope;
         this.parameterIdentifiers = parameterIdentifiers;
         this.body = body;
     }
@@ -34,5 +34,17 @@ public class FunctionType implements ObjectType {
     @Override
     public String toString() {
         return inspect();
+    }
+
+    public Environment getClosureScope() {
+        return closureScope;
+    }
+
+    public List<String> getParameterIdentifiers() {
+        return parameterIdentifiers;
+    }
+
+    public CayTheSourceParser.StatementContext getBody() {
+        return body;
     }
 }

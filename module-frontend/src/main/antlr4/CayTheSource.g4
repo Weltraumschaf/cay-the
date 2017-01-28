@@ -38,7 +38,7 @@ assignStatement
     ;
 
 returnStatement
-    : KW_RETURN expression SEMICOLON
+    : KW_RETURN value=expression SEMICOLON
     ;
 
 expressionStatement
@@ -114,7 +114,7 @@ ifBlock
     ;
 
 callExpression
-    : IDENTIFIER L_PAREN expressionList? R_PAREN
+    : identifier=IDENTIFIER L_PAREN arguments=expressionList? R_PAREN
     ;
 
 expressionList

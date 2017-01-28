@@ -32,7 +32,6 @@ let add = fn(a, b) {
     return a + b;
 };
 
-/*
 let max = fn(a, b) {
     if (a > b) {
         return a;
@@ -42,9 +41,8 @@ let max = fn(a, b) {
 };
 
 let biggest = max(2, 3);
-
+/*
 let aBoolean = true;
-
 let aString = "Hello, world!";
 
 puts(aString);
