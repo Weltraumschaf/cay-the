@@ -46,11 +46,10 @@ let aString = "Hello, world!";
 
 puts(aString);
 
-/*
 let myArray = ["one", "two", "three"];
 puts(myArray[1]);
+/*
 puts(["foo", "bar", "baz"]);
-
 let array = fn() {
     return ["foo", "bar", "baz"];
 };

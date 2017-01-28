@@ -1,11 +1,15 @@
 package de.weltraumschaf.caythe.frontend.experimental.types;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public final class HashType implements ObjectType {
-    private final Map<ObjectType, ObjectType> values = new HashMap<>();
+    private final Map<ObjectType, ObjectType> values;
+
+    public HashType(final Map<ObjectType, ObjectType> values) {
+        super();
+        this.values = values;
+    }
 
     @Override
     public Type type() {
@@ -25,6 +29,16 @@ public final class HashType implements ObjectType {
 
         final HashType hashType = (HashType) o;
         return Objects.equals(values, hashType.values);
+    }
+
+    public ObjectType get(final ObjectType key) {
+        return has(key) ?
+            values.get(key):
+            NullType.NULL;
+    }
+
+    public boolean has(final ObjectType key) {
+        return values.containsKey(key);
     }
 
     @Override

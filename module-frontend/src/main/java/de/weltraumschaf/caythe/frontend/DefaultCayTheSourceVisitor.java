@@ -1,18 +1,19 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.frontend.experimental.BuiltInFunction;
-import de.weltraumschaf.caythe.frontend.experimental.Debugger;
-import de.weltraumschaf.caythe.frontend.experimental.Environment;
-import de.weltraumschaf.caythe.frontend.experimental.operations.Operations;
-import de.weltraumschaf.caythe.frontend.experimental.types.*;
-import org.antlr.v4.runtime.tree.TerminalNode;
+import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newError;
+import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newUnsupportedOperatorError;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newError;
-import static de.weltraumschaf.caythe.frontend.experimental.EvaluationError.newUnsupportedOperatorError;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import de.weltraumschaf.caythe.frontend.experimental.BuiltInFunction;
+import de.weltraumschaf.caythe.frontend.experimental.Debugger;
+import de.weltraumschaf.caythe.frontend.experimental.Environment;
+import de.weltraumschaf.caythe.frontend.experimental.operations.Operations;
+import de.weltraumschaf.caythe.frontend.experimental.types.*;
 
 /**
  * Default implementation which converts the parsed tree from a source file into intermediate model.
@@ -151,6 +152,41 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
             }
         }else {
             throw newError(ctx.identifier, "Undefined function '%s'!", identifier);
+        }
+
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
+    public ObjectType visitSubscriptExpression(CayTheSourceParser.SubscriptExpressionContext ctx) {
+        debugger.debug("Visit subscript expr: %s", ctx.getText());
+        final ObjectType value = visit(ctx.identifier);
+        final ObjectType index = visit(ctx.index);
+        final ObjectType result;
+
+        if (value.isOf(Type.ARRAY)) {
+            if (index.isOf(Type.INTEGER)) {
+                final ArrayType array = (ArrayType) value;
+
+                if (array.has(index.castToInteger())) {
+                    result = array.get(index.castToInteger());
+                } else {
+                    throw newError(ctx.identifier.start, "Array with identifier '%s' does not have index %d", ctx.identifier.getText(), index.castToInteger().value());
+                }
+            } else {
+                throw newError(ctx.identifier.stop, "Index must be of type integer, given was: %s!", index);
+            }
+        } else if (value.isOf(Type.HASH)) {
+            final HashType hash = (HashType) value;
+
+            if (hash.has(index)) {
+                result = hash.get(index);
+            } else {
+                throw newError(ctx.identifier.start, "Hash with identifier '%s' does not have key '%s'", ctx.identifier.getText(), index);
+            }
+        } else {
+            throw newError(ctx.identifier.getStop(), "Assigned value for identifier '%s' does not allow subscript access!", ctx.identifier.getText());
         }
 
         debugger.returnValue(result);
@@ -372,5 +408,16 @@ public final class DefaultCayTheSourceVisitor extends CayTheSourceBaseVisitor<Ob
         final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.body);
         debugger.returnValue(value);
         return value;
+    }
+
+    @Override
+    public ObjectType visitArrayLiteral(CayTheSourceParser.ArrayLiteralContext ctx) {
+        final List<ObjectType> values = new ArrayList<>();
+
+        for (final CayTheSourceParser.ExpressionContext expression : ctx.values.expression()) {
+            values.add(visit(expression));
+        }
+
+        return new ArrayType(values);
     }
 }

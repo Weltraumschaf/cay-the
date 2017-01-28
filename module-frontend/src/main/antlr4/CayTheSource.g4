@@ -56,7 +56,7 @@ expression
     | firstOperand=expression OP_AND secondOperand=expression                                                  # logicalAndOperation
     | firstOperand=expression OP_OR secondOperand=expression                                                   # logicalOrOperation
     | L_PAREN expression R_PAREN                                                    # nestedExpression // Grouped expression.
-    | expression L_BRACKET expression R_BRACKET                                     # subscriptExpression // foo[1] or bar["name"].
+    | identifier=expression L_BRACKET index=expression R_BRACKET                    # subscriptExpression // foo[1] or bar["name"].
     | literalExpression                                                             # literalExpressionAlternative
     | ifExpression                                                                  # ifExpressionAlternative
     | callExpression                                                                # callExpressionAlternative
@@ -87,7 +87,7 @@ functionArguments
     ;
 
 arrayLiteral
-    : L_BRACKET expressionList? R_BRACKET
+    : L_BRACKET values=expressionList? R_BRACKET
     ;
 
 hashLiteral
