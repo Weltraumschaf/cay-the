@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.frontend;
 
-import com.google.inject.Inject;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.io.PrintStream;

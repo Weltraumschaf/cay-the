@@ -1,13 +1,12 @@
 package de.weltraumschaf.caythe.cli.repl;
 
 import de.weltraumschaf.caythe.CayThe;
-import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
-import de.weltraumschaf.caythe.frontend.CayTheSourceVisitor;
-import de.weltraumschaf.caythe.frontend.DefaultCayTheSourceVisitor;
+import de.weltraumschaf.caythe.backend.CayTheSourceParser;
+import de.weltraumschaf.caythe.backend.TreeWalkingInterpreter;
 import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.frontend.experimental.EvaluationError;
-import de.weltraumschaf.caythe.frontend.experimental.types.NullType;
-import de.weltraumschaf.caythe.frontend.experimental.types.ObjectType;
+import de.weltraumschaf.caythe.backend.experimental.EvaluationError;
+import de.weltraumschaf.caythe.backend.experimental.types.NullType;
+import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
@@ -38,7 +37,7 @@ final class Repl {
      */
     private static final String PROMPT = "ct> ";
     private Parsers parsers = new Parsers();
-    private DefaultCayTheSourceVisitor visitor = new DefaultCayTheSourceVisitor();
+    private TreeWalkingInterpreter visitor = new TreeWalkingInterpreter();
     /**
      * Used to print version info.
      */

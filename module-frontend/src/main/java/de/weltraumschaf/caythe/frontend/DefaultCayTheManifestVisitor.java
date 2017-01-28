@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
+import de.weltraumschaf.caythe.backend.CayTheManifestParser;
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Version;
@@ -17,7 +18,7 @@ import java.util.function.Function;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisitor<Manifest> {
+public final class DefaultCayTheManifestVisitor extends de.weltraumschaf.caythe.backend.CayTheManifestBaseVisitor<Manifest> {
 
     private static final Function<String, String> MISSING_DIRECTIVE = (String misingDirective) -> {
         return String.format(
@@ -40,7 +41,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitManifest(CayTheManifestParser.ManifestContext ctx) {
+    public Manifest visitManifest(de.weltraumschaf.caythe.backend.CayTheManifestParser.ManifestContext ctx) {
         super.visitManifest(ctx);
         /*
             TODO Validation:
@@ -71,7 +72,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitGroupDirective(CayTheManifestParser.GroupDirectiveContext ctx) {
+    public Manifest visitGroupDirective(de.weltraumschaf.caythe.backend.CayTheManifestParser.GroupDirectiveContext ctx) {
         if (NO_LITERAL.equals(group)) {
             group = ctx.fullQualifiedName().getText();
         } else {
@@ -82,7 +83,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitArtifactDirective(CayTheManifestParser.ArtifactDirectiveContext ctx) {
+    public Manifest visitArtifactDirective(de.weltraumschaf.caythe.backend.CayTheManifestParser.ArtifactDirectiveContext ctx) {
         if (NO_LITERAL.equals(artifact)) {
             artifact = ctx.fullQualifiedName().getText();
         } else {
@@ -93,7 +94,7 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitNamespaceDirective(CayTheManifestParser.NamespaceDirectiveContext ctx) {
+    public Manifest visitNamespaceDirective(de.weltraumschaf.caythe.backend.CayTheManifestParser.NamespaceDirectiveContext ctx) {
         if (NO_LITERAL.equals(namespace)) {
             namespace = ctx.fullQualifiedName().getText();
         } else {
@@ -104,9 +105,9 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitVersionDirective(CayTheManifestParser.VersionDirectiveContext ctx) {
+    public Manifest visitVersionDirective(de.weltraumschaf.caythe.backend.CayTheManifestParser.VersionDirectiveContext ctx) {
         if (Version.NULL.equals(version)) {
-            CayTheManifestParser.VersionContext v = ctx.version();
+            de.weltraumschaf.caythe.backend.CayTheManifestParser.VersionContext v = ctx.version();
             final String identifiers =
                 v.identifiers == null ?
                     "" :
@@ -125,8 +126,8 @@ public final class DefaultCayTheManifestVisitor extends CayTheManifestBaseVisito
     }
 
     @Override
-    public Manifest visitImportDirective(CayTheManifestParser.ImportDirectiveContext ctx) {
-        CayTheManifestParser.CoordinateContext coordinate = ctx.coordinate();
+    public Manifest visitImportDirective(de.weltraumschaf.caythe.backend.CayTheManifestParser.ImportDirectiveContext ctx) {
+        de.weltraumschaf.caythe.backend.CayTheManifestParser.CoordinateContext coordinate = ctx.coordinate();
         final CayTheManifestParser.VersionContext version = coordinate.version();
         final String identifiers =
             version.identifiers == null ?

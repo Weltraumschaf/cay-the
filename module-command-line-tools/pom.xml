@@ -40,6 +40,12 @@
         </dependency>
 
         <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>backend</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>application</artifactId>
         </dependency>
