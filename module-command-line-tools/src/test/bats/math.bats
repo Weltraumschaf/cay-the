@@ -2,6 +2,10 @@
 
 @test "add 2 and 3 must be 5" {
     result="$(${SUT} run -f ${FIXTURE_DIR}/addition.ct)"
-    echo "R: $result"
     [ "$result" -eq 5 ]
+}
+
+@test "faculty of 3 must be 6" {
+    result="$(${SUT} run -f ${FIXTURE_DIR}/faculty.ct)"
+    [ "$result" -eq 6 ]
 }
