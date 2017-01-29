@@ -34,7 +34,8 @@ final class Repl {
     /**
      * The REPL prompt to signal that user input is expected.
      */
-    private static final String PROMPT = "ct> ";
+    private static final String NORMAL_PROMPT = "ct> ";
+    private static final String CONTINUATION_PROMPT = "    ";
     private Parsers parsers = new Parsers();
     private TreeWalkingInterpreter visitor = new TreeWalkingInterpreter();
     /**
@@ -71,16 +72,25 @@ final class Repl {
         final StringBuilder inputBuffer = new StringBuilder();
 
         while (true) {
-            inputBuffer.append(reader.readLine());
+            final String line = reader.readLine();
 
-            if (inputBuffer.toString().trim().isEmpty()) {
-                break; // EOF or empty string sent.
+            if (line == null) {
+                break; // EOF sent.
             }
 
-            if (Command.isCmd(inputBuffer.toString())) {
-                execute(Command.getCmd(inputBuffer.toString()));
-                // Empty the buffer.
-                inputBuffer.setLength(0);
+            if (line.trim().isEmpty()) {
+                continue; // Empty string sent.
+            }
+
+            if (line.endsWith("\\")) {
+                // Continue with next line.
+                inputBuffer.append(line.substring(0, line.length() - 1)).append('\n');
+                reader.setPrompt(CONTINUATION_PROMPT);
+                continue;
+            }
+
+            if (Command.isCmd(line)) {
+                execute(Command.getCmd(line));
 
                 if (exit) {
                     io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
@@ -91,7 +101,7 @@ final class Repl {
             }
 
             try {
-                inputBuffer.append('\n');
+                inputBuffer.append(line).append('\n');
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
                 final ObjectType result = visitor.visit(parser.unit());
@@ -110,8 +120,9 @@ final class Repl {
                     e.printStackTrace(io.getStderr());
                 }
             } finally {
-                // Empty the buffer.
+                // Empty the buffer and reset the prompt.
                 inputBuffer.setLength(0);
+                reader.setPrompt(normalPrompt());
             }
         }
     }
@@ -189,8 +200,12 @@ final class Repl {
         final ConsoleReader reader = new ConsoleReader(io.getStdin(), io.getStdout());
         reader.setBellEnabled(false);
         reader.addCompleter(createCompletionHints());
-        reader.setPrompt(Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(PROMPT).reset().toString());
+        reader.setPrompt(normalPrompt());
         return reader;
+    }
+
+    private String normalPrompt() {
+        return Ansi.fmt().bold().fg(Ansi.Color.BLUE).text(NORMAL_PROMPT).reset().toString();
     }
 
     /**
