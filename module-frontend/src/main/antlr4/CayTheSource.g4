@@ -34,8 +34,7 @@ constStatement
     ;
 
 assignStatement
-    // Is the assoc property here really necessary?
-    : <assoc=right> IDENTIFIER OP_ASSIGN expression NL
+    : identifier=IDENTIFIER OP_ASSIGN value=expression NL
     ;
 
 returnStatement

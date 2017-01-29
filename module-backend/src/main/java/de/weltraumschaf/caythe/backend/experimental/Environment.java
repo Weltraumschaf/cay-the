@@ -1,10 +1,12 @@
 package de.weltraumschaf.caythe.backend.experimental;
 
+import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.caythe.backend.experimental.types.NullType;
 import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class Environment {
     private final Map<String, MemorySlot> store = new HashMap<>();
@@ -27,16 +29,50 @@ public final class Environment {
         store.put(identifier, new MemorySlot(value, SlotType.VAR));
     }
 
+    public void setConst(final String identifier, final ObjectType value) {
+        if (store.containsKey(identifier)) {
+            throw new RuntimeException("Can not redeclare const for identifier " + identifier + "!");
+        }
+
+        store.put(identifier, new MemorySlot(value, SlotType.CONST));
+    }
+
     public ObjectType get(final String identifier) {
         if (store.containsKey(identifier)) {
             return store.get(identifier).getValue();
         }
 
-        if (outer != null) {
+        if (hasOuter()) {
             return outer.get(identifier);
         }
 
         return NullType.NULL;
+    }
+
+    private boolean hasOuter() {
+        return outer != null;
+    }
+
+    public String dump() {
+        final StringBuilder buffer = new StringBuilder();
+
+        if (hasOuter()) {
+            buffer.append(outer.dump());
+        }
+
+        buffer.append("ENVIRONMENT").append(CayThe.NL)
+            .append("===========").append(CayThe.NL);
+
+        if (store.isEmpty()) {
+            buffer.append("  <empty>").append(CayThe.NL);
+        } else {
+            for (Map.Entry<String, MemorySlot> entry : store.entrySet()) {
+                final String value = entry.getValue().getValue().inspect();
+                buffer.append("  ").append(entry.getKey()).append(" = ").append(value).append(CayThe.NL);
+            }
+        }
+
+        return buffer.toString();
     }
 
     public boolean has(final String identifier) {
@@ -44,7 +80,7 @@ public final class Environment {
             return true;
         }
 
-        if (outer != null) {
+        if (hasOuter()) {
             return outer.has(identifier);
         }
 

@@ -26,18 +26,18 @@ final class Repl {
      * Greeting to the user.
      */
     private static final String WELCOME =
-        "           Welcome to Cay-The REPL v%s            \n";
+        "           Welcome to Cay-The REPL v%s            " + CayThe.NL;
     /**
      * Some initial help examples for beginners.
      */
-    private static final String INITIAL_HELP = "Hello, World example:\n";
+    private static final String INITIAL_HELP = "Hello, World example:" + CayThe.NL;
     /**
      * The REPL prompt to signal that user input is expected.
      */
     private static final String NORMAL_PROMPT = "ct> ";
     private static final String CONTINUATION_PROMPT = "    ";
     private Parsers parsers = new Parsers();
-    private TreeWalkingInterpreter visitor = new TreeWalkingInterpreter();
+    private TreeWalkingInterpreter interpreter = new TreeWalkingInterpreter();
     /**
      * Used to print version info.
      */
@@ -62,7 +62,7 @@ final class Repl {
 
     void debug(boolean debug) {
         this.debug = debug;
-        visitor.debug(debug);
+        interpreter.debug(debug);
         parsers.debug(debug);
     }
 
@@ -84,7 +84,7 @@ final class Repl {
 
             if (line.endsWith("\\")) {
                 // Continue with next line.
-                inputBuffer.append(line.substring(0, line.length() - 1)).append('\n');
+                inputBuffer.append(line.substring(0, line.length() - 1)).append(CayThe.NL);
                 reader.setPrompt(CONTINUATION_PROMPT);
                 continue;
             }
@@ -101,10 +101,10 @@ final class Repl {
             }
 
             try {
-                inputBuffer.append(line).append('\n');
+                inputBuffer.append(line).append(CayThe.NL);
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
-                final ObjectType result = visitor.visit(parser.unit());
+                final ObjectType result = interpreter.visit(parser.unit());
 
                 if (result == NullType.NULL) {
                     continue;
@@ -154,7 +154,7 @@ final class Repl {
         final InputStream input = getClass().getResourceAsStream(CayThe.BASE_PACKAGE_DIR + "/cli/repl/figlet");
 
         try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
-            return buffer.lines().collect(Collectors.joining("\n"));
+            return buffer.lines().collect(Collectors.joining(CayThe.NL));
         }
     }
 
@@ -166,12 +166,11 @@ final class Repl {
     private void execute(final Command cmd) {
         switch (cmd) {
             case CLEAR:
-//                env(new Environment());
-//                init();
+                interpreter.reset();
                 io.println("Environment cleared.");
                 break;
             case ENV:
-//                env().print(io.getStdout());
+                io.println(interpreter.environment().dump());
                 break;
             case EXAMPLES:
                 io.println(INITIAL_HELP);

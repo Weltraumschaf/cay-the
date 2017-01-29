@@ -30,6 +30,11 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     public TreeWalkingInterpreter() {
         super();
+        reset();
+    }
+
+    public void reset() {
+        currentScope.clear();
         currentScope.push(new Environment());
         registerBuiltIns();
     }
@@ -46,6 +51,10 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
         } else {
             debugger.off();
         }
+    }
+
+    public Environment environment() {
+        return currentScope.get(0);
     }
 
     @Override
@@ -97,7 +106,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
         if (null == assignment) {
             // This is let w/o assignment: let a;
             identifier = ctx.IDENTIFIER().getText();
-            value = NullType.NULL;
+            value = defaultResult();
         } else {
             // This is let w/ assignment: let a = 1 + 2;
             identifier = assignment.IDENTIFIER().getText();
@@ -107,10 +116,33 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
             }
 
             value = visit(assignment.expression());
-            debugger.debug("Set variable: %s = %s", identifier, value);
         }
 
+        debugger.debug("Set variable: %s = %s", identifier, value);
         currentScope.peek().setVar(identifier, value);
+        debugger.returnValue(value);
+        return value;
+    }
+
+    @Override
+    public ObjectType visitConstStatement(CayTheSourceParser.ConstStatementContext ctx) {
+        debugger.debug("Visit const statement: %s", ctx.getText().trim());
+        return defaultResult();
+    }
+
+    @Override
+    public ObjectType visitAssignStatement(CayTheSourceParser.AssignStatementContext ctx) {
+        debugger.debug("Visit assign statement: %s", ctx.getText().trim());
+        final String identifier = ctx.identifier.getText();
+        final ObjectType value;
+
+        if (currentScope.peek().has(identifier)) {
+            value  = visit(ctx.value);
+            currentScope.peek().setVar(identifier, value);
+        } else {
+            throw newError(ctx.identifier, "Undeclared variable '%s'!", identifier);
+        }
+
         debugger.returnValue(value);
         return value;
     }
@@ -186,6 +218,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
                     final String name = parameterIdentifiers.get(i);
                     final ObjectType value = visit(argumentExpressions.get(i));
                     debugger.debug("Extend function scope with argument: %s = %s", name, value);
+                    // XXX Function arguments should be const?
                     functionScope.setVar(name, value);
                 }
 
@@ -439,9 +472,11 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     public ObjectType visitIdentifierLiteral(CayTheSourceParser.IdentifierLiteralContext ctx) {
         debugger.debug("Visit identifier literal: %s", ctx.getText().trim());
         final String identifier = ctx.IDENTIFIER().getText();
-        final ObjectType value = currentScope.peek().get(identifier);
+        final ObjectType value;
 
-        if (value.isOf(Type.NULL)) {
+        if (currentScope.peek().has(identifier)) {
+            value = currentScope.peek().get(identifier);
+        } else {
             throw newError(ctx.IDENTIFIER().getSymbol(), "There is no variable '%s' declared!", identifier);
         }
 
