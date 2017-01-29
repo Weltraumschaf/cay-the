@@ -12,13 +12,13 @@ let d
 let x = 2
 let y = 3.14
 
-if (x > y) {
+if x > y {
     d = x
 } else {
     d = y
 }
 
-let foobar = if (x > y) {
+let foobar = if x > y {
     x
 } else {
     y
