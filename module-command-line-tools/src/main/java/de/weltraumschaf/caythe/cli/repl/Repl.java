@@ -68,16 +68,19 @@ final class Repl {
     void start() throws IOException {
         final ConsoleReader reader = createReader();
         welcome(version);
+        final StringBuilder inputBuffer = new StringBuilder();
 
         while (true) {
-            final String data = reader.readLine();
+            inputBuffer.append(reader.readLine());
 
-            if (data == null) {
-                break; // EOF sent
+            if (inputBuffer.toString().trim().isEmpty()) {
+                break; // EOF or empty string sent.
             }
 
-            if (Command.isCmd(data)) {
-                execute(Command.getCmd(data));
+            if (Command.isCmd(inputBuffer.toString())) {
+                execute(Command.getCmd(inputBuffer.toString()));
+                // Empty the buffer.
+                inputBuffer.setLength(0);
 
                 if (exit) {
                     io.println(Ansi.fmt().fg(Ansi.Color.BLUE).text("Bye bye :-)").reset().toString());
@@ -88,8 +91,9 @@ final class Repl {
             }
 
             try {
-                final String line = data + '\n';
-                final CayTheSourceParser parser = parsers.newSourceParser(new ByteArrayInputStream(line.getBytes()));
+                inputBuffer.append('\n');
+                final CayTheSourceParser parser = parsers.newSourceParser(
+                    new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
                 final ObjectType result = visitor.visit(parser.unit());
 
                 if (result == NullType.NULL) {
@@ -105,6 +109,9 @@ final class Repl {
                 if (debug) {
                     e.printStackTrace(io.getStderr());
                 }
+            } finally {
+                // Empty the buffer.
+                inputBuffer.setLength(0);
             }
         }
     }
