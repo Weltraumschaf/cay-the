@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Environment {
-    private final Map<String, ObjectType> store = new HashMap<>();
+    private final Map<String, MemorySlot> store = new HashMap<>();
     private final Environment outer;
 
     public Environment() {
@@ -19,13 +19,17 @@ public final class Environment {
         this.outer = outer;
     }
 
-    public void set(final String identifier, final ObjectType object) {
-        store.put(identifier, object);
+    public void setVar(final String identifier, final ObjectType value) {
+        if (store.containsKey(identifier) && store.get(identifier).hasType(SlotType.CONST)) {
+            throw new RuntimeException("Can not reset const value for identifier " + identifier + "!");
+        }
+
+        store.put(identifier, new MemorySlot(value, SlotType.VAR));
     }
 
     public ObjectType get(final String identifier) {
         if (store.containsKey(identifier)) {
-            return store.get(identifier);
+            return store.get(identifier).getValue();
         }
 
         if (outer != null) {
@@ -49,5 +53,28 @@ public final class Environment {
 
     public Environment createChild() {
         return new Environment(this);
+    }
+
+    private static final class MemorySlot {
+        private final ObjectType value;
+        private final SlotType type;
+
+        MemorySlot(final ObjectType value, SlotType type) {
+            super();
+            this.value = value;
+            this.type = type;
+        }
+
+        ObjectType getValue() {
+            return value;
+        }
+
+        boolean hasType(final SlotType type) {
+            return this.type == type;
+        }
+    }
+
+    private enum SlotType {
+        VAR, CONST;
     }
 }

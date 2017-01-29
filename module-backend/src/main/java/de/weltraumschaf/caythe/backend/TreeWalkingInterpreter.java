@@ -36,7 +36,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     private void registerBuiltIns() {
         for (final BuiltInFunction fn : BuiltInFunction.values()) {
-            currentScope.peek().set(fn.identifier(), fn.object());
+            currentScope.peek().setVar(fn.identifier(), fn.object());
         }
     }
 
@@ -110,7 +110,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
             debugger.debug("Set variable: %s = %s", identifier, value);
         }
 
-        currentScope.peek().set(identifier, value);
+        currentScope.peek().setVar(identifier, value);
         debugger.returnValue(value);
         return value;
     }
@@ -186,7 +186,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
                     final String name = parameterIdentifiers.get(i);
                     final ObjectType value = visit(argumentExpressions.get(i));
                     debugger.debug("Extend function scope with argument: %s = %s", name, value);
-                    functionScope.set(name, value);
+                    functionScope.setVar(name, value);
                 }
 
                 currentScope.push(functionScope);
