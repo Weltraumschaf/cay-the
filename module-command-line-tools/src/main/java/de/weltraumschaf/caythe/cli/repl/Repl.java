@@ -62,6 +62,7 @@ final class Repl {
     void debug(boolean debug) {
         this.debug = debug;
         visitor.debug(debug);
+        parsers.debug(debug);
     }
 
     void start() throws IOException {
@@ -87,7 +88,8 @@ final class Repl {
             }
 
             try {
-                final CayTheSourceParser parser = parsers.newSourceParser(new ByteArrayInputStream(data.getBytes()));
+                final String line = data + '\n';
+                final CayTheSourceParser parser = parsers.newSourceParser(new ByteArrayInputStream(line.getBytes()));
                 final ObjectType result = visitor.visit(parser.unit());
 
                 if (result == NullType.NULL) {
