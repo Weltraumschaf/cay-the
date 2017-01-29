@@ -22,10 +22,11 @@ statement
     | returnStatement
     | expressionStatement
     | ifExpression
+    | NL
     ;
 
 letStatement
-    : KW_LET ( IDENTIFIER SEMICOLON | assignStatement )
+    : KW_LET ( IDENTIFIER NL | assignStatement )
     ;
 
 constStatement
@@ -34,15 +35,15 @@ constStatement
 
 assignStatement
     // Is the assoc property here really necessary?
-    : <assoc=right> IDENTIFIER OP_ASSIGN expression SEMICOLON
+    : <assoc=right> IDENTIFIER OP_ASSIGN expression NL
     ;
 
 returnStatement
-    : KW_RETURN value=expression SEMICOLON
+    : KW_RETURN value=expression NL
     ;
 
 expressionStatement
-    : expression SEMICOLON
+    : expression NL
     ;
 
 expression
@@ -147,7 +148,6 @@ RELOP_NEQ   : '!=' ;
 
 // Delimiters:
 COMMA       : ',' ;
-SEMICOLON   : ';' ;
 COLON       : ':' ;
 L_PAREN     : '(' ;
 R_PAREN     : ')' ;
@@ -192,7 +192,10 @@ TRUE    : 'true' ;
 FALSE   : 'false' ;
 NULL    : 'null' ;
 
+// Delimiter for expressions:
+NL : '\n' ;
+
 // Ignored stuff:
 MULTILINE_COMMENT   : '/*' .*? '*/'     -> channel(HIDDEN) ;
 SINGLELINE_COMMENT  : '//' .*? '\n'     -> channel(HIDDEN) ;
-WHITESPACE          : [ \t\r\n\u000C]+  -> skip ;
+WHITESPACE          : [ \t\r\u000C]+  -> skip ;

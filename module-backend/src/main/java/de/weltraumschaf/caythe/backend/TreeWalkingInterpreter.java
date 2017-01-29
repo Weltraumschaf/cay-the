@@ -24,7 +24,7 @@ import de.weltraumschaf.caythe.backend.experimental.types.*;
  */
 public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<ObjectType> {
 
-    private final Debugger debugger = new Debugger().on();
+    private final Debugger debugger = new Debugger();
     private final Operations ops = new Operations();
     private final Stack<Environment> currentScope = new Stack<>();
 
@@ -68,8 +68,16 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitStatement(CayTheSourceParser.StatementContext ctx) {
-        debugger.debug("Visit statement: %s", ctx.getText());
+        String text = ctx.getText().trim();
         ObjectType result = defaultResult();
+
+        if (text.isEmpty()) {
+            debugger.debug("Visit empty statement: ignoring");
+            debugger.returnValue(result);
+            return result;
+        }
+
+        debugger.debug("Visit statement: %s", text);
 
         for (final ParseTree child : ctx.children) {
             result = visit(child);
@@ -81,7 +89,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitLetStatement(CayTheSourceParser.LetStatementContext ctx) {
-        debugger.debug("Visit let statement: %s", ctx.getText());
+        debugger.debug("Visit let statement: %s", ctx.getText().trim());
         final CayTheSourceParser.AssignStatementContext assignment = ctx.assignStatement();
         final String identifier;
         final ObjectType value;
@@ -109,7 +117,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitReturnStatement(CayTheSourceParser.ReturnStatementContext ctx) {
-        debugger.debug("Visit return statement: %s", ctx.getText());
+        debugger.debug("Visit return statement: %s", ctx.getText().trim());
         final ObjectType result = visit(ctx.value);
         debugger.returnValue(result);
         return result;
@@ -117,7 +125,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitExpressionStatement(CayTheSourceParser.ExpressionStatementContext ctx) {
-        debugger.debug("Visit expression statement: %s", ctx.getText());
+        debugger.debug("Visit expression statement: %s", ctx.getText().trim());
         final ObjectType result = visit(ctx.expression());
         debugger.returnValue(result);
         return result;
@@ -125,7 +133,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitIfExpression(CayTheSourceParser.IfExpressionContext ctx) {
-        debugger.debug("Visit if expression: %s", ctx.getText());
+        debugger.debug("Visit if expression: %s", ctx.getText().trim());
         final ObjectType result;
 
         if (visit(ctx.condition).castToBoolean().value()) {
@@ -148,7 +156,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitCallExpression(CayTheSourceParser.CallExpressionContext ctx) {
-        debugger.debug("Visit call expression: %s", ctx.getText());
+        debugger.debug("Visit call expression: %s", ctx.getText().trim());
         final String identifier = ctx.identifier.getText();
         final ObjectType result;
 
@@ -207,7 +215,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitSubscriptExpression(CayTheSourceParser.SubscriptExpressionContext ctx) {
-        debugger.debug("Visit subscript expr: %s", ctx.getText());
+        debugger.debug("Visit subscript expr: %s", ctx.getText().trim());
         final ObjectType value = visit(ctx.identifier);
         final ObjectType index = visit(ctx.index);
         final ObjectType result;
@@ -242,7 +250,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitEqualOperation(CayTheSourceParser.EqualOperationContext ctx) {
-        debugger.debug("Visit equal operation: %s", ctx.getText());
+        debugger.debug("Visit equal operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final String operator = ctx.operator.getText();
         final ObjectType right = visit(ctx.secondOperand);
@@ -264,7 +272,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitRelationOperation(CayTheSourceParser.RelationOperationContext ctx) {
-        debugger.debug("Visit relation operation: %s", ctx.getText());
+        debugger.debug("Visit relation operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final ObjectType result;
@@ -292,7 +300,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitPowerOperation(CayTheSourceParser.PowerOperationContext ctx) {
-        debugger.debug("Visit power operation: %s", ctx.getText());
+        debugger.debug("Visit power operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final ObjectType result = ops.math().power(left, right);
@@ -302,7 +310,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitAdditiveOperation(CayTheSourceParser.AdditiveOperationContext ctx) {
-        debugger.debug("Visit additive operation: %s", ctx.getText());
+        debugger.debug("Visit additive operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final ObjectType result;
@@ -324,7 +332,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitMultiplicativeOperation(CayTheSourceParser.MultiplicativeOperationContext ctx) {
-        debugger.debug("Visit multiplicative operation: %s", ctx.getText());
+        debugger.debug("Visit multiplicative operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final ObjectType result;
@@ -349,7 +357,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitLogicalOrOperation(CayTheSourceParser.LogicalOrOperationContext ctx) {
-        debugger.debug("Visit logical or operation: %s", ctx.getText());
+        debugger.debug("Visit logical or operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final BooleanType result = ops.logic().or(left, right);
@@ -359,7 +367,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitLogicalAndOperation(CayTheSourceParser.LogicalAndOperationContext ctx) {
-        debugger.debug("Visit logical and operation: %s", ctx.getText());
+        debugger.debug("Visit logical and operation: %s", ctx.getText().trim());
         final ObjectType left = visit(ctx.firstOperand);
         final ObjectType right = visit(ctx.secondOperand);
         final BooleanType result = ops.logic().and(left, right);
@@ -370,7 +378,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitNegationOperation(CayTheSourceParser.NegationOperationContext ctx) {
-        debugger.debug("Visit logical negation operation: %s", ctx.getText());
+        debugger.debug("Visit logical negation operation: %s", ctx.getText().trim());
         final ObjectType operand = visit(ctx.operand);
         final ObjectType result;
 
@@ -388,7 +396,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitNullLiteral(CayTheSourceParser.NullLiteralContext ctx) {
-        debugger.debug("Visit null literal: %s", ctx.getText());
+        debugger.debug("Visit null literal: %s", ctx.getText().trim());
         final ObjectType value = defaultResult();
         debugger.returnValue(value);
         return value;
@@ -396,7 +404,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitBooleanLiteral(CayTheSourceParser.BooleanLiteralContext ctx) {
-        debugger.debug("Visit boolean literal: %s", ctx.getText());
+        debugger.debug("Visit boolean literal: %s", ctx.getText().trim());
         final BooleanType value = BooleanType.valueOf(ctx.BOOLEAN().getText());
         debugger.returnValue(value);
         return value;
@@ -404,7 +412,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitFloatLiteral(CayTheSourceParser.FloatLiteralContext ctx) {
-        debugger.debug("Visit float literal: %s", ctx.getText());
+        debugger.debug("Visit float literal: %s", ctx.getText().trim());
         final FloatType value = FloatType.valueOf(ctx.FLOAT().getText());
         debugger.returnValue(value);
         return value;
@@ -412,7 +420,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitIntegerLiteral(CayTheSourceParser.IntegerLiteralContext ctx) {
-        debugger.debug("Visit integer literal: %s", ctx.getText());
+        debugger.debug("Visit integer literal: %s", ctx.getText().trim());
         final IntegerType value = IntegerType.valueOf(ctx.INTEGER().getText());
         debugger.returnValue(value);
         return value;
@@ -420,7 +428,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitStringLiteral(CayTheSourceParser.StringLiteralContext ctx) {
-        debugger.debug("Visit string literal: %s", ctx.getText());
+        debugger.debug("Visit string literal: %s", ctx.getText().trim());
         final String text = ctx.STRING().getText();
         final StringType value = new StringType(text.substring(1, text.length() - 1));
         debugger.returnValue(value);
@@ -429,7 +437,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitIdentifierLiteral(CayTheSourceParser.IdentifierLiteralContext ctx) {
-        debugger.debug("Visit identifier literal: %s", ctx.getText());
+        debugger.debug("Visit identifier literal: %s", ctx.getText().trim());
         final String identifier = ctx.IDENTIFIER().getText();
         final ObjectType value = currentScope.peek().get(identifier);
 
@@ -443,7 +451,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitFunctionLiteral(CayTheSourceParser.FunctionLiteralContext ctx) {
-        debugger.debug("Visit function literal: %s", ctx.getText());
+        debugger.debug("Visit function literal: %s", ctx.getText().trim());
         final List<String> parameterIdentifiers = new ArrayList<>();
 
         if (ctx.arguments != null) {
@@ -459,7 +467,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitArrayLiteral(CayTheSourceParser.ArrayLiteralContext ctx) {
-        debugger.debug("Visit array literal: %s", ctx.getText());
+        debugger.debug("Visit array literal: %s", ctx.getText().trim());
         final List<ObjectType> values = new ArrayList<>();
 
         for (final CayTheSourceParser.ExpressionContext expression : ctx.values.expression()) {
@@ -473,7 +481,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     @Override
     public ObjectType visitHashLiteral(CayTheSourceParser.HashLiteralContext ctx) {
-        debugger.debug("Visit hash literal: %s", ctx.getText());
+        debugger.debug("Visit hash literal: %s", ctx.getText().trim());
         final Map<ObjectType, ObjectType> values = new HashMap<>();
 
         if (ctx.values != null) {
