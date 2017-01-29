@@ -41,7 +41,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
     private void registerBuiltIns() {
         for (final BuiltInFunction fn : BuiltInFunction.values()) {
-            currentScope.peek().setVar(fn.identifier(), fn.object());
+            currentScope.peek().setConst(fn.identifier(), fn.object());
         }
     }
 

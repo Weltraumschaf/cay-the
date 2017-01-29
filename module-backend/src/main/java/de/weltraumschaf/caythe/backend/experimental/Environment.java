@@ -67,8 +67,10 @@ public final class Environment {
             buffer.append("  <empty>").append(CayThe.NL);
         } else {
             for (Map.Entry<String, MemorySlot> entry : store.entrySet()) {
-                final String value = entry.getValue().getValue().inspect();
-                buffer.append("  ").append(entry.getKey()).append(" = ").append(value).append(CayThe.NL);
+                final MemorySlot slot = entry.getValue();
+                final String value = slot.getValue().inspect();
+                buffer.append("  ").append(entry.getKey()).append(" [").append(slot.getType())
+                    .append("] = ").append(value).append(CayThe.NL);
             }
         }
 
@@ -103,6 +105,10 @@ public final class Environment {
 
         ObjectType getValue() {
             return value;
+        }
+
+        public SlotType getType() {
+            return type;
         }
 
         boolean hasType(final SlotType type) {
