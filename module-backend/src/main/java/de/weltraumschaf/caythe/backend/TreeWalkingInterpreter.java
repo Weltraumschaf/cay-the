@@ -127,7 +127,16 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     @Override
     public ObjectType visitConstStatement(CayTheSourceParser.ConstStatementContext ctx) {
         debugger.debug("Visit const statement: %s", ctx.getText().trim());
-        return defaultResult();
+        final String identifier = ctx.assignStatement().identifier.getText();
+
+        if (currentScope.peek().has(identifier)) {
+            throw newError(ctx.assignStatement().identifier, "Can not redeclare constant with identifier '%s'!", identifier);
+        }
+
+        final ObjectType value = visit(ctx.assignStatement().expression());
+        currentScope.peek().setConst(identifier, value);
+        debugger.returnValue(value);
+        return value;
     }
 
     @Override

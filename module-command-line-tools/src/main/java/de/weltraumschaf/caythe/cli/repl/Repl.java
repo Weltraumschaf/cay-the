@@ -113,7 +113,7 @@ final class Repl {
                 io.println(Ansi.fmt().fg(Ansi.Color.GREEN).bold().text(result.inspect()).reset().toString());
             } catch (final RuntimeException e) {
                 if (null != e.getMessage()) {
-                    io.errorln(e.getMessage());
+                    io.errorln("[E] " + e.getMessage());
                 }
 
                 if (debug) {
