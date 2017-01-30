@@ -21,9 +21,9 @@ if x > y {
 }
 
 let foobar = if x > y {
-    x
+    return x
 } else {
-    y
+    return y
 }
 
 let myFunc = fn() {
@@ -60,3 +60,14 @@ puts(array()[2])
 let emptyHash = {}
 let myHash = {"name": "Jimmy", "age": 72, "band": "Led Zeppelin"}
 puts(myHash["name"])
+
+let i = 0
+
+loop {
+    if i > 3 {
+        break
+    }
+
+    puts(i)
+    i = i + 1
+}

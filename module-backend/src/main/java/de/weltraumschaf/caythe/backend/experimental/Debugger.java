@@ -26,7 +26,7 @@ public final class Debugger {
     }
 
     public Debugger returnValue(final Object value) {
-        debug("Return value from %s(): %s", findCaller(), value);
+        debug("<< Return value from %s(): %s", findCaller(), value);
         return this;
     }
 

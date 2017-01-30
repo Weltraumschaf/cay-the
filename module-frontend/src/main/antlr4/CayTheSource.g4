@@ -20,8 +20,11 @@ statement
     | letStatement
     | constStatement
     | returnStatement
-    | expressionStatement
+    | breakStatement
+    | continueStatement
     | ifExpression
+    | loopExpression
+    | expressionStatement
     | NL
     ;
 
@@ -34,11 +37,19 @@ constStatement
     ;
 
 assignStatement
-    : identifier=IDENTIFIER OP_ASSIGN value=expression NL
+    : assignExpression NL
     ;
 
 returnStatement
     : KW_RETURN value=expression NL
+    ;
+
+breakStatement
+    : KW_BREAK NL
+    ;
+
+continueStatement
+    : KW_CONTINUE NL
     ;
 
 expressionStatement
@@ -79,7 +90,7 @@ literal
     ;
 
 functionLiteral
-    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN L_BRACE body=statement+ R_BRACE
+    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN L_BRACE body=statement* R_BRACE
     ;
 
 functionArguments
@@ -103,13 +114,25 @@ hashPair
     ;
 
 ifExpression
-    // We want at least one statetement or exactly one expression.
-    : KW_IF condition=expression L_BRACE consequence=ifBlock R_BRACE
-        ( KW_ELSE L_BRACE alternative=ifBlock R_BRACE )?
+    // We want at least one statetement.
+    : KW_IF condition=expression L_BRACE consequence=statement+ R_BRACE
+        ( KW_ELSE L_BRACE alternative=statement+ R_BRACE )?
     ;
 
-ifBlock
-    : statement+ | expression
+loopExpression
+    // We want at least one statetement.
+    : KW_LOOP L_BRACE body=statement+ R_BRACE                                            # endlessLoopExpression
+    | KW_LOOP condition=expression L_BRACE body=statement+ R_BRACE                       # conditionalLoopExpression
+    | KW_LOOP init=loopInit SEMICOLON condition=expression SEMICOLON post=expression
+      L_BRACE body=statement+ R_BRACE                                                    # traditionalLoopExpression
+    ;
+
+loopInit
+    : assignExpression ( COMMA assignStatement )?
+    ;
+
+assignExpression
+    : identifier=IDENTIFIER OP_ASSIGN value=expression
     ;
 
 callExpression
@@ -147,6 +170,7 @@ RELOP_NEQ   : '!=' ;
 // Delimiters:
 COMMA       : ',' ;
 COLON       : ':' ;
+SEMICOLON   : ';' ;
 L_PAREN     : '(' ;
 R_PAREN     : ')' ;
 L_BRACE     : '{' ;
@@ -163,12 +187,12 @@ KW_FUNCTION : 'fn' ;
 KW_RETURN   : 'return' ;
 KW_IF       : 'if' ;
 KW_ELSE     : 'else' ;
-KW_FOR      : 'loop' ;
+KW_LOOP     : 'loop' ;
 KW_BREAK    : 'break' ;
 KW_CONTINUE : 'continue' ;
-KW_SWITCH   : 'switch' ;
-KW_CASE     : 'case' ;
-KW_DEFAULT  : 'default' ;
+//KW_SWITCH   : 'switch' ;
+//KW_CASE     : 'case' ;
+//KW_DEFAULT  : 'default' ;
 
 INTEGER : DIGIT+ ;
 FLOAT   : (DIGIT)+ '.' (DIGIT)* EXPONENT?

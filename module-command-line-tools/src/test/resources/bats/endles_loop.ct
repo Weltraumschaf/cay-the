@@ -1,0 +1,13 @@
+let i = 0
+puts("start")
+
+loop {
+    if i > 3 {
+        break
+    }
+
+    puts(i)
+    i = i + 1
+}
+
+puts("end")

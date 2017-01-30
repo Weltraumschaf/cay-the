@@ -8,9 +8,9 @@ import java.util.List;
 public class FunctionType implements ObjectType {
     private final Environment closureScope;
     private final List<String> parameterIdentifiers;
-    private final CayTheSourceParser.StatementContext body;
+    private final List<CayTheSourceParser.StatementContext> body;
 
-    public FunctionType(Environment scope, List<String> parameterIdentifiers, CayTheSourceParser.StatementContext body) {
+    public FunctionType(Environment scope, List<String> parameterIdentifiers, List<CayTheSourceParser.StatementContext> body) {
         super();
         this.closureScope = scope;
         this.parameterIdentifiers = parameterIdentifiers;
@@ -27,7 +27,7 @@ public class FunctionType implements ObjectType {
         final StringBuilder buffer = new StringBuilder();
         String parameterIdentifiersString = parameterIdentifiers.toString();
         parameterIdentifiersString = parameterIdentifiersString.substring(1, parameterIdentifiersString.length() -1 );
-        buffer.append("fn(").append(parameterIdentifiersString).append(") {").append(body.getText()).append('}');
+        buffer.append("fn(").append(parameterIdentifiersString).append(") {").append(body).append('}');
         return buffer.toString();
     }
 
@@ -44,7 +44,7 @@ public class FunctionType implements ObjectType {
         return parameterIdentifiers;
     }
 
-    public CayTheSourceParser.StatementContext getBody() {
+    public List<CayTheSourceParser.StatementContext> getBody() {
         return body;
     }
 }

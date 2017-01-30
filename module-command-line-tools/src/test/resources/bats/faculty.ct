@@ -7,4 +7,5 @@ let factorial = fn(n) {
     }
 }
 
-puts(factorial(3))
+let f = factorial(3)
+puts(f)

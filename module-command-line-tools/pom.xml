@@ -239,7 +239,7 @@
                         </goals>
 
                         <configuration>
-                            <target name="Bats CLI tests">
+                            <target name="bats-cli-tests">
                                 <mkdir dir="${bats.build.directory}"/>
                                 <exec executable="${bats.command}"
                                       dir="${bats.build.directory}"

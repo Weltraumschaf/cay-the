@@ -5,8 +5,6 @@ import static de.weltraumschaf.caythe.backend.experimental.EvaluationError.newUn
 
 import java.util.*;
 
-import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
-import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -15,6 +13,8 @@ import de.weltraumschaf.caythe.backend.experimental.Debugger;
 import de.weltraumschaf.caythe.backend.experimental.Environment;
 import de.weltraumschaf.caythe.backend.experimental.operations.Operations;
 import de.weltraumschaf.caythe.backend.experimental.types.*;
+import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
+import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 
 /**
  * Default implementation which converts the parsed tree from a source file into intermediate model.
@@ -99,15 +99,15 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     @Override
     public ObjectType visitLetStatement(CayTheSourceParser.LetStatementContext ctx) {
         debugger.debug("Visit let statement: %s", ctx.getText().trim());
-        final CayTheSourceParser.AssignStatementContext assignment = ctx.assignStatement();
         final String identifier;
         final ObjectType value;
 
-        if (null == assignment) {
+        if (null == ctx.assignStatement()) {
             // This is let w/o assignment: let a;
             identifier = ctx.IDENTIFIER().getText();
             value = defaultResult();
         } else {
+            final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
             // This is let w/ assignment: let a = 1 + 2;
             identifier = assignment.IDENTIFIER().getText();
 
@@ -127,13 +127,14 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     @Override
     public ObjectType visitConstStatement(CayTheSourceParser.ConstStatementContext ctx) {
         debugger.debug("Visit const statement: %s", ctx.getText().trim());
-        final String identifier = ctx.assignStatement().identifier.getText();
+        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
+        final String identifier = assignment.identifier.getText();
 
         if (currentScope.peek().has(identifier)) {
-            throw newError(ctx.assignStatement().identifier, "Can not redeclare constant with identifier '%s'!", identifier);
+            throw newError(assignment.identifier, "Can not redeclare constant with identifier '%s'!", identifier);
         }
 
-        final ObjectType value = visit(ctx.assignStatement().expression());
+        final ObjectType value = visit(assignment.expression());
         currentScope.peek().setConst(identifier, value);
         debugger.returnValue(value);
         return value;
@@ -142,14 +143,15 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     @Override
     public ObjectType visitAssignStatement(CayTheSourceParser.AssignStatementContext ctx) {
         debugger.debug("Visit assign statement: %s", ctx.getText().trim());
-        final String identifier = ctx.identifier.getText();
+        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignExpression();
+        final String identifier = assignment.identifier.getText();
         final ObjectType value;
 
         if (currentScope.peek().has(identifier)) {
-            value  = visit(ctx.value);
+            value  = visit(assignment.value);
             currentScope.peek().setVar(identifier, value);
         } else {
-            throw newError(ctx.identifier, "Undeclared variable '%s'!", identifier);
+            throw newError(assignment.identifier, "Undeclared variable '%s'!", identifier);
         }
 
         debugger.returnValue(value);
@@ -162,6 +164,20 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
         final ObjectType result = visit(ctx.value);
         debugger.returnValue(result);
         return result;
+    }
+
+    @Override
+    public ObjectType visitBreakStatement(CayTheSourceParser.BreakStatementContext ctx) {
+        debugger.debug("Visit break statement: %s", ctx.getText().trim());
+        debugger.returnValue(BreakType.INSTANCE);
+        return BreakType.INSTANCE;
+    }
+
+    @Override
+    public ObjectType visitContinueStatement(CayTheSourceParser.ContinueStatementContext ctx) {
+        debugger.debug("Visit continue statement: %s", ctx.getText().trim());
+        debugger.returnValue(ContinueType.INSTANCE);
+        return ContinueType.INSTANCE;
     }
 
     @Override
@@ -196,10 +212,40 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     }
 
     @Override
+    public ObjectType visitEndlessLoopExpression(CayTheSourceParser.EndlessLoopExpressionContext ctx) {
+        debugger.debug("Visit endless loop expression: %s", ctx.getText().trim());
+        ObjectType result = defaultResult();
+
+        for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
+            if (statement.NL() != null) { // When this is not null then it is an empty line.
+                debugger.debug("Ignore empty line");
+                continue;
+            }
+
+            final ObjectType subResult = visit(statement);
+
+            if (ContinueType.INSTANCE.equals(subResult)) {
+                debugger.debug("Continue loop.");
+                continue;
+            }
+
+            if (BreakType.INSTANCE.equals(subResult)) {
+                debugger.debug("Break loop.");
+                break;
+            }
+
+            result = subResult;
+        }
+
+        debugger.returnValue(result);
+        return result;
+    }
+
+    @Override
     public ObjectType visitCallExpression(CayTheSourceParser.CallExpressionContext ctx) {
         debugger.debug("Visit call expression: %s", ctx.getText().trim());
         final String identifier = ctx.identifier.getText();
-        final ObjectType result;
+        ObjectType result = defaultResult();
 
         if (currentScope.peek().has(identifier)) {
             final ObjectType assignedValue = currentScope.peek().get(identifier);
@@ -234,7 +280,16 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
                 currentScope.push(functionScope);
 
                 debugger.debug("Evaluate body of function: %s", identifier);
-                result = visit(function.getBody());
+
+                for (CayTheSourceParser.StatementContext statement : function.getBody()) {
+                    if (statement.NL() != null) { // When this is not null then it is an empty line.
+                        debugger.debug("Ignore empty line");
+                        continue;
+                    }
+
+                    result = visit(statement);
+                }
+
                 currentScope.pop();
             } else if (assignedValue.isOf(Type.BUILTIN)) {
                 final List<ObjectType> arguments = new ArrayList<>();
@@ -504,7 +559,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
             }
         }
 
-        final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.body);
+        final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.statement());
         debugger.returnValue(value);
         return value;
     }

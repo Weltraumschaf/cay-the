@@ -10,7 +10,8 @@ public enum Type {
     STRING,
 
     RETURN_VALUE,
-    IDENTIFIER,
+    BREAK,
+    CONTINUE,
 
     FUNCTION,
     BUILTIN,
