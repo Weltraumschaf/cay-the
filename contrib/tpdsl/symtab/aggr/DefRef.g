@@ -55,7 +55,7 @@ enterStruct // match as we discover struct nodes (on the way down)
       }
     ;
 exitStruct // match as we finish struct nodes (on the way up)
-    :   'struct' // don't care about children, just trigger upon struct
+    :   'struct' // don't care about statements, just trigger upon struct
         {
         System.out.println("fields: "+currentScope);
         currentScope = currentScope.getEnclosingScope();    // pop scope

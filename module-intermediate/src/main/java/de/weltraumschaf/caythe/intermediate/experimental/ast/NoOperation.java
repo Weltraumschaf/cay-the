@@ -10,8 +10,8 @@ public  final class NoOperation implements AstNode {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

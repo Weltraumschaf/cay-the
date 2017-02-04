@@ -13,8 +13,8 @@ public final class StringLiteral implements AstNode {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -37,5 +37,9 @@ public final class StringLiteral implements AstNode {
         return "StringLiteral{" +
             "value='" + value + '\'' +
             '}';
+    }
+
+    public String getValue() {
+        return value;
     }
 }

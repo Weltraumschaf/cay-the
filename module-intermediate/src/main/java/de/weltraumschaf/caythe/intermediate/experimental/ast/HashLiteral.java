@@ -13,9 +13,13 @@ public final class HashLiteral implements AstNode {
         this.values = values;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Map<AstNode, AstNode> getValues() {
+        return values;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

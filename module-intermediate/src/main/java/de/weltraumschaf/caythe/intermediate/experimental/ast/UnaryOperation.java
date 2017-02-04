@@ -19,9 +19,17 @@ public final class UnaryOperation implements AstNode {
         this.operand = operand;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Operator getOperator() {
+        return operator;
+    }
 
+    public AstNode getOperand() {
+        return operand;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

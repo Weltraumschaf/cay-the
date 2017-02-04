@@ -14,9 +14,13 @@ public final class BooleanLiteral implements AstNode {
         this.value = value;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public boolean getValue() {
+        return value;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

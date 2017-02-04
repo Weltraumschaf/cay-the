@@ -15,9 +15,17 @@ public final class FunctionCall implements AstNode {
         this.arguments = arguments;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Identifier getIdentifier() {
+        return identifier;
+    }
 
+    public List<AstNode> getArguments() {
+        return arguments;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -21,9 +21,21 @@ public final class BinaryOperation implements AstNode {
         this.rightOperand = rightOperand;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Operator getOperator() {
+        return operator;
+    }
 
+    public AstNode getLeftOperand() {
+        return leftOperand;
+    }
+
+    public AstNode getRightOperand() {
+        return rightOperand;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

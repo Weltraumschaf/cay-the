@@ -14,9 +14,17 @@ public final class Subscript implements AstNode {
         this.index = index;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public AstNode getIdentifier() {
+        return identifier;
+    }
 
+    public AstNode getIndex() {
+        return index;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

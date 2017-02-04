@@ -12,9 +12,13 @@ public final class Return implements AstNode {
         this.result = result;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public AstNode getResult() {
+        return result;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -20,8 +20,15 @@ public final class RunCliOptions extends CommonCliOptions {
     @Parameter(names = {"-f", "--file"}, description = "The file to run", required = true)
     private String file = "";
 
-    public String getFile() {
+    @Parameter(names = {"-t", "--tree"}, description = "Prints the abstract syntax tree as dot graph syntax.")
+    private boolean tree;
+
+    String getFile() {
         return file;
+    }
+
+    boolean isTree() {
+        return tree;
     }
 
     @SuppressWarnings("StringBufferReplaceableByString")

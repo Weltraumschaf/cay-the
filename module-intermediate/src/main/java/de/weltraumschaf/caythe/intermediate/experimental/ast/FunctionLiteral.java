@@ -15,9 +15,17 @@ public final class FunctionLiteral implements AstNode {
         this.body = body;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public List<AstNode> getArguments() {
+        return arguments;
+    }
 
+    public List<AstNode> getBody() {
+        return body;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

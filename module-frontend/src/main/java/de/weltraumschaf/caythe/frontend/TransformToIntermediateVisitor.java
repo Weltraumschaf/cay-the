@@ -58,7 +58,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             assignment = new BinaryOperation(
                 BinaryOperation.Operator.ASSIGN,
                 new Identifier(ctx.IDENTIFIER().getText()),
-                defaultResult());
+                NullLiteral.NULL);
         } else {
             // This is let w/ assignment: let a = 1 + 2;
             final CayTheSourceParser.AssignExpressionContext assignmentExpression = ctx.assignStatement().assignExpression();
@@ -109,7 +109,10 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitIfExpression(final CayTheSourceParser.IfExpressionContext ctx) {
-        return new IfExpression(visit(ctx.condition), visit(ctx.consequence), visit(ctx.alternative));
+        final AstNode condition = visit(ctx.condition);
+        final AstNode consequence = visit(ctx.consequence.statements);
+        final AstNode alternative = visit(ctx.alternative.statements);
+        return new IfExpression(condition, consequence, alternative);
     }
 
     @Override
@@ -288,6 +291,10 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             final AstNode node = visit(statement);
 
             if (NoOperation.INSTANCE.equals(node)) {
+                continue;
+            }
+
+            if (Statement.EMPTY.equals(node)) {
                 continue;
             }
 

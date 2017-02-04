@@ -2,48 +2,97 @@ package de.weltraumschaf.caythe.intermediate.experimental;
 
 import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
 
-public interface Visitor {
-    void visit(BinaryOperation node);
+public interface Visitor<R> {
+    default R visit(final ArrayLiteral node) {
+        return null;
+    }
 
-    void visit(BooleanLiteral node);
+    default R visit(final BinaryOperation node) {
+        return null;
+    }
 
-    void visit(Break node);
+    default R visit(final BooleanLiteral node) {
+        return null;
+    }
 
-    void visit(Const node);
+    default R visit(final Break node) {
+        return null;
+    }
 
-    void visit(Continue node);
+    default R visit(final Const node) {
+        return null;
+    }
 
-    void visit(FloatLiteral node);
+    default R visit(final Continue node) {
+        return null;
+    }
 
-    void visit(FunctionCall node);
+    default R visit(final FloatLiteral node) {
+        return null;
+    }
 
-    void visit(FunctionLiteral node);
+    default R visit(final FunctionCall node) {
+        return null;
+    }
 
-    void visit(HashLiteral node);
+    default R visit(final FunctionLiteral node) {
+        return null;
+    }
 
-    void visit(Identifier node);
+    default R visit(final HashLiteral node) {
+        return null;
+    }
 
-    void visit(IfExpression node);
+    default R visit(final Identifier node) {
+        return null;
+    }
 
-    void visit(IntegerLiteral node);
+    default R visit(final IfExpression node) {
+        return null;
+    }
 
-    void visit(Let node);
+    default R visit(final IntegerLiteral node) {
+        return null;
+    }
 
-    void visit(Loop node);
+    default R visit(final Let node) {
+        return null;
+    }
 
-    void visit(NoOperation node);
+    default R visit(final Loop node) {
+        return null;
+    }
 
-    void visit(NullLiteral node);
+    default R visit(final NoOperation node) {
+        return null;
+    }
 
-    void visit(Return node);
+    default R visit(final NullLiteral node) {
+        return null;
+    }
 
-    void visit(Statement node);
+    default R visit(final Return node) {
+        return null;
+    }
 
-    void visit(StringLiteral node);
+    default R visit(final Statement node) {
+        return null;
+    }
 
-    void visit(Subscript node);
+    default R visit(final StringLiteral node) {
+        return null;
+    }
 
-    void visit(UnaryOperation node);
+    default R visit(final Subscript node) {
+        return null;
+    }
 
-    void visit(Unit node);
+    default R visit(final UnaryOperation node) {
+        return null;
+    }
+
+    default R visit(final Unit node) {
+        return null;
+    }
+
 }

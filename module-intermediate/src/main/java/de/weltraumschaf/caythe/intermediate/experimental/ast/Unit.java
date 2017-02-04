@@ -13,9 +13,13 @@ public final class Unit implements AstNode {
         this.statements = statements;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Collection<AstNode> getStatements() {
+        return statements;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -12,9 +12,13 @@ public final class Let implements AstNode {
         this.assignment = assignment;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public AstNode getAssignment() {
+        return assignment;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

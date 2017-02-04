@@ -16,9 +16,13 @@ public final class Statement implements AstNode {
         this.children = children;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public Collection<AstNode> getChildren() {
+        return children;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

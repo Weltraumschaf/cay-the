@@ -13,9 +13,13 @@ public final class ArrayLiteral implements AstNode {
         this.values = values;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public List<AstNode> getValues() {
+        return values;
+    }
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

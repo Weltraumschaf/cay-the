@@ -16,9 +16,21 @@ public final class IfExpression implements AstNode {
         this.alternative = alternative;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
+    public AstNode getCondition() {
+        return condition;
+    }
 
+    public AstNode getConsequence() {
+        return consequence;
+    }
+
+    public AstNode getAlternative() {
+        return alternative;
+    }
+
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

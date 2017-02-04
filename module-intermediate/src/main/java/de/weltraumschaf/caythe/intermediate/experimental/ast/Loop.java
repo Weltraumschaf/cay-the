@@ -6,16 +6,20 @@ import java.util.Collection;
 import java.util.Objects;
 
 public final class Loop implements AstNode {
-    private final Collection<AstNode> children;
+    private final Collection<AstNode> statements;
 
-    public Loop(final Collection<AstNode> children) {
+    public Loop(final Collection<AstNode> statements) {
         super();
-        this.children = children;
+        this.statements = statements;
+    }
+
+    public Collection<AstNode> getStatements() {
+        return statements;
     }
 
     @Override
-    public void accept(Visitor visitor) {
-
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -25,18 +29,18 @@ public final class Loop implements AstNode {
         }
 
         final Loop loop = (Loop) o;
-        return Objects.equals(children, loop.children);
+        return Objects.equals(statements, loop.statements);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(children);
+        return Objects.hash(statements);
     }
 
     @Override
     public String toString() {
         return "Loop{" +
-            "children=" + children +
+            "statements=" + statements +
             '}';
     }
 }

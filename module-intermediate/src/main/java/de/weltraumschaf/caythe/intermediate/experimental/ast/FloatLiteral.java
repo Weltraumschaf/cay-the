@@ -11,9 +11,10 @@ public final class FloatLiteral implements AstNode {
         super();
         this.value = value;
     }
-    @Override
-    public void accept(Visitor visitor) {
 
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -36,5 +37,9 @@ public final class FloatLiteral implements AstNode {
         return "FloatLiteral{" +
             "value=" + value +
             '}';
+    }
+
+    public double getValue() {
+        return value;
     }
 }
