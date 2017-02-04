@@ -5,7 +5,7 @@ package de.weltraumschaf.caythe.frontend;
 }
 
 /*
- * Statements must be terminated with ';'. Expressions always return a value.
+ * Statement must be terminated with ';'. Expressions always return a value.
  */
 
 // Parser production rules:
@@ -90,7 +90,7 @@ literal
     ;
 
 functionLiteral
-    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN L_BRACE body=statement* R_BRACE
+    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN body=statementList
     ;
 
 functionArguments
@@ -115,16 +115,16 @@ hashPair
 
 ifExpression
     // We want at least one statetement.
-    : KW_IF condition=expression L_BRACE consequence=statement+ R_BRACE
-        ( KW_ELSE L_BRACE alternative=statement+ R_BRACE )?
+    : KW_IF condition=expression consequence=statementList
+      ( KW_ELSE alternative=statementList )?
     ;
 
 loopExpression
     // We want at least one statetement.
-    : KW_LOOP L_BRACE body=statement+ R_BRACE                                            # endlessLoopExpression
-    | KW_LOOP condition=expression L_BRACE body=statement+ R_BRACE                       # conditionalLoopExpression
+    : KW_LOOP body=statementList                                            # endlessLoopExpression
+    | KW_LOOP condition=expression body=statementList                       # conditionalLoopExpression
     | KW_LOOP init=loopInit SEMICOLON condition=expression SEMICOLON post=expression
-      L_BRACE body=statement+ R_BRACE                                                    # traditionalLoopExpression
+      body=statementList                                                    # traditionalLoopExpression
     ;
 
 loopInit
@@ -141,6 +141,10 @@ callExpression
 
 expressionList
     : expression ( COMMA expression )*
+    ;
+
+statementList
+    : L_BRACE statements=statement* R_BRACE
     ;
 
 // Lexer tokens:

@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public final class Environment {
@@ -113,6 +114,30 @@ public final class Environment {
 
         boolean hasType(final SlotType type) {
             return this.type == type;
+        }
+
+        @Override
+        public String toString() {
+            return "MemorySlot{" +
+                "value=" + value +
+                ", type=" + type +
+                '}';
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (!(o instanceof MemorySlot)) {
+                return false;
+            }
+
+            final MemorySlot that = (MemorySlot) o;
+            return Objects.equals(value, that.value) &&
+                type == that.type;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value, type);
         }
     }
 

@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend;
 
-import static de.weltraumschaf.caythe.backend.experimental.EvaluationError.newError;
-import static de.weltraumschaf.caythe.backend.experimental.EvaluationError.newUnsupportedOperatorError;
+import static de.weltraumschaf.caythe.frontend.EvaluationError.newError;
+import static de.weltraumschaf.caythe.frontend.EvaluationError.newUnsupportedOperatorError;
 
 import java.util.*;
 
@@ -216,7 +216,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
         debugger.debug("Visit endless loop expression: %s", ctx.getText().trim());
         ObjectType result = defaultResult();
 
-        for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
+        for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
             if (statement.NL() != null) { // When this is not null then it is an empty line.
                 debugger.debug("Ignore empty line");
                 continue;
@@ -559,7 +559,7 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
             }
         }
 
-        final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.statement());
+        final FunctionType value = new FunctionType(currentScope.peek(), parameterIdentifiers, ctx.body.statement());
         debugger.returnValue(value);
         return value;
     }
