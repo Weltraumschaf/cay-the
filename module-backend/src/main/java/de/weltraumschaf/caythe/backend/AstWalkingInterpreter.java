@@ -79,6 +79,8 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         final ObjectType right = node.getRightOperand().accept(this);
 
         switch (node.getOperator()) {
+            case ASSIGN:
+                return assignment(node, false);
             case EQ:
                 return ops.rel().equal(left, right);
             case NEQ:
@@ -124,14 +126,29 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Const node) {
-        final StringType identifier = node.getAssignment().getLeftOperand().accept(this).castToString();
+        return assignment(node.getAssignment(), true);
+    }
 
-        if (currentScope().has(identifier.value())) {
-            throw newError("Can not redeclare constant with identifier '%s'!", identifier.value());
+    private ObjectType assignment(final BinaryOperation assignment, final boolean isConst) {
+        if (assignment.getOperator() != BinaryOperation.Operator.ASSIGN) {
+            throw newError("Bas assignment operator '%s'!", assignment.getOperator());
         }
 
-        final ObjectType value = node.getAssignment().getRightOperand().accept(this);
-        currentScope().setConst(identifier.value(), value);
+        final AstNode leftOperand = assignment.getLeftOperand();
+
+        if (!(leftOperand instanceof Identifier)) {
+            throw newError("Left operand '%s' of assignment is not an identifier!", leftOperand);
+        }
+
+        final String identifier = ((Identifier) leftOperand).getName();
+        final ObjectType value = assignment.getRightOperand().accept(this);
+
+        if (isConst) {
+            currentScope().setConst(identifier, value);
+        } else {
+            currentScope().setVar(identifier, value);
+        }
+
         return value;
     }
 
@@ -239,10 +256,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Let node) {
-        final StringType identifier = node.getAssignment().getLeftOperand().accept(this).castToString();
-        final ObjectType value = node.getAssignment().getRightOperand().accept(this);
-        currentScope().setVar(identifier.value(), value);
-        return value;
+        return assignment(node.getAssignment(), false);
     }
 
     @Override

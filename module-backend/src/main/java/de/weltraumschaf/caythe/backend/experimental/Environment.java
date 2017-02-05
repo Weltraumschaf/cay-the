@@ -7,7 +7,8 @@ import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import static de.weltraumschaf.caythe.backend.EvaluationError.newError;
 
 public final class Environment {
     private final Map<String, MemorySlot> store = new HashMap<>();
@@ -24,7 +25,7 @@ public final class Environment {
 
     public void setVar(final String identifier, final ObjectType value) {
         if (store.containsKey(identifier) && store.get(identifier).hasType(SlotType.CONST)) {
-            throw new RuntimeException("Can not reset const value for identifier " + identifier + "!");
+            throw newError("Can not reset const value for identifier '%s'!", identifier);
         }
 
         store.put(identifier, new MemorySlot(value, SlotType.VAR));
@@ -32,7 +33,7 @@ public final class Environment {
 
     public void setConst(final String identifier, final ObjectType value) {
         if (store.containsKey(identifier)) {
-            throw new RuntimeException("Can not redeclare const for identifier " + identifier + "!");
+            throw newError("Can not redeclare const for identifier '%s'!", identifier);
         }
 
         store.put(identifier, new MemorySlot(value, SlotType.CONST));
