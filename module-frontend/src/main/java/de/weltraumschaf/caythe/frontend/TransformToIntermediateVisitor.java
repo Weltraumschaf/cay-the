@@ -13,7 +13,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     protected AstNode defaultResult() {
-        return NoOperation.INSTANCE;
+        return NoOperation.NOOP;
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final ParseTree child : ctx.children) {
             final AstNode node = visit(child);
 
-            if (NoOperation.INSTANCE.equals(node)) {
+            if (NoOperation.NOOP.equals(node)) {
                 continue;
             }
 
@@ -111,7 +111,14 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     public AstNode visitIfExpression(final CayTheSourceParser.IfExpressionContext ctx) {
         final AstNode condition = visit(ctx.condition);
         final AstNode consequence = visit(ctx.consequence.statements);
-        final AstNode alternative = visit(ctx.alternative.statements);
+        final AstNode alternative;
+
+        if (ctx.alternative == null) {
+            alternative = NoOperation.NOOP;
+        } else {
+            alternative = visit(ctx.alternative.statements);
+        }
+
         return new IfExpression(condition, consequence, alternative);
     }
 
@@ -122,7 +129,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
             final AstNode node = visit(statement);
 
-            if (NoOperation.INSTANCE.equals(node)) {
+            if (NoOperation.NOOP.equals(node) || Statements.EMPTY.equals(node)) {
                 continue;
             }
 
@@ -290,7 +297,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
             final AstNode node = visit(statement);
 
-            if (NoOperation.INSTANCE.equals(node)) {
+            if (NoOperation.NOOP.equals(node)) {
                 continue;
             }
 

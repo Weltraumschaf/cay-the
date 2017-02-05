@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe.intermediate.experimental.ast;
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
 
 public  final class NoOperation implements AstNode {
-    public static final NoOperation INSTANCE = new NoOperation();
+    public static final NoOperation NOOP = new NoOperation();
 
     private NoOperation() {
         super();
