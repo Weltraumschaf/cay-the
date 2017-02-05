@@ -1,13 +1,13 @@
 package de.weltraumschaf.caythe.cli.run;
 
-import de.weltraumschaf.caythe.intermediate.experimental.Visitor;
+import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-final class DotGenerator implements Visitor<Void> {
+final class DotGenerator implements AstVisitor<Void> {
     private static final char NL = '\n';
     private static final String INDENTION = "    ";
     private static final String EDGE = " -- ";

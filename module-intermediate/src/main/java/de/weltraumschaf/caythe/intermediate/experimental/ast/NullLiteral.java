@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
-import de.weltraumschaf.caythe.intermediate.experimental.Visitor;
+import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
 
 public class NullLiteral implements AstNode {
     public static final NullLiteral NULL = new NullLiteral();
@@ -10,8 +10,8 @@ public class NullLiteral implements AstNode {
     }
 
     @Override
-    public void accept(final Visitor visitor) {
-        visitor.visit(this);
+    public <R> R accept(final AstVisitor<? extends R> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

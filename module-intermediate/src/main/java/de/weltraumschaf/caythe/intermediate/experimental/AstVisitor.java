@@ -2,7 +2,7 @@ package de.weltraumschaf.caythe.intermediate.experimental;
 
 import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
 
-public interface Visitor<R> {
+public interface AstVisitor<R> {
     default R visit(final ArrayLiteral node) {
         return null;
     }

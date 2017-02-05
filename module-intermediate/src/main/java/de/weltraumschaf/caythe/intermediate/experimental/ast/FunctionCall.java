@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
-import de.weltraumschaf.caythe.intermediate.experimental.Visitor;
+import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +24,8 @@ public final class FunctionCall implements AstNode {
     }
 
     @Override
-    public void accept(final Visitor visitor) {
-        visitor.visit(this);
+    public <R> R accept(final AstVisitor<? extends R> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
