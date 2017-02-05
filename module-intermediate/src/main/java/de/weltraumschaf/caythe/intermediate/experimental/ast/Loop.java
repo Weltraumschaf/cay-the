@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 public final class Loop implements AstNode {
+    // First we implement an endless loop.
+    private final AstNode condition = BooleanLiteral.TRUE;
     private final Collection<AstNode> statements;
 
     public Loop(final Collection<AstNode> statements) {
@@ -13,8 +15,12 @@ public final class Loop implements AstNode {
         this.statements = statements;
     }
 
-    public Collection<AstNode> getStatements() {
+    public Collection<AstNode> statements() {
         return statements;
+    }
+
+    public AstNode condition() {
+        return condition;
     }
 
     @Override

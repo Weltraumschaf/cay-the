@@ -52,7 +52,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
-        final AstNode assignment;
+        final BinaryOperation assignment;
         if (null == ctx.assignStatement()) {
             // This is let w/o assignment: let a;
             assignment = new BinaryOperation(
@@ -277,7 +277,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitFunctionLiteral(final CayTheSourceParser.FunctionLiteralContext ctx) {
-        final List<AstNode> arguments = new ArrayList<>();
+        final List<Identifier> arguments = new ArrayList<>();
 
         if (ctx.arguments != null) {
             for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {

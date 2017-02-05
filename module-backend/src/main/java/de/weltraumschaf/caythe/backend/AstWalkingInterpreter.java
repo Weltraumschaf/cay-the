@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.backend;
 
+import de.weltraumschaf.caythe.backend.experimental.BuiltInFunction;
+import de.weltraumschaf.caythe.backend.experimental.Debugger;
 import de.weltraumschaf.caythe.backend.experimental.Environment;
 import de.weltraumschaf.caythe.backend.experimental.operations.Operations;
 import de.weltraumschaf.caythe.backend.experimental.types.*;
@@ -9,16 +11,41 @@ import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
 import java.util.*;
 
 public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
+    private final Debugger debugger = new Debugger();
     private final Operations ops = new Operations();
     private final Stack<Environment> scopes = new Stack<>();
 
     public AstWalkingInterpreter() {
         super();
-        scopes.push(new Environment());
+        reset();
     }
 
-    private void pushScope() {
-        scopes.push(currentScope().createChild());
+    public void reset() {
+        scopes.clear();
+        scopes.push(new Environment());
+        registerBuiltIns();
+    }
+
+    public void debug(boolean debug) {
+        if (debug) {
+            debugger.on();
+        } else {
+            debugger.off();
+        }
+    }
+
+    public Environment scope() {
+        return scopes.get(0);
+    }
+
+    private void registerBuiltIns() {
+        for (final BuiltInFunction fn : BuiltInFunction.values()) {
+            currentScope().setConst(fn.identifier(), fn.object());
+        }
+    }
+
+    private void pushScope(final Environment scope) {
+        scopes.push(scope);
     }
 
     private void popScope() {
@@ -47,7 +74,6 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     @Override
     public ObjectType visit(final BinaryOperation node) {
         final ObjectType left = node.getLeftOperand().accept(this);
-        final BinaryOperation.Operator operator = node.getOperator();
         final ObjectType right = node.getRightOperand().accept(this);
 
         switch (node.getOperator()) {
@@ -96,7 +122,15 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Const node) {
-        return defaultResult();
+        final StringType identifier = node.getAssignment().getLeftOperand().accept(this).castToString();
+
+        if (currentScope().has(identifier.value())) {
+            throw new RuntimeException(String.format("Can not redeclare constant with identifier '%s'!", identifier.value()));
+        }
+
+        final ObjectType value = node.getAssignment().getRightOperand().accept(this);
+        currentScope().setConst(identifier.value(), value);
+        return value;
     }
 
     @Override
@@ -111,12 +145,58 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final FunctionCall node) {
-        return defaultResult();
+        final String identifier = node.getIdentifier().getName();
+
+        if (currentScope().has(identifier)) {
+            final ObjectType assignedValue = currentScope().get(identifier);
+
+            if (assignedValue.isOf(Type.FUNCTION)) {
+                final FunctionType function = (FunctionType) assignedValue;
+
+                if (node.getArguments().size() != function.getParameterIdentifiers().size()) {
+                    throw new RuntimeException(
+                        String.format("Argument count mismatch for function '%s'! Expected number of arguments is %d given number is %d.",
+                            identifier, function.getParameterIdentifiers().size(), node.getArguments().size()));
+                }
+
+                final Environment functionScope = function.getClosureScope().createChild();
+
+                for (int i = 0; i < node.getArguments().size(); ++i) {
+                    // Function argument values are const (aka. final).
+                    final String name = function.getParameterIdentifiers().get(i).getName();
+                    final ObjectType value = node.getArguments().get(i).accept(this);
+                    functionScope.setConst(name, value);
+                }
+
+                pushScope(functionScope);
+                ObjectType result = defaultResult();
+
+                for (final AstNode statement : function.getBody()) {
+                    result = statement.accept(this);
+                }
+
+                popScope();
+                return result;
+            } else if (assignedValue.isOf(Type.BUILTIN)) {
+                final List<ObjectType> arguments = new ArrayList<>();
+
+                for (final AstNode argument : node.getArguments()) {
+                    arguments.add(argument.accept(this));
+                }
+
+                final BuiltinType function = (BuiltinType) assignedValue;
+                return function.apply(arguments);
+            } else {
+                throw new RuntimeException(String.format("Assigned value for '%s' is not a function!", identifier));
+            }
+        } else {
+            throw new RuntimeException(String.format("Undefined function '%s'!", identifier));
+        }
     }
 
     @Override
     public ObjectType visit(final FunctionLiteral node) {
-        return defaultResult();
+        return new FunctionType(currentScope(), node.getArguments(), node.getBody());
     }
 
     @Override
@@ -132,12 +212,22 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Identifier node) {
-        return defaultResult();
+        if (currentScope().has(node.getName())) {
+            return currentScope().get(node.getName());
+        }
+
+        throw new RuntimeException(String.format("There is no const/var '%s' declared!", node.getName()));
     }
 
     @Override
     public ObjectType visit(final IfExpression node) {
-        return defaultResult();
+        final ObjectType condition = node.getCondition().accept(this);
+
+        if (condition.castToBoolean().value()) {
+            return node.getConsequence().accept(this);
+        }
+
+        return node.getAlternative().accept(this);
     }
 
     @Override
@@ -147,12 +237,42 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Let node) {
-        return defaultResult();
+        final StringType identifier = node.getAssignment().getLeftOperand().accept(this).castToString();
+        final ObjectType value = node.getAssignment().getRightOperand().accept(this);
+        currentScope().setVar(identifier.value(), value);
+        return value;
     }
 
     @Override
     public ObjectType visit(final Loop node) {
-        return defaultResult();
+        boolean isConditionTrue = node.condition().accept(this).castToBoolean().value();
+        ObjectType result = defaultResult();
+
+        while (isConditionTrue) {
+            // This inner loop executes the loop body.
+            for (final AstNode statement : node.statements()) {
+                final ObjectType statementResult = statement.accept(this);
+
+                if (ContinueType.CONTINUE.equals(statementResult)) {
+                    // Continue with the next while loop iteration.
+                    break;
+                }
+
+                if (BreakType.BREAK.equals(statementResult)) {
+                    // Prevent further looping regardless to what the condition will evaluate.
+                    isConditionTrue = false;
+                }
+
+                result = statementResult;
+            }
+
+            if (isConditionTrue) {
+                // See what the condition is, unless we break the loop.
+                isConditionTrue = node.condition().accept(this).castToBoolean().value();
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -188,7 +308,43 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Subscript node) {
-        return defaultResult();
+        final ObjectType value = node.getIdentifier().accept(this);
+        final ObjectType index = node.getIndex().accept(this);
+
+        if (value.isOf(Type.ARRAY)) {
+            return arraySubscript(node, (ArrayType) value, index);
+        } else if (value.isOf(Type.HASH)) {
+            return hashSubscript(node, (HashType) value, index);
+        } else {
+            throw new RuntimeException(
+                String.format("Assigned value for identifier '%s' does not allow subscript access!",
+                    node.getIdentifier()));
+        }
+    }
+
+    private ObjectType arraySubscript(final Subscript node, final ArrayType array, final ObjectType index) {
+        if (index.isOf(Type.INTEGER)) {
+            if (array.has(index.castToInteger())) {
+                return array.get(index.castToInteger());
+            } else {
+                throw new RuntimeException(
+                    String.format("Array with identifier '%s' does not have index %d!",
+                        node.getIdentifier(), index.castToInteger().value()));
+            }
+        } else {
+            throw new RuntimeException(
+                String.format("Index must be of type integer, given was: %s!", index.type()));
+        }
+    }
+
+    private ObjectType hashSubscript(final Subscript node, final HashType hash, final ObjectType index) {
+        if (hash.has(index)) {
+            return hash.get(index);
+        } else {
+            throw new RuntimeException(
+                String.format("Hash with identifier '%s' does not have key '%s'",
+                    node.getIdentifier(), index));
+        }
     }
 
     @Override
@@ -207,10 +363,13 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Unit node) {
+        ObjectType result = defaultResult();
+
         for (final AstNode statement : node.getStatements()) {
-            statement.accept(this);
+            result = statement.accept(this);
         }
 
-        return defaultResult();
+        return result;
     }
+
 }

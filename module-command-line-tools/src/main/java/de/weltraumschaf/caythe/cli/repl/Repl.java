@@ -1,11 +1,13 @@
 package de.weltraumschaf.caythe.cli.repl;
 
 import de.weltraumschaf.caythe.CayThe;
+import de.weltraumschaf.caythe.backend.AstWalkingInterpreter;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
-import de.weltraumschaf.caythe.backend.TreeWalkingInterpreter;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.caythe.backend.experimental.types.NullType;
 import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
+import de.weltraumschaf.caythe.frontend.TransformToIntermediateVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.ast.AstNode;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.validate.Validate;
@@ -37,7 +39,7 @@ final class Repl {
     private static final String NORMAL_PROMPT = "ct> ";
     private static final String CONTINUATION_PROMPT = "    ";
     private Parsers parsers = new Parsers();
-    private TreeWalkingInterpreter interpreter = new TreeWalkingInterpreter();
+    private AstWalkingInterpreter interpreter = new AstWalkingInterpreter();
     /**
      * Used to print version info.
      */
@@ -104,7 +106,8 @@ final class Repl {
                 inputBuffer.append(line).append(CayThe.NL);
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
-                final ObjectType result = interpreter.visit(parser.unit());
+                final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
+                final ObjectType result = ast.accept(interpreter);
 
                 if (result == NullType.NULL) {
                     continue;
@@ -170,7 +173,7 @@ final class Repl {
                 io.println("Environment cleared.");
                 break;
             case ENV:
-                io.println(interpreter.environment().dump());
+                io.println(interpreter.scope().dump());
                 break;
             case EXAMPLES:
                 io.println(INITIAL_HELP);

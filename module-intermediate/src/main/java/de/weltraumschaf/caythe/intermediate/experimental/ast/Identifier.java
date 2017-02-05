@@ -12,6 +12,10 @@ public final class Identifier implements AstNode {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public <R> R accept(final AstVisitor<? extends R> visitor) {
         return visitor.visit(this);
@@ -39,7 +43,4 @@ public final class Identifier implements AstNode {
             '}';
     }
 
-    public String getName() {
-        return name;
-    }
 }

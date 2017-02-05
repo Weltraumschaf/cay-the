@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Objects;
 
 public final class FunctionLiteral implements AstNode {
-    private final List<AstNode> arguments;
+    private final List<Identifier> arguments;
     private final List<AstNode> body;
 
-    public FunctionLiteral(final List<AstNode> arguments, final List<AstNode> body) {
+    public FunctionLiteral(final List<Identifier> arguments, final List<AstNode> body) {
         super();
         this.arguments = arguments;
         this.body = body;
     }
 
-    public List<AstNode> getArguments() {
+    public List<Identifier> getArguments() {
         return arguments;
     }
 

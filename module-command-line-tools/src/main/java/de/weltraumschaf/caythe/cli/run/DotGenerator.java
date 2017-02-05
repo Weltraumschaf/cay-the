@@ -135,7 +135,7 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotNode(fnDeclDotNode);
         appendDotEdge(currentNode.peek(), fnDeclDotNode);
         currentNode.push(fnDeclDotNode);
-        final List<AstNode> arguments = node.getArguments();
+        final List<Identifier> arguments = node.getArguments();
 
         if (!arguments.isEmpty()) {
             for (final AstNode argument : arguments) {
@@ -229,7 +229,7 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
 
-        for (final AstNode statement : node.getStatements()) {
+        for (final AstNode statement : node.statements()) {
             statement.accept(this);
         }
 

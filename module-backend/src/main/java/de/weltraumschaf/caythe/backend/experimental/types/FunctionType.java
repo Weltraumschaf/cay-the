@@ -1,16 +1,17 @@
 package de.weltraumschaf.caythe.backend.experimental.types;
 
-import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.backend.experimental.Environment;
+import de.weltraumschaf.caythe.intermediate.experimental.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.experimental.ast.Identifier;
 
 import java.util.List;
 
 public class FunctionType implements ObjectType {
     private final Environment closureScope;
-    private final List<String> parameterIdentifiers;
-    private final List<CayTheSourceParser.StatementContext> body;
+    private final List<Identifier> parameterIdentifiers;
+    private final List<AstNode> body;
 
-    public FunctionType(Environment scope, List<String> parameterIdentifiers, List<CayTheSourceParser.StatementContext> body) {
+    public FunctionType(final Environment scope, final List<Identifier> parameterIdentifiers, final List<AstNode> body) {
         super();
         this.closureScope = scope;
         this.parameterIdentifiers = parameterIdentifiers;
@@ -40,11 +41,11 @@ public class FunctionType implements ObjectType {
         return closureScope;
     }
 
-    public List<String> getParameterIdentifiers() {
+    public List<Identifier> getParameterIdentifiers() {
         return parameterIdentifiers;
     }
 
-    public List<CayTheSourceParser.StatementContext> getBody() {
+    public List<AstNode> getBody() {
         return body;
     }
 }

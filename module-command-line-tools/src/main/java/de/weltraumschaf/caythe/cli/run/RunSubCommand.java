@@ -1,7 +1,6 @@
 package de.weltraumschaf.caythe.cli.run;
 
-import de.weltraumschaf.caythe.backend.TreeWalkingInterpreter;
-import de.weltraumschaf.caythe.backend.experimental.types.ObjectType;
+import de.weltraumschaf.caythe.backend.AstWalkingInterpreter;
 import de.weltraumschaf.caythe.cli.CliContext;
 import de.weltraumschaf.caythe.cli.SubCommand;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
@@ -30,18 +29,14 @@ public final class RunSubCommand implements SubCommand {
         final Path file = Paths.get(options.getFile());
         final InputStream src = Files.newInputStream(file);
         final CayTheSourceParser parser = parsers.newSourceParser(src);
-        final CayTheSourceParser.UnitContext parseTree = parser.unit();
+        final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
 
         if (options.isTree()) {
-            final TransformToIntermediateVisitor visitor = new TransformToIntermediateVisitor();
-            final AstNode ast = visitor.visit(parseTree);
             final DotGenerator generator = new DotGenerator();
             ast.accept(generator);
             ctx.getIo().print(generator.getGraph());
         } else {
-            final TreeWalkingInterpreter visitor = new TreeWalkingInterpreter();
-            visitor.debug(options.isDebug());
-            visitor.visit(parseTree);
+            ast.accept(new AstWalkingInterpreter());
         }
     }
 }

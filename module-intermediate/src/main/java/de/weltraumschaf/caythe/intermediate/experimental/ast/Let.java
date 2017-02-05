@@ -5,14 +5,14 @@ import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
 import java.util.Objects;
 
 public final class Let implements AstNode {
-    private final AstNode assignment;
+    private final BinaryOperation assignment;
 
-    public Let(final AstNode assignment) {
+    public Let(final BinaryOperation assignment) {
         super();
         this.assignment = assignment;
     }
 
-    public AstNode getAssignment() {
+    public BinaryOperation getAssignment() {
         return assignment;
     }
 
