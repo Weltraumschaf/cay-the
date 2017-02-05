@@ -23,6 +23,12 @@
             <artifactId>intermediate</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.inject</groupId>

@@ -10,6 +10,8 @@ import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
 
 import java.util.*;
 
+import static de.weltraumschaf.caythe.backend.EvaluationError.newError;
+
 public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     private final Debugger debugger = new Debugger();
     private final Operations ops = new Operations();
@@ -106,7 +108,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             case AND:
                 return ops.logic().and(left, right);
             default:
-                throw new RuntimeException(String.format("Unsupported operator '%s'!", node.getOperator()));
+                throw newError("Unsupported operator '%s'!", node.getOperator());
         }
     }
 
@@ -125,7 +127,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         final StringType identifier = node.getAssignment().getLeftOperand().accept(this).castToString();
 
         if (currentScope().has(identifier.value())) {
-            throw new RuntimeException(String.format("Can not redeclare constant with identifier '%s'!", identifier.value()));
+            throw newError("Can not redeclare constant with identifier '%s'!", identifier.value());
         }
 
         final ObjectType value = node.getAssignment().getRightOperand().accept(this);
@@ -154,9 +156,9 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
                 final FunctionType function = (FunctionType) assignedValue;
 
                 if (node.getArguments().size() != function.getParameterIdentifiers().size()) {
-                    throw new RuntimeException(
-                        String.format("Argument count mismatch for function '%s'! Expected number of arguments is %d given number is %d.",
-                            identifier, function.getParameterIdentifiers().size(), node.getArguments().size()));
+                    throw newError(
+                        "Argument count mismatch for function '%s'! Expected number of arguments is %d given number is %d.",
+                        identifier, function.getParameterIdentifiers().size(), node.getArguments().size());
                 }
 
                 final Environment functionScope = function.getClosureScope().createChild();
@@ -187,10 +189,10 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
                 final BuiltinType function = (BuiltinType) assignedValue;
                 return function.apply(arguments);
             } else {
-                throw new RuntimeException(String.format("Assigned value for '%s' is not a function!", identifier));
+                throw newError("Assigned value for '%s' is not a function!", identifier);
             }
         } else {
-            throw new RuntimeException(String.format("Undefined function '%s'!", identifier));
+            throw newError("Undefined function '%s'!", identifier);
         }
     }
 
@@ -216,7 +218,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             return currentScope().get(node.getName());
         }
 
-        throw new RuntimeException(String.format("There is no const/var '%s' declared!", node.getName()));
+        throw newError("There is no const/var '%s' declared!", node.getName());
     }
 
     @Override
@@ -316,9 +318,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         } else if (value.isOf(Type.HASH)) {
             return hashSubscript(node, (HashType) value, index);
         } else {
-            throw new RuntimeException(
-                String.format("Assigned value for identifier '%s' does not allow subscript access!",
-                    node.getIdentifier()));
+            throw newError("Assigned value for identifier '%s' does not allow subscript access!", node.getIdentifier());
         }
     }
 
@@ -327,13 +327,11 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             if (array.has(index.castToInteger())) {
                 return array.get(index.castToInteger());
             } else {
-                throw new RuntimeException(
-                    String.format("Array with identifier '%s' does not have index %d!",
-                        node.getIdentifier(), index.castToInteger().value()));
+                throw newError("Array with identifier '%s' does not have index %d!",
+                        node.getIdentifier(), index.castToInteger().value());
             }
         } else {
-            throw new RuntimeException(
-                String.format("Index must be of type integer, given was: %s!", index.type()));
+            throw newError("Index must be of type integer, given was: %s!", index.type());
         }
     }
 
@@ -341,9 +339,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         if (hash.has(index)) {
             return hash.get(index);
         } else {
-            throw new RuntimeException(
-                String.format("Hash with identifier '%s' does not have key '%s'",
-                    node.getIdentifier(), index));
+            throw newError("Hash with identifier '%s' does not have key '%s'", node.getIdentifier(), index);
         }
     }
 
@@ -357,7 +353,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             case NEG:
                 return ops.math().negate(operand);
             default:
-                throw new RuntimeException(String.format("Unsupported operator '%s'!", node.getOperator()));
+                throw newError("Unsupported operator '%s'!", node.getOperator());
         }
     }
 

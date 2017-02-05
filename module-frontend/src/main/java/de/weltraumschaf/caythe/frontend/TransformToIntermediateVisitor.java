@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.*;
 
-import static de.weltraumschaf.caythe.frontend.EvaluationError.newError;
-import static de.weltraumschaf.caythe.frontend.EvaluationError.newUnsupportedOperatorError;
+import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
+import static de.weltraumschaf.caythe.frontend.SyntaxError.newUnsupportedOperatorError;
 
 public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisitor<AstNode> {
 
