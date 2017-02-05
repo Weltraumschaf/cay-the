@@ -68,9 +68,9 @@ public final class MathOperations {
 
     public ObjectType negate(final ObjectType operand) {
         if (operand.isOf(Type.INTEGER)) {
-            return new IntegerType(-operand.castToInteger().value());
+            return new IntegerType(operand.castToInteger().value() * -1L);
         } else if (operand.isOf(Type.FLOAT)) {
-            return new FloatType(-operand.castToFloat().value());
+            return new FloatType(operand.castToFloat().value() * -1.0d);
         } else {
             throw new UnsupportedOperationException("Can't negate type " + operand.type() + "!");
         }

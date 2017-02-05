@@ -169,15 +169,15 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
     @Override
     public ObjectType visitBreakStatement(CayTheSourceParser.BreakStatementContext ctx) {
         debugger.debug("Visit break statement: %s", ctx.getText().trim());
-        debugger.returnValue(BreakType.INSTANCE);
-        return BreakType.INSTANCE;
+        debugger.returnValue(BreakType.BREAK);
+        return BreakType.BREAK;
     }
 
     @Override
     public ObjectType visitContinueStatement(CayTheSourceParser.ContinueStatementContext ctx) {
         debugger.debug("Visit continue statement: %s", ctx.getText().trim());
-        debugger.returnValue(ContinueType.INSTANCE);
-        return ContinueType.INSTANCE;
+        debugger.returnValue(ContinueType.CONTINUE);
+        return ContinueType.CONTINUE;
     }
 
     @Override
@@ -224,12 +224,12 @@ public final class TreeWalkingInterpreter extends CayTheSourceBaseVisitor<Object
 
             final ObjectType subResult = visit(statement);
 
-            if (ContinueType.INSTANCE.equals(subResult)) {
+            if (ContinueType.CONTINUE.equals(subResult)) {
                 debugger.debug("Continue loop.");
                 continue;
             }
 
-            if (BreakType.INSTANCE.equals(subResult)) {
+            if (BreakType.BREAK.equals(subResult)) {
                 debugger.debug("Break loop.");
                 break;
             }

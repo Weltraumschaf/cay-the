@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend.experimental.types;
 
 public final class BreakType implements ObjectType {
-    public static final BreakType INSTANCE = new BreakType();
+    public static final BreakType BREAK = new BreakType();
 
     private BreakType() {
         super();
