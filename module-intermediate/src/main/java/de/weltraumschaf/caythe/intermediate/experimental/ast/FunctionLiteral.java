@@ -1,16 +1,17 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class FunctionLiteral implements AstNode {
+public final class FunctionLiteral extends BaseNode {
     private final List<Identifier> arguments;
     private final List<AstNode> body;
 
-    public FunctionLiteral(final List<Identifier> arguments, final List<AstNode> body) {
-        super();
+    public FunctionLiteral(final List<Identifier> arguments, final List<AstNode> body, final Position sourcePosition) {
+        super(sourcePosition);
         this.arguments = arguments;
         this.body = body;
     }

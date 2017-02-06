@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.frontend;
 
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -10,6 +12,10 @@ import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newUnsupportedOperatorError;
 
 public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisitor<AstNode> {
+
+    private Position cretePosition(final Token t) {
+        return new Position(t.getLine(), t.getCharPositionInLine());
+    }
 
     @Override
     protected AstNode defaultResult() {
@@ -30,7 +36,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             statements.add(node);
         }
 
-        return new Unit(statements);
+        return new Unit(statements, cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -47,49 +53,71 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             statements.add(node);
         }
 
-        return new Statements(statements);
+        return new Statements(statements, cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
         final BinaryOperation assignment;
+        final Identifier identifier;
+
         if (null == ctx.assignStatement()) {
             // This is let w/o assignment: let a;
+            identifier = new Identifier(ctx.IDENTIFIER().getText(), cretePosition(ctx.IDENTIFIER().getSymbol()));
             assignment = new BinaryOperation(
                 BinaryOperation.Operator.ASSIGN,
-                new Identifier(ctx.IDENTIFIER().getText()),
-                NullLiteral.NULL);
+                identifier,
+                NullLiteral.NULL,
+                cretePosition(ctx.KW_LET().getSymbol()));
         } else {
             // This is let w/ assignment: let a = 1 + 2;
-            final CayTheSourceParser.AssignExpressionContext assignmentExpression = ctx.assignStatement().assignExpression();
+            final CayTheSourceParser.AssignExpressionContext assignmentExpression
+                = ctx.assignStatement().assignExpression();
+            identifier = new Identifier(
+                assignmentExpression.IDENTIFIER().getText(),
+                cretePosition(assignmentExpression.IDENTIFIER().getSymbol()));
             assignment = new BinaryOperation(
                 BinaryOperation.Operator.ASSIGN,
-                new Identifier(assignmentExpression.IDENTIFIER().getText()),
-                visit(assignmentExpression.expression()));
+                identifier,
+                visit(assignmentExpression.expression()),
+                cretePosition(ctx.KW_LET().getSymbol()));
         }
 
-        return new Let(assignment);
+        return new Let(assignment, cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
         final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
-        return new Const(new BinaryOperation(
-            BinaryOperation.Operator.ASSIGN,
-            new Identifier(assignment.identifier.getText()),
-            visit(assignment.expression())));
+        final Identifier identifier = new Identifier(
+            assignment.identifier.getText(),
+            cretePosition(assignment.identifier));
+        return new Const(
+            new BinaryOperation(
+                BinaryOperation.Operator.ASSIGN,
+                identifier,
+                visit(assignment.expression()),
+                cretePosition(ctx.assignStatement().getStart())),
+            cretePosition(ctx.getStart())
+        );
     }
 
     @Override
     public AstNode visitAssignStatement(final CayTheSourceParser.AssignStatementContext ctx) {
         final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignExpression();
-        final Identifier identifier = new Identifier(assignment.identifier.getText());
-        return new BinaryOperation(BinaryOperation.Operator.ASSIGN, identifier, visit(assignment.value));
+        final Identifier identifier = new Identifier(
+            assignment.identifier.getText(),
+            cretePosition(assignment.identifier));
+        return new BinaryOperation(
+            BinaryOperation.Operator.ASSIGN,
+            identifier,
+            visit(assignment.value),
+            cretePosition(assignment.OP_ASSIGN().getSymbol()));
     }
 
     @Override
     public AstNode visitReturnStatement(final CayTheSourceParser.ReturnStatementContext ctx) {
-        return new Return(visit(ctx.value));
+        return new Return(visit(ctx.value), cretePosition(ctx.KW_RETURN().getSymbol()));
     }
 
     @Override
@@ -119,7 +147,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             alternative = visit(ctx.alternative.statements);
         }
 
-        return new IfExpression(condition, consequence, alternative);
+        return new IfExpression(condition, consequence, alternative, cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -136,12 +164,12 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             statements.add(node);
         }
 
-        return new Loop(statements);
+        return new Loop(statements, cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitCallExpression(final CayTheSourceParser.CallExpressionContext ctx) {
-        final Identifier identifier = new Identifier(ctx.identifier.getText());
+        final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier));
         final List<AstNode> arguments = new ArrayList<>();
         final List<CayTheSourceParser.ExpressionContext> argumentExpressions
             = ctx.arguments == null ?
@@ -152,12 +180,12 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             arguments.add(visit(expresssion));
         }
 
-        return new FunctionCall(identifier, arguments);
+        return new FunctionCall(identifier, arguments, cretePosition(ctx.identifier));
     }
 
     @Override
     public AstNode visitSubscriptExpression(final CayTheSourceParser.SubscriptExpressionContext ctx) {
-        return new Subscript(visit(ctx.identifier), visit(ctx.index));
+        return new Subscript(visit(ctx.identifier), visit(ctx.index), cretePosition(ctx.identifier.getStart()));
     }
 
     @Override
@@ -168,7 +196,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
-            return new BinaryOperation(operator, visit(ctx.firstOperand), visit(ctx.secondOperand));
+            return new BinaryOperation(
+                operator,
+                visit(ctx.firstOperand),
+                visit(ctx.secondOperand),
+                cretePosition(ctx.getStart()));
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
@@ -184,7 +216,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
-            return new BinaryOperation(operator, visit(ctx.firstOperand), visit(ctx.secondOperand));
+            return new BinaryOperation(
+                operator,
+                visit(ctx.firstOperand),
+                visit(ctx.secondOperand),
+                cretePosition(ctx.getStart()));
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
@@ -192,7 +228,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitPowerOperation(final CayTheSourceParser.PowerOperationContext ctx) {
-        return new BinaryOperation(BinaryOperation.Operator.POW, visit(ctx.firstOperand), visit(ctx.secondOperand));
+        return new BinaryOperation(
+            BinaryOperation.Operator.POW,
+            visit(ctx.firstOperand),
+            visit(ctx.secondOperand),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -203,7 +243,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
-            return new BinaryOperation(operator, visit(ctx.firstOperand), visit(ctx.secondOperand));
+            return new BinaryOperation(
+                operator,
+                visit(ctx.firstOperand),
+                visit(ctx.secondOperand),
+                cretePosition(ctx.getStart()));
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
@@ -218,7 +262,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
-            return new BinaryOperation(operator, visit(ctx.firstOperand), visit(ctx.secondOperand));
+            return new BinaryOperation(
+                operator,
+                visit(ctx.firstOperand),
+                visit(ctx.secondOperand),
+                cretePosition(ctx.getStart()));
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
@@ -226,12 +274,20 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitLogicalOrOperation(final CayTheSourceParser.LogicalOrOperationContext ctx) {
-        return new BinaryOperation(BinaryOperation.Operator.AND, visit(ctx.firstOperand), visit(ctx.secondOperand));
+        return new BinaryOperation(
+            BinaryOperation.Operator.AND,
+            visit(ctx.firstOperand),
+            visit(ctx.secondOperand),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitLogicalAndOperation(final CayTheSourceParser.LogicalAndOperationContext ctx) {
-        return new BinaryOperation(BinaryOperation.Operator.OR, visit(ctx.firstOperand), visit(ctx.secondOperand));
+        return new BinaryOperation(
+            BinaryOperation.Operator.OR,
+            visit(ctx.firstOperand),
+            visit(ctx.secondOperand),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -242,7 +298,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final UnaryOperation.Operator operator = UnaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
-            return new UnaryOperation(null, visit(ctx.operand));
+            return new UnaryOperation(operator, visit(ctx.operand), cretePosition(ctx.getStart()));
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
@@ -262,24 +318,32 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitFloatLiteral(final CayTheSourceParser.FloatLiteralContext ctx) {
-        return new FloatLiteral(Double.parseDouble((ctx.FLOAT().getText())));
+        return new FloatLiteral
+            (Double.parseDouble((ctx.FLOAT().getText())),
+                cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitIntegerLiteral(final CayTheSourceParser.IntegerLiteralContext ctx) {
-        return new IntegerLiteral(Long.parseLong(ctx.INTEGER().getText()));
+        return new IntegerLiteral(
+            Long.parseLong(ctx.INTEGER().getText()),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitStringLiteral(final CayTheSourceParser.StringLiteralContext ctx) {
         final String text = ctx.STRING().getText();
         // We must remove the quotes here.
-        return new StringLiteral(text.substring(1, text.length() - 1));
+        return new StringLiteral(
+            text.substring(1, text.length() - 1),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
     public AstNode visitIdentifierLiteral(final CayTheSourceParser.IdentifierLiteralContext ctx) {
-        return new Identifier(ctx.IDENTIFIER().getText());
+        return new Identifier(
+            ctx.IDENTIFIER().getText(),
+            cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -288,7 +352,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
         if (ctx.arguments != null) {
             for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {
-                arguments.add(new Identifier(identifier.getText()));
+                arguments.add(new Identifier(identifier.getText(), cretePosition(identifier.getSymbol())));
             }
         }
 
@@ -308,7 +372,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             body.add(node);
         }
 
-        return new FunctionLiteral(arguments, body);
+        return new FunctionLiteral(arguments, body, cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -319,7 +383,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             values.add(visit(expression));
         }
 
-        return new ArrayLiteral(values);
+        return new ArrayLiteral(values, cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -327,7 +391,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final Map<AstNode, AstNode> values = new HashMap<>();
 
         if (ctx.values == null) {
-            return new HashLiteral(values);
+            return new HashLiteral(values, cretePosition(ctx.getStart()));
         }
 
         for (final CayTheSourceParser.HashPairContext pair : ctx.values.hashPair()) {
@@ -344,7 +408,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             values.put(key, visit(pair.value));
         }
 
-        return new HashLiteral(values);
+        return new HashLiteral(values, cretePosition(ctx.getStart()));
     }
 
 }

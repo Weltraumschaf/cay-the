@@ -1,17 +1,18 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Collection;
 import java.util.Objects;
 
-public final class Loop implements AstNode {
+public final class Loop extends BaseNode {
     // First we implement an endless loop.
     private final AstNode condition = BooleanLiteral.TRUE;
     private final Collection<AstNode> statements;
 
-    public Loop(final Collection<AstNode> statements) {
-        super();
+    public Loop(final Collection<AstNode> statements, final Position sourcePosition) {
+        super(sourcePosition);
         this.statements = statements;
     }
 

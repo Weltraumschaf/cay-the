@@ -1,12 +1,13 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
-public final class Break implements AstNode {
+public final class Break extends BaseNode  {
     public static final Break BREAK = new Break();
 
     private Break() {
-        super();
+        super(Position.UNKNOWN);
     }
 
     @Override

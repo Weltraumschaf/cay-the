@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.cli.run;
 
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 import de.weltraumschaf.caythe.intermediate.experimental.ast.Unit;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public final class DotGeneratorTest {
 
     @Test
     public void visit_emptyUnit() {
-        sut.visit(new Unit(Collections.emptyList()));
+        sut.visit(new Unit(Collections.emptyList(), Position.UNKNOWN));
         assertThat(sut.getGraph(), is("graph AST {\n    Unit_0 [label=\"<unit>\"];\n}\n"));
     }
 }

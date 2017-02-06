@@ -1,15 +1,16 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class Subscript implements AstNode {
+public final class Subscript extends BaseNode {
     private final AstNode identifier;
     private final AstNode index;
 
-    public Subscript(final AstNode identifier, final AstNode index) {
-        super();
+    public Subscript(final AstNode identifier, final AstNode index, final Position sourcePosition) {
+        super(sourcePosition);
         this.identifier = identifier;
         this.index = index;
     }

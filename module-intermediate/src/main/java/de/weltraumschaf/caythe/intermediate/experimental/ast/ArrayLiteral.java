@@ -1,15 +1,16 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class ArrayLiteral implements AstNode {
+public final class ArrayLiteral extends BaseNode  {
     private final List<AstNode> values;
 
-    public ArrayLiteral(final List<AstNode> values) {
-        super();
+    public ArrayLiteral(final List<AstNode> values, final Position sourcePosition) {
+        super(sourcePosition);
         this.values = values;
     }
 

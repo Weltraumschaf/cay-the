@@ -1,15 +1,16 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Map;
 import java.util.Objects;
 
-public final class HashLiteral implements AstNode {
+public final class HashLiteral extends BaseNode {
     private final Map<AstNode, AstNode> values;
 
-    public HashLiteral(final Map<AstNode, AstNode> values) {
-        super();
+    public HashLiteral(final Map<AstNode, AstNode> values, final Position sourcePosition) {
+        super(sourcePosition);
         this.values = values;
     }
 

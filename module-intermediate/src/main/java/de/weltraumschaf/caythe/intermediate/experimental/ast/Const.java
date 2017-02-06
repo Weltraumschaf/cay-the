@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class Const implements AstNode {
+public final class Const extends BaseNode {
     private final BinaryOperation assignment;
 
-    public Const(final BinaryOperation assignment) {
-        super();
+    public Const(final BinaryOperation assignment, final Position sourcePosition) {
+        super(sourcePosition);
         this.assignment = assignment;
     }
 

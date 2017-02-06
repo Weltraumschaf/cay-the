@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,12 +10,12 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class UnaryOperation implements AstNode {
+public final class UnaryOperation extends BaseNode {
     private final Operator operator;
     private final AstNode operand;
 
-    public UnaryOperation(final Operator operator, final AstNode operand) {
-        super();
+    public UnaryOperation(final Operator operator, final AstNode operand, final Position sourcePosition) {
+        super(sourcePosition);
         this.operator = operator;
         this.operand = operand;
     }

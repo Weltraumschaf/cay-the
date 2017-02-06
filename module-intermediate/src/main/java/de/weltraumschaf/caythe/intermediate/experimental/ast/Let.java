@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class Let implements AstNode {
+public final class Let extends BaseNode {
     private final BinaryOperation assignment;
 
-    public Let(final BinaryOperation assignment) {
-        super();
+    public Let(final BinaryOperation assignment, final Position sourcePosition) {
+        super(sourcePosition);
         this.assignment = assignment;
     }
 

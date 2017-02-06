@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,13 +10,13 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class BinaryOperation implements AstNode {
+public final class BinaryOperation extends BaseNode {
     private final Operator operator;
     private final AstNode leftOperand;
     private final AstNode rightOperand;
 
-    public BinaryOperation(final Operator operator, final AstNode leftOperand, final AstNode rightOperand) {
-        super();
+    public BinaryOperation(final Operator operator, final AstNode leftOperand, final AstNode rightOperand, final Position sourcePosition) {
+        super(sourcePosition);
         this.operator = operator;
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;

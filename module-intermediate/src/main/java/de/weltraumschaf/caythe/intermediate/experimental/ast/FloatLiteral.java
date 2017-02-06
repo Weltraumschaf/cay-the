@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class FloatLiteral implements AstNode {
+public final class FloatLiteral extends BaseNode {
     private final double value;
 
-    public FloatLiteral(final double value) {
-        super();
+    public FloatLiteral(final double value, final Position sourcePosition) {
+        super(sourcePosition);
         this.value = value;
     }
 

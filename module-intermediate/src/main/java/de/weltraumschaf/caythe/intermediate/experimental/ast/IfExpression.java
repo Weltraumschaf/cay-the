@@ -1,16 +1,17 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class IfExpression implements AstNode {
+public final class IfExpression extends BaseNode {
     private final AstNode condition;
     private final AstNode consequence;
     private final AstNode alternative;
 
-    public IfExpression(final AstNode condition, final AstNode consequence, final AstNode alternative) {
-        super();
+    public IfExpression(final AstNode condition, final AstNode consequence, final AstNode alternative, final Position sourcePosition) {
+        super(sourcePosition);
         this.condition = condition;
         this.consequence = consequence;
         this.alternative = alternative;

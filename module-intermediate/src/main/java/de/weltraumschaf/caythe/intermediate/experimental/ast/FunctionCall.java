@@ -1,16 +1,17 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class FunctionCall implements AstNode {
+public final class FunctionCall extends BaseNode {
     private final Identifier identifier;
     private final List<AstNode> arguments;
 
-    public FunctionCall(final Identifier identifier, final List<AstNode> arguments) {
-        super();
+    public FunctionCall(final Identifier identifier, final List<AstNode> arguments, final Position sourcePosition) {
+        super(sourcePosition);
         this.identifier = identifier;
         this.arguments = arguments;
     }

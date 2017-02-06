@@ -110,7 +110,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             case AND:
                 return ops.logic().and(left, right);
             default:
-                throw newError("Unsupported operator '%s'!", node.getOperator());
+                throw newError(node, "Unsupported operator '%s'!", node.getOperator());
         }
     }
 
@@ -131,13 +131,13 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     private ObjectType assignment(final BinaryOperation assignment, final boolean isConst) {
         if (assignment.getOperator() != BinaryOperation.Operator.ASSIGN) {
-            throw newError("Bas assignment operator '%s'!", assignment.getOperator());
+            throw newError(assignment, "Bas assignment operator '%s'!", assignment.getOperator());
         }
 
         final AstNode leftOperand = assignment.getLeftOperand();
 
         if (!(leftOperand instanceof Identifier)) {
-            throw newError("Left operand '%s' of assignment is not an identifier!", leftOperand);
+            throw newError(leftOperand, "Left operand '%s' of assignment is not an identifier!", leftOperand);
         }
 
         final String identifier = ((Identifier) leftOperand).getName();
@@ -174,6 +174,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
                 if (node.getArguments().size() != function.getParameterIdentifiers().size()) {
                     throw newError(
+                        node,
                         "Argument count mismatch for function '%s'! Expected number of arguments is %d given number is %d.",
                         identifier, function.getParameterIdentifiers().size(), node.getArguments().size());
                 }
@@ -206,10 +207,10 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
                 final BuiltinType function = (BuiltinType) assignedValue;
                 return function.apply(arguments);
             } else {
-                throw newError("Assigned value for '%s' is not a function!", identifier);
+                throw newError(node, "Assigned value for '%s' is not a function!", identifier);
             }
         } else {
-            throw newError("Undefined function '%s'!", identifier);
+            throw newError(node, "Undefined function '%s'!", identifier);
         }
     }
 
@@ -235,7 +236,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             return currentScope().get(node.getName());
         }
 
-        throw newError("There is no const/var '%s' declared!", node.getName());
+        throw newError(node, "There is no const/var '%s' declared!", node.getName());
     }
 
     @Override
@@ -332,7 +333,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         } else if (value.isOf(Type.HASH)) {
             return hashSubscript(node, (HashType) value, index);
         } else {
-            throw newError("Assigned value for identifier '%s' does not allow subscript access!", node.getIdentifier());
+            throw newError(node, "Assigned value for identifier '%s' does not allow subscript access!", node.getIdentifier());
         }
     }
 
@@ -341,11 +342,13 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             if (array.has(index.castToInteger())) {
                 return array.get(index.castToInteger());
             } else {
-                throw newError("Array with identifier '%s' does not have index %d!",
-                        node.getIdentifier(), index.castToInteger().value());
+                throw newError(
+                    node,
+                    "Array with identifier '%s' does not have index %d!",
+                    node.getIdentifier(), index.castToInteger().value());
             }
         } else {
-            throw newError("Index must be of type integer, given was: %s!", index.type());
+            throw newError(node, "Index must be of type integer, given was: %s!", index.type());
         }
     }
 
@@ -353,7 +356,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         if (hash.has(index)) {
             return hash.get(index);
         } else {
-            throw newError("Hash with identifier '%s' does not have key '%s'", node.getIdentifier(), index);
+            throw newError(node, "Hash with identifier '%s' does not have key '%s'", node.getIdentifier(), index);
         }
     }
 
@@ -367,7 +370,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             case NEG:
                 return ops.math().negate(operand);
             default:
-                throw newError("Unsupported operator '%s'!", node.getOperator());
+                throw newError(node, "Unsupported operator '%s'!", node.getOperator());
         }
     }
 

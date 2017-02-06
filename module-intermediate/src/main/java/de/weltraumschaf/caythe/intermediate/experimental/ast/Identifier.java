@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class Identifier implements AstNode {
+public final class Identifier extends BaseNode {
     private final String name;
 
-    public Identifier(final String name) {
-        super();
+    public Identifier(final String name, final Position sourcePosition) {
+        super(sourcePosition);
         this.name = name;
     }
 

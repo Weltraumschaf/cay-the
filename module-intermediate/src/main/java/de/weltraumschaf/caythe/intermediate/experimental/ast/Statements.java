@@ -1,18 +1,19 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-public final class Statements implements AstNode {
-    public static final Statements EMPTY = new Statements(Collections.emptyList());
+public final class Statements extends BaseNode {
+    public static final Statements EMPTY = new Statements(Collections.emptyList(), Position.UNKNOWN);
 
     private final Collection<AstNode> statements;
 
-    public Statements(final Collection<AstNode> children) {
-        super();
+    public Statements(final Collection<AstNode> children, final Position sourcePosition) {
+        super(sourcePosition);
         this.statements = children;
     }
 

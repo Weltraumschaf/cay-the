@@ -1,14 +1,15 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class Return implements AstNode {
+public final class Return extends BaseNode {
     private final AstNode result;
 
-    public Return(final AstNode result) {
-        super();
+    public Return(final AstNode result, final Position sourcePosition) {
+        super(sourcePosition);
         this.result = result;
     }
 

@@ -1,12 +1,13 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
-public final class Continue implements AstNode {
+public final class Continue extends BaseNode  {
     public static final Continue CONTINUE = new Continue();
 
     private Continue() {
-        super();
+        super(Position.UNKNOWN);
     }
 
     @Override

@@ -1,16 +1,17 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
 import java.util.Objects;
 
-public final class BooleanLiteral implements AstNode {
+public final class BooleanLiteral extends BaseNode {
     public static final BooleanLiteral TRUE = new BooleanLiteral(true);
     public static final BooleanLiteral FALSE = new BooleanLiteral(false);
     private final boolean value;
 
     private BooleanLiteral(final boolean value) {
-        super();
+        super(Position.UNKNOWN);
         this.value = value;
     }
 

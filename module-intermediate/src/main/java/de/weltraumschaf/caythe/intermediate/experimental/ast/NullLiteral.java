@@ -1,12 +1,13 @@
 package de.weltraumschaf.caythe.intermediate.experimental.ast;
 
 import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.experimental.Position;
 
-public class NullLiteral implements AstNode {
+public class NullLiteral extends BaseNode {
     public static final NullLiteral NULL = new NullLiteral();
 
     private NullLiteral() {
-        super();
+        super(Position.UNKNOWN);
     }
 
     @Override
