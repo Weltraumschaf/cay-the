@@ -160,9 +160,31 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitEndlessLoopExpression(final CayTheSourceParser.EndlessLoopExpressionContext ctx) {
+        final Collection<AstNode> body = visitLoopBody(ctx.body.statement());
+        // In the endless loop version the condition is always true.
+        return new Loop(BooleanLiteral.TRUE, body, cretePosition(ctx.getStart()));
+    }
+
+    @Override
+    public AstNode visitConditionalLoopExpression(final CayTheSourceParser.ConditionalLoopExpressionContext ctx) {
+        final AstNode condition = visit(ctx.condition);
+        final Collection<AstNode> body = visitLoopBody(ctx.body.statement());
+        return new Loop(condition, body, cretePosition(ctx.getStart()));
+    }
+
+    @Override
+    public AstNode visitTraditionalLoopExpression(final CayTheSourceParser.TraditionalLoopExpressionContext ctx) {
+        final AstNode init = visit(ctx.init);
+        final AstNode condition = visit(ctx.condition);
+        final AstNode post = visit(ctx.post);
+        final Collection<AstNode> body = visitLoopBody(ctx.body.statement());
+        return new Loop(init, condition, post, body, cretePosition(ctx.getStart()));
+    }
+
+    private Collection<AstNode> visitLoopBody(final List<CayTheSourceParser.StatementContext> body) {
         final Collection<AstNode> statements = new ArrayList<>();
 
-        for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
+        for (final CayTheSourceParser.StatementContext statement : body) {
             final AstNode node = visit(statement);
 
             if (NoOperation.NOOP.equals(node) || Statements.EMPTY.equals(node)) {
@@ -172,7 +194,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             statements.add(node);
         }
 
-        return new Loop(statements, cretePosition(ctx.getStart()));
+        return statements;
     }
 
     @Override

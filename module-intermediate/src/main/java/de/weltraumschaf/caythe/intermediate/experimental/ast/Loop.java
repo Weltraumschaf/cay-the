@@ -7,13 +7,21 @@ import java.util.Collection;
 import java.util.Objects;
 
 public final class Loop extends BaseNode {
-    // First we implement an endless loop.
-    private final AstNode condition = BooleanLiteral.TRUE;
+    private final AstNode init;
+    private final AstNode condition;
+    private final AstNode post;
     private final Collection<AstNode> statements;
 
-    public Loop(final Collection<AstNode> statements, final Position sourcePosition) {
+    public Loop(final AstNode condition, final Collection<AstNode> statements, final Position sourcePosition) {
+        this(NoOperation.NOOP, condition, NoOperation.NOOP, statements, sourcePosition);
+    }
+
+    public Loop(final AstNode init, final AstNode condition, final AstNode post, final Collection<AstNode> statements, final Position sourcePosition) {
         super(sourcePosition);
+        this.init = init;
+        this.condition = condition;
         this.statements = statements;
+        this.post = post;
     }
 
     public Collection<AstNode> statements() {
@@ -36,17 +44,23 @@ public final class Loop extends BaseNode {
         }
 
         final Loop loop = (Loop) o;
-        return Objects.equals(statements, loop.statements);
+        return Objects.equals(init, loop.init)
+            && Objects.equals(condition, loop.condition)
+            && Objects.equals(post, loop.post)
+            && Objects.equals(statements, loop.statements);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(statements);
+        return Objects.hash(init, condition, post, statements);
     }
 
     @Override
     public String toString() {
         return "Loop{" +
+            "init=" + init +
+            "condition=" + condition +
+            "post=" + post +
             "statements=" + statements +
             '}';
     }
