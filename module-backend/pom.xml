@@ -50,5 +50,11 @@
             <artifactId>equalsverifier</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>testing</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

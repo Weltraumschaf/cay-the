@@ -280,18 +280,15 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
                     break;
                 }
 
-                if (BreakType.BREAK.equals(statementResult) || statementResult instanceof ReturnValueType) {
-                    // Prevent further looping regardless to what the condition will evaluate.
-                    isConditionTrue = false;
-                }
-
                 result = statementResult;
+
+                if (BreakType.BREAK.equals(statementResult) || result instanceof ReturnValueType) {
+                    // Prevent further looping regardless to what the condition will evaluate.
+                    return result;
+                }
             }
 
-            if (isConditionTrue) {
-                // See what the condition is, unless we break the loop.
-                isConditionTrue = node.condition().accept(this).castToBoolean().value();
-            }
+            isConditionTrue = node.condition().accept(this).castToBoolean().value();
         }
 
         return result;
@@ -389,6 +386,11 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
         for (final AstNode statement : node.getStatements()) {
             result = statement.accept(this);
+
+            if (result instanceof ReturnValueType) {
+                result = ((ReturnValueType)result).value();
+                break;
+            }
         }
 
         return result;
