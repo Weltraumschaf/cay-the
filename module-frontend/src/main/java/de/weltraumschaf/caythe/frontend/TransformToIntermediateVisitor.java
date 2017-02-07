@@ -117,7 +117,15 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     public AstNode visitReturnStatement(final CayTheSourceParser.ReturnStatementContext ctx) {
-        return new Return(visit(ctx.value), cretePosition(ctx.KW_RETURN().getSymbol()));
+        final AstNode value;
+
+        if (ctx.value == null) {
+            value = NullLiteral.NULL;
+        } else {
+            value = visit(ctx.value);
+        }
+
+        return new Return(value, cretePosition(ctx.KW_RETURN().getSymbol()));
     }
 
     @Override

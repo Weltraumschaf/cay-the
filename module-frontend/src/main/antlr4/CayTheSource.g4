@@ -41,7 +41,7 @@ assignStatement
     ;
 
 returnStatement
-    : KW_RETURN value=expression NL
+    : KW_RETURN value=expression? NL
     ;
 
 breakStatement
