@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
  */
 public class TransformToIntermediateVisitorTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
-    private final CayTheSourceVisitor<AstNode> sut = injector.getInstance(CayTheSourceVisitor.class);
+    private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);
 
     @Test
     public void foo() throws IOException {

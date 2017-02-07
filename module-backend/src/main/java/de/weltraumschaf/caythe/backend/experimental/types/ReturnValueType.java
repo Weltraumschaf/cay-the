@@ -15,6 +15,10 @@ public final class ReturnValueType implements ObjectType {
         return Type.RETURN_VALUE;
     }
 
+    public ObjectType value() {
+        return value;
+    }
+
     @Override
     public String inspect() {
         return value.inspect();

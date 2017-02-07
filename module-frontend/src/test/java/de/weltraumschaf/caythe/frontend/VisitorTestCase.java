@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 abstract class VisitorTestCase {
-    final Injector injector = Guice.createInjector(new DependencyInjectionConfig());
-    private final Parsers parsers = new Parsers(injector);
+    private final Parsers parsers = new Parsers();
+
+    final Injector injector() {
+        return parsers.injector();
+    }
 
     final InputStream stream(final String input) {
         return new ByteArrayInputStream(input.getBytes());

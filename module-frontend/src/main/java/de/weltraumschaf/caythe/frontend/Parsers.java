@@ -23,13 +23,17 @@ public final class Parsers {
         this(Guice.createInjector(new DependencyInjectionConfig()));
     }
 
-    public Parsers(final Injector injector) {
+    private Parsers(final Injector injector) {
         super();
         this.injector = Validate.notNull(injector, "injector");
     }
 
     public void debug(boolean debug) {
         this.debug = debug;
+    }
+
+    Injector injector() {
+        return injector;
     }
 
     /**

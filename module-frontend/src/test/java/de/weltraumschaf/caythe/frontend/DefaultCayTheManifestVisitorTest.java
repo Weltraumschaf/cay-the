@@ -24,7 +24,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
     @SuppressWarnings("unchecked")
-    private final CayTheManifestVisitor<Manifest> sut = injector.getInstance(CayTheManifestVisitor.class);
+    private final CayTheManifestVisitor<Manifest> sut = injector().getInstance(CayTheManifestVisitor.class);
 
     @Test
     public void visit_missingGroup() throws IOException {

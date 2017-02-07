@@ -207,16 +207,17 @@ EXPONENT: ('e'|'E') ('+' | '-') ? ? DIGIT+ ;
 BOOLEAN : ( TRUE | FALSE ) ;
 STRING  : '"' ( ~'"' | '\\' '"')* '"' ;
 
+// Literal values:
+TRUE    : 'true' ;
+FALSE   : 'false' ;
+NULL    : 'null' ;
+
 // Must be defined after keywords. Instead keywords will be recognized as identifier.
 IDENTIFIER  : LETTER ALPHANUM* ;
 ALPHANUM    : LETTER | DIGIT ;
 LETTER      : [a-zA-Z] ;
 DIGIT       : [0-9] ;
 
-// Literal values:
-TRUE    : 'true' ;
-FALSE   : 'false' ;
-NULL    : 'null' ;
 
 // Delimiter for expressions:
 NL : '\n' ;

@@ -11,7 +11,7 @@ import de.weltraumschaf.caythe.intermediate.experimental.ast.AstNode;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class EvaluationError extends CayTheError {
-    EvaluationError(final String message) {
+    private EvaluationError(final String message) {
         super(message);
     }
 

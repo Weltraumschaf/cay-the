@@ -193,6 +193,11 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
                 for (final AstNode statement : function.getBody()) {
                     result = statement.accept(this);
+
+                    if (result instanceof ReturnValueType) {
+                        result = ((ReturnValueType)result).value();
+                        break;
+                    }
                 }
 
                 popScope();
@@ -275,7 +280,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
                     break;
                 }
 
-                if (BreakType.BREAK.equals(statementResult)) {
+                if (BreakType.BREAK.equals(statementResult) || statementResult instanceof ReturnValueType) {
                     // Prevent further looping regardless to what the condition will evaluate.
                     isConditionTrue = false;
                 }
@@ -313,6 +318,10 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
         for (final AstNode statement : node.getStatements()) {
             result = statement.accept(this);
+
+            if (result instanceof ReturnValueType) {
+                break; // Do not execute statements below return.
+            }
         }
 
         return result;
