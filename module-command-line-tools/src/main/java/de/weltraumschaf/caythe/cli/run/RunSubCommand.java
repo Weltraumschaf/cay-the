@@ -6,7 +6,7 @@ import de.weltraumschaf.caythe.cli.SubCommand;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.caythe.frontend.TransformToIntermediateVisitor;
-import de.weltraumschaf.caythe.intermediate.experimental.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 
 import java.io.InputStream;
 import java.nio.file.Files;

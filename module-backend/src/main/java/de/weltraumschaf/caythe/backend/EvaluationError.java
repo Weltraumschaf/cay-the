@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.caythe.CayTheError;
-import de.weltraumschaf.caythe.intermediate.experimental.Position;
-import de.weltraumschaf.caythe.intermediate.experimental.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 
 /**
  * Error to signal errors during the interpretation.

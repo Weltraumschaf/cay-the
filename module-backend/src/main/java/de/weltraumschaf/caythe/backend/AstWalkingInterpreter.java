@@ -1,12 +1,9 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.experimental.BuiltInFunction;
-import de.weltraumschaf.caythe.backend.experimental.Debugger;
-import de.weltraumschaf.caythe.backend.experimental.Environment;
-import de.weltraumschaf.caythe.backend.experimental.operations.Operations;
-import de.weltraumschaf.caythe.backend.experimental.types.*;
-import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
-import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
+import de.weltraumschaf.caythe.backend.operations.Operations;
+import de.weltraumschaf.caythe.backend.types.*;
+import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.ast.*;
 
 import java.util.*;
 

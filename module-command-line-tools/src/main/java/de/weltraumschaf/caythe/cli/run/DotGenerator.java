@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.cli.run;
 
-import de.weltraumschaf.caythe.intermediate.experimental.AstVisitor;
-import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
+import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.ast.*;
 
 import java.util.List;
 import java.util.Map;

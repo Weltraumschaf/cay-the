@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.intermediate.experimental.Position;
-import de.weltraumschaf.caythe.intermediate.experimental.ast.*;
+import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.ast.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
