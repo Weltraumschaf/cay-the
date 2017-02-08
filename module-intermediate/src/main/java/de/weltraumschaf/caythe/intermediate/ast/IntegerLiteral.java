@@ -13,6 +13,10 @@ public final class IntegerLiteral extends BaseNode {
         this.value = value;
     }
 
+    public long getValue() {
+        return value;
+    }
+
     @Override
     public <R> R accept(final AstVisitor<? extends R> visitor) {
         return visitor.visit(this);
@@ -25,22 +29,22 @@ public final class IntegerLiteral extends BaseNode {
         }
 
         final IntegerLiteral that = (IntegerLiteral) o;
-        return value == that.value;
+        return value == that.value
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "IntegerLiteral{" +
             "value=" + value +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
-    public long getValue() {
-        return value;
-    }
+
 }

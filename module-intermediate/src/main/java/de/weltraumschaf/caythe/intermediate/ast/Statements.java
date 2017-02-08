@@ -33,18 +33,20 @@ public final class Statements extends BaseNode {
         }
 
         final Statements statements = (Statements) o;
-        return Objects.equals(this.statements, statements.statements);
+        return Objects.equals(this.statements, statements.statements)
+            && Objects.equals(sourcePosition(), statements.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(statements);
+        return Objects.hash(statements, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Statements{" +
             "statements=" + statements +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

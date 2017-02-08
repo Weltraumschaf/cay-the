@@ -48,7 +48,13 @@ public final class BinaryOperation extends BaseNode {
         final BinaryOperation that = (BinaryOperation) o;
         return operator == that.operator &&
             Objects.equals(leftOperand, that.leftOperand) &&
-            Objects.equals(rightOperand, that.rightOperand);
+            Objects.equals(rightOperand, that.rightOperand) &&
+            Objects.equals(sourcePosition(), that.sourcePosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operator, leftOperand, rightOperand, sourcePosition());
     }
 
     @Override
@@ -57,13 +63,10 @@ public final class BinaryOperation extends BaseNode {
             "operator=" + operator +
             ", leftOperand=" + leftOperand +
             ", rightOperand=" + rightOperand +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(operator, leftOperand, rightOperand);
-    }
 
     public enum Operator {
         ASSIGN("="),

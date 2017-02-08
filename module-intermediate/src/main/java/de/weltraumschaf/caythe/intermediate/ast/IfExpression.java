@@ -41,14 +41,15 @@ public final class IfExpression extends BaseNode {
         }
 
         final IfExpression that = (IfExpression) o;
-        return Objects.equals(condition, that.condition) &&
-            Objects.equals(consequence, that.consequence) &&
-            Objects.equals(alternative, that.alternative);
+        return Objects.equals(condition, that.condition)
+            && Objects.equals(consequence, that.consequence)
+            && Objects.equals(alternative, that.alternative)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(condition, consequence, alternative);
+        return Objects.hash(condition, consequence, alternative, sourcePosition());
     }
 
     @Override
@@ -57,6 +58,7 @@ public final class IfExpression extends BaseNode {
             "condition=" + condition +
             ", consequence=" + consequence +
             ", alternative=" + alternative +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

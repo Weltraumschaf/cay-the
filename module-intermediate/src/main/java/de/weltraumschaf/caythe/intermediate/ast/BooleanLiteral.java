@@ -31,18 +31,20 @@ public final class BooleanLiteral extends BaseNode {
         }
 
         final BooleanLiteral that = (BooleanLiteral) o;
-        return value == that.value;
+        return value == that.value
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "BooleanLiteral{" +
             "value=" + value +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

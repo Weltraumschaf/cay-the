@@ -40,13 +40,14 @@ public final class UnaryOperation extends BaseNode {
         }
 
         final UnaryOperation that = (UnaryOperation) o;
-        return operator == that.operator &&
-            Objects.equals(operand, that.operand);
+        return operator == that.operator
+            && Objects.equals(operand, that.operand)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operator, operand);
+        return Objects.hash(operator, operand, sourcePosition());
     }
 
     @Override
@@ -54,6 +55,7 @@ public final class UnaryOperation extends BaseNode {
         return "UnaryOperation{" +
             "operator=" + operator +
             ", operand=" + operand +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 

@@ -30,18 +30,20 @@ public final class HashLiteral extends BaseNode {
         }
 
         final HashLiteral that = (HashLiteral) o;
-        return Objects.equals(values, that.values);
+        return Objects.equals(values, that.values)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(values);
+        return Objects.hash(values, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "HashLiteral{" +
             "values=" + values +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

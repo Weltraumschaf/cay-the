@@ -34,14 +34,15 @@ public final class Subscript extends BaseNode {
             return false;
         }
 
-        final Subscript subscript = (Subscript) o;
-        return Objects.equals(identifier, subscript.identifier) &&
-            Objects.equals(index, subscript.index);
+        final Subscript that = (Subscript) o;
+        return Objects.equals(identifier, that.identifier)
+            && Objects.equals(index, that.index)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identifier, index);
+        return Objects.hash(identifier, index, sourcePosition());
     }
 
     @Override
@@ -49,6 +50,7 @@ public final class Subscript extends BaseNode {
         return "Subscript{" +
             "identifier=" + identifier +
             ", index=" + index +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

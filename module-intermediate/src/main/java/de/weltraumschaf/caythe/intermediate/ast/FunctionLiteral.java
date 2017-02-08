@@ -36,13 +36,14 @@ public final class FunctionLiteral extends BaseNode {
         }
 
         final FunctionLiteral that = (FunctionLiteral) o;
-        return Objects.equals(arguments, that.arguments) &&
-            Objects.equals(body, that.body);
+        return Objects.equals(arguments, that.arguments)
+            && Objects.equals(body, that.body)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(arguments, body);
+        return Objects.hash(arguments, body, sourcePosition());
     }
 
     @Override
@@ -50,6 +51,7 @@ public final class FunctionLiteral extends BaseNode {
         return "FunctionLiteral{" +
             "arguments=" + arguments +
             ", body=" + body +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

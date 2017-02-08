@@ -13,6 +13,10 @@ public final class FloatLiteral extends BaseNode {
         this.value = value;
     }
 
+    public double getValue() {
+        return value;
+    }
+
     @Override
     public <R> R accept(final AstVisitor<? extends R> visitor) {
         return visitor.visit(this);
@@ -25,22 +29,21 @@ public final class FloatLiteral extends BaseNode {
         }
 
         final FloatLiteral that = (FloatLiteral) o;
-        return Double.compare(that.value, value) == 0;
+        return Double.compare(that.value, value) == 0
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "FloatLiteral{" +
             "value=" + value +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
-    public double getValue() {
-        return value;
-    }
 }

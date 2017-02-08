@@ -28,19 +28,21 @@ public final class Const extends BaseNode {
             return false;
         }
 
-        final Const aConst = (Const) o;
-        return Objects.equals(assignment, aConst.assignment);
+        final Const that = (Const) o;
+        return Objects.equals(assignment, that.assignment)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(assignment);
+        return Objects.hash(assignment, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Const{" +
             "assignment=" + assignment +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

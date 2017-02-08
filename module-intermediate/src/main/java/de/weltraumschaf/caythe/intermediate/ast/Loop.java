@@ -43,16 +43,17 @@ public final class Loop extends BaseNode {
             return false;
         }
 
-        final Loop loop = (Loop) o;
-        return Objects.equals(init, loop.init)
-            && Objects.equals(condition, loop.condition)
-            && Objects.equals(post, loop.post)
-            && Objects.equals(statements, loop.statements);
+        final Loop that = (Loop) o;
+        return Objects.equals(init, that.init)
+            && Objects.equals(condition, that.condition)
+            && Objects.equals(post, that.post)
+            && Objects.equals(statements, that.statements)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(init, condition, post, statements);
+        return Objects.hash(init, condition, post, statements, sourcePosition());
     }
 
     @Override
@@ -62,6 +63,7 @@ public final class Loop extends BaseNode {
             "condition=" + condition +
             "post=" + post +
             "statements=" + statements +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

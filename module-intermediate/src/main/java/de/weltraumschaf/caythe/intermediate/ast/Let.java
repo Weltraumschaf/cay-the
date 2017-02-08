@@ -28,19 +28,21 @@ public final class Let extends BaseNode {
             return false;
         }
 
-        final Let let = (Let) o;
-        return Objects.equals(assignment, let.assignment);
+        final Let that = (Let) o;
+        return Objects.equals(assignment, that.assignment)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(assignment);
+        return Objects.hash(assignment, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Let{" +
             "assignment=" + assignment +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }

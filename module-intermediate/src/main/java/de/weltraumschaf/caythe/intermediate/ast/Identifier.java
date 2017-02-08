@@ -29,18 +29,20 @@ public final class Identifier extends BaseNode {
         }
 
         final Identifier that = (Identifier) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(name, that.name)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Identifier{" +
             "name='" + name + '\'' +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 

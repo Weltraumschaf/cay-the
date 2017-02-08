@@ -25,18 +25,20 @@ public final class StringLiteral extends BaseNode {
         }
 
         final StringLiteral that = (StringLiteral) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(value, that.value)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "StringLiteral{" +
             "value='" + value + '\'' +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 

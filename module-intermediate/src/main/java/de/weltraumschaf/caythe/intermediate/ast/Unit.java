@@ -30,18 +30,20 @@ public final class Unit extends BaseNode {
         }
 
         final Unit unit = (Unit) o;
-        return Objects.equals(statements, unit.statements);
+        return Objects.equals(statements, unit.statements)
+            && Objects.equals(sourcePosition(), unit.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(statements);
+        return Objects.hash(statements, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Unit{" +
             "statements=" + statements +
+            ", sourcePosition=" + sourcePosition() +
             '}';
     }
 }
