@@ -7,17 +7,17 @@ public final class Position {
     public static final Position UNKNOWN = new Position(0, 0);
     private final String file;
     private final int line;
-    private final int character;
+    private final int column;
 
-    public Position(final int line, final int character) {
-        this(UNKNOWN_FILE, line, character);
+    public Position(final int line, final int column) {
+        this(UNKNOWN_FILE, line, column);
     }
 
-    Position(final String file, final int line, final int character) {
+    Position(final String file, final int line, final int column) {
         super();
         this.file = file;
         this.line = line;
-        this.character = character;
+        this.column = column;
     }
 
     String getFile() {
@@ -28,8 +28,8 @@ public final class Position {
         return line;
     }
 
-    public int getCharacter() {
-        return character;
+    public int getColumn() {
+        return column;
     }
 
     @Override
@@ -40,13 +40,13 @@ public final class Position {
 
         final Position position = (Position) o;
         return line == position.line &&
-            character == position.character &&
+            column == position.column &&
             Objects.equals(file, position.file);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(file, line, character);
+        return Objects.hash(file, line, column);
     }
 
     @Override
@@ -54,7 +54,7 @@ public final class Position {
         return "Position{" +
             "file='" + file + '\'' +
             ", line=" + line +
-            ", character=" + character +
+            ", column=" + column +
             '}';
     }
 }

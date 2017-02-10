@@ -6,12 +6,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class BooleanLiteral extends BaseNode {
-    public static final BooleanLiteral TRUE = new BooleanLiteral(true);
-    public static final BooleanLiteral FALSE = new BooleanLiteral(false);
+    public static final BooleanLiteral TRUE = new BooleanLiteral(true, Position.UNKNOWN);
+    public static final BooleanLiteral FALSE = new BooleanLiteral(false, Position.UNKNOWN);
     private final boolean value;
 
-    private BooleanLiteral(final boolean value) {
-        super(Position.UNKNOWN);
+    public BooleanLiteral(final boolean value, final Position sourcePosition) {
+        super(sourcePosition);
         this.value = value;
     }
 

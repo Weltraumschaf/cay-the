@@ -106,7 +106,7 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final FloatLiteral node) {
+    public Void visit(final RealLiteral node) {
         final DotNode dotNode = new DotNode(generateName(node), String.valueOf(node.getValue()));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
@@ -246,7 +246,7 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final NullLiteral node) {
+    public Void visit(final NilLiteral node) {
         final DotNode dotNode = new DotNode(generateName(node), "<null>");
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);

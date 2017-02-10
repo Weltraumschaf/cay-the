@@ -5,10 +5,10 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
-public final class FloatLiteral extends BaseNode {
+public final class RealLiteral extends BaseNode {
     private final double value;
 
-    public FloatLiteral(final double value, final Position sourcePosition) {
+    public RealLiteral(final double value, final Position sourcePosition) {
         super(sourcePosition);
         this.value = value;
     }
@@ -24,11 +24,11 @@ public final class FloatLiteral extends BaseNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof FloatLiteral)) {
+        if (!(o instanceof RealLiteral)) {
             return false;
         }
 
-        final FloatLiteral that = (FloatLiteral) o;
+        final RealLiteral that = (RealLiteral) o;
         return Double.compare(that.value, value) == 0
             && Objects.equals(sourcePosition(), that.sourcePosition());
     }
@@ -40,7 +40,7 @@ public final class FloatLiteral extends BaseNode {
 
     @Override
     public String toString() {
-        return "FloatLiteral{" +
+        return "RealLiteral{" +
             "value=" + value +
             ", sourcePosition=" + sourcePosition() +
             '}';

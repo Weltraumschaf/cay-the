@@ -10,6 +10,7 @@ import java.util.*;
 
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newUnsupportedOperatorError;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.nil;
 
 public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisitor<AstNode> {
 
@@ -67,7 +68,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             assignment = new BinaryOperation(
                 BinaryOperation.Operator.ASSIGN,
                 identifier,
-                NullLiteral.NULL,
+                NilLiteral.NIL,
                 cretePosition(ctx.KW_LET().getSymbol()));
         } else {
             // This is let w/ assignment: let a = 1 + 2;
@@ -120,7 +121,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final AstNode value;
 
         if (ctx.value == null) {
-            value = NullLiteral.NULL;
+            value = NilLiteral.NIL;
         } else {
             value = visit(ctx.value);
         }
@@ -221,8 +222,8 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitEqualOperation(final CayTheSourceParser.EqualOperationContext ctx) {
         final Set<BinaryOperation.Operator> allowed = EnumSet.of(
-            BinaryOperation.Operator.EQ,
-            BinaryOperation.Operator.NEQ);
+            BinaryOperation.Operator.EQUAL,
+            BinaryOperation.Operator.NOT_EQUAL);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
@@ -239,10 +240,10 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitRelationOperation(final CayTheSourceParser.RelationOperationContext ctx) {
         final Set<BinaryOperation.Operator> allowed = EnumSet.of(
-            BinaryOperation.Operator.LT,
-            BinaryOperation.Operator.LTE,
-            BinaryOperation.Operator.GT,
-            BinaryOperation.Operator.GTE);
+            BinaryOperation.Operator.LESS_THAN,
+            BinaryOperation.Operator.LESS_THAN_EQUAL,
+            BinaryOperation.Operator.GREATER_THAN,
+            BinaryOperation.Operator.GREATER_THAN_EQUAL);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
@@ -259,7 +260,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitPowerOperation(final CayTheSourceParser.PowerOperationContext ctx) {
         return new BinaryOperation(
-            BinaryOperation.Operator.POW,
+            BinaryOperation.Operator.POWER,
             visit(ctx.firstOperand),
             visit(ctx.secondOperand),
             cretePosition(ctx.getStart()));
@@ -268,8 +269,8 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitAdditiveOperation(final CayTheSourceParser.AdditiveOperationContext ctx) {
         final Set<BinaryOperation.Operator> allowed = EnumSet.of(
-            BinaryOperation.Operator.ADD,
-            BinaryOperation.Operator.SUB);
+            BinaryOperation.Operator.ADDITION,
+            BinaryOperation.Operator.SUBTRACTION);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
@@ -286,9 +287,9 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitMultiplicativeOperation(final CayTheSourceParser.MultiplicativeOperationContext ctx) {
         final Set<BinaryOperation.Operator> allowed = EnumSet.of(
-            BinaryOperation.Operator.MUL,
-            BinaryOperation.Operator.DIV,
-            BinaryOperation.Operator.MOD);
+            BinaryOperation.Operator.MULTIPLICATION,
+            BinaryOperation.Operator.DIVISION,
+            BinaryOperation.Operator.MODULO);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
 
         if (allowed.contains(operator)) {
@@ -335,8 +336,8 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     }
 
     @Override
-    public AstNode visitNullLiteral(final CayTheSourceParser.NullLiteralContext ctx) {
-        return NullLiteral.NULL;
+    public AstNode visitNilLiteral(final CayTheSourceParser.NilLiteralContext ctx) {
+        return NilLiteral.NIL;
     }
 
     @Override
@@ -347,9 +348,9 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     }
 
     @Override
-    public AstNode visitFloatLiteral(final CayTheSourceParser.FloatLiteralContext ctx) {
-        return new FloatLiteral
-            (Double.parseDouble((ctx.FLOAT().getText())),
+    public AstNode visitRealLiteral(final CayTheSourceParser.RealLiteralContext ctx) {
+        return new RealLiteral
+            (Double.parseDouble((ctx.REAL().getText())),
                 cretePosition(ctx.getStart()));
     }
 

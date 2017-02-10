@@ -67,25 +67,24 @@ public final class BinaryOperation extends BaseNode {
             '}';
     }
 
-
     public enum Operator {
         ASSIGN("="),
-        ADD("+"),
-        SUB("-"),
-        MUL("*"),
-        DIV("/"),
-        MOD("%"),
-        POW("^"),
+        ADDITION("+"),
+        SUBTRACTION("-"),
+        MULTIPLICATION("*"),
+        DIVISION("/"),
+        MODULO("%"),
+        POWER("^"),
 
         AND("&&"),
         OR("||"),
 
-        LT("<"),
-        LTE("<="),
-        GT(">"),
-        GTE(">="),
-        EQ("=="),
-        NEQ("!=");
+        LESS_THAN("<"),
+        LESS_THAN_EQUAL("<="),
+        GREATER_THAN(">"),
+        GREATER_THAN_EQUAL(">="),
+        EQUAL("=="),
+        NOT_EQUAL("!=");
 
         private static final Map<String, Operator> LOOKUP = Collections.unmodifiableMap(
             Arrays.stream(values())

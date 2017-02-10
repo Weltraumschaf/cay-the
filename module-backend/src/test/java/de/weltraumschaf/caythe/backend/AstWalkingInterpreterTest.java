@@ -79,11 +79,11 @@ public final class AstWalkingInterpreterTest {
         output.expectOut("5");
 
         final String src = "\n" +
-            "let add = fn(a, b) {\n" +
+            "let addition = fn(a, b) {\n" +
             "    return a + b\n" +
             "}\n" +
             "\n" +
-            "puts(add(2, 3))\n";
+            "puts(addition(2, 3))\n";
 
         final ObjectType result = parse(src).accept(new AstWalkingInterpreter());
 

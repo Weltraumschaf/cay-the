@@ -29,7 +29,7 @@ public final class EvaluationError extends CayTheError {
 
         if (position != null) {
             buffer.append(" (at line ").append(position.getLine());
-            buffer.append(" column ").append(position.getCharacter()).append(')');
+            buffer.append(" column ").append(position.getColumn()).append(')');
         }
 
         return new EvaluationError(buffer.toString());

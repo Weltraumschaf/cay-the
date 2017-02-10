@@ -5,11 +5,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
-public final class NullLiteral extends BaseNode {
-    public static final NullLiteral NULL = new NullLiteral();
+public final class NilLiteral extends BaseNode {
 
-    private NullLiteral() {
-        super(Position.UNKNOWN);
+    public static final NilLiteral NIL = new NilLiteral(Position.UNKNOWN);
+
+    public NilLiteral(final Position sourcePosition) {
+        super(sourcePosition);
     }
 
     @Override
@@ -19,11 +20,11 @@ public final class NullLiteral extends BaseNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof NullLiteral)) {
+        if (!(o instanceof NilLiteral)) {
             return false;
         }
 
-        final NullLiteral that = (NullLiteral) o;
+        final NilLiteral that = (NilLiteral) o;
         return Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
@@ -34,7 +35,7 @@ public final class NullLiteral extends BaseNode {
 
     @Override
     public String toString() {
-        return "NullLiteral{" +
+        return "NilLiteral{" +
             "sourcePosition=" + sourcePosition() +
             "}";
     }

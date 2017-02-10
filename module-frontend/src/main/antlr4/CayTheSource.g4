@@ -81,9 +81,9 @@ literalExpression
     ;
 
 literal
-    : NULL              # nullLiteral
+    : NIL               # nilLiteral
     | BOOLEAN           # booleanLiteral
-    | FLOAT             # floatLiteral
+    | REAL              # realLiteral
     | INTEGER           # integerLiteral
     | STRING            # stringLiteral
     | IDENTIFIER        # identifierLiteral
@@ -199,7 +199,7 @@ KW_CONTINUE : 'continue' ;
 //KW_DEFAULT  : 'default' ;
 
 INTEGER : DIGIT+ ;
-FLOAT   : (DIGIT)+ '.' (DIGIT)* EXPONENT?
+REAL    : (DIGIT)+ '.' (DIGIT)* EXPONENT?
         | '.' (DIGIT)+ EXPONENT?
         | (DIGIT)+ EXPONENT ;
 fragment
@@ -210,7 +210,7 @@ STRING  : '"' ( ~'"' | '\\' '"')* '"' ;
 // Literal values:
 TRUE    : 'true' ;
 FALSE   : 'false' ;
-NULL    : 'null' ;
+NIL     : 'nil' ;
 
 // Must be defined after keywords. Instead keywords will be recognized as identifier.
 IDENTIFIER  : LETTER ALPHANUM* ;
@@ -225,4 +225,4 @@ NL : '\n' ;
 // Ignored stuff:
 MULTILINE_COMMENT   : '/*' .*? '*/'     -> channel(HIDDEN) ;
 SINGLELINE_COMMENT  : '//' .*? '\n'     -> channel(HIDDEN) ;
-WHITESPACE          : [ \t\r\u000C]+  -> skip ;
+WHITESPACE          : [ \t\r\u000C]+    -> skip ;

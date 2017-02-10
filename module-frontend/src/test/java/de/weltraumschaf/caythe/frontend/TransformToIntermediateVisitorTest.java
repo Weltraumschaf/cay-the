@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.*;
+import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -53,23 +56,17 @@ public class TransformToIntermediateVisitorTest extends VisitorTestCase {
 
         final AstNode ast = sut.visit(parseTree);
 
-        assertThat(
-            ast,
-            is(new Unit(
-                list(new Statements(
-                    list(new BinaryOperation(
-                        BinaryOperation.Operator.ADD,
-                        new IntegerLiteral(2L, new Position(1,0)),
-                        new IntegerLiteral(3L, new Position(1,4)),
-                        new Position(1,0))),
-                    new Position(1,0))),
-                new Position(1,0))
-        ));
+        final Unit expected = UnitBuilder
+            .unit(1, 0)
+            .statement(1, 0,
+                addition(1, 0,
+                    integer(1, 0, 2L),
+                    integer(1, 4, 3L)
+                )
+            )
+            .end();
+
+        assertThat( ast, is(expected));
     }
 
-    private List<AstNode> list (final AstNode... nodes) {
-        final List<AstNode> list = new ArrayList<>();
-        Collections.addAll(list, nodes);
-        return list;
-    }
 }

@@ -78,29 +78,29 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         switch (node.getOperator()) {
             case ASSIGN:
                 return assignment(node, false);
-            case EQ:
+            case EQUAL:
                 return ops.rel().equal(left, right);
-            case NEQ:
+            case NOT_EQUAL:
                 return ops.rel().notEqual(left, right);
-            case LT:
+            case LESS_THAN:
                 return ops.rel().lessThan(left, right);
-            case LTE:
+            case LESS_THAN_EQUAL:
                 return ops.rel().lessThanOrEqual(left, right);
-            case GT:
+            case GREATER_THAN:
                 return ops.rel().greaterThan(left, right);
-            case GTE:
+            case GREATER_THAN_EQUAL:
                 return ops.rel().greaterThanOrEqual(left, right);
-            case POW:
+            case POWER:
                 return ops.math().power(left, right);
-            case ADD:
+            case ADDITION:
                 return ops.math().add(left, right);
-            case SUB:
+            case SUBTRACTION:
                 return ops.math().subtract(left, right);
-            case MUL:
+            case MULTIPLICATION:
                 return ops.math().multiply(left, right);
-            case DIV:
+            case DIVISION:
                 return ops.math().divide(left, right);
-            case MOD:
+            case MODULO:
                 return ops.math().modulo(left, right);
             case OR:
                 return ops.logic().or(left, right);
@@ -155,7 +155,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final FloatLiteral node) {
+    public ObjectType visit(final RealLiteral node) {
         return new FloatType(node.getValue());
     }
 
@@ -297,7 +297,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final NullLiteral node) {
+    public ObjectType visit(final NilLiteral node) {
         return defaultResult();
     }
 

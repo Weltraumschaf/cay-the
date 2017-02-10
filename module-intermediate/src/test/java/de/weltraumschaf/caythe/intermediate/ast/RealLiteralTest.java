@@ -3,15 +3,13 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
- * Tests for {@link FloatLiteral}.
+ * Tests for {@link RealLiteral}.
  */
-public class FloatLiteralTest {
+public class RealLiteralTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(FloatLiteral.class).verify();
+        EqualsVerifier.forClass(RealLiteral.class).verify();
     }
 }

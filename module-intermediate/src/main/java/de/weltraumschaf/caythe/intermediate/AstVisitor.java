@@ -28,7 +28,7 @@ public interface AstVisitor<R> {
         return null;
     }
 
-    default R visit(final FloatLiteral node) {
+    default R visit(final RealLiteral node) {
         return null;
     }
 
@@ -68,7 +68,7 @@ public interface AstVisitor<R> {
         return null;
     }
 
-    default R visit(final NullLiteral node) {
+    default R visit(final NilLiteral node) {
         return null;
     }
 
