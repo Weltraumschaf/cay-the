@@ -13,7 +13,7 @@ public final class Loop extends BaseNode {
     private final Collection<AstNode> statements;
 
     public Loop(final AstNode condition, final Collection<AstNode> statements, final Position sourcePosition) {
-        this(NoOperation.NOOP, condition, NoOperation.NOOP, statements, sourcePosition);
+        this(new NoOperation(), condition, new NoOperation(), statements, sourcePosition);
     }
 
     public Loop(final AstNode init, final AstNode condition, final AstNode post, final Collection<AstNode> statements, final Position sourcePosition) {

@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 public final class Statements extends BaseNode {
-    public static final Statements EMPTY = new Statements(Collections.emptyList(), Position.UNKNOWN);
 
     private final Collection<AstNode> statements;
 
@@ -48,5 +47,13 @@ public final class Statements extends BaseNode {
             "statements=" + statements +
             ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    public static boolean isEmpty(final AstNode node) {
+        if (node instanceof Statements) {
+            return ((Statements)node).statements.isEmpty();
+        }
+
+        return false;
     }
 }

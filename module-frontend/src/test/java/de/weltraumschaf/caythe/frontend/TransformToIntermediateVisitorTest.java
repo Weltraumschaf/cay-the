@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.multiplication;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.subtraction;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -36,15 +39,9 @@ public class TransformToIntermediateVisitorTest extends VisitorTestCase {
 
     @Test
     public void foo() throws IOException {
-//        final String src = "a = 2\n" +
-//            "\n" +
-//            "b = 1 + 1\n" +
-//            "c = 1 ^ 2 ^ 3\n";
-
         final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/caythe/frontend/test.ct");
-        final ParseTree parseTree = parse(src);
 
-        final AstNode ast = sut.visit(parseTree);
+        final AstNode ast = sut.visit(parse(src));
 
         assertThat(ast, is(not(nullValue())));
     }
@@ -52,10 +49,6 @@ public class TransformToIntermediateVisitorTest extends VisitorTestCase {
     @Test
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
-        final ParseTree parseTree = parse(src);
-
-        final AstNode ast = sut.visit(parseTree);
-
         final Unit expected = UnitBuilder
             .unit(1, 0)
             .statement(1, 0,
@@ -65,6 +58,58 @@ public class TransformToIntermediateVisitorTest extends VisitorTestCase {
                 )
             )
             .end();
+
+        final AstNode ast = sut.visit(parse(src));
+
+        assertThat( ast, is(expected));
+    }
+
+    @Test
+    public void mathOperationWithMultipleOperands() throws IOException {
+        final String src = "1 + 2 * 3 - 4\n";
+        final Unit expected = UnitBuilder
+            .unit(1, 0)
+            .statement(1, 0,
+                subtraction(1, 0,
+                    addition(1, 0,
+                        integer(1, 0, 1),
+                        multiplication(1, 4,
+                            integer(1, 4, 2),
+                            integer(1, 8, 3)
+                        )
+                    ),
+                    integer(1, 12, 4)
+                )
+            )
+            .end();
+
+        final AstNode ast = sut.visit(parse(src));
+
+        assertThat( ast, is(expected));
+    }
+
+
+    @Test
+    @Ignore
+    public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
+        final String src = "(1 + 2) * (3 - 4)\n";
+        final Unit expected = UnitBuilder
+            .unit(1, 0)
+            .statement(1, 0,
+                multiplication(1, 0,
+                    addition(1, 0,
+                        integer(1, 1, 1),
+                        integer(1, 4, 2)
+                    ),
+                    subtraction(1, 0,
+                        integer(1, 8, 3),
+                        integer(1, 12, 4)
+                    )
+                )
+            )
+            .end();
+
+        final AstNode ast = sut.visit(parse(src));
 
         assertThat( ast, is(expected));
     }

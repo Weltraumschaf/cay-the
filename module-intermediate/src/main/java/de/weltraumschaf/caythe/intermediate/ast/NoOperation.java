@@ -6,9 +6,8 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public  final class NoOperation extends BaseNode  {
-    public static final NoOperation NOOP = new NoOperation();
 
-    private NoOperation() {
+    public NoOperation() {
         super(Position.UNKNOWN);
     }
 
@@ -37,6 +36,10 @@ public  final class NoOperation extends BaseNode  {
         return "NoOperation{" +
             "sourcePosition=" + sourcePosition() +
             "}";
+    }
+
+    public static boolean isNoop(final AstNode node) {
+        return node instanceof NoOperation;
     }
 
 }

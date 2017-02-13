@@ -20,7 +20,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
 
     @Override
     protected AstNode defaultResult() {
-        return NoOperation.NOOP;
+        return new NoOperation();
     }
 
     @Override
@@ -30,7 +30,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
             final AstNode node = visit(statement);
 
-            if (Statements.EMPTY.equals(node)) {
+            if (Statements.isEmpty(node)) {
                 continue;
             }
 
@@ -47,7 +47,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final ParseTree child : ctx.children) {
             final AstNode node = visit(child);
 
-            if (NoOperation.NOOP.equals(node)) {
+            if (NoOperation.isNoop(node)) {
                 continue;
             }
 
@@ -151,7 +151,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         final AstNode alternative;
 
         if (ctx.alternative == null) {
-            alternative = NoOperation.NOOP;
+            alternative = new NoOperation();
         } else {
             alternative = visit(ctx.alternative.statements);
         }
@@ -188,7 +188,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : body) {
             final AstNode node = visit(statement);
 
-            if (NoOperation.NOOP.equals(node) || Statements.EMPTY.equals(node)) {
+            if (NoOperation.isNoop(node) || Statements.isEmpty(node)) {
                 continue;
             }
 
@@ -392,11 +392,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
             final AstNode node = visit(statement);
 
-            if (NoOperation.NOOP.equals(node)) {
+            if (NoOperation.isNoop(node)) {
                 continue;
             }
 
-            if (Statements.EMPTY.equals(node)) {
+            if (Statements.isEmpty(node)) {
                 continue;
             }
 
