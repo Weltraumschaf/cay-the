@@ -336,6 +336,11 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     }
 
     @Override
+    public AstNode visitNestedExpression(final CayTheSourceParser.NestedExpressionContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
     public AstNode visitNilLiteral(final CayTheSourceParser.NilLiteralContext ctx) {
         return NilLiteral.NIL;
     }

@@ -90,20 +90,19 @@ public class TransformToIntermediateVisitorTest extends VisitorTestCase {
 
 
     @Test
-    @Ignore
     public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
         final String src = "(1 + 2) * (3 - 4)\n";
         final Unit expected = UnitBuilder
             .unit(1, 0)
             .statement(1, 0,
                 multiplication(1, 0,
-                    addition(1, 0,
+                    addition(1, 1,
                         integer(1, 1, 1),
-                        integer(1, 4, 2)
+                        integer(1, 5, 2)
                     ),
-                    subtraction(1, 0,
-                        integer(1, 8, 3),
-                        integer(1, 12, 4)
+                    subtraction(1, 11,
+                        integer(1, 11, 3),
+                        integer(1, 15, 4)
                     )
                 )
             )
