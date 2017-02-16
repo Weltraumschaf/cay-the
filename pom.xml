@@ -68,13 +68,14 @@
     </ciManagement>
 
     <modules>
-        <module>module-core</module>
+        <module>module-backend</module>
         <module>module-command-line-tools</module>
+        <module>module-core</module>
+        <module>module-distribution</module>
+        <module>module-documentation</module>
         <module>module-frontend</module>
         <module>module-intermediate</module>
-        <module>module-backend</module>
-        <module>module-documentation</module>
-        <module>module-distribution</module>
+        <module>module-testing</module>
     </modules>
 
     <properties>
