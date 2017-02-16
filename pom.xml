@@ -121,6 +121,12 @@
 
             <dependency>
                 <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>parse</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
                 <artifactId>validate</artifactId>
                 <version>${commons.version}</version>
             </dependency>

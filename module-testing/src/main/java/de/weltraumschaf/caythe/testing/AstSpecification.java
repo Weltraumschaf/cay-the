@@ -18,6 +18,18 @@ final class AstSpecification {
         this.expectation = expectation;
     }
 
+    String getDescription() {
+        return description;
+    }
+
+    String getGiven() {
+        return given;
+    }
+
+    String getExpectation() {
+        return expectation;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof AstSpecification)) {

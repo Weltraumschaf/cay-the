@@ -8,12 +8,12 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>intermediate</artifactId>
+    <artifactId>testing</artifactId>
     <packaging>jar</packaging>
     
-    <name>Cay-The :: Intermediate</name>
+    <name>Cay-The :: Testing</name>
     <description>
-        This module provides the intermediated semnatic model of parsed sources.
+        This module provides test facilities.
     </description>
 
     <dependencies>
@@ -23,9 +23,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.0</version>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>parse</artifactId>
         </dependency>
 
         <dependency>
