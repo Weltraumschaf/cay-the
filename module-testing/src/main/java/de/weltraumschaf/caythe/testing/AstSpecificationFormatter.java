@@ -7,7 +7,7 @@ import java.util.Collections;
 /**
  *
  */
-final class AstSpecificationFormatter {
+public final class AstSpecificationFormatter {
     private int indentionLevel;
 
     private void indent() {
@@ -30,7 +30,7 @@ final class AstSpecificationFormatter {
         return String.join("", Collections.nCopies(indentionLevel, "  "));
     }
 
-    AstSpecification format(final AstSpecification input) {
+    public AstSpecification format(final AstSpecification input) {
         return new AstSpecification(input.getDescription(), input.getGiven(), format(input.getExpectation()));
     }
 

@@ -18,6 +18,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>intermediate</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>validate</artifactId>
         </dependency>
@@ -28,14 +34,13 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
 

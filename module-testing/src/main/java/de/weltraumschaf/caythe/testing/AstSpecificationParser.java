@@ -25,11 +25,11 @@ import java.util.Map;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-final class AstSpecificationParser {
+public final class AstSpecificationParser {
     private static final char NL = '\n';
     private Section currentSection = Section.UNKNOWN;
 
-    AstSpecification parse(final InputStream input) throws IOException {
+    public AstSpecification parse(final InputStream input) throws IOException {
         final StringBuilder description = new StringBuilder();
         final StringBuilder given = new StringBuilder();
         final StringBuilder expectation = new StringBuilder();

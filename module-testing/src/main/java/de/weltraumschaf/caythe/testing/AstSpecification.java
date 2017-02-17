@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  */
-final class AstSpecification {
+public final class AstSpecification {
     private final String description;
 
     private final String given;
@@ -18,15 +18,15 @@ final class AstSpecification {
         this.expectation = expectation;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    String getGiven() {
+    public String getGiven() {
         return given;
     }
 
-    String getExpectation() {
+    public String getExpectation() {
         return expectation;
     }
 
