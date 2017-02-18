@@ -46,4 +46,8 @@ public final class RealLiteral extends BaseNode {
             '}';
     }
 
+    @Override
+    public String serialize() {
+        return serialize("real", String.valueOf(value));
+    }
 }

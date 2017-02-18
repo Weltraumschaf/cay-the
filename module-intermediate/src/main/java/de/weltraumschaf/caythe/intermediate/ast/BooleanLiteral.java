@@ -47,4 +47,9 @@ public final class BooleanLiteral extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("boolean", String.valueOf(value));
+    }
 }

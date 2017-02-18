@@ -61,4 +61,9 @@ public final class IfExpression extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("if", serialize(condition, consequence, alternative));
+    }
 }

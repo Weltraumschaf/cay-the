@@ -46,4 +46,9 @@ public final class Unit extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("unit", serialize(statements));
+    }
 }

@@ -46,4 +46,8 @@ public final class Identifier extends BaseNode {
             '}';
     }
 
+    @Override
+    public String serialize() {
+        return serialize("identifier", name);
+    }
 }

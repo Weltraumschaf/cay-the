@@ -67,6 +67,11 @@ public final class BinaryOperation extends BaseNode {
             '}';
     }
 
+    @Override
+    public String serialize() {
+        return serialize(operator.literal, serialize(leftOperand, rightOperand));
+    }
+
     public enum Operator {
         ASSIGN("="),
         ADDITION("+"),

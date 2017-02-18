@@ -28,19 +28,26 @@ public final class Return extends BaseNode {
             return false;
         }
 
-        final Return aReturn = (Return) o;
-        return Objects.equals(result, aReturn.result);
+        final Return that = (Return) o;
+        return Objects.equals(result, that.result)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(result);
+        return Objects.hash(result, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Return{" +
             "result=" + result +
+            "sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public String serialize() {
+        return serialize("return", serialize(result));
     }
 }

@@ -36,13 +36,14 @@ public final class FunctionCall extends BaseNode {
         }
 
         final FunctionCall that = (FunctionCall) o;
-        return Objects.equals(identifier, that.identifier) &&
-            Objects.equals(arguments, that.arguments);
+        return Objects.equals(identifier, that.identifier)
+            && Objects.equals(arguments, that.arguments)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identifier, arguments);
+        return Objects.hash(identifier, arguments, sourcePosition());
     }
 
     @Override
@@ -50,6 +51,12 @@ public final class FunctionCall extends BaseNode {
         return "FunctionCall{" +
             "identifier=" + identifier +
             ", arguments=" + arguments +
+            ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public String serialize() {
+        return serialize("fn-call", serialize(identifier) + " " + serialize(arguments));
     }
 }

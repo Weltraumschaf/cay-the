@@ -13,7 +13,7 @@
     
     <name>Cay-The :: Intermediate</name>
     <description>
-        This module provides the intermediated semnatic model of parsed sources.
+        This module provides the intermediate semantic model of parsed sources.
     </description>
 
     <dependencies>

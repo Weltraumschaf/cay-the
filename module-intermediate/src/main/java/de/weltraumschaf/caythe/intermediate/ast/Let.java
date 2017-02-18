@@ -45,4 +45,9 @@ public final class Let extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("let", serialize(assignment));
+    }
 }

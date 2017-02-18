@@ -2,7 +2,7 @@ package de.weltraumschaf.caythe.intermediate;
 
 import java.util.Objects;
 
-public final class Position {
+public final class Position implements Serializable{
     private static final String UNKNOWN_FILE = "n/a";
     public static final Position UNKNOWN = new Position(0, 0);
     private final String file;
@@ -56,5 +56,10 @@ public final class Position {
             ", line=" + line +
             ", column=" + column +
             '}';
+    }
+
+    @Override
+    public String serialize() {
+        return String.format("[%d:%d]", line, column);
     }
 }

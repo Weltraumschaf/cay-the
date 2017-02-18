@@ -66,4 +66,9 @@ public final class Loop extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("loop", serialize(init, condition, post) + " " + serialize(statements));
+    }
 }

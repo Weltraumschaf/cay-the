@@ -6,10 +6,11 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Continue extends BaseNode  {
-    public static final Continue CONTINUE = new Continue();
+    @Deprecated
+    public static final Continue CONTINUE = new Continue(Position.UNKNOWN);
 
-    private Continue() {
-        super(Position.UNKNOWN);
+    public Continue(final Position sourcePosition) {
+        super(sourcePosition);
     }
 
     @Override
@@ -37,5 +38,10 @@ public final class Continue extends BaseNode  {
         return "Continue{" +
             "sourcePosition=" + sourcePosition() +
             "}";
+    }
+
+    @Override
+    public String serialize() {
+        return serialize("continue");
     }
 }

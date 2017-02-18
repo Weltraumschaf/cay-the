@@ -5,6 +5,7 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class HashLiteral extends BaseNode {
     private final Map<AstNode, AstNode> values;
@@ -45,5 +46,14 @@ public final class HashLiteral extends BaseNode {
             "values=" + values +
             ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public String serialize() {
+        final String serializedValues = values.entrySet()
+            .stream()
+            .map(e -> String.format("(%s)", serialize(e.getKey(), e.getValue())))
+            .collect(Collectors.joining(" "));
+        return serialize("hash", serializedValues);
     }
 }

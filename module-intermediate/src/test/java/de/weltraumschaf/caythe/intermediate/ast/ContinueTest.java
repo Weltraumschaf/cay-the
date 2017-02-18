@@ -8,18 +8,19 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 /**
- * Tests for {@link StringLiteral}.
+ * Tests for {@link Continue}.
  */
-public class StringLiteralTest {
+public class ContinueTest {
+
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(StringLiteral.class).verify();
+        EqualsVerifier.forClass(Continue.class).verify();
     }
 
     @Test
     public void serialize() {
-        final StringLiteral sut = new StringLiteral("foobar", new Position(1, 2));
+        final Continue sut = new Continue(new Position(1, 2));
 
-        assertThat(sut.serialize(), is("(string foobar [1:2])"));
+        assertThat(sut.serialize(), is("(continue [1:2])"));
     }
 }

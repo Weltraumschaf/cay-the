@@ -46,4 +46,9 @@ public final class ArrayLiteral extends BaseNode  {
             "sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("array", serialize(values));
+    }
 }

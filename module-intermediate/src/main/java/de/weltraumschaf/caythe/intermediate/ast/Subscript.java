@@ -53,4 +53,9 @@ public final class Subscript extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("[]", serialize(identifier, index));
+    }
 }

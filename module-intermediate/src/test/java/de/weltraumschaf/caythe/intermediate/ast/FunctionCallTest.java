@@ -4,28 +4,32 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 /**
- * Tests for {@link Subscript}.
+ * Tests for {@link FunctionCall}.
  */
-public class SubscriptTest {
+public class FunctionCallTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(Subscript.class).verify();
+        EqualsVerifier.forClass(FunctionCall.class).verify();
     }
 
     @Test
     public void serialize() {
-        final Subscript sut = new Subscript(
+        final FunctionCall sut = new FunctionCall(
             identifier("foo", 1, 2),
-            integer(23L, 3, 4),
+            Arrays.asList(integer(23L, 3, 4), integer(42L, 5, 6)),
             new Position(1, 2));
 
-        assertThat(sut.serialize(), is("([] (identifier foo [1:2]) (integer 23 [3:4]) [1:2])"));
+        assertThat(
+            sut.serialize(),
+            is("(fn-call (identifier foo [1:2]) (integer 23 [3:4]) (integer 42 [5:6]) [1:2])"));
     }
 }

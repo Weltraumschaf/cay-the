@@ -42,4 +42,8 @@ public  final class NoOperation extends BaseNode  {
         return node instanceof NoOperation;
     }
 
+    @Override
+    public String serialize() {
+        return serialize("noop");
+    }
 }

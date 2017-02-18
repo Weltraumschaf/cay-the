@@ -45,4 +45,9 @@ public final class Const extends BaseNode {
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
+
+    @Override
+    public String serialize() {
+        return serialize("const", serialize(assignment));
+    }
 }

@@ -45,4 +45,9 @@ public final class StringLiteral extends BaseNode {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public String serialize() {
+        return serialize("string", value);
+    }
 }

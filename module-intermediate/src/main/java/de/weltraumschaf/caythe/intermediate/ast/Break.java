@@ -6,10 +6,11 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Break extends BaseNode  {
-    public static final Break BREAK = new Break();
+    @Deprecated
+    public static final Break BREAK = new Break(Position.UNKNOWN);
 
-    private Break() {
-        super(Position.UNKNOWN);
+    public Break(final Position sourcePosition) {
+        super(sourcePosition);
     }
 
     @Override
@@ -37,5 +38,10 @@ public final class Break extends BaseNode  {
         return "Break{" +
             "sourcePosition=" + sourcePosition() +
             "}";
+    }
+
+    @Override
+    public String serialize() {
+        return serialize("break");
     }
 }

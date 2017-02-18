@@ -46,5 +46,8 @@ public final class IntegerLiteral extends BaseNode {
             '}';
     }
 
-
+    @Override
+    public String serialize() {
+        return serialize("integer", String.valueOf(value));
+    }
 }

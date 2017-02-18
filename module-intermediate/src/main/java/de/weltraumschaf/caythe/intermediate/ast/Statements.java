@@ -4,7 +4,6 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 public final class Statements extends BaseNode {
@@ -50,10 +49,11 @@ public final class Statements extends BaseNode {
     }
 
     public static boolean isEmpty(final AstNode node) {
-        if (node instanceof Statements) {
-            return ((Statements)node).statements.isEmpty();
-        }
+        return node instanceof Statements && ((Statements) node).statements.isEmpty();
+    }
 
-        return false;
+    @Override
+    public String serialize() {
+        return serialize("statements", serialize(statements));
     }
 }

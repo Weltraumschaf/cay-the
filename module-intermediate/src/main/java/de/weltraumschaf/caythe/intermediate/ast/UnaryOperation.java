@@ -59,6 +59,11 @@ public final class UnaryOperation extends BaseNode {
             '}';
     }
 
+    @Override
+    public String serialize() {
+        return serialize(operator.literal, serialize(operand));
+    }
+
     public static enum Operator {
         NEG("-"),
         NOT("!");

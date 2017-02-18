@@ -5,6 +5,7 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class FunctionLiteral extends BaseNode {
     private final List<Identifier> arguments;
@@ -53,5 +54,12 @@ public final class FunctionLiteral extends BaseNode {
             ", body=" + body +
             ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public String serialize() {
+        final String serializedArguments = serialize(arguments.stream().map(a -> (AstNode) a).collect(Collectors.toList()));
+        final String serializedBody = serialize(body);
+        return serialize("fn-decl", String.format("(%s) (%s)", serializedArguments, serializedBody));
     }
 }
