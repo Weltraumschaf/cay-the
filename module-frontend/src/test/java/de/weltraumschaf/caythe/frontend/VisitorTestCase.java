@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,6 +32,14 @@ abstract class VisitorTestCase {
 
     final CayTheSourceParser sourceParser(final InputStream input) throws IOException {
         return parsers.newSourceParser(input);
+    }
+
+    ParseTree parse(final String src) throws IOException {
+        return parse(new ByteArrayInputStream(src.getBytes()));
+    }
+
+    ParseTree parse(final InputStream src) throws IOException {
+        return sourceParser(src).unit();
     }
 
 }

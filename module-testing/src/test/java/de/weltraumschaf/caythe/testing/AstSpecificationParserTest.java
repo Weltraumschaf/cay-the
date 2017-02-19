@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.testing;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -15,8 +16,10 @@ public class AstSpecificationParserTest {
 
     @Test
     public void parse_exampleFile() throws IOException {
+        final String fixture = "/de/weltraumschaf/caythe/testing/Example.astspec";
+
         assertThat(
-            sut.parse(getClass().getResourceAsStream("/de/weltraumschaf/caythe/testing/Example.astspec")),
+            sut.parse(getClass().getResourceAsStream(fixture), Paths.get(fixture)),
             is(new AstSpecification(
                 "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula\n" +
                     "eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient\n" +
@@ -28,6 +31,7 @@ public class AstSpecificationParserTest {
                     "    (statements\n" +
                     "        (let [])\n" +
                     "    [])\n" +
-                    "[])\n")));
+                    "[])\n",
+                Paths.get(fixture))));
     }
 }

@@ -8,25 +8,22 @@ import org.hamcrest.*;
  */
 final class AstSpecificationMatcher extends TypeSafeMatcher<AstNode> {
     private final AstSpecificationFormatter fmt = new AstSpecificationFormatter();
-    private final AstSpecification spec;
     private final Matcher<String> matcher;
 
     private AstSpecificationMatcher(final AstSpecification spec) {
         super();
-        this.spec = fmt.format(Validate.notNull(spec, "spec"));
-        this.matcher = Matchers.equalTo(spec.getExpectation());
+        final String expectation = fmt.format(Validate.notNull(spec, "spec").getExpectation());
+        this.matcher = Matchers.equalTo(expectation);
     }
 
     @Override
     protected boolean matchesSafely(final AstNode item) {
-        final AstSpecification actual = fmt.format(new AstSpecification("", "", item.serialize()));
-        return matcher.matches(actual.getExpectation());
+        return matcher.matches(fmt.format(item.serialize()));
     }
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText(" with the expectation ");
-        description.appendDescriptionOf(matcher);
+        matcher.describeTo(description);
     }
 
     @Factory

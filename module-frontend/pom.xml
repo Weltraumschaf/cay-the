@@ -40,6 +40,14 @@
             <artifactId>antlr4-runtime</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>de.weltraumschaf.caythe</groupId>
+            <artifactId>testing</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

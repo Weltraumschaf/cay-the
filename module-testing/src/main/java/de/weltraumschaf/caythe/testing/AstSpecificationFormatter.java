@@ -31,10 +31,14 @@ public final class AstSpecificationFormatter {
     }
 
     public AstSpecification format(final AstSpecification input) {
-        return new AstSpecification(input.getDescription(), input.getGiven(), format(input.getExpectation()));
+        return new AstSpecification(
+            input.getDescription(),
+            input.getGiven(),
+            format(input.getExpectation()),
+            input.getFile());
     }
 
-    private String format(final String expectation) {
+    public String format(final String expectation) {
         indentionLevel = -1;
         final StringBuilder buffer = new StringBuilder();
         final CharacterStream characters = new CharacterStream(expectation.trim());
@@ -42,6 +46,10 @@ public final class AstSpecificationFormatter {
 
         while (characters.hasNext()) {
             final char c = characters.next();
+
+            if (c == '\n') {
+                continue;
+            }
 
             if (c == ' ' && skip(characters.peek())) {
                 // Ignore white space before skip characters.
