@@ -35,10 +35,10 @@ public class UnitTest {
     public void serialize_oneStatement() {
         final Unit sut = new Unit(
             Collections.singletonList(new Statement(
-                Collections.singletonList(addition(
+                addition(
                     integer(2L , 7 ,8),
                     integer(3L, 9, 10),
-                    11, 12)),
+                    11, 12),
                 new Position(1, 2)
             )),
             new Position(1, 2)

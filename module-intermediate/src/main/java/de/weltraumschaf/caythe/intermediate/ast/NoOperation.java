@@ -8,7 +8,11 @@ import java.util.Objects;
 public  final class NoOperation extends BaseNode  {
 
     public NoOperation() {
-        super(Position.UNKNOWN);
+        this(Position.UNKNOWN);
+    }
+
+    public NoOperation(final Position sourcePosition) {
+        super(sourcePosition);
     }
 
     @Override

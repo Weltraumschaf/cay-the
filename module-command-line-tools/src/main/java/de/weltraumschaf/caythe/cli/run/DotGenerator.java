@@ -270,11 +270,7 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
-
-        for (final AstNode child : node.getStatements()) {
-            child.accept(this);
-        }
-
+        node.getChild().accept(this);
         currentNode.pop();
         return null;
     }

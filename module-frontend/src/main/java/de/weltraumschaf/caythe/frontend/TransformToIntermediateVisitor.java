@@ -43,18 +43,17 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitStatement(final CayTheSourceParser.StatementContext ctx) {
         final Collection<AstNode> statements = new ArrayList<>();
+        final AstNode child;
 
-        for (final ParseTree child : ctx.children) {
-            final AstNode node = visit(child);
-
-            if (NoOperation.isNoop(node)) {
-                continue;
-            }
-
-            statements.add(node);
+        if (ctx.children.isEmpty()) {
+            child = new NoOperation(cretePosition(ctx.getStart()));
+        } else if (ctx.children.size() == 1) {
+            child = visit(ctx.children.get(0));
+        } else {
+            throw newError(ctx.getStart(), "Multiple statements not allowed!");
         }
 
-        return new Statement(statements, cretePosition(ctx.getStart()));
+        return new Statement(child, cretePosition(ctx.getStart()));
     }
 
     @Override

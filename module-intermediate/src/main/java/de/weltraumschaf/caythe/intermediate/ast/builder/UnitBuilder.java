@@ -33,7 +33,7 @@ public final class UnitBuilder {
     }
 
     public UnitBuilder statement(final AstNode statement, final int line, final int column) {
-        statements.add(new Statement(list(statement), new Position(line, column)));
+        statements.add(new Statement(statement, new Position(line, column)));
         return this;
     }
 }

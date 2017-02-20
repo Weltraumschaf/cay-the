@@ -8,15 +8,15 @@ import java.util.Objects;
 
 public final class Statement extends BaseNode {
 
-    private final Collection<AstNode> statements;
+    private final AstNode child;
 
-    public Statement(final Collection<AstNode> children, final Position sourcePosition) {
+    public Statement(final AstNode child, final Position sourcePosition) {
         super(sourcePosition);
-        this.statements = children;
+        this.child = child;
     }
 
-    public Collection<AstNode> getStatements() {
-        return statements;
+    public AstNode getChild() {
+        return child;
     }
 
     @Override
@@ -31,29 +31,29 @@ public final class Statement extends BaseNode {
         }
 
         final Statement statement = (Statement) o;
-        return Objects.equals(this.statements, statement.statements)
+        return Objects.equals(this.child, statement.child)
             && Objects.equals(sourcePosition(), statement.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(statements, sourcePosition());
+        return Objects.hash(child, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Statement{" +
-            "statements=" + statements +
+            "child=" + child +
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
     public static boolean isEmpty(final AstNode node) {
-        return node instanceof Statement && ((Statement) node).statements.isEmpty();
+        return node instanceof Statement && NoOperation.isNoop(((Statement) node).child);
     }
 
     @Override
     public String serialize() {
-        return serialize("statement", serialize(statements));
+        return serialize("statement", serialize(child));
     }
 }

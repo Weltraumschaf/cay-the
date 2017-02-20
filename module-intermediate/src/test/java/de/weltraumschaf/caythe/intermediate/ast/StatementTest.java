@@ -24,11 +24,10 @@ public class StatementTest {
     @Test
     public void serialize_endlessLoop() {
         final Statement sut = new Statement(
-            Collections.singletonList(
                 addition(
                     integer(2L , 7 ,8),
                     integer(3L, 9, 10),
-                    11, 12)),
+                    11, 12),
             new Position(1, 2)
         );
 

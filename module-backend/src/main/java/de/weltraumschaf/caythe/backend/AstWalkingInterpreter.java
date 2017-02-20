@@ -308,17 +308,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Statement node) {
-        ObjectType result = defaultResult();
-
-        for (final AstNode statement : node.getStatements()) {
-            result = statement.accept(this);
-
-            if (result instanceof ReturnValueType) {
-                break; // Do not execute statements below return.
-            }
-        }
-
-        return result;
+        return node.getChild().accept(this);
     }
 
     @Override
