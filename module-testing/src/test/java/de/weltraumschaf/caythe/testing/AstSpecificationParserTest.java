@@ -28,7 +28,7 @@ public class AstSpecificationParserTest {
                     "fringilla vel, aliquet nec, vulputate.\n",
                 "let a = 1 + 2 * 3\n",
                 "(unit\n" +
-                    "    (statements\n" +
+                    "    (statement\n" +
                     "        (let [])\n" +
                     "    [])\n" +
                     "[])\n",

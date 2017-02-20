@@ -76,7 +76,7 @@ public interface AstVisitor<R> {
         return null;
     }
 
-    default R visit(final Statements node) {
+    default R visit(final Statement node) {
         return null;
     }
 

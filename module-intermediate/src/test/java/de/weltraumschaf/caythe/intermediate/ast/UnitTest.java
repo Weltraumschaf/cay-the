@@ -4,7 +4,6 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
@@ -35,7 +34,7 @@ public class UnitTest {
     @Test
     public void serialize_oneStatement() {
         final Unit sut = new Unit(
-            Collections.singletonList(new Statements(
+            Collections.singletonList(new Statement(
                 Collections.singletonList(addition(
                     integer(2L , 7 ,8),
                     integer(3L, 9, 10),
@@ -47,6 +46,6 @@ public class UnitTest {
 
         assertThat(
             sut.serialize(),
-            is("(unit (statements (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) [1:2])"));
+            is("(unit (statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) [1:2])"));
     }
 }

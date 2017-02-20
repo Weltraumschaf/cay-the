@@ -30,7 +30,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
             final AstNode node = visit(statement);
 
-            if (Statements.isEmpty(node)) {
+            if (Statement.isEmpty(node)) {
                 continue;
             }
 
@@ -54,7 +54,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
             statements.add(node);
         }
 
-        return new Statements(statements, cretePosition(ctx.getStart()));
+        return new Statement(statements, cretePosition(ctx.getStart()));
     }
 
     @Override
@@ -188,7 +188,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
         for (final CayTheSourceParser.StatementContext statement : body) {
             final AstNode node = visit(statement);
 
-            if (NoOperation.isNoop(node) || Statements.isEmpty(node)) {
+            if (NoOperation.isNoop(node) || Statement.isEmpty(node)) {
                 continue;
             }
 
@@ -401,7 +401,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
                 continue;
             }
 
-            if (Statements.isEmpty(node)) {
+            if (Statement.isEmpty(node)) {
                 continue;
             }
 

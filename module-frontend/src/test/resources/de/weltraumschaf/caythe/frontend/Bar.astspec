@@ -13,7 +13,7 @@ let a = 1 + 2 * 3
 #expectation
 
 (unit
-  (statements
+  (statement
     (let
       (=
         (identifier a [1:4])

@@ -2,7 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast.builder;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.Statements;
+import de.weltraumschaf.caythe.intermediate.ast.Statement;
 import de.weltraumschaf.caythe.intermediate.ast.Unit;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public final class UnitBuilder {
     }
 
     public UnitBuilder statement(final AstNode statement, final int line, final int column) {
-        statements.add(new Statements(list(statement), new Position(line, column)));
+        statements.add(new Statement(list(statement), new Position(line, column)));
         return this;
     }
 }

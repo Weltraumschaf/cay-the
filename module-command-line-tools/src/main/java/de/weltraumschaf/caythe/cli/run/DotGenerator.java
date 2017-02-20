@@ -265,8 +265,8 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final Statements node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<statements>");
+    public Void visit(final Statement node) {
+        final DotNode dotNode = new DotNode(generateName(node), "<statement>");
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);

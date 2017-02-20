@@ -6,11 +6,11 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Collection;
 import java.util.Objects;
 
-public final class Statements extends BaseNode {
+public final class Statement extends BaseNode {
 
     private final Collection<AstNode> statements;
 
-    public Statements(final Collection<AstNode> children, final Position sourcePosition) {
+    public Statement(final Collection<AstNode> children, final Position sourcePosition) {
         super(sourcePosition);
         this.statements = children;
     }
@@ -26,13 +26,13 @@ public final class Statements extends BaseNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof Statements)) {
+        if (!(o instanceof Statement)) {
             return false;
         }
 
-        final Statements statements = (Statements) o;
-        return Objects.equals(this.statements, statements.statements)
-            && Objects.equals(sourcePosition(), statements.sourcePosition());
+        final Statement statement = (Statement) o;
+        return Objects.equals(this.statements, statement.statements)
+            && Objects.equals(sourcePosition(), statement.sourcePosition());
     }
 
     @Override
@@ -42,18 +42,18 @@ public final class Statements extends BaseNode {
 
     @Override
     public String toString() {
-        return "Statements{" +
+        return "Statement{" +
             "statements=" + statements +
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
     public static boolean isEmpty(final AstNode node) {
-        return node instanceof Statements && ((Statements) node).statements.isEmpty();
+        return node instanceof Statement && ((Statement) node).statements.isEmpty();
     }
 
     @Override
     public String serialize() {
-        return serialize("statements", serialize(statements));
+        return serialize("statement", serialize(statements));
     }
 }
