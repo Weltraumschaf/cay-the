@@ -10,3 +10,5 @@ nbactions.xml
 
 # LaTeX stuff:
 **/src/latex/**/*.pdf
+
+.envrc
