@@ -272,14 +272,14 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             for (final AstNode statement : node.statements()) {
                 final ObjectType statementResult = statement.accept(this);
 
-                if (ContinueType.CONTINUE.equals(statementResult)) {
+                if (statementResult.isOf(Type.CONTINUE)) {
                     // Continue with the next while loop iteration.
                     break;
                 }
 
                 result = statementResult;
 
-                if (BreakType.BREAK.equals(result) || result instanceof ReturnValueType) {
+                if (result.isOneOf(Type.BREAK, Type.RETURN_VALUE)) {
                     // Prevent further looping regardless to what the condition will evaluate.
                     return result;
                 }

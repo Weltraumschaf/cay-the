@@ -305,7 +305,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitLogicalOrOperation(final CayTheSourceParser.LogicalOrOperationContext ctx) {
         return new BinaryOperation(
-            BinaryOperation.Operator.AND,
+            BinaryOperation.Operator.OR,
             visit(ctx.firstOperand),
             visit(ctx.secondOperand),
             cretePosition(ctx.getStart()));
@@ -314,7 +314,7 @@ public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisito
     @Override
     public AstNode visitLogicalAndOperation(final CayTheSourceParser.LogicalAndOperationContext ctx) {
         return new BinaryOperation(
-            BinaryOperation.Operator.OR,
+            BinaryOperation.Operator.AND,
             visit(ctx.firstOperand),
             visit(ctx.secondOperand),
             cretePosition(ctx.getStart()));
