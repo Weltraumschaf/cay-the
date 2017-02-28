@@ -279,7 +279,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
                 result = statementResult;
 
-                if (BreakType.BREAK.equals(statementResult) || result instanceof ReturnValueType) {
+                if (BreakType.BREAK.equals(result) || result instanceof ReturnValueType) {
                     // Prevent further looping regardless to what the condition will evaluate.
                     return result;
                 }

@@ -243,7 +243,7 @@
                                 <mkdir dir="${bats.build.directory}"/>
                                 <exec executable="${bats.command}"
                                       dir="${bats.build.directory}"
-                                      failonerror="true">
+                                      failonerror="false">
                                     <redirector outputproperty="redirector.out">
                                         <outputmapper type="merge" to="${bats.testResults.filename}"/>
                                     </redirector>
@@ -253,7 +253,7 @@
                                     <arg value="${bats.testSource.directory}"/>
                                 </exec>
                                 <echo message="-------------------------------------------------------"/>
-                                <echo message=" T E S T S"/>
+                                <echo message=" B A T S  T E S T S"/>
                                 <echo message="-------------------------------------------------------"/>
                                 <echo message="${redirector.out}"/>
                             </target>
