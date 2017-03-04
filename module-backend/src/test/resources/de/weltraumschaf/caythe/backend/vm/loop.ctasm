@@ -1,0 +1,30 @@
+// .globals 2; n i
+
+// n = 10 address
+iconst      10
+gstore      n
+
+// i = 0
+iconst      0
+gstore      i
+
+// while i < n:
+.loop
+gload       i
+gload       n
+ilt
+brf         .halt
+
+// i = i + 1
+gload       i
+iconst      1
+iadd
+gstore      i
+br          .loop
+
+// done (24):
+// print "looped "+n+" times."
+.halt
+gload       i
+print
+halt

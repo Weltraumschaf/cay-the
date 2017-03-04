@@ -16,20 +16,18 @@ public final class VirtualMachine {
     private final PointerRegister sp = new PointerRegister(-1);
     private final PointerRegister fp = new PointerRegister();
 
-    private final Memory data = new Memory();
-    private final Stack stack = new Stack();
-    private final byte[] code;
     /**
      * global variable space
      */
-    private final long[] globals;
+    private final Memory globals = new Memory();
+    private final Stack stack = new Stack();
+    private final byte[] code;
     private final FunctionMetaData[] metadata;
     private final PrintStream out;
 
-    public VirtualMachine(final byte[] code, final int numberOfGlobals, final FunctionMetaData[] metadata, final PrintStream out) {
+    public VirtualMachine(final byte[] code, final FunctionMetaData[] metadata, final PrintStream out) {
         super();
         this.code = Validate.notNull(code, "code");
-        this.globals = new long[numberOfGlobals];
         this.metadata = Validate.notNull(metadata, "");
         this.out = Validate.notNull(out, "out");
     }
@@ -38,7 +36,7 @@ public final class VirtualMachine {
         ip.setTo(startip);
         // the active context
         Context ctx = new Context(metadata[0]);
-        byte opcode = fetchAndIncrement();
+        ByteCode opcode = ByteCode.decode(fetchAndIncrement());
 
         while (opcode != HALT && ip.current() < code.length) {
             switch (opcode) {
@@ -105,7 +103,7 @@ public final class VirtualMachine {
                 case GLOAD: {
                     // load from global memory
                     final int addr = fetchInt();
-                    push(globals[addr]);
+                    push(globals.get(addr));
                     break;
                 }
                 case STORE: {
@@ -114,7 +112,7 @@ public final class VirtualMachine {
                 }
                 case GSTORE: {
                     final int addr = fetchInt();
-                    globals[addr] = pop();
+                    globals.set(addr, pop());
                     break;
                 }
                 case PRINT:
@@ -147,7 +145,7 @@ public final class VirtualMachine {
                     throw new IllegalStateException();
             }
 
-            opcode = fetchAndIncrement();
+            opcode = ByteCode.decode(fetchAndIncrement());
         }
     }
 

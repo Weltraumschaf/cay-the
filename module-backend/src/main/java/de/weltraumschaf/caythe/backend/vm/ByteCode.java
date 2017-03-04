@@ -1,76 +1,78 @@
 package de.weltraumschaf.caythe.backend.vm;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-final class ByteCode {
-    static final byte IADD = 1;     // int add
-    static final byte ISUB = 2;
-    static final byte IMUL = 3;
-    static final byte ILT = 4;     // int less than
-    static final byte IEQ = 5;     // int equal
-    static final byte BR = 6;     // branch
-    static final byte BRT = 7;     // branch if true
-    static final byte BRF = 8;     // branch if true
-    static final byte ICONST = 9;   // push constant integer
-    static final byte LOAD = 10;  // load from local context
-    static final byte GLOAD = 11;  // load from global memory
-    static final byte STORE = 12;  // store in local context
-    static final byte GSTORE = 13;  // store in global memory
-    static final byte PRINT = 14;  // print stack top
-    static final byte POP = 15;    // throw away top of stack
-    static final byte CALL = 16;
-    static final byte RET = 17;    // return with/without value
+enum ByteCode {
 
-    static final byte HALT = 18;
+    NOOP((byte) 0x00, 0),
+    IADD((byte) 0x01, 0),     // int add
+    ISUB((byte) 0x02, 0),
+    IMUL((byte) 0x03, 0),
+    ILT((byte) 0x04, 0),     // int less than
+    IEQ((byte) 0x05, 0),     // int equal
+    BR((byte) 0x06, 1),     // branch
+    BRT((byte) 0x07, 1),     // branch if true
+    BRF((byte) 0x08, 1),     // branch if true
+    ICONST((byte) 0x09, 1),   // push constant integer
+    LOAD((byte) 0x010, 1),  // load from local context
+    GLOAD((byte) 0x011, 1),  // load from global memory
+    STORE((byte) 0x012, 1),  // store in local context
+    GSTORE((byte) 0x013, 1),  // store in global memory
+    PRINT((byte) 0x014, 0),  // print stack top
+    POP((byte) 0x015, 0),    // throw away top of stack
+    CALL((byte) 0x016, 1),
+    RET((byte) 0x017, 0),    // return with/without value
 
-    static final Map<String, Byte> MNEMONIC_TO_CODE = new HashMap<>();
+    HALT((byte) 0x018, 0);
 
+    static final Map<String, ByteCode> MNEMONIC_TO_CODE;
     static {
-        MNEMONIC_TO_CODE.put("iadd", IADD);
-        MNEMONIC_TO_CODE.put("isub", ISUB);
-        MNEMONIC_TO_CODE.put("imul", IMUL);
-        MNEMONIC_TO_CODE.put("ilt", ILT);
-        MNEMONIC_TO_CODE.put("ieq", IEQ);
-        MNEMONIC_TO_CODE.put("br", BR);
-        MNEMONIC_TO_CODE.put("brt", BRT);
-        MNEMONIC_TO_CODE.put("brf", BRF);
-        MNEMONIC_TO_CODE.put("iconst", ICONST);
-        MNEMONIC_TO_CODE.put("load", LOAD);
-        MNEMONIC_TO_CODE.put("gload", GLOAD);
-        MNEMONIC_TO_CODE.put("store", STORE);
-        MNEMONIC_TO_CODE.put("gstore", GSTORE);
-        MNEMONIC_TO_CODE.put("print", PRINT);
-        MNEMONIC_TO_CODE.put("pop", POP);
-        MNEMONIC_TO_CODE.put("call", CALL); // call index of function in meta-info table
-        MNEMONIC_TO_CODE.put("ret", RET);
-        MNEMONIC_TO_CODE.put("halt", HALT);
+        final Map<String, ByteCode> tmp = new HashMap<>();
+        tmp.put("iadd", IADD);
+        tmp.put("isub", ISUB);
+        tmp.put("imul", IMUL);
+        tmp.put("ilt", ILT);
+        tmp.put("ieq", IEQ);
+        tmp.put("br", BR);
+        tmp.put("brt", BRT);
+        tmp.put("brf", BRF);
+        tmp.put("iconst", ICONST);
+        tmp.put("load", LOAD);
+        tmp.put("gload", GLOAD);
+        tmp.put("store", STORE);
+        tmp.put("gstore", GSTORE);
+        tmp.put("print", PRINT);
+        tmp.put("pop", POP);
+        tmp.put("call", CALL); // call index of function in meta-info table
+        tmp.put("ret", RET);
+        tmp.put("halt", HALT);
+        MNEMONIC_TO_CODE = Collections.unmodifiableMap(tmp);
     }
 
-    static final Set<Byte> ZERO_ARGUMENTS = new HashSet<>();
+    private static final ByteCode[] OPCODE_TO_CODE = new ByteCode[256];
     static {
-        ZERO_ARGUMENTS.add(IADD);
-        ZERO_ARGUMENTS.add(ISUB);
-        ZERO_ARGUMENTS.add(IMUL);
-        ZERO_ARGUMENTS.add(ILT);
-        ZERO_ARGUMENTS.add(IEQ);
-        ZERO_ARGUMENTS.add(PRINT);
-        ZERO_ARGUMENTS.add(POP);
-        ZERO_ARGUMENTS.add(RET);
-        ZERO_ARGUMENTS.add(HALT);
+        for (final ByteCode bc : values()) {
+            OPCODE_TO_CODE[bc.getOpcode()] = bc;
+        }
     }
-    static final Set<Byte> ONE_ARGUMENTS = new HashSet<>();
-    static {
-        ONE_ARGUMENTS.add(BR);
-        ONE_ARGUMENTS.add(BRT);
-        ONE_ARGUMENTS.add(BRF);
-        ONE_ARGUMENTS.add(ICONST);
-        ONE_ARGUMENTS.add(LOAD);
-        ONE_ARGUMENTS.add(GLOAD);
-        ONE_ARGUMENTS.add(STORE);
-        ONE_ARGUMENTS.add(GSTORE);
-        ONE_ARGUMENTS.add(CALL);
+
+    private final byte opcode;
+    private final int numberOfArguments;
+
+    ByteCode(final byte opcode, final int numberOfArguments) {
+        this.opcode = opcode;
+        this.numberOfArguments = numberOfArguments;
+    }
+
+    byte getOpcode() {
+        return opcode;
+    }
+
+    int getNumberOfArguments() {
+        return numberOfArguments;
+    }
+
+    static ByteCode decode(final byte opcode) {
+        return OPCODE_TO_CODE[opcode];
     }
 }

@@ -4,7 +4,13 @@ import de.weltraumschaf.commons.validate.Validate;
 
 import java.nio.ByteBuffer;
 
-// http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java
+/**
+ * Formats values to single bytes.
+ * <p>
+ * Based on <a href=" http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java>
+ * SO article. Big endian formatting.</a>
+ * </p>
+ */
 final class ByteFormatter {
     long toLong(final byte[] bytes) {
         Validate.notNull(bytes, "bytes");
