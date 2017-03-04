@@ -18,7 +18,7 @@ import static de.weltraumschaf.caythe.backend.vm.ByteCode.*;
 /**
  * Generates byte code from assembly like text.
  */
-final class Assembler {
+public final class Assembler {
 
     private static final String COMMENT_PREFIX = "//";
     private static final Function<String, String> REMOVE_TRAILING_COMMENT = line -> {
@@ -34,7 +34,7 @@ final class Assembler {
         return assemble(Arrays.asList(source.split("\n")));
     }
 
-    byte[] assemble(final Path source) throws IOException {
+    public byte[] assemble(final Path source) throws IOException {
         Validate.notNull(source, "source");
         return assemble(Files.readAllLines(source, StandardCharsets.UTF_8));
     }

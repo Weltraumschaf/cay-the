@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 import static de.weltraumschaf.caythe.backend.vm.ByteCode.*;
 
-final class VirtualMachine {
+public final class VirtualMachine {
     private static final long FALSE = 0L;
     private static final long TRUE = 1L;
 
@@ -24,7 +24,7 @@ final class VirtualMachine {
     private final FuncMetaData[] metadata;
     private final PrintStream out;
 
-    VirtualMachine(final byte[] code, int nglobals, FuncMetaData[] metadata, final PrintStream out) {
+    public VirtualMachine(final byte[] code, int nglobals, FuncMetaData[] metadata, final PrintStream out) {
         super();
         this.code = code;
         this.globals = new long[nglobals];
@@ -32,7 +32,7 @@ final class VirtualMachine {
         this.out = out;
     }
 
-    void run(int startip) {
+    public void run(int startip) {
         ip.setTo(startip);
         // the active context
         Context ctx = new Context(null, 0, metadata[0]);

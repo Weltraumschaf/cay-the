@@ -91,6 +91,7 @@ public final class VirtualMachineTest {
     private static final FuncMetaData[] f_metadata = {new FuncMetaData("main", 0, 0, 0), new FuncMetaData("f", 1, 1, 6)};
 
     @Test
+    @Ignore
     public void run() throws UnsupportedEncodingException {
         final PrintStream out = new CapturingPrintStream();
         final VirtualMachine vm = new VirtualMachine(factorial, 0, factorial_metadata, out);

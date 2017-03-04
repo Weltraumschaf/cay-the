@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.backend.vm;
 
-final class FuncMetaData {
+public final class FuncMetaData {
     private String name;
     private int nargs;
     private int nlocals;
