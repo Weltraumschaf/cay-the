@@ -93,4 +93,28 @@ public class StackTest {
 
         assertThat(sut.pop(), is(3L));
     }
+
+    @Test
+    public void dump() {
+        assertThat(sut.dump(), is("[]"));
+
+        sut.push(1L);
+        assertThat(sut.dump(), is("[1]"));
+
+        sut.push(2L);
+        assertThat(sut.dump(), is("[1, 2]"));
+
+        sut.push(3L);
+        assertThat(sut.dump(), is("[1, 2, 3]"));
+
+        sut.push(4L);
+        assertThat(sut.dump(), is("[1, 2, 3, 4]"));
+
+        sut.push(5L);
+        assertThat(sut.dump(), is("[1, 2, 3, 4, 5]"));
+
+        sut.pop();
+        sut.pop();
+        assertThat(sut.dump(), is("[1, 2, 3]"));
+    }
 }

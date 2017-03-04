@@ -1,0 +1,5 @@
+iconst 42
+iconst 2
+iadd
+print
+halt

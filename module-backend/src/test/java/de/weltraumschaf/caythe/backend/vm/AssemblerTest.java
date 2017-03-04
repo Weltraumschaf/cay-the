@@ -2,6 +2,11 @@ package de.weltraumschaf.caythe.backend.vm;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static de.weltraumschaf.caythe.backend.vm.ByteCode.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
@@ -32,13 +37,8 @@ public class AssemblerTest {
     }
 
     @Test
-    public void hello() {
-        final String source =
-            "iconst 42\n" +
-            "iconst 2\n" +
-            "iadd\n" +
-            "print\n" +
-            "halt\n";
+    public void hello() throws URISyntaxException, IOException {
+        final Path source = Paths.get(getClass().getResource("/de/weltraumschaf/caythe/backend/vm/hello.ctasm").toURI());
         final byte[] expected = {
             ICONST, 0, 0, 0, 0, 0, 0, 0, 0x2A, // 42
             ICONST, 0, 0, 0, 0, 0, 0, 0, 0x02, // 2,

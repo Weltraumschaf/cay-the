@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.backend.vm;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 import java.io.PrintStream;
 
 import static de.weltraumschaf.caythe.backend.vm.ByteCode.*;
@@ -21,21 +23,21 @@ public final class VirtualMachine {
      * global variable space
      */
     private final long[] globals;
-    private final FuncMetaData[] metadata;
+    private final FunctionMetaData[] metadata;
     private final PrintStream out;
 
-    public VirtualMachine(final byte[] code, int nglobals, FuncMetaData[] metadata, final PrintStream out) {
+    public VirtualMachine(final byte[] code, final int numberOfGlobals, final FunctionMetaData[] metadata, final PrintStream out) {
         super();
-        this.code = code;
-        this.globals = new long[nglobals];
-        this.metadata = metadata;
-        this.out = out;
+        this.code = Validate.notNull(code, "code");
+        this.globals = new long[numberOfGlobals];
+        this.metadata = Validate.notNull(metadata, "");
+        this.out = Validate.notNull(out, "out");
     }
 
     public void run(int startip) {
         ip.setTo(startip);
         // the active context
-        Context ctx = new Context(null, 0, metadata[0]);
+        Context ctx = new Context(metadata[0]);
         byte opcode = fetchAndIncrement();
 
         while (opcode != HALT && ip.current() < code.length) {
@@ -97,8 +99,7 @@ public final class VirtualMachine {
                     break;
                 case LOAD: {
                     // load local or arg; 1st local is fp+1, args are fp-3, fp-4, fp-5, ...
-                    final int regnum = fetchInt();
-                    push(ctx.locals[regnum]);
+                    push(ctx.getLocal(fetchInt()));
                     break;
                 }
                 case GLOAD: {
@@ -108,8 +109,7 @@ public final class VirtualMachine {
                     break;
                 }
                 case STORE: {
-                    final int regnum = fetchInt();
-                    ctx.locals[regnum] = pop();
+                    ctx.setLocal(fetchInt(), pop());
                     break;
                 }
                 case GSTORE: {
@@ -118,7 +118,7 @@ public final class VirtualMachine {
                     break;
                 }
                 case PRINT:
-                    out.println(pop());
+                    out.print(pop());
                     break;
                 case POP:
                     pop();
@@ -132,7 +132,7 @@ public final class VirtualMachine {
                     // copy args into new context
 
                     for (int i = 0; i < nargs; i++) {
-                        ctx.locals[i] = stack.get(sp.down(i));
+                        ctx.setLocal(i, stack.get(sp.down(i)));
                     }
 
                     sp.setTo(sp.down(nargs).current());
@@ -140,14 +140,14 @@ public final class VirtualMachine {
                     break;
                 }
                 case RET:
-                    ip.setTo(ctx.returnip);
-                    ctx = ctx.invokingContext; // pop
+                    ip.setTo(ctx.getReturnPointer());
+                    ctx = ctx.getInvokingContext(); // pop
                     break;
                 default:
                     throw new IllegalStateException();
             }
 
-            opcode = fetch();
+            opcode = fetchAndIncrement();
         }
     }
 
