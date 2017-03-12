@@ -1,0 +1,7 @@
+let i = 0
+
+loop i < 5 {
+    i = i + 1
+}
+
+puts(i)
