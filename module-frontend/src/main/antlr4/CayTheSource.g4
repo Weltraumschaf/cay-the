@@ -71,6 +71,7 @@ expression
     | literalExpression                                                             # literalExpressionAlternative
     | ifExpression                                                                  # ifExpressionAlternative
     | callExpression                                                                # callExpressionAlternative
+    | assignExpression                                                              # assignExpressionAlternative
     ;
 
 literalExpression
