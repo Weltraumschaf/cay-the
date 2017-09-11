@@ -1,0 +1,26 @@
+{
+    "name": "caythe",
+    "displayName": "CayThe Language Support",
+    "description": "",
+    "version": "1.0.0",
+    "publisher": "Weltraumschaf",
+    "engines": {
+        "vscode": "^1.15.1"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "caythe",
+            "aliases": ["CayThe", "CT", "ct"],
+            "extensions": [".mf",".ct"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "caythe",
+            "scopeName": "source.ct",
+            "path": "./syntaxes/CayThe.tmLanguage"
+        }]
+    }
+}
