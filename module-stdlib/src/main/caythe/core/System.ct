@@ -1,8 +1,8 @@
 
 export object System {
-    
+
     delegate Object
-    
+
     export property(get) OutputStream stdout
 
     export property(get) OutputStream stderr

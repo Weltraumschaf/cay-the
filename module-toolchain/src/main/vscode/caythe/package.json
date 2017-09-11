@@ -16,17 +16,28 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "languages": [{
-            "id": "caythe",
-            "aliases": ["CayThe", "CT", "ct"],
-            "extensions": [".mf",".ct"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "caythe",
-            "scopeName": "source.ct",
-            "path": "./syntaxes/CayThe.tmLanguage"
-        }],
+        "languages": [
+            {
+                "id": "caythe",
+                "aliases": [
+                    "CayThe",
+                    "CT",
+                    "ct"
+                ],
+                "extensions": [
+                    ".mf",
+                    ".ct"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "caythe",
+                "scopeName": "source.ct",
+                "path": "./syntaxes/CayThe.tmLanguage"
+            }
+        ],
         "commands": [
             {
                 "command": "extension.compile",

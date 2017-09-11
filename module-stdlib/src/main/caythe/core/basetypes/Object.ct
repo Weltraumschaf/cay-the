@@ -8,8 +8,8 @@ export object Object {
     export method String toString() {
         return ""
     }
-	
-	export method Manifest manifest() {
-		
-	}
+
+    export method Manifest manifest() {
+
+    }
 }

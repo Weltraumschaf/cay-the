@@ -1,18 +1,18 @@
 
 export class Integer {
-    delegate Number 
-	
-	export method times(Function callback) {
-		
-	}
-	
-	@Operator(+)
-	export method Integer add(Integer operand) {
-		
-	}
-	
-	@Operator(-)
-	export method Integer sub(Integer operand) {
-		
-	}
+    delegate Number
+
+    export method times(Function callback) {
+
+    }
+
+    @Operator(+)
+    export method Integer add(Integer operand) {
+
+    }
+
+    @Operator(-)
+    export method Integer sub(Integer operand) {
+
+    }
 }

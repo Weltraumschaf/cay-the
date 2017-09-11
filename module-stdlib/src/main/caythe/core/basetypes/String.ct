@@ -1,12 +1,12 @@
 
 export class String {
     delegate Object
-	
-	export method Boolean isEmpty() {
-		return false;
-	}
-	
-	export method Boolean isNotEmpty() {
-		return not isEmpty()
-	}
+
+    export method Boolean isEmpty() {
+        return false;
+    }
+
+    export method Boolean isNotEmpty() {
+        return not isEmpty()
+    }
 }

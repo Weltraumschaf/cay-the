@@ -6,12 +6,12 @@
 class CliOptionsParser {
 
     delegate Object
-    
+
     /* This is the default constructor function and may be omitted. */
     package method new() {
         return this;
     }
-    
+
     /*
      * This method parses the given strings and creates an option object from it.
      *
@@ -28,7 +28,7 @@ class CliOptionsParser {
             if "-h" == argument || "--help" == argument || "-?" == argument {
                 helpFlag = true
             }
-            
+
             if "-v" == argument || "--version" == argument {
                 versionFlag = true
             }

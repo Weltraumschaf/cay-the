@@ -2,20 +2,20 @@
 class CliOptions {
 
     delegate Object
-    
+
     /*
-     * The annotation {@code @Property(get)} makes the compile aware that you 
+     * The annotation {@code @Property(get)} makes the compile aware that you
      * can call {@code value = opts.showHelp} on this object.
      */
     package property(get) Boolean showHelp
-    
+
     package property(get) Boolean showVersion
-    
+
     /*
      * Here is no constructor defind, but the two properties above are fianl
-     * values: so there must be a cosntructor to set them unles there are setters 
+     * values: so there must be a cosntructor to set them unles there are setters
      * defined for the property. So the default construcotr is:
      * {@code CliOptions.new(Boolean showHelp, Boolean showVersion)}.
      */
-    
+
 }
