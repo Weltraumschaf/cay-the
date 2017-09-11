@@ -1,0 +1,27 @@
+@startuml
+
+skinparam componentStyle uml2
+
+class Object {
+    type: Class
+}
+
+class Class
+Class -|> Object
+
+class String
+String -|> Object
+
+class Number
+Number -|> Object
+
+class Integer
+Integer -|> Number
+
+class Real
+Real -|> Number
+
+class Bool
+Bool -|> Object
+
+@enduml
