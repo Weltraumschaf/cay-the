@@ -75,7 +75,9 @@
         <module>module-documentation</module>
         <module>module-frontend</module>
         <module>module-intermediate</module>
+        <module>module-stdlib</module>
         <module>module-testing</module>
+        <module>module-toolchain</module>
     </modules>
 
     <properties>
