@@ -9,10 +9,11 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "caythe" is now active!');
     let wordCounter = new WordCounter();
+    let controller = new WordCounterController(wordCounter);
+    context.subscriptions.push(wordCounter);
+    context.subscriptions.push(controller);
 
     let sayHello = vscode.commands.registerCommand('extension.sayHello', () => {
-        wordCounter.updateWordCount();
-
         var editor = vscode.window.activeTextEditor;
         if (!editor) {
             return; // No open text editor
@@ -25,7 +26,6 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('Selected characters: ' + text.length);
     });
 
-    context.subscriptions.push(wordCounter);
     context.subscriptions.push(sayHello);
 
     let compile = vscode.commands.registerCommand('extension.compile', () => {
@@ -93,5 +93,34 @@ class WordCounter {
 
     dispose() {
         this._statusBarItem.dispose();
+    }
+}
+
+class WordCounterController {
+
+    private _wordCounter: WordCounter;
+    private _disposable: vscode.Disposable;
+
+    constructor(wordCounter: WordCounter) {
+        this._wordCounter = wordCounter;
+
+        // subscribe to selection change and editor activation events
+        let subscriptions: vscode.Disposable[] = [];
+        vscode.window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
+        vscode.window.onDidChangeActiveTextEditor(this._onEvent, this, subscriptions);
+
+        // update the counter for the current file
+        this._wordCounter.updateWordCount();
+
+        // create a combined disposable from both event subscriptions
+        this._disposable = vscode.Disposable.from(...subscriptions);
+    }
+
+    dispose() {
+        this._disposable.dispose();
+    }
+
+    private _onEvent() {
+        this._wordCounter.updateWordCount();
     }
 }
