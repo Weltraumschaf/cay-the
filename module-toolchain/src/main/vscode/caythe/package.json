@@ -1,7 +1,7 @@
 {
     "name": "caythe",
-    "displayName": "CayThe Language Support",
-    "description": "",
+    "displayName": "CayThe",
+    "description": "CayThe language tool chain for Vidual Studio Code.",
     "version": "1.0.0",
     "publisher": "Weltraumschaf",
     "engines": {
@@ -10,6 +10,11 @@
     "categories": [
         "Languages"
     ],
+    "activationEvents": [
+        "onCommand:extension.compile",
+        "onCommand:extension.run"
+    ],
+    "main": "./out/src/extension",
     "contributes": {
         "languages": [{
             "id": "caythe",
@@ -21,6 +26,30 @@
             "language": "caythe",
             "scopeName": "source.ct",
             "path": "./syntaxes/CayThe.tmLanguage"
-        }]
+        }],
+        "commands": [
+            {
+                "command": "extension.compile",
+                "title": "Compile CayThe source"
+            },
+            {
+                "command": "extension.run",
+                "title": "Run CayThe program"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.5.2",
+        "vscode": "^1.1.5",
+        "mocha": "^3.5.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
     }
 }
