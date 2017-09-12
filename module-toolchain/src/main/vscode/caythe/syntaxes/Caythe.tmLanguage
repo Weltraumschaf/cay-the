@@ -3,12 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>name</key>
-    <string>Caythe</string>
+    <string>CayThe</string>
     <key>fileTypes</key>
     <array>
         <string>mf</string>
         <string>ct</string>
     </array>
+
     <key>keyEquivalent</key>
     <string>^~C</string>
     <key>foldingStartMarker</key>
@@ -16,6 +17,7 @@
     <key>foldingStopMarker</key>
     <string>^\s*\}</string>
     <key>patterns</key>
+
     <array>
         <dict>
             <key>captures</key>
