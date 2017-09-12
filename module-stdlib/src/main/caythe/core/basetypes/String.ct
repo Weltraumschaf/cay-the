@@ -1,12 +1,13 @@
+export
+public
+class
 
-export class String {
-    delegate Object
+delegate Object
 
-    export method Boolean isEmpty() {
-        return false;
-    }
+export public Boolean isEmpty() {
+    return false;
+}
 
-    export method Boolean isNotEmpty() {
-        return not isEmpty()
-    }
+export public Boolean isNotEmpty() {
+    return not isEmpty()
 }

@@ -16,19 +16,3 @@ export method add(E element) {
 export method E get(Integer index) {
     return nil
 }
-
-export public put(K key, V value) {
-
-}
-
-export public Boolean isEmpty() {
-    return true;
-}
-
-export public Boolean isNotEmpty() {
-    return not isEmpty()
-}
-
-export public Integer size() {
-    return 0
-}

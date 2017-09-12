@@ -1,0 +1,11 @@
+export
+public
+interface
+
+<K, V>
+
+export public put(K key, V value)
+export public V get(K key)
+export public Boolean isEmpty()
+export public Boolean isNotEmpty()
+export public Integer size()

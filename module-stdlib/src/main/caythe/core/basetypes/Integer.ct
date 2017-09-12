@@ -1,18 +1,15 @@
+export
+public
+class
 
-export class Integer {
-    delegate Number
+delegate Number
 
-    export method times(Function callback) {
+@Operator(+)
+export public Integer add(Integer operand) {
+    return 0
+}
 
-    }
-
-    @Operator(+)
-    export method Integer add(Integer operand) {
-
-    }
-
-    @Operator(-)
-    export method Integer sub(Integer operand) {
-
-    }
+@Operator(-)
+export public Integer sub(Integer operand) {
+    return 0
 }

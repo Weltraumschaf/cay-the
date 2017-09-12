@@ -1,15 +1,18 @@
-use org.caythe.core.Manifest
-
-/*
+/**
  * This is the base delegate for all other objects.
  */
-export object Object {
+export
+public
+class
 
-    export method String toString() {
-        return ""
-    }
+export public String toString() {
+    return ""
+}
 
-    export method Manifest manifest() {
+export public boolean equalTo(Object other) {
+    return false
+}
 
-    }
+export public Integer hash() {
+    return 0
 }

@@ -1,0 +1,29 @@
+export
+public
+class
+
+use org.caythe.core.collections.Collection
+
+<K, V>
+
+delegate Collection<K, V>
+
+export public put(K key, V value) {
+
+}
+
+export public V get(K key) {
+    return nil
+}
+
+export public Boolean isEmpty() {
+    return true
+}
+
+export public Boolean isNotEmpty() {
+    return not isEmpty()
+}
+
+export public Integer size() {
+    return 0
+}

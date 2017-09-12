@@ -1,4 +1,15 @@
+export
+public
+class
 
-export class Float {
-    delegate Number
+delegate Number
+
+@Operator(+)
+export public Float add(Float operand) {
+    return 0
+}
+
+@Operator(-)
+export public Float sub(Float operand) {
+    return 0
 }
