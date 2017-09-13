@@ -1,8 +1,8 @@
+use org.caythe.core.basetypes.Object
 
-export class OutputStream {
+class: export
+delegate Object
 
-    export method print(String message) {
-        // TODO implement method.
-    }
-
+export print(String message) {
+    // TODO implement method.
 }

@@ -1,18 +1,15 @@
-export
-public
-class
-
+use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.collections.Collection
 
-<E>
+class<E>: export
+implement: Collection<Integer, V>
+delegate Object
 
-delegate Collection<Integer, E>
-
-export method add(E element) {
+export add(E element) {
     return nil
 }
 
-export method E get(Integer index) {
+export E get(Integer index) {
     return nil
 }

@@ -1,34 +1,43 @@
-export
-public
-class
-
+use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.collections.Collection
 
-<E>
+/**
+ * Single linked kist based implementation of a list.
+ */
+class<E>: export public
+implement: Collection<Integer, E>
 
-delegate Collection<Integer, E>
+delegate Object
 
-export method add(E element) {
+export add(E element) {
     return nil
 }
 
-export method E get(Integer index) {
+export E get(Integer index) {
     return nil
 }
 
-export public put(K key, V value) {
+export put(Integer key, E value) {
 
 }
 
-export public Boolean isEmpty() {
+export E head() {
+    return nil
+}
+
+export List<E> tail() {
+    return nil
+}
+
+export Boolean isEmpty() {
     return true;
 }
 
-export public Boolean isNotEmpty() {
+export Boolean isNotEmpty() {
     return not isEmpty()
 }
 
-export public Integer size() {
+export Integer size() {
     return 0
 }

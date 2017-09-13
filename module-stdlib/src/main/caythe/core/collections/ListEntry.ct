@@ -1,0 +1,8 @@
+use org.caythe.core.basetypes.Object
+
+class<E>: package
+
+delegate Object
+
+property(get) E value
+property(get) ListEntry<E> next

@@ -1,4 +1,5 @@
-package
-class
+use org.caythe.core.basetypes.Object
+
+class: package
 
 delegate Object

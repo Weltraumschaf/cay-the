@@ -1,15 +1,15 @@
-export
-public
-class
+use org.caythe.core.basetypes.Number
+
+class: export
 
 delegate Number
 
 @Operator(+)
-export public Integer add(Integer operand) {
+export Integer add(Integer operand) {
     return 0
 }
 
 @Operator(-)
-export public Integer sub(Integer operand) {
+export Integer sub(Integer operand) {
     return 0
 }

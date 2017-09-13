@@ -1,8 +1,8 @@
+use org.caythe.core.basetypes.Object
+
 /**
  *This is the boolean type.
  */
-export
-public
-class
+class: export
 
 delegate Object

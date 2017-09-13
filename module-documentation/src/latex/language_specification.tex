@@ -161,7 +161,7 @@ Not specified yet.
 
 This section contains the complete syntax description.
 
-\section{ANTLR Grammars}
+\section{Grammars}
 
 This section contains the grammar used to generate the frontend parser infrastructure with ANLR\footnote{\url{http://www.antlr.org/}}.
 
@@ -176,6 +176,22 @@ This is the grammar for manifest files.
 This is the grammar for source code files.
 
 \lstinputlisting{grammars/CayTheSource.g4}
+
+\chapter{Language Specification}
+
+\section{Visibility}
+
+There is a simple hierarchy of visibilities (from lowest to highest):
+
+\begin{itemize}
+    \item \texttt{private}: Only visible inside the declaring type.
+    \item \texttt{protected}: Visible to all delegatees.
+    \item \texttt{package}: Visible inside the same package.
+    \item \texttt{public}: Visible to everything inside the module.
+    \item \texttt{export}: Visible outside the module.
+\end{itemize}
+
+Default visibility is always \texttt{private}. Even if a type is declared with weaker visibility than \texttt{private} this does not automatically apply to all methods and properties of this type. All of them are \texttt{private} by default and visibility must be changed to something weaker respectively.
 
 \chapter{Ideas}
 

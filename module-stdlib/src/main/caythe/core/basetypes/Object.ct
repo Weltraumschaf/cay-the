@@ -1,18 +1,20 @@
+use org.caythe.core.basetypes.String
+use org.caythe.core.basetypes.Boolean
+use org.caythe.core.basetypes.Integer
+
 /**
  * This is the base delegate for all other objects.
  */
-export
-public
-class
+class: export
 
-export public String toString() {
+export String toString() {
     return ""
 }
 
-export public boolean equalTo(Object other) {
+export Boolean equalTo(Object other) {
     return false
 }
 
-export public Integer hash() {
+export Integer hash() {
     return 0
 }

@@ -1,4 +1,4 @@
+use org.caythe.core.basetypes.Object
 
-export InputStream {
-    delegate Object
-}
+class: export
+delegate Object

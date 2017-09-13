@@ -1,11 +1,10 @@
-export
-public
-interface
+use org.caythe.core.basetypes.Boolean
+use org.caythe.core.basetypes.Integer
 
-<K, V>
+interface<K, V>: export
 
-export public put(K key, V value)
-export public V get(K key)
-export public Boolean isEmpty()
-export public Boolean isNotEmpty()
-export public Integer size()
+export put(K key, V value)
+export V get(K key)
+export Boolean isEmpty()
+export Boolean isNotEmpty()
+export Integer size()
