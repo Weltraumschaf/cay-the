@@ -5,7 +5,7 @@ use org.caythe.core.basetypes.Integer
 /**
  * This is the base delegate for all other objects.
  */
-class: export
+class export
 
 export String toString() {
     return ""

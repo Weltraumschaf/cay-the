@@ -3,8 +3,8 @@ use org.caythe.core.basetypes.Boolean
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.collections.Collection
 
-class<K, V>: export
-implement: Collection<K, V>
+class<K, V> export
+implement Collection<K, V>
 delegate Object
 
 export put(K key, V value) {

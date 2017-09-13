@@ -1,4 +1,4 @@
 use org.caythe.core.basetypes.Object
 
-class: export
+class export
 delegate Object

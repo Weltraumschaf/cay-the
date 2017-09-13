@@ -5,9 +5,8 @@ use org.caythe.core.collections.Collection
 /**
  * Single linked kist based implementation of a list.
  */
-class<E>: export public
-implement: Collection<Integer, E>
-
+class<E> export public
+implement Collection<Integer, E>
 delegate Object
 
 export add(E element) {

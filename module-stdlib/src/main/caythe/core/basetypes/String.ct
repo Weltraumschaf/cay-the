@@ -1,7 +1,6 @@
-export
-public
-class
+use org.caythe.core.basetypes.Object
 
+class export
 delegate Object
 
 export public Boolean isEmpty() {

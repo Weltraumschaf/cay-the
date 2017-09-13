@@ -1,7 +1,7 @@
 use org.caythe.core.basetypes.Boolean
 use org.caythe.core.basetypes.Integer
 
-interface<K, V>: export
+interface<K, V> export
 
 export put(K key, V value)
 export V get(K key)

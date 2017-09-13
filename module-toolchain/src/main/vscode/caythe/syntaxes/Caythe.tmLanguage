@@ -212,7 +212,7 @@
                     </dict>
                 </array>
             </dict>
-            
+
             <key>code</key>
             <dict>
                 <key>patterns</key>
@@ -255,7 +255,7 @@
                     </dict>
                 </array>
             </dict>
-            
+
             <key>comments</key>
             <dict>
                 <key>patterns</key>
@@ -314,7 +314,7 @@
                 <array>
                     <dict>
                         <key>match</key>
-                        <string>\b(true|false|this)\b</string>
+                        <string>\b(true|false|nil)\b</string>
                         <key>name</key>
                         <string>constant.language.source.ct</string>
                     </dict>
@@ -376,7 +376,7 @@
                     </dict>
                     <dict>
                         <key>match</key>
-                        <string>\b(delegate|property)\b</string>
+                        <string>\b(implement|delegate|property)\b</string>
                         <key>name</key>
                         <string>keyword.other.source.ct</string>
                     </dict>
@@ -610,11 +610,11 @@
                     </dict>
                 </array>
             </dict>
-            
+
             <key>storage-modifiers</key>
             <dict>
                 <key>match</key>
-                <string>\b(export|method|public|package|modifiable|override)\b</string>
+                <string>\b(export|public|package|modifiable|override)\b</string>
                 <key>name</key>
                 <string>storage.modifier.source.ct</string>
             </dict>

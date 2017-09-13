@@ -1,5 +1,4 @@
 use org.caythe.core.basetypes.Object
 
-class: package
-
+class package
 delegate Object
