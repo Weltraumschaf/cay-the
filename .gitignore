@@ -12,3 +12,4 @@ nbactions.xml
 **/src/latex/**/*.pdf
 
 .envrc
+contrib/
