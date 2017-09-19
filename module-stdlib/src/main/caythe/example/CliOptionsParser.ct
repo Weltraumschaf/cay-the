@@ -1,38 +1,41 @@
-/*
+use org.caythe.core.basetypes.Object
+
+/**
  * This is a helper class which deals with command line arguments.
  *
  * This is a class which means there may be multiple instance of it.
  */
-class CliOptionsParser {
+class package
+delegate Object
 
-    delegate Object
+/**
+ * This is the default constructor function and may be omitted.
+ */
+package new() {
+    return this
+}
 
-    /* This is the default constructor function and may be omitted. */
-    package method new() {
-        return this;
-    }
+/*
+ * This method parses the given strings and creates an option object from it.
+ *
+ * The visibility of this method is {@code package} because by default all
+ * methods are {@code private}.
+ *
+ * @param commandLineArguments the arguments to parse
+ * @return the parsed options object
+ */
+package parse(List<String> commandLineArguments) {
+    helpFlag
+    versionFlag
+    commandLineArguments.forEach(argument {
+        if "-h" == argument || "--help" == argument || "-?" == argument {
+            helpFlag = true
+        }
 
-    /*
-     * This method parses the given strings and creates an option object from it.
-     *
-     * The visibility of this method is {@code package} because by default all
-     * methods are {@code private}.
-     *
-     * @param commandLineArguments the arguments to parse
-     * @return the parsed options object
-     */
-    package method parse(List<String> commandLineArguments) {
-        helpFlag
-        versionFlag
-        commandLineArguments.forEach(argument {
-            if "-h" == argument || "--help" == argument || "-?" == argument {
-                helpFlag = true
-            }
+        if "-v" == argument || "--version" == argument {
+            versionFlag = true
+        }
+    })
 
-            if "-v" == argument || "--version" == argument {
-                versionFlag = true
-            }
-        })
-        return CliOptions.new(showHelp : helpFlag, showVersion: versionFlag)
-    }
+    return CliOptions.new(showHelp: helpFlag, showVersion: versionFlag)
 }

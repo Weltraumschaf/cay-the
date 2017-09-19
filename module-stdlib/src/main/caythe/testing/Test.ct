@@ -1,4 +1,4 @@
+use org.caythe.core.basetypes.Object
 
-export annotation Test {
-
-}
+annotation export
+delegate Object

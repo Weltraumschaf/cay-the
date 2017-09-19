@@ -12,8 +12,6 @@
  *
  * In the dependnecy managament a module is referenced by:
  * {@code import de.weltraumschaf:example:1.0.0}
- *
- * XXX: What if somone else declares the same coordinates by accident?
  */
 group       de.weltraumschaf
 artifact    example

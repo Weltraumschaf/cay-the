@@ -1,4 +1,4 @@
+use org.caythe.core.basetypes.Object
 
-export object Assertions {
-
-}
+object export
+delegate Object

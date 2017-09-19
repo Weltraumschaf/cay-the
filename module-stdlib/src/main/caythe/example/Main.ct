@@ -1,81 +1,78 @@
-/*
- * We want to use the system objct from the core library.
- */
 use org.caythe.core.Main
 use org.caythe.core.System
+use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.basetypes.String
 use org.caythe.core.collections.List
 
-/*
+/**
  * This is the main object which provides the main function executed by the VM.
  *
  * Objects are not instanciatable: There exist only one of it. The name of an
  * obejct must start upper case.
  */
-export object Main {
+object export
+delegate Object
 
-   	delegate Object
+/**
+ * This is helper class which does all the command line string parsing for us.
+ *
+ * You see that there are no modifiers for this field. By default all fields
+ * are private and immutbale/final.
+ *
+ * The type of the field {@code cliArgParser} is interfered and not necessary
+ * to write it.
+ */
+cliArgParser = CliOptionsParser.new();
 
-    /*
-     * This is helper class which does all the command line string parsing for us.
-     *
-     * You see that there are no modifiers for this field. By default all fields
-     * are private and immutbale/final.
-     *
-     * The type of the field {@code cliArgParser} is interfered and not necessary
-     * to write it.
-     */
-    cliArgParser = CliOptionsParser.new();
+// This will be autowired because {@code System} is an object type.
+System sys
 
-    /*
-     * This will be autowired because {@code System} is an object type.
-     */
-    System sys
+/**
+ * This is the main methode invoked by the VM.
+ *
+ * The VM finds this method by the {@code @Main} annotation. There must be
+ * only one object method annotated with {@code @Main}, unless a compile
+ * error raises.
+ *
+ * The method has the visibility {@code export} which means the method is
+ * visible outside the module. visibilities inside the module are: {@code pulbic},
+ * {@code package}, and {@ private}.
+ *
+ * The method signature is also enforced by the compiler. XXX How is it done?
+ *
+ * @param commandLineArguments the CLI arguments from outside world
+ * @return the exit code, != 0 for error
+ */
+@Main
+export Integer execute(List<String> commandLineArguments) {
+    options = cliArgParser.parse(commandLineArguments)
+    exitCode
 
-    /*
-     * This is the main methode invoked by the VM.
-     *
-     * The VM finds this method by the {@code @Main} annotation. There must be
-     * only one object method annotated with {@code @Main}, unless a compile
-     * error raises.
-     *
-     * The method has the visibility {@code export} which means the method is
-     * visible outside the module. visibilities inside the module are: {@code pulbic},
-     * {@code package}, and {@ private}.
-     *
-     * The method signature is also enforced by the compiler. XXX How is it done?
-     *
-     * @param commandLineArguments the CLI arguments from outside world
-     * @return the exit code, != 0 for error
-     */
-    @Main
-    export method Integer execute(List<String> commandLineArguments) {
-        options = cliArgParser.parse(commandLineArguments)
-        exitCode
-
-        if options.showHelp {
-            displayHelp()
-        } else options.showVersion {
-            displayVersion()
-        } else {
-            exitCode = doSomeThing()
-        }
-
-        return exitCode
+    if options.showHelp {
+        displayHelp()
+    } else options.showVersion {
+        displayVersion()
+    } else {
+        exitCode = doSomeThing()
     }
 
-    method displayHelp() {}
+    return exitCode
+}
 
-    method displayVersion() {
-        // It should be possible to get the version from Manifest.mf.
-        sys.stdout.print("This is version " + manifest().version() + "\n")
-    }
+displayHelp() {
+    // TODO Implement method.
+}
 
-    method Integer doSomeThing() {
-		5.tims(index {
-			out.print("${index}. Hello, world!\n")
-		})
-        return 0
-    }
+displayVersion() {
+    // It should be possible to get the version from Manifest.mf.
+    sys.stdout.print("This is version " + manifest().version() + "\n")
+}
+
+Integer doSomeThing() {
+    5.tims(index {
+        out.print("${index}. Hello, world!\n")
+    })
+
+    return 0
 }
