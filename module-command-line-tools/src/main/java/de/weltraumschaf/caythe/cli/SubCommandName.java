@@ -15,12 +15,10 @@ public enum SubCommandName {
      * Dummy for no command, but main program.
      */
     NONE,
-    ASSEMBLE,
     /**
      * Subcommand to create the scaffold for a new module.
      */
     CREATE,
-    COMPILE,
     /**
      * Interprets the given sources.
      */

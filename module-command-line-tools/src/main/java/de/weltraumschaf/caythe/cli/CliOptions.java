@@ -3,10 +3,8 @@ package de.weltraumschaf.caythe.cli;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterDescription;
 import de.weltraumschaf.caythe.CayThe;
-import de.weltraumschaf.caythe.cli.assemble.AssembleCliOptions;
 import de.weltraumschaf.caythe.cli.create.CreateCliOptions;
 import de.weltraumschaf.caythe.cli.repl.ReplCliOptions;
-import de.weltraumschaf.caythe.cli.repl.ReplSubCommand;
 import de.weltraumschaf.caythe.cli.run.RunCliOptions;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.commons.validate.Validate;
@@ -34,7 +32,6 @@ public final class CliOptions {
     private CreateCliOptions create;
     private ReplCliOptions repl;
     private RunCliOptions run;
-    private AssembleCliOptions assemble;
 
     /**
      * Dedicated constructor.
@@ -68,10 +65,6 @@ public final class CliOptions {
 
     public RunCliOptions getRun() {
         return run;
-    }
-
-    public AssembleCliOptions getAssemble() {
-        return assemble;
     }
 
     /**
@@ -124,9 +117,6 @@ public final class CliOptions {
         String usage = "";
 
         switch (cmd) {
-            case ASSEMBLE:
-                usage += AssembleCliOptions.usage();
-                break;
             case CREATE:
                 usage += CreateCliOptions.usage();
                 break;
@@ -135,6 +125,7 @@ public final class CliOptions {
                 break;
             case RUN:
                 usage += RunCliOptions.usage();
+                break;
             case NONE:
             default:
                 usage += MainCliOptions.usage();
@@ -198,9 +189,6 @@ public final class CliOptions {
         main = new MainCliOptions();
         parser = new JCommander(main);
 
-        assemble = new AssembleCliOptions();
-        parser.addCommand(SubCommandName.ASSEMBLE.toString(), assemble);
-
         create = new CreateCliOptions();
         parser.addCommand(SubCommandName.CREATE.toString(), create);
 
@@ -212,11 +200,11 @@ public final class CliOptions {
     }
 
     boolean isHelp() {
-        return main.isHelp() || assemble.isHelp() || create.isHelp() || repl.isHelp() || run.isHelp();
+        return main.isHelp() || create.isHelp() || repl.isHelp() || run.isHelp();
     }
 
     boolean isDebug() {
-        return main.isDebug() || assemble.isDebug() || create.isDebug() || repl.isDebug() || run.isDebug();
+        return main.isDebug() || create.isDebug() || repl.isDebug() || run.isDebug();
     }
 
     boolean isVerbose() {
