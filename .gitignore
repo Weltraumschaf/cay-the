@@ -13,3 +13,4 @@ nbactions.xml
 
 .envrc
 contrib/
+tmp/
