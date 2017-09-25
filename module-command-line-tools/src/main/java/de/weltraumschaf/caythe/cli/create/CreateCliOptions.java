@@ -23,13 +23,25 @@ public final class CreateCliOptions extends CommonCliOptions {
         .command("...").nl()
         .toString();
 
-    @Parameter(names = {"-d", "--directory"}, description = "Where to store the scaffold. If the directory does not exists it will be created.", required = true)
+    @Parameter(
+        required = true,
+        names = {"-d", "--directory"},
+        description = "Where to store the scaffold. If the directory does not exists it will be created.")
     private String directory = "";
-    @Parameter(names = {"-g", "--group"}, description = "The group directory of the module.")
+    @Parameter(
+        required = true,
+        names = {"-g", "--group"},
+        description = "The group identifier of the module. Allowed identifiers contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String group = "";
-    @Parameter(names = {"-a", "--artifact"}, description = "The artifact directory of the module.")
+    @Parameter(
+        required = true,
+        names = {"-a", "--artifact"},
+        description = "The artifact identifier of the module. Allowed identifiers contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String artifact = "";
-    @Parameter(names = {"-n", "--namespace"}, description = "The namespace of the module.")
+    @Parameter(
+        required = true,
+        names = {"-n", "--namespace"},
+        description = "The namespace of the module. Allowed namespaces contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String namespace = "";
 
     public String getDirectory() {

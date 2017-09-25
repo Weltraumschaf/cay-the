@@ -7,12 +7,21 @@ import org.stringtemplate.v4.ST;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
 public final class CreateSubCommand implements SubCommand {
+
+    private static final Collection<Character> ALLOWED = Arrays.asList(
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '.', '-', '_'
+    );
 
     private static final String MANIFEST_TEMPLATE
         = "group      <group>\n"
@@ -38,12 +47,46 @@ public final class CreateSubCommand implements SubCommand {
         }
 
         final ST manifest = new ST(MANIFEST_TEMPLATE);
-        manifest.add("group", options.getGroup());
-        manifest.add("artifact", options.getArtifact());
-        manifest.add("namespace", options.getNamespace());
+        manifest.add("group", validateIdentifier(options.getGroup()));
+        manifest.add("artifact", validateIdentifier(options.getArtifact()));
+        manifest.add("namespace", validateIdentifier(options.getNamespace()));
 
-        Files.write(directory.resolve("Manifest.mf"), manifest.render().getBytes());
+        Files.write(directory.resolve("Module.mf"), manifest.render().getBytes());
 
         ctx.getIo().println("Done :-)");
+    }
+
+    String validateIdentifier(final String identifier) {
+        if (null == identifier) {
+            throw new IllegalArgumentException();
+        }
+
+        final String trimmedIdentifier = identifier.trim();
+
+        if (trimmedIdentifier.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        boolean currentCharIsDot = false;
+
+        for (int i = 0; i < trimmedIdentifier.length(); ++i) {
+            final char c = trimmedIdentifier.charAt(i);
+
+            if (isNotAllowed(c)) {
+                throw new IllegalArgumentException();
+            }
+
+            if (currentCharIsDot && '.' == c) {
+                throw new IllegalArgumentException();
+            }
+
+            currentCharIsDot = '.' == c;
+        }
+
+        return trimmedIdentifier;
+    }
+
+    private boolean isNotAllowed(final Character c) {
+        return !ALLOWED.contains(c);
     }
 }

@@ -127,16 +127,14 @@ public final class CliApplication extends InvokableAdapter {
             return;
         }
 
-        subCommands.forName(commandName, new CliContext(getIoStreams(), options, version)).execute();
+        subCommands.forName(commandName, new DefaultCliContext(getIoStreams(), options, version)).execute();
     }
 
 
     /**
      * Throw a generic bad CLI argument error.
-     *
-     * @throws ApplicationException always
      */
-    private ApplicationException badArgumentError() throws ApplicationException {
+    private ApplicationException badArgumentError() {
         return badArgumentError("Bad arguments!", SubCommandName.NONE);
     }
 
