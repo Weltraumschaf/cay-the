@@ -47,24 +47,24 @@ public final class CreateSubCommand implements SubCommand {
         }
 
         final ST manifest = new ST(MANIFEST_TEMPLATE);
-        manifest.add("group", validateIdentifier(options.getGroup()));
-        manifest.add("artifact", validateIdentifier(options.getArtifact()));
-        manifest.add("namespace", validateIdentifier(options.getNamespace()));
+        manifest.add("group", validateIdentifier(options.getGroup(), "group"));
+        manifest.add("artifact", validateIdentifier(options.getArtifact(), "artifact"));
+        manifest.add("namespace", validateIdentifier(options.getNamespace(), "namespace"));
 
         Files.write(directory.resolve("Module.mf"), manifest.render().getBytes());
 
         ctx.getIo().println("Done :-)");
     }
 
-    String validateIdentifier(final String identifier) {
+    String validateIdentifier(final String identifier, final String name) {
         if (null == identifier) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(String.format("Identifier for %s must not be null!", name));
         }
 
         final String trimmedIdentifier = identifier.trim();
 
         if (trimmedIdentifier.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(String.format("Identifier for %s must not be blank or empty!", name));
         }
 
         boolean currentCharIsDot = false;
@@ -73,11 +73,13 @@ public final class CreateSubCommand implements SubCommand {
             final char c = trimmedIdentifier.charAt(i);
 
             if (isNotAllowed(c)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(
+                    String.format("Identifier for %s must not contain character '%s'!", name, c));
             }
 
             if (currentCharIsDot && '.' == c) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(
+                    String.format("Identifier for %s must not two consecutive dots!", name));
             }
 
             currentCharIsDot = '.' == c;
