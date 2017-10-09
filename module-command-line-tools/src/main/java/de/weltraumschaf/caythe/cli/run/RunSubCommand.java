@@ -22,21 +22,27 @@ public final class RunSubCommand implements SubCommand {
         this.ctx = ctx;
     }
 
-
     @Override
     public void execute() throws Exception {
         final RunCliOptions options = ctx.getOptions().getRun();
-        final Path file = Paths.get(options.getFile());
-        final InputStream src = Files.newInputStream(file);
-        final CayTheSourceParser parser = parsers.newSourceParser(src);
-        final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
+        final Path moduleDir = Paths.get(options.getModule());
 
-        if (options.isTree()) {
-            final DotGenerator generator = new DotGenerator();
-            ast.accept(generator);
-            ctx.getIo().print(generator.getGraph());
+        if (Files.isDirectory(moduleDir)) {
+
         } else {
-            ast.accept(new AstWalkingInterpreter());
+
         }
+
+//        final InputStream src = Files.newInputStream(file);
+//        final CayTheSourceParser parser = parsers.newSourceParser(src);
+//        final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
+//
+//        if (options.isTree()) {
+//            final DotGenerator generator = new DotGenerator();
+//            ast.accept(generator);
+//            ctx.getIo().print(generator.getGraph());
+//        } else {
+//            ast.accept(new AstWalkingInterpreter());
+//        }
     }
 }

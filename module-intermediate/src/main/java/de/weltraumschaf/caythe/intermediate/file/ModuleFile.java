@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.zip.DataFormatException;
 
 /**
- * This class persists a whole {@link Module semantic model} int o a file or restores it from one.
+ * This class persists a whole {@link Module semantic model} into a file or restores it from one.
  *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;

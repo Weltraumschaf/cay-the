@@ -17,14 +17,14 @@ public final class RunCliOptions extends CommonCliOptions {
         .command("TODO").nl()
         .toString();
 
-    @Parameter(names = {"-f", "--file"}, description = "The file to run", required = true)
-    private String file = "";
+    @Parameter(names = {"-m", "--module"}, description = "The module to run", required = true)
+    private String module = "";
 
     @Parameter(names = {"-t", "--tree"}, description = "Prints the abstract syntax tree as dot graph syntax.")
     private boolean tree;
 
-    String getFile() {
-        return file;
+    String getModule() {
+        return module;
     }
 
     boolean isTree() {

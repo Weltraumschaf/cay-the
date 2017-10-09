@@ -20,6 +20,6 @@ public class CliOptionsTest {
     public void usage_withSubCommand() {
         assertThat(
             sut.usage(SubCommandName.CREATE),
-            is("create -d|--directory [-g|--group] [-a|--artifact] [-n|--namespace] [-h|--help] [--debug]"));
+            is("create -d|--directory -g|--group -a|--artifact -n|--namespace [-h|--help] [--debug]"));
     }
 }
