@@ -1,0 +1,5 @@
+group      de.weltraumschaf
+artifact   test-module
+version    1.0.0-SNAPSHOT
+
+namespace  de.weltraumschaf.testmod
