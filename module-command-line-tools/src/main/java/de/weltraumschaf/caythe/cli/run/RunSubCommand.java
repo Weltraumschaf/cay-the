@@ -3,7 +3,10 @@ package de.weltraumschaf.caythe.cli.run;
 import de.weltraumschaf.caythe.cli.CliContext;
 import de.weltraumschaf.caythe.cli.SubCommand;
 import de.weltraumschaf.caythe.frontend.CayTheManifestParser;
+import de.weltraumschaf.caythe.frontend.ManifestToIntermediateTransformer;
 import de.weltraumschaf.caythe.frontend.Parsers;
+import de.weltraumschaf.caythe.intermediate.model.Manifest;
+import de.weltraumschaf.caythe.intermediate.model.Module;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public final class RunSubCommand implements SubCommand {
-    private Parsers parsers = new Parsers();
+
     private final CliContext ctx;
 
     public RunSubCommand(final CliContext ctx) {
@@ -38,9 +41,7 @@ public final class RunSubCommand implements SubCommand {
             throw new IOException(String.format("Directory %s is not readable!", moduleDir));
         }
 
-        final ModuleFiles moduleFiles = findModuleFiles(moduleDir);
-        parseModuleManifest(moduleFiles);
-        parseSourceFiles(moduleFiles);
+        final Module module = new ModuleParser().parse(moduleDir);
 
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);
@@ -55,18 +56,4 @@ public final class RunSubCommand implements SubCommand {
 //        }
     }
 
-    private ModuleFiles findModuleFiles(final Path moduleDir) throws IOException {
-        return new ModuleCrawler().find(moduleDir);
-    }
-
-    private void parseModuleManifest(final ModuleFiles moduleFiles) throws IOException {
-        try (final InputStream src = Files.newInputStream(moduleFiles.getManifestFile())) {
-            final CayTheManifestParser parser = parsers.newManifestParser(src);
-            parser.manifest();
-        }
-    }
-
-    private void parseSourceFiles(final ModuleFiles moduleFiles) {
-        
-    }
 }
