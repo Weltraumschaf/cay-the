@@ -6,7 +6,7 @@ import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.caythe.backend.types.NullType;
 import de.weltraumschaf.caythe.backend.types.ObjectType;
-import de.weltraumschaf.caythe.frontend.TransformToIntermediateVisitor;
+import de.weltraumschaf.caythe.frontend.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.application.Version;
@@ -106,7 +106,7 @@ final class Repl {
                 inputBuffer.append(line).append(CayThe.NL);
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
-                final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
+                final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());
                 final ObjectType result = ast.accept(interpreter);
 
                 if (result == NullType.NULL) {

@@ -4,7 +4,7 @@ import de.weltraumschaf.caythe.backend.types.NullType;
 import de.weltraumschaf.caythe.backend.types.ObjectType;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.frontend.TransformToIntermediateVisitor;
+import de.weltraumschaf.caythe.frontend.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.commons.testing.rules.CapturedOutput;
 import org.junit.Rule;
@@ -29,7 +29,7 @@ public final class AstWalkingInterpreterTest {
 
     private AstNode parse(final String src ) throws IOException {
         final CayTheSourceParser parser = parsers.newSourceParser(new ByteArrayInputStream(src.getBytes()));
-        return new TransformToIntermediateVisitor().visit(parser.unit());
+        return new SourceToIntermediateTransformer().visit(parser.unit());
     }
 
     @Test

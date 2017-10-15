@@ -12,7 +12,7 @@ import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newUnsupportedOperatorError;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.nil;
 
-public final class TransformToIntermediateVisitor extends CayTheSourceBaseVisitor<AstNode> {
+public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisitor<AstNode> {
 
     private Position cretePosition(final Token t) {
         return new Position(t.getLine(), t.getCharPositionInLine());

@@ -15,9 +15,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link TransformToIntermediateVisitor}.
+ * Tests for {@link SourceToIntermediateTransformer}.
  */
-public class TransformToIntermediateVisitorTest extends VisitorTestCase {
+public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
     private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);
 

@@ -1,7 +1,6 @@
 package de.weltraumschaf.caythe.frontend;
 
 import com.google.inject.AbstractModule;
-import org.antlr.v4.runtime.ANTLRErrorListener;
 
 /**
  * * Configures the dependency injection.
@@ -15,6 +14,6 @@ final class DependencyInjectionConfig extends AbstractModule {
     protected void configure() {
         bind(ErrorListener.class).to(DefaultErrorListener.class);
         bind(CayTheManifestVisitor.class).to(DefaultCayTheManifestVisitor.class);
-        bind(CayTheSourceVisitor.class).to(TransformToIntermediateVisitor.class);
+        bind(CayTheSourceVisitor.class).to(SourceToIntermediateTransformer.class);
     }
 }

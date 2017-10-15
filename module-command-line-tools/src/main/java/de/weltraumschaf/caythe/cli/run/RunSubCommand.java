@@ -2,10 +2,12 @@ package de.weltraumschaf.caythe.cli.run;
 
 import de.weltraumschaf.caythe.cli.CliContext;
 import de.weltraumschaf.caythe.cli.SubCommand;
+import de.weltraumschaf.caythe.frontend.CayTheManifestParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +44,7 @@ public final class RunSubCommand implements SubCommand {
 
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);
-//        final AstNode ast = new TransformToIntermediateVisitor().visit(parser.unit());
+//        final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());
 //
 //        if (options.isTree()) {
 //            final DotGenerator generator = new DotGenerator();
@@ -57,7 +59,11 @@ public final class RunSubCommand implements SubCommand {
         return new ModuleCrawler().find(moduleDir);
     }
 
-    private void parseModuleManifest(final ModuleFiles moduleFiles) {
+    private void parseModuleManifest(final ModuleFiles moduleFiles) throws IOException {
+        try (final InputStream src = Files.newInputStream(moduleFiles.getManifestFile())) {
+            final CayTheManifestParser parser = parsers.newManifestParser(src);
+            parser.manifest();
+        }
     }
 
     private void parseSourceFiles(final ModuleFiles moduleFiles) {
