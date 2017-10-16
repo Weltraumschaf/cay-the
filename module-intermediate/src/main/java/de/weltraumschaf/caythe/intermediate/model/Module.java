@@ -15,7 +15,7 @@ import java.util.Objects;
  * </p>
  */
 public final class Module {
-    public static final Module NULL = new Module(Manifest.NULL, Collections.emptyList(), Collections.emptyList());
+    public static final Module NONE = new Module(Manifest.NONE, Collections.emptyList(), Collections.emptyList());
 
     private final Manifest manifest;
     private final Collection<AstNode> units;

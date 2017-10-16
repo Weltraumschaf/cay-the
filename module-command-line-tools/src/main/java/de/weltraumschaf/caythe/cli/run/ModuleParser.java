@@ -41,7 +41,9 @@ final class ModuleParser {
     private Manifest parseModuleManifest(final ModuleFiles moduleFiles) throws IOException {
         try (final InputStream src = Files.newInputStream(moduleFiles.getManifestFile())) {
             final CayTheManifestParser parser = parsers.newManifestParser(src);
-            return new ManifestToIntermediateTransformer().visit(parser.manifest());
+            @SuppressWarnings("unchecked") final CayTheManifestVisitor<Manifest> visitor =
+                parsers.injector().getInstance(CayTheManifestVisitor.class);
+            return visitor.visit(parser.manifest());
         }
     }
 
@@ -51,7 +53,10 @@ final class ModuleParser {
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
-                final AstNode unit = new SourceToIntermediateTransformer().visit(parser.unit());
+                @SuppressWarnings("unchecked")
+                final CayTheSourceBaseVisitor<AstNode> visitor =
+                    parsers.injector().getInstance(CayTheSourceBaseVisitor.class);
+                final AstNode unit = visitor.visit(parser.unit());
                 units.add(unit);
             }
         }

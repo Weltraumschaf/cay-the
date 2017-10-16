@@ -43,6 +43,16 @@ public final class RunSubCommand implements SubCommand {
 
         final Module module = new ModuleParser().parse(moduleDir);
 
+        /*
+            TODO module.manifest validation:
+            - missing: group, artifact, namespace, version.
+            - version must not be 0.0.0
+            - imports
+                - no duplicates
+                - versions > 0.0.0
+         */
+
+
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);
 //        final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());

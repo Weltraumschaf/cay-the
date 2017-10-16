@@ -14,32 +14,40 @@ abstract class VisitorTestCase {
         return parsers.injector();
     }
 
-    final InputStream stream(final String input) {
+    private final InputStream stream(final String input) {
         return new ByteArrayInputStream(input.getBytes());
     }
 
-    final CayTheManifestParser manifestParser(final String input) throws IOException {
-        return manifestParser(stream(input));
+    final CayTheManifestParser createManifestParser(final String input) throws IOException {
+        return createManifestParser(stream(input));
     }
 
-    final CayTheManifestParser manifestParser(final InputStream input) throws IOException {
+    final CayTheManifestParser createManifestParser(final InputStream input) throws IOException {
         return parsers.newManifestParser(input);
     }
 
-    final CayTheSourceParser sourceParser(final String input) throws IOException {
-        return sourceParser(stream(input));
+    ParseTree parseManifest(final String src) throws IOException {
+        return parseManifest(new ByteArrayInputStream(src.getBytes()));
     }
 
-    final CayTheSourceParser sourceParser(final InputStream input) throws IOException {
+    ParseTree parseManifest(final InputStream src) throws IOException {
+        return createManifestParser(src).manifest();
+    }
+
+    final CayTheSourceParser createSourceParser(final String input) throws IOException {
+        return createSourceParser(stream(input));
+    }
+
+    final CayTheSourceParser createSourceParser(final InputStream input) throws IOException {
         return parsers.newSourceParser(input);
     }
 
-    ParseTree parse(final String src) throws IOException {
-        return parse(new ByteArrayInputStream(src.getBytes()));
+    ParseTree parseSource(final String src) throws IOException {
+        return parseSource(new ByteArrayInputStream(src.getBytes()));
     }
 
-    ParseTree parse(final InputStream src) throws IOException {
-        return sourceParser(src).unit();
+    ParseTree parseSource(final InputStream src) throws IOException {
+        return createSourceParser(src).unit();
     }
 
 }

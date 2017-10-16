@@ -47,7 +47,7 @@ public final class FooTest extends VisitorTestCase {
     public void test() throws IOException {
         assertThat(spec, is(not(nullValue())));
 
-        final AstNode ast = sut.visit(parse(spec.getGiven()));
+        final AstNode ast = sut.visit(parseSource(spec.getGiven()));
 
         assertThat(ast, is(asSpecified(spec)));
     }

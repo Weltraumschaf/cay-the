@@ -2,7 +2,8 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
-import static de.weltraumschaf.caythe.intermediate.model.Version.*;
+
+import de.weltraumschaf.caythe.intermediate.model.Version;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,11 +16,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link DefaultCayTheManifestVisitor}.
+ * Tests for {@link ManifestToIntermediateTransformer}.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
+public class ManifestToIntermediateTransformerTest extends VisitorTestCase {
 
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
@@ -37,7 +38,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -51,7 +52,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -65,7 +66,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -78,7 +79,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "artifact   example\n" +
                 "version    1.2.3\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -95,7 +96,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -112,7 +113,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -129,7 +130,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "namespace  de.weltraumschaf.example\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -146,7 +147,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "namespace  de.weltraumschaf.example\n" +
                 "namespace  de.weltraumschaf.snafu\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -164,7 +165,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "import test:7.8.9\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -182,7 +183,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "import de.weltraumschaf:7.8.9\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -200,7 +201,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "\n" +
                 "import de.weltraumschaf:test\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -219,7 +220,7 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "import de.weltraumschaf:test:7.8.9\n" +
                 "import de.weltraumschaf:test:7.8.9\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
     }
 
     @Test
@@ -233,12 +234,12 @@ public class DefaultCayTheManifestVisitorTest extends VisitorTestCase {
                 "import de.weltraumschaf:core:4.5.6\n" +
                 "import de.weltraumschaf:test:7.8.9\n";
 
-        final Manifest manifest = sut.visit(manifestParser(src).manifest());
+        final Manifest manifest = sut.visit(parseManifest(src));
 
-        assertThat(manifest.getCoordinate(), is(new Coordinate("de.weltraumschaf", "example", version(1, 2, 3))));
+        assertThat(manifest.getCoordinate(), is(new Coordinate("de.weltraumschaf", "example", new Version(1, 2, 3))));
         assertThat(manifest.getNamespace(), is("de.weltraumschaf.example"));
         assertThat(manifest.getImports(),
-            containsInAnyOrder(new Coordinate("de.weltraumschaf", "core", version(4, 5, 6)),
-                new Coordinate("de.weltraumschaf", "test", version(7, 8, 9))));
+            containsInAnyOrder(new Coordinate("de.weltraumschaf", "core", new Version(4, 5, 6)),
+                new Coordinate("de.weltraumschaf", "test", new Version(7, 8, 9))));
     }
 }

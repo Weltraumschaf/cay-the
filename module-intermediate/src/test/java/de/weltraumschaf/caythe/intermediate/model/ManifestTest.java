@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static de.weltraumschaf.caythe.intermediate.model.Version.version;
+import de.weltraumschaf.caythe.intermediate.model.Version;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -25,17 +25,17 @@ public class ManifestTest {
     @Test
     public void equalsForImports() {
         final Manifest a = new Manifest(
-            new Coordinate("g", "a", version(1,0,0)), "n", Arrays.asList(
-                new Coordinate("g1", "a1", version(2, 0, 0)),
-                new Coordinate("g2", "a2", version(3, 0, 0))
+            new Coordinate("g", "a", new Version(1,0,0)), "n", Arrays.asList(
+                new Coordinate("g1", "a1", new Version(2, 0, 0)),
+                new Coordinate("g2", "a2", new Version(3, 0, 0))
         ));
         final Manifest b = new Manifest(
-            new Coordinate("g", "a", version(1,0,0)), "n", Arrays.asList(
-                new Coordinate("g1", "a1", version(2, 0, 0)),
-                new Coordinate("g2", "a2", version(3, 0, 0))
+            new Coordinate("g", "a", new Version(1,0,0)), "n", Arrays.asList(
+                new Coordinate("g1", "a1", new Version(2, 0, 0)),
+                new Coordinate("g2", "a2", new Version(3, 0, 0))
         ));
         final Manifest c = new Manifest(
-            new Coordinate("g", "a", version(1,0,0)), "n", Collections.emptyList());
+            new Coordinate("g", "a", new Version(1,0,0)), "n", Collections.emptyList());
 
         assertThat(a, is(b));
         assertThat(b, is(a));

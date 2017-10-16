@@ -32,7 +32,7 @@ public final class Parsers {
         this.debug = debug;
     }
 
-    Injector injector() {
+    public Injector injector() {
         return injector;
     }
 

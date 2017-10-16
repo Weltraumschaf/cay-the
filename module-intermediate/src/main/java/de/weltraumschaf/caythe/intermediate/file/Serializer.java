@@ -1,7 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.file;
 
 import com.google.gson.Gson;
-import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Module;
 
 /**
@@ -35,16 +34,16 @@ final class Serializer {
     /**
      * Deserialize a given string to a model.
      * <p>
-     * If {@code null} or empty string is given then an {@link Module#NULL null object} will be returned.
+     * If {@code null} or empty string is given then an {@link Module#NONE null object} will be returned.
      * </p>
      * 
      * @param serializedModel
      *        maybe {@code null} or empty
-     * @return never {@code null}, maybe {@link Module#NULL empty}
+     * @return never {@code null}, maybe {@link Module#NONE empty}
      */
     Module deserialize(final String serializedModel) {
         if (serializedModel == null || serializedModel.isEmpty()) {
-            return Module.NULL;
+            return Module.NONE;
         }
 
         return gson.fromJson(serializedModel, Module.class);

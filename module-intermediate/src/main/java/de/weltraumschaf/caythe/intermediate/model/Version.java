@@ -6,31 +6,30 @@ import java.util.Objects;
 
 /**
  * Describes a semantic version.
+ * <p>
+ * This type is immutable by design: All setters return new objects.
+ * </p>
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public final class Version {
-    public static final Version NULL = Version.version(0, 0, 0);
+    public static final Version NONE = new Version(0, 0, 0);
     private final int major;
     private final int minor;
     private final int patch;
     private final String identifiers;
 
-    private Version(final int major, final int minor, final int patch, final String identifiers) {
+    public Version(final int major, final int minor, final int patch) {
+        this(major, minor, patch, "");
+    }
+
+    public Version(final int major, final int minor, final int patch, final String identifiers) {
         super();
         this.major = Validate.greaterThanOrEqual(major, 0, "major");
         this.minor = Validate.greaterThanOrEqual(minor, 0, "minor");
         this.patch = Validate.greaterThanOrEqual(patch, 0, "patch");
         this.identifiers = Validate.notNull(identifiers, "identifiers");
-    }
-
-    public static Version version(final int major, final int minor, final int patch) {
-        return version(major, minor, patch, "");
-    }
-
-    public static Version version(final int major, final int minor, final int patch, final String identifiers) {
-        return new Version(major, minor, patch, identifiers);
     }
 
     public int getMajor() {

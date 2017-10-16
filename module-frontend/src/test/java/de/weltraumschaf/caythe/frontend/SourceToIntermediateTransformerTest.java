@@ -22,10 +22,10 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);
 
     @Test
-    public void foo() throws IOException {
+    public void testFile() throws IOException {
         final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/caythe/frontend/test.ct");
 
-        final AstNode ast = sut.visit(parse(src));
+        final AstNode ast = sut.visit(parseSource(src));
 
         assertThat(ast, is(not(nullValue())));
     }
@@ -45,7 +45,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parse(src));
+        final AstNode ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }
@@ -73,7 +73,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parse(src));
+        final AstNode ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }
@@ -102,7 +102,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parse(src));
+        final AstNode ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }

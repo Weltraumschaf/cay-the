@@ -6,12 +6,15 @@ import java.util.Objects;
 
 /**
  * A module coordinate.
+ * <p>
+ * This type is immutable by design: All setters return new objects.
+ * </p>
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public final class Coordinate {
-    public static final Coordinate NULL = new Coordinate("unknown", "unknown", Version.NULL);
+    public static final Coordinate NONE = new Coordinate("unknown", "unknown", Version.NONE);
     private final String group;
     private final String artifact;
     private final Version version;

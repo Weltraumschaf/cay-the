@@ -57,4 +57,5 @@ public final class ModuleCrawlerTest {
             moduleDir.resolve("package-a/package-b/PackageInfo.md")
         ));
     }
+
 }

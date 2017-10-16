@@ -6,16 +6,26 @@ import java.util.*;
 
 /**
  * The information from a module manifest.
+ * <p>
+ * This type is immutable by design: All setters return new objects.
+ * </p>
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public final class Manifest {
-    public static final Manifest NULL = new Manifest(Coordinate.NULL, "unknown", Collections.emptyList());
+    public static final Manifest NONE = new Manifest(Coordinate.NONE, "unknown", Collections.emptyList());
     private final Coordinate coordinate;
     private final String namespace;
     private final Collection<Coordinate> imports;
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param coordinate must not be {@code null}
+     * @param namespace must not be {@code null}
+     * @param imports must not be {@code null}, defensive copied
+     */
     public Manifest(final Coordinate coordinate, final String namespace, final Collection<Coordinate> imports) {
         super();
         this.coordinate = Validate.notNull(coordinate, "coordinate");
