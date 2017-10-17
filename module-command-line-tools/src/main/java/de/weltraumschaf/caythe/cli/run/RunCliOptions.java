@@ -20,7 +20,7 @@ public final class RunCliOptions extends CommonCliOptions {
     @Parameter(names = {"-m", "--module"}, description = "The module to run", required = true)
     private String module = "";
 
-    @Parameter(names = {"-i", "--inspect"}, description = "Inspects the givne module and print the information to STDOUT", required = true)
+    @Parameter(names = {"-i", "--inspect"}, description = "Inspects the givne module and print the information to STDOUT")
     private boolean inspect;
 
     @Parameter(names = {"-t", "--tree"}, description = "Prints the abstract syntax tree as dot graph syntax.")

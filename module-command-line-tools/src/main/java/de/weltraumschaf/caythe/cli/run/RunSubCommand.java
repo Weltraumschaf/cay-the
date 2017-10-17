@@ -45,7 +45,7 @@ public final class RunSubCommand implements SubCommand {
         new ModuleValidator().validate(module);
 
         if (options.isInspect()) {
-            new ModuleInspector().inspect(module, ctx.getIo());
+            new ModuleInspector(moduleDir).inspect(module, ctx.getIo());
         }
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);

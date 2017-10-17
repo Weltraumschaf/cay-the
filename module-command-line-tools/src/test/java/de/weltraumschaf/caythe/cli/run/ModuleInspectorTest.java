@@ -4,21 +4,35 @@ import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Version;
 import de.weltraumschaf.commons.application.IO;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link ModuleInspector}.
  */
 public final class ModuleInspectorTest {
-    private final ModuleInspector sut = new ModuleInspector();
+    private final Path moduleDir = mock(Path.class);
+    private final ModuleInspector sut = new ModuleInspector(moduleDir);
+
+    @Test
+    public void preamble() {
+        when(moduleDir.toString()).thenReturn("/foo/bar");
+
+        assertThat(sut.preamble(), is(
+            "Inspecting Module\n"
+                + "=================\n"
+                + "\n"
+                + "Location : /foo/bar\n"
+                + "\n"));
+    }
 
     @Test
     public void dumpManifestInfo_noImports() {
@@ -29,14 +43,15 @@ public final class ModuleInspectorTest {
         );
         final IO io = mock(IO.class);
 
-        sut.dumpManifestInfo(manifest, io);
-
-        verify(io, times(1))
-            .print("group     : de.weltraumschaf\n"
+        assertThat(sut.dumpManifestInfo(manifest), is(
+            "Manifest\n"
+                + "--------\n"
+                + "\n"
+                + "group     : de.weltraumschaf\n"
                 + "artifact  : test-module\n"
                 + "version   : 1.2.3\n"
                 + "namespace : de.weltraumschaf.testmod\n"
-                + "imports   : -\n");
+                + "imports   : -\n"));
     }
 
     @Test
@@ -49,14 +64,16 @@ public final class ModuleInspectorTest {
         );
         final IO io = mock(IO.class);
 
-        sut.dumpManifestInfo(manifest, io);
-
-        verify(io, times(1))
-            .print("group     : de.weltraumschaf\n"
+        assertThat(sut.dumpManifestInfo(manifest), is(
+            "Manifest\n"
+                + "--------\n"
+                + "\n"
+                + "group     : de.weltraumschaf\n"
                 + "artifact  : test-module\n"
                 + "version   : 1.2.3\n"
                 + "namespace : de.weltraumschaf.testmod\n"
-                + "imports   : org.snafu:foo:1.0.1\n");
+                + "imports   : \n"
+                + "  org.snafu:foo:1.0.1\n"));
     }
 
     @Test
@@ -72,15 +89,17 @@ public final class ModuleInspectorTest {
         );
         final IO io = mock(IO.class);
 
-        sut.dumpManifestInfo(manifest, io);
-
-        verify(io, times(1))
-            .print("group     : de.weltraumschaf\n"
+        assertThat(sut.dumpManifestInfo(manifest), is(
+            "Manifest\n"
+                + "--------\n"
+                + "\n"
+                + "group     : de.weltraumschaf\n"
                 + "artifact  : test-module\n"
                 + "version   : 1.2.3\n"
                 + "namespace : de.weltraumschaf.testmod\n"
-                + "imports   : org.snafu:foo:1.0.1\n" +
-                "org.snafu:bar:1.0.2\n" +
-                "org.snafu:baz:1.0.3\n");
+                + "imports   : \n"
+                + "  org.snafu:foo:1.0.1\n"
+                + "  org.snafu:bar:1.0.2\n"
+                + "  org.snafu:baz:1.0.3\n"));
     }
 }

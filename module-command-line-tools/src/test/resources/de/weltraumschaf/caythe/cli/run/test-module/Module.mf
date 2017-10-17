@@ -3,3 +3,7 @@ artifact   test-module
 version    1.0.0-SNAPSHOT
 
 namespace  de.weltraumschaf.testmod
+
+import      org.caythe:core:1.0.0
+import      org.caythe:testing:1.0.0
+
