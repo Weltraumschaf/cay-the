@@ -4,8 +4,6 @@ import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Version;
 
-import static de.weltraumschaf.caythe.intermediate.model.Version.*;
-
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;
 
@@ -27,11 +25,11 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
             missingDirective,
             missingDirective);
 
-    private static final String NO_LITERAL = "";
-    private String group = NO_LITERAL;
-    private String artifact = NO_LITERAL;
+    private static final String EMPTY_LITERAL = "";
+    private String group = EMPTY_LITERAL;
+    private String artifact = EMPTY_LITERAL;
     private Version version = Version.NONE;
-    private String namespace = NO_LITERAL;
+    private String namespace = EMPTY_LITERAL;
     private Collection<Coordinate> imports = new ArrayList<>();
 
 
@@ -44,11 +42,11 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
     public Manifest visitManifest(CayTheManifestParser.ManifestContext ctx) {
         super.visitManifest(ctx);
 
-        if (NO_LITERAL.equals(group)) {
+        if (EMPTY_LITERAL.equals(group)) {
             throw new SyntaxError(MISSING_DIRECTIVE.apply("group"));
         }
 
-        if (NO_LITERAL.equals(artifact)) {
+        if (EMPTY_LITERAL.equals(artifact)) {
             throw new SyntaxError(MISSING_DIRECTIVE.apply("artifact"));
         }
 
@@ -56,7 +54,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
             throw new SyntaxError(MISSING_DIRECTIVE.apply("version"));
         }
 
-        if (NO_LITERAL.equals(namespace)) {
+        if (EMPTY_LITERAL.equals(namespace)) {
             throw new SyntaxError(MISSING_DIRECTIVE.apply("namespace"));
         }
 
@@ -65,7 +63,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
 
     @Override
     public Manifest visitGroupDirective(CayTheManifestParser.GroupDirectiveContext ctx) {
-        if (NO_LITERAL.equals(group)) {
+        if (EMPTY_LITERAL.equals(group)) {
             group = ctx.fullQualifiedName().getText();
         } else {
             throw error(ctx.start, "Redefined group!");
@@ -76,7 +74,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
 
     @Override
     public Manifest visitArtifactDirective(CayTheManifestParser.ArtifactDirectiveContext ctx) {
-        if (NO_LITERAL.equals(artifact)) {
+        if (EMPTY_LITERAL.equals(artifact)) {
             artifact = ctx.fullQualifiedName().getText();
         } else {
             throw error(ctx.start, "Redefined artifact!");
@@ -87,7 +85,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
 
     @Override
     public Manifest visitNamespaceDirective(CayTheManifestParser.NamespaceDirectiveContext ctx) {
-        if (NO_LITERAL.equals(namespace)) {
+        if (EMPTY_LITERAL.equals(namespace)) {
             namespace = ctx.fullQualifiedName().getText();
         } else {
             throw error(ctx.start, "Redefined namespace!");
@@ -102,7 +100,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
             CayTheManifestParser.VersionContext v = ctx.version();
             final String identifiers =
                 v.identifiers == null ?
-                    "" :
+                    EMPTY_LITERAL :
                     v.identifiers.getText();
             version = new Version(
                 Integer.parseInt(v.major.getText()),
@@ -120,18 +118,18 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
     @Override
     public Manifest visitImportDirective(CayTheManifestParser.ImportDirectiveContext ctx) {
         CayTheManifestParser.CoordinateContext coordinate = ctx.coordinate();
-        final CayTheManifestParser.VersionContext version = coordinate.version();
+        final CayTheManifestParser.VersionContext v = coordinate.version();
         final String identifiers =
-            version.identifiers == null ?
-                "" :
-                version.identifiers.getText();
+            v.identifiers == null ?
+                EMPTY_LITERAL :
+                v.identifiers.getText();
         imports.add(new Coordinate(
             coordinate.group.getText(),
             coordinate.artifact.getText(),
             new Version(
-                Integer.parseInt(version.major.getText()),
-                Integer.parseInt(version.minor.getText()),
-                Integer.parseInt(version.patch.getText()),
+                Integer.parseInt(v.major.getText()),
+                Integer.parseInt(v.minor.getText()),
+                Integer.parseInt(v.patch.getText()),
                 identifiers)
         ));
         return defaultResult();
