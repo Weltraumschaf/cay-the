@@ -38,6 +38,10 @@ public final class Coordinate {
         return version;
     }
 
+    public String toLiteral() {
+        return String.format("%s:%s:%s", group, artifact, version.toLiteral());
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Coordinate)) {

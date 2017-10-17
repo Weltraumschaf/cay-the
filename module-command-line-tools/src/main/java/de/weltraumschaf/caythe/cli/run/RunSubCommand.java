@@ -42,17 +42,11 @@ public final class RunSubCommand implements SubCommand {
         }
 
         final Module module = new ModuleParser().parse(moduleDir);
+        new ModuleValidator().validate(module);
 
-        /*
-            TODO module.manifest validation:
-            - missing: group, artifact, namespace, version.
-            - version must not be 0.0.0
-            - imports
-                - no duplicates
-                - versions > 0.0.0
-         */
-
-
+        if (options.isInspect()) {
+            new ModuleInspector().inspect(module, ctx.getIo());
+        }
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);
 //        final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());

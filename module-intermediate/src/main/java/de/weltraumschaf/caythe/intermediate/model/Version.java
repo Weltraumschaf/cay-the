@@ -61,6 +61,14 @@ public final class Version {
             Objects.equals(identifiers, version.identifiers);
     }
 
+    public String toLiteral() {
+        return String.format("%d.%d.%d", major, minor, patch) + generateLiteralSuffix();
+    }
+
+    private String generateLiteralSuffix() {
+        return identifiers.isEmpty() ? "" : '-' + identifiers;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(major, minor, patch, identifiers);
