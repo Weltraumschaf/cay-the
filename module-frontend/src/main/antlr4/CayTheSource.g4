@@ -5,7 +5,7 @@ package de.weltraumschaf.caythe.frontend;
 }
 
 /*
- * Statement must be terminated with ';'. Expressions always return a value.
+ * Statement must be terminated with '\n'. Expressions always return a value.
  */
 
 // Parser production rules:

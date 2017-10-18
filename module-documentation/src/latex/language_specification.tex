@@ -4,7 +4,6 @@
 \input{includes/preamble.tex}
 \input{includes/titlepage.tex}
 
-
 \title{Cay-The Language Specification}
 \author{Sven Strittmatter}
 \date{\today}
@@ -147,15 +146,74 @@ A manifest also may contain \textit{import} directives to make other artifacts a
     import      de.weltraumschaf:test:2.0.0
 \end{lstlisting}
 
-Coordinates must not be duplicated in the imports.
+Coordinates \textbf{must} not be duplicated in the imports.
 
 \subsection{Submodules}
 
 Not specified yet.
 
-\subsection{Exported Imports}
+\chapter{Language Specification}
 
-Not specified yet.
+This chapter describes the language specification.
+
+\section{Types}
+
+The base building block \textit{units} of a module are a \textit{types}. Possible \textit{facets} of a type are:
+
+\begin{itemize}
+    \item \textbf{Class}: Describes a type which may be created zero or multiple times.
+    \item \textbf{Object}: Describes a type from which only and always one instance exists at runtime.
+    \item \textbf{Interface}: TODO
+    \item \textbf{Annotation}: TODO
+    \item \textbf{Enumeration}: TODO
+\end{itemize}
+
+A type is described by it's filename.
+\todo{Describe how the file name thing work.}
+
+Basically a type has a structure like:
+
+\begin{lstlisting}[language=CayThe]
+    TODO    
+\end{lstlisting}
+
+\subsection{class}
+
+TODO
+
+\subsubsection{Object}
+
+TODO
+
+\subsubsection{Interface}
+
+TODO
+
+\subsection{Annotation}
+
+TODO
+
+\subsection{Enumeration}
+
+TODO
+
+\section{Visibility}
+
+There is a simple hierarchy of visibilities (from lowest to highest):
+
+\begin{itemize}
+    \item \textbf{private}: Only visible inside the declaring type.
+    \item \textbf{protected}: Visible to all delegatees.
+    \item \textbf{package}: Visible inside the same package.
+    \item \textbf{public}: Visible to everything inside the module.
+    \item \textbf{export}: Visible outside the module.
+\end{itemize}
+
+Default visibility is always \texttt{private}. Even if a type is declared with higher visibility than \texttt{private} this does not automatically apply to all methods and properties of this type. All of them are \texttt{private} by default and visibility must be changed to something weaker respectively.
+
+There is no special keyword for \textbf{private} visibility. If you do not specify a visibility, then it is \textbf{private} by default.
+
+Properties of a type are always \textbf{private} and can't be exposed with a higher visibility. Properties are only accessible from the declaring type or via getter/setter.
 
 \chapter{Syntax Specification}
 
@@ -176,22 +234,6 @@ This is the grammar for manifest files.
 This is the grammar for source code files.
 
 \lstinputlisting{grammars/CayTheSource.g4}
-
-\chapter{Language Specification}
-
-\section{Visibility}
-
-There is a simple hierarchy of visibilities (from lowest to highest):
-
-\begin{itemize}
-    \item \texttt{private}: Only visible inside the declaring type.
-    \item \texttt{protected}: Visible to all delegatees.
-    \item \texttt{package}: Visible inside the same package.
-    \item \texttt{public}: Visible to everything inside the module.
-    \item \texttt{export}: Visible outside the module.
-\end{itemize}
-
-Default visibility is always \texttt{private}. Even if a type is declared with weaker visibility than \texttt{private} this does not automatically apply to all methods and properties of this type. All of them are \texttt{private} by default and visibility must be changed to something weaker respectively.
 
 \chapter{Ideas}
 
