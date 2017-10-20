@@ -154,6 +154,8 @@ Not specified yet.
 
 \chapter{Language Specification}
 
+\todo{/write glossary for 'unit', 'type', and 'facet'}
+
 This chapter describes the language specification.
 
 \section{Types}
@@ -168,13 +170,20 @@ The base building block \textit{units} of a module are a \textit{types}. Possibl
     \item \textbf{Enumeration}: TODO
 \end{itemize}
 
-A type is described by it's filename.
-\todo{Describe how the file name thing work.}
+In most languages the type itself (it's name) is described in the source code itself (like \texttt{class TypeName} or such). Also most languages encourages that a type is always defined in it's own file named like the type. For example in Java a class called \texttt{foo.bar.Baz} should be declared in a file \texttt{foo/bar/Baz.java}. Also it is considered bad practice nowadays to declare more than one type in a single source file.
 
-Basically a type has a structure like:
+In [\textit{Cay-The} this redundancy is completely omitted: A type by itself is completely declared by the it's file name. So to define a type \texttt{foo.bar.Baz} in \textit{Cay-The} you simply create a file \texttt{foo/bar/Baz.ct} in your module this file which describes a \textit{type} is called a \textit{unit}. The necessary statement to get it compiled is the \textit{facet} declaration of this type. So a simple \textit{type} \texttt{foo.bar.Baz} of \textit{facet class} will look like:
 
-\begin{lstlisting}[language=CayThe]
-    TODO    
+\begin{lstlisting}[language=CayThe, title=foo/bar.Baz.ct]
+    // Define the package private class foo.bar.Baz.
+    class
+\end{lstlisting}
+
+This is a \textit{class} definition without visibility modifier. By default \textit{Cay-The} always uses the lowest level of visibility (later in this document more on visibility. To declare a public \textit{interface} simply create a file like in your module:
+
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    // Define the public interface foo.bar.Baz.
+    interface public
 \end{lstlisting}
 
 \subsection{class}
