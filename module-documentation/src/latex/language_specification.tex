@@ -60,41 +60,45 @@ Syntax in any form must be be specified by grammars. Grammars are written in the
 
 This syntax is similar to \textit{Extended Backus–Naur form}\cite{ebnf-wiki}.
 
-\chapter{General}
+\chapter{Language Specification}
 
-This section describes the top view: Modules and artifacts. It does not define a lot of syntax. Only the basic needed to define modules.
+This chapter describes the language specification.
 
 \section{Modules}
 
-The top level artifact is a module which is simply a directory with a file called \texttt{Manifest.mf}.
+\todo{Write glossary entries for 'module', 'manifest', 'coordinate', and 'artifact'.}
+This section describes the top view: \textit{Modules} and \textit{artifacts}. It does not define a lot of syntax. Only the basic needed to define modules.
+
+The top level artifact is a module which is simply a directory with a file called \texttt{Module.mf}.
 
 \subsection{Directory Structure of a Module}
 
-As mentioned the module is simply a directory with a manifest file in it. All types (will be described later) are also in this directory. Subdirectories build the package structure. The name of the directory is not the ``module name''. The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination from the manifest file described later on. An example module directory may look like:
+As mentioned the module is simply a directory with a \textit{manifest} file in it which describes the \textit{module}. All types (will be described later) are also in this directory. Subdirectories builds the package structure. The name of the directory is not the ``module name''. The module indeed does not have simply a name, rather than a so called \textit{coordinate}. This coordinate is a unique combination of values declared in the the \textit{module manifest file} described later on. An example module directory may look like:
 \\
 \dirtree{%
 .1 module-dir.
-.2 Manifest.mf.
-.2 FileOne.ct.
+.2 Module.mf.
+.2 TypeOne.ct.
 .2 packgeone.
-.3 FileTwo.ct.
-.3 FileThree.ct.
+.3 TypeTwo.ct.
+.3 TypeThree.ct.
 }
 
-\subsection{The Manifest}
+\subsection{The Module Manifest}
 
-The manifest file must have the name \texttt{Manifest.mf} in the top level directory of the module. Also it must contain some essential key information to describe the module:
+The \textit{manifest} file must have the name \texttt{Module.mf} in the top level directory of the \textit{module}. Also it must contain some essential key information (\textit{directives}) to describe the \textit{module}:
 
+\todo{Create glossarye entries for 'group', 'artifact', 'version', 'namespace'/}
 \begin{itemize}
-    \item \texttt{group}: The group name is a name to put some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g.\ your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
-    \item \texttt{artifact}: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
-    \item \texttt{version}: The version string follows the rules of Semantic Versioning\cite{semver}.
-    \item \texttt{namespace}: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you ma choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \texttt{import org.fancy-lib.core.T}. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a ``package structure'' for your namespace with directories. 
+    \item \textit{group}: The group name is a name to organize some artifacts together. The naming scheme is a reversed domain name: a so called \textit{full qualified name}. For example you have the \textit{Fancy Lib} project which is hosted under \textit{fancy-lib.org} then your group should look like \textit{org.fancy-lib}. If you have multiple projects then it may be reasonable to make a group for each of them. E.g.\ your organisation (\textit{fancy.org}) has two projects: \textit{fancy-lib} and \textit{fancy-framework} then your groups may be \textit{org.fancy.fancy-lib} and \textit{org.fancy.fancy-framework}.
+    \item \textit{artifact}: The artifact is a name of a single module belonging to a group. There exists at least one artifact with a unique artifact name and a unique group name. But there also may exist more than one module with different artifact names but the same group name. So for example the above mentioned \textit{fancy lib} has a \textit{core} and a \textit{plugin} module, then you would have two directories with each a manifest file: One with artifact name \textit{core} and one with the artifact name \textit{plugin}, but both with the group name \textit{org.fancy-lib}.
+    \item \textit{version}: The version string follows the rules of Semantic Versioning\cite{semver}.
+    \item \textit{namespace}: The namespace is also a full qualified name which is prefixed to everything declared in the module. So if you have the \textit{fancy lib} example above you may choose the namespace \textit{org.fancy-lib.core}. A good starting point to find a proper namespace is to use a combination of group and artifact name. Then a type \textit{T} declared and exported by the module must be imported by other modules via \texttt{import org.fancy-lib.core.T}. But the file declaring the type \textit{T} is placed in the top level directory of the module. So you do not need to create a ``package structure'' for your namespace with directories. 
 \end{itemize}
 
-All these manifest \textit{directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
+All these \textit{manifest directives} must be present once and the values must not be blank. The grammar rule for a \textit{full qualified name} is is: 
 
-\begin{lstlisting}
+\begin{lstlisting}[title=Grammar for full qualified name]
     fullQualifiedName 
         : IDENTIFIER ('.' IDENTIFIER)*
         ;
@@ -103,9 +107,9 @@ All these manifest \textit{directives} must be present once and the values must 
         ;
 \end{lstlisting}
 
-An example manifest may look like:
+An example \textit{module manifest} may look like:
 
-\begin{lstlisting}[language=CayThe]
+\begin{lstlisting}[language=CayThe, title=Module.mf]
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
@@ -114,9 +118,9 @@ An example manifest may look like:
 
 \subsection{Coordinate}
 
-Every module and its final assembled artifact has a unique coordinate to identify them. The coordinate is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \texttt{de.weltraumschaf:example:1.0.0}. The parts of the coordinate are separated by a colon. So the grammar rule for a coordinate is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
+Every \textit{module} and its final assembled \textit{artifact} has a unique \textit{coordinate} to identify it. The \textit{coordinate} is a combination of \textit{group}, \textit{artifact}, and \textit{version}. So for the example above the coordinate would be \texttt{de.weltraumschaf:example:1.0.0}. The parts of the coordinate are separated by a colon. So the grammar rule for a \textit{coordinate} is\footnote{IDENTIFIER is defined already above for the full qualified name rule.}:
 
-\begin{lstlisting}
+\begin{lstlisting}[title=Grammar for coordinate]
     coordinate
         :
             group=fullQualifiedName ':'
@@ -134,9 +138,9 @@ Every module and its final assembled artifact has a unique coordinate to identif
 
 \subsection{Imports}
 
-A manifest also may contain \textit{import} directives to make other artifacts and their exported types available in the module. The import is simply done by the coordinate of the desired module. E.g.\ the above manifest now importing two other modules:
+A \textit{manifest} also may contain \textit{import directives} to make other artifacts and their exported types available in the module. The import is simply done by the \textit{coordinate} of the desired module. E.g.\ the above \textit{module manifest} now imports two other \textit{modules}:
 
-\begin{lstlisting}[language=CayThe]
+\begin{lstlisting}[language=CayThe, title=Module manifest with imports]
     group       de.weltraumschaf
     artifact    example
     version     1.0.0
@@ -146,19 +150,36 @@ A manifest also may contain \textit{import} directives to make other artifacts a
     import      de.weltraumschaf:test:2.0.0
 \end{lstlisting}
 
-Coordinates \textbf{must} not be duplicated in the imports.
+Coordinates \textbf{must} not be duplicated in the imports. Types exported (later on more on \textit{exporting}) by such an imported module are available via the \textit{namespace} declared in the imported \textit{module}. For example the module \texttt{de.weltraumschaf:core:1.2.3} has the \textit{namespace} \texttt{de.weltraumschaf.core} and exports a type \texttt{Foo}, then you can access this type in your code with \texttt{de.weltraumschaf.core.Foo}.
+
+\subsubsection{Conflicting Module Namespaces and Module Aliasing}
+
+What if two imported modules declare the same namespace by accident? This may happen if someone does not follow the best practice to derive the namespace from the module coordinate (which must be unique in the world). For example we have two modules:
+
+\begin{enumerate}
+    \item with coordinate \textit{org.foo:snafu:1.0.0} and namespace \textit{org.snafu}.
+    \item with coordinate \textit{org.bar:snafu:1.0.0} and namespace \textit{org.snafu}.
+\end{enumerate}
+
+The coordinates are distinctive so the import would work, but you can't access the exported types oft he modules because the namespaces are ambiguous. The solution is to import a module with an aliased namespace:
+
+\begin{lstlisting}[language=CayThe, title=Module manifest aliased namespaces]
+    group       de.weltraumschaf
+    artifact    example
+    version     1.0.0
+    namespace   de.weltraumschaf.example
+
+    import      org.foo:snafu:1.0.0 as org.foo.snafu
+    import      org.bar:snafu:1.0.0 as org.bar.snafu
+\end{lstlisting}
 
 \subsection{Submodules}
 
 Not specified yet.
 
-\chapter{Language Specification}
+\section{Types}
 
 \todo{/write glossary for 'unit', 'type', and 'facet'}
-
-This chapter describes the language specification.
-
-\section{Types}
 
 The base building block \textit{units} of a module are a \textit{types}. Possible \textit{facets} of a type are:
 
