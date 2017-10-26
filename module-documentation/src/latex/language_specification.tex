@@ -185,14 +185,13 @@ The coordinates are distinctive so the import would work, but you can't access t
 
 \todo{/write glossary for 'unit', 'type', and 'facet'}
 
-The base building block \textit{units} of a module are a \textit{types}. Possible \textit{facets} of a type are:
+The base building block \textit{units} of a module are \textit{types}. Possible \textit{facets} of a type are:
 
 \begin{itemize}
-    \item \textbf{Class}: Describes a type which may be created zero or multiple times.
-    \item \textbf{Object}: Describes a type from which only and always one instance exists at runtime.
-    \item \textbf{Interface}: TODO
-    \item \textbf{Annotation}: TODO
-    \item \textbf{Enumeration}: TODO
+    \item \textbf{Class}: Describes a type as template from which may be created zero or multiple objects.
+    \item \textbf{Interface}: Defines methods which implementors agree to implement and so provide a common API.
+    \item \textbf{Annotation}: Provide syntactic metadata that can be added to source code.
+    \item \textbf{Enumeration}: Special type to enumerate distinct values.
 \end{itemize}
 
 In most languages the type itself (it's name) is described in the source code itself (like \texttt{class TypeName} or such). Also most languages encourages that a type is always defined in it's own file named like the type. For example in Java a class called \texttt{foo.bar.Baz} should be declared in a file \texttt{foo/bar/Baz.java}. Also it is considered bad practice nowadays to declare more than one type in a single source file.
