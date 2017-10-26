@@ -194,16 +194,18 @@ The base building block \textit{units} of a module are \textit{types}. Possible 
     \item \textbf{Enumeration}: Special type to enumerate distinct values.
 \end{itemize}
 
-In most languages the type itself (it's name) is described in the source code itself (like \texttt{class TypeName} or such). Also most languages encourages that a type is always defined in it's own file named like the type. For example in Java a class called \texttt{foo.bar.Baz} should be declared in a file \texttt{foo/bar/Baz.java}. Also it is considered bad practice nowadays to declare more than one type in a single source file.
+\subsection{Type Declaration}
 
-In [\textit{Cay-The} this redundancy is completely omitted: A type by itself is completely declared by the it's file name. So to define a type \texttt{foo.bar.Baz} in \textit{Cay-The} you simply create a file \texttt{foo/bar/Baz.ct} in your module this file which describes a \textit{type} is called a \textit{unit}. The necessary statement to get it compiled is the \textit{facet} declaration of this type. So a simple \textit{type} \texttt{foo.bar.Baz} of \textit{facet class} will look like:
+In most languages the type -- especially it's name -- is described in the source code itself. Also most languages encourages that a type is always defined in it's own file named like the type. For example in Java a class called \texttt{foo.bar.Baz} should be declared in a file \texttt{foo/bar/Baz.java}. Also nowadays it is considered bad practice to declare more than one type in a single source file. So in practice the type is declared twice: first in the file name, and second in the file content.
+
+In \textit{Cay-The} this redundancy is completely omitted: A type by itself is completely declared by it's file name. So to define a type \texttt{foo.bar.Baz} in \textit{Cay-The} you simply create a file \texttt{foo/bar/Baz.ct} in your module. Such a file which describes a \textit{type} is called a \textit{unit}. The necessary statement to get it compiled is the \textit{facet} declaration of this type. So a simple \textit{type} \texttt{foo.bar.Baz} of \textit{facet class} will look like:
 
 \begin{lstlisting}[language=CayThe, title=foo/bar.Baz.ct]
     // Define the package private class foo.bar.Baz.
-    class
+    class package
 \end{lstlisting}
 
-This is a \textit{class} definition without visibility modifier. By default \textit{Cay-The} always uses the lowest level of visibility (later in this document more on visibility. To declare a public \textit{interface} simply create a file like in your module:
+This is a \textit{class} definition without visibility modifier. By default \textit{Cay-The} always uses the lowest level of visibility (later in this document more on visibility. To declare a public \textit{interface} simply create a file in your module:
 
 \begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
     // Define the public interface foo.bar.Baz.
@@ -214,21 +216,34 @@ This is a \textit{class} definition without visibility modifier. By default \tex
 
 TODO
 
-\subsubsection{Object}
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    class protected
+\end{lstlisting}
+
+\subsection{Interface}
 
 TODO
 
-\subsubsection{Interface}
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    interface export    
+\end{lstlisting}
 
-TODO
 
 \subsection{Annotation}
 
 TODO
 
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    annotation package
+\end{lstlisting}
+
 \subsection{Enumeration}
 
 TODO
+
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    enum public    
+\end{lstlisting}
 
 \section{Visibility}
 
