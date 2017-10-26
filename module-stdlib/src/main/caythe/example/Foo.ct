@@ -1,0 +1,35 @@
+use org.caythe.core.basetypes.Object
+
+class protected
+delegate Object
+
+/**
+ * Example:
+ * Foo f = Foo.new()
+ * String s = f.foo
+ */
+export property(get) String foo
+/**
+ * Example:
+ * Foo f = Foo.new()
+ * f.bar = "Hello, World!"
+ */
+export property(set) String bar
+/**
+ * Example:
+ * Foo f = Foo.new()
+ * f.bar = "Hello, World!"
+ * String s = f.bar
+ */
+export property(get,set) String baz
+
+export property String snafu {
+    get {
+        return foo + bar + baz
+    }
+    set {
+        foo = newValue
+        bar = newValue
+        baz = newValue
+    }
+}

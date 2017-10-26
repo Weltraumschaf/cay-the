@@ -11,7 +11,7 @@ use org.caythe.core.collections.List
  * Objects are not instanciatable: There exist only one of it. The name of an
  * obejct must start upper case.
  */
-object export
+class export
 delegate Object
 
 /**
@@ -25,7 +25,6 @@ delegate Object
  */
 cliArgParser = CliOptionsParser.new();
 
-// This will be autowired because {@code System} is an object type.
 System sys
 
 /**

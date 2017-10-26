@@ -1,0 +1,26 @@
+use org.caythe.core.basetypes.Object
+use Point
+use Size
+
+class export
+delegate Object
+
+export property(get) Point origin
+export property(get) Size Size
+export property Point center {
+    get {
+        Integer centerX = origin.x + (size.width / 2)
+        Integer centerY = origin.y + (size.height / 2)
+        return Point.new(x: centerX, y: centerY)
+    }
+    set(newCenter) {
+        origin.x = newCenter.x - (size.width / 2)
+        origin.y = newCenter.y - (size.height / 2)
+    }
+}
+
+export new(Point origin, Size size) {
+    this.origin = origin
+    this.size = size
+    return this
+}

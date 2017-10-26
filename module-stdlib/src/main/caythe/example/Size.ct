@@ -1,0 +1,14 @@
+use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.Integer
+
+class export
+delegate Object
+
+export property(get) Integer width
+export property(get) Integer height
+
+export new(Integer width, Integer height) {
+    this.width = width
+    this.height = height
+    return this
+}
