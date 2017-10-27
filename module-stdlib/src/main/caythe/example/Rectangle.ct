@@ -10,7 +10,7 @@ export Point origin { get }
 
 export Size Size { get }
 
-export property Point center {
+export Point center {
     get {
         Integer centerX = origin.x + (size.width / 2)
         Integer centerY = origin.y + (size.height / 2)

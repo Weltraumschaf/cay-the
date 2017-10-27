@@ -275,7 +275,78 @@ A class is the basic building block for a object oriented program. The basic pro
 
 \subsubsection{Class Properties}
 
-TODO
+Class properties describe the data fields of the resulting instance objects. An example of a integer readonly property looks like:
+
+\begin{lstlisting}[language=CayThe, title=Example for readonly property]
+public Integer width { get }
+\end{lstlisting}
+
+This can be read like:
+
+\begin{lstlisting}[language=CayThe, title=Example for property read access]
+Integer w = foo.width
+\end{lstlisting}
+
+A property with read and write access looks like:
+
+\begin{lstlisting}[language=CayThe, title=Example for read/write property]
+public Integer width { get set }
+\end{lstlisting}
+
+This can be written like:
+
+\begin{lstlisting}[language=CayThe, title=Example for property write access]
+foo.width = 42
+\end{lstlisting}
+
+It is possible to add custom getter/setter:
+
+\begin{lstlisting}[language=CayThe, title=Example for custom property getter/setter]
+public Integer foo {
+    get {
+        return 42
+    }
+    set {
+        // ...
+    }
+}
+\end{lstlisting}
+
+The general syntax is:
+
+\begin{lstlisting}[title=Grammar for property declaration]
+propertyDeclaration
+    : VISIBILITY type name propertyAccessor?
+    ;
+type 
+    : IDENTIFIER 
+    ;
+name 
+    : IDENTIFIER 
+    ;
+propertyAccessor
+    : '{' getter? setter? '}'
+    ;
+getter 
+    : 'get' methodBody?
+    ;
+setter
+    : 'set' methodBody?
+    ;
+methodBody
+    : (* defined later *) 
+    ;
+VISIBILITY  
+    : 'export'
+    | 'public'
+    | 'protected'
+    | 'package'
+    | 'private'
+    ;
+IDENTIFIER
+    : [a-zA-Z]+
+    ;
+\end{lstlisting}
 
 \subsubsection{Class Methods}
 
