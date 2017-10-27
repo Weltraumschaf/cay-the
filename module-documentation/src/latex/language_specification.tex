@@ -200,7 +200,7 @@ In most languages the type -- especially it's name -- is described in the source
 
 In \textit{Cay-The} this redundancy is completely omitted: A type by itself is completely declared by it's file name. So to define a type \texttt{foo.bar.Baz} in \textit{Cay-The} you simply create a file \texttt{foo/bar/Baz.ct} in your module. Such a file which describes a \textit{type} is called a \textit{unit}. The necessary statement to get it compiled is the \textit{facet} declaration of this type. So a simple \textit{type} \texttt{foo.bar.Baz} of \textit{facet class} will look like:
 
-\begin{lstlisting}[language=CayThe, title=foo/bar.Baz.ct]
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
     // Define the package private class foo.bar.Baz.
     class package
 \end{lstlisting}
@@ -212,7 +212,44 @@ This is a \textit{class} definition without visibility modifier. By default \tex
     interface public
 \end{lstlisting}
 
-\subsection{class}
+\subsection{Importing other types}
+
+Usually you use other types in your type. It is always necessary to tell the compiler which types you want to use before using it. This is simply done by a \texttt{use} statement:
+
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    class public
+    // Import  some types:
+    use org.caythe.core.basetypes.Object
+    use org.caythe.core.basetypes.String
+    // Use the types with its base name: String, Object
+\end{lstlisting}
+
+After that you can simply use the type by it's base name (in the above example \texttt{Object} or \texttt{String}).
+
+\subsubsection{Conflicting Imports and Aliasing}
+
+It is possible that types with a unique full qualified name will conflict with its base name. For example:
+
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    class public
+    
+    use org.caythe.core.basetypes.String
+    use com.foobar.String
+\end{lstlisting}
+
+In this example we import two types with the base name \texttt{String}. This will lead into ambiguity when referencing this type: When you use the literal \texttt{String} in the source code the compiler can not determine which of these two is wanted. To circumvent this name clash we can give one of these types an alias base name:
+
+\begin{lstlisting}[language=CayThe, title=foo/bar/Baz.ct]
+    class public
+    use org.caythe.core.basetypes.String
+    // Import type with an aliased base name:
+    use com.foobar.String as FoobarString
+    // Use the types with its base name: String, FoobarString
+\end{lstlisting}
+
+Now we can reference the second imported type by \texttt{FoobarString} which is not ambiguous to the first imported type \texttt{String}.
+
+\subsection{Class Types}
 
 A class is the basic building block for a object oriented program. The basic properties of a class are:
 
@@ -243,7 +280,7 @@ TODO
     class protected
 \end{lstlisting}
 
-\subsection{Interface}
+\subsection{Interface Types}
 
 TODO
 
@@ -252,7 +289,7 @@ TODO
 \end{lstlisting}
 
 
-\subsection{Annotation}
+\subsection{Annotation Types}
 
 TODO
 
@@ -260,7 +297,7 @@ TODO
     annotation package
 \end{lstlisting}
 
-\subsection{Enumeration}
+\subsection{Enumeration Types}
 
 TODO
 
