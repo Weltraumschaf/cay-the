@@ -1,6 +1,6 @@
 use org.caythe.core.basetypes.Object
 
-class export
+export class
 delegate Object
 
 export print(String message) {

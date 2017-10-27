@@ -11,7 +11,7 @@ use org.caythe.core.collections.List
  * Objects are not instanciatable: There exist only one of it. The name of an
  * obejct must start upper case.
  */
-class export
+export class
 delegate Object
 
 /**

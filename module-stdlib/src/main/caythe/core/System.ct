@@ -2,7 +2,7 @@ use org.caythe.core.basetypes.Object
 use org.caythe.core.InputStream
 use org.caythe.core.OutputStream
 
-class export
+export class
 delegate Object
 
 export property(get) OutputStream stdout

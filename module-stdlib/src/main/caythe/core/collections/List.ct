@@ -5,7 +5,7 @@ use org.caythe.core.collections.Collection
 /**
  * Single linked kist based implementation of a list.
  */
-class<E> export public
+export class<E>
 implement Collection<Integer, E>
 delegate Object
 

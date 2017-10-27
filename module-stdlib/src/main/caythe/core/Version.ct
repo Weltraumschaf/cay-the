@@ -2,7 +2,7 @@ use org.caythe.core.basetypes.Integer
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.String
 
-class export
+export class
 delegate Object
 
 export property(get) Integer major

@@ -1,7 +1,7 @@
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.String
 
-class protected
+protected class
 delegate Object
 
 /**

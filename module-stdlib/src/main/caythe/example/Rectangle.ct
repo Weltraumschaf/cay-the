@@ -3,7 +3,7 @@ use org.caythe.core.basetypes.Integer
 use Point
 use Size
 
-class export
+export class
 delegate Object
 
 export Point origin { get }

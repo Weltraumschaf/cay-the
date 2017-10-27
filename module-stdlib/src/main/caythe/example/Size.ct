@@ -1,7 +1,7 @@
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 
-class export
+export class
 delegate Object
 
 export Integer width { get }

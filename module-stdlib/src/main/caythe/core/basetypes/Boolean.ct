@@ -3,5 +3,5 @@ use org.caythe.core.basetypes.Object
 /**
  *This is the boolean type.
  */
-class export
+export class
 delegate Object

@@ -6,7 +6,7 @@ use org.caythe.core.basetypes.Object
  * defined for the property. So the default construcotr is:
  * {@code CliOptions.new(Boolean showHelp, Boolean showVersion)}.
  */
-class package
+package class
 delegate Object
 
 /**

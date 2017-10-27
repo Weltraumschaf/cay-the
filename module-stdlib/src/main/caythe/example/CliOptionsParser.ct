@@ -5,7 +5,7 @@ use org.caythe.core.basetypes.Object
  *
  * This is a class which means there may be multiple instance of it.
  */
-class package
+package class
 delegate Object
 
 /**

@@ -1,6 +1,6 @@
 use org.caythe.core.basetypes.Object
 
-class<E> package
+package class<E>
 delegate Object
 
 property(get) E value
