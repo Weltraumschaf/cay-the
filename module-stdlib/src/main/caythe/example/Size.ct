@@ -4,8 +4,8 @@ use org.caythe.core.basetypes.Integer
 class export
 delegate Object
 
-export property(get) Integer width
-export property(get) Integer height
+export Integer width { get }
+export Integer height { get }
 
 export new(Integer width, Integer height) {
     this.width = width

@@ -1,4 +1,5 @@
 use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.String
 
 class protected
 delegate Object
@@ -8,22 +9,27 @@ delegate Object
  * Foo f = Foo.new()
  * String s = f.foo
  */
-export property(get) String foo
+export String foo { get }
+
 /**
  * Example:
  * Foo f = Foo.new()
  * f.bar = "Hello, World!"
  */
-export property(set) String bar
+export String bar { set }
+
 /**
  * Example:
  * Foo f = Foo.new()
  * f.bar = "Hello, World!"
  * String s = f.bar
  */
-export property(get,set) String baz
+export String baz { get set }
 
-export property String snafu {
+/**
+ * Override the stter and getter with custom code.
+ */
+export String snafu {
     get {
         return foo + bar + baz
     }
@@ -33,3 +39,8 @@ export property String snafu {
         baz = newValue
     }
 }
+
+/**
+ * Only usable in this type.
+ */
+private String foobar

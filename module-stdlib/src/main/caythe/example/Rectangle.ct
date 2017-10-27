@@ -1,12 +1,15 @@
 use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.Integer
 use Point
 use Size
 
 class export
 delegate Object
 
-export property(get) Point origin
-export property(get) Size Size
+export Point origin { get }
+
+export Size Size { get }
+
 export property Point center {
     get {
         Integer centerX = origin.x + (size.width / 2)
