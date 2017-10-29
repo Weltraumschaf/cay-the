@@ -1,11 +1,12 @@
+export class
+
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.String
 
-export class
 delegate Object
 
-export property(get) Integer major
-export property(get) Integer minor
-export property(get) Integer patch
-export property(get) String suffix
+export Integer major { get }
+export Integer minor { get }
+export Integer patch { get }
+export String suffix { get }

@@ -1,9 +1,10 @@
+export class
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 use Point
 use Size
 
-export class
 delegate Object
 
 export Point origin { get }
@@ -22,8 +23,7 @@ export Point center {
     }
 }
 
-export new(Point origin, Size size) {
+export constructor(Point origin, Size size) {
     this.origin = origin
     this.size = size
-    return this
 }

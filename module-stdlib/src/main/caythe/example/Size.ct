@@ -1,14 +1,23 @@
+export class
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
+use org.caythe.core.basetypes.String
 
-export class
 delegate Object
 
 export Integer width { get }
 export Integer height { get }
 
-export new(Integer width, Integer height) {
+export constructor(Integer width, Integer height) {
     this.width = width
     this.height = height
-    return this
+}
+
+export Integer area() {
+    return width * height
+}
+
+export String toString() {
+    return "[" + width + "x" + height + "]"
 }

@@ -1,6 +1,7 @@
+export class
+
 use org.caythe.core.basetypes.Number
 
-export class
 delegate Number
 
 @Operator(+)

@@ -1,12 +1,13 @@
+export class
+
 use org.caythe.core.basetypes.Object
 
-export class
 delegate Object
 
-export public Boolean isEmpty() {
+export Boolean isEmpty() {
     return false;
 }
 
-export public Boolean isNotEmpty() {
+export Boolean isNotEmpty() {
     return not isEmpty()
 }

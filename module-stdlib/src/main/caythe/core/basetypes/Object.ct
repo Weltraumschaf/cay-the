@@ -1,11 +1,11 @@
-use org.caythe.core.basetypes.String
-use org.caythe.core.basetypes.Boolean
-use org.caythe.core.basetypes.Integer
-
 /**
  * This is the base delegate for all other objects.
  */
 export class
+
+use org.caythe.core.basetypes.String
+use org.caythe.core.basetypes.Boolean
+use org.caythe.core.basetypes.Integer
 
 export String toString() {
     return ""

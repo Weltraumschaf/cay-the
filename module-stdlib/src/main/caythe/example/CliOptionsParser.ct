@@ -1,19 +1,13 @@
-use org.caythe.core.basetypes.Object
-
 /**
  * This is a helper class which deals with command line arguments.
  *
  * This is a class which means there may be multiple instance of it.
  */
 package class
-delegate Object
 
-/**
- * This is the default constructor function and may be omitted.
- */
-package new() {
-    return this
-}
+use org.caythe.core.basetypes.Object
+
+delegate Object
 
 /*
  * This method parses the given strings and creates an option object from it.

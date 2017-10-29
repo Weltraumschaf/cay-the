@@ -1,10 +1,11 @@
+export class
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.InputStream
 use org.caythe.core.OutputStream
 
-export class
 delegate Object
 
-export property(get) OutputStream stdout
-export property(get) OutputStream stderr
-export property(get) InputStream stdin
+export OutputStream stdout { get }
+export OutputStream stderr { get }
+export InputStream stdin { get }

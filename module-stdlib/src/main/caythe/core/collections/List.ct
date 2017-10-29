@@ -1,11 +1,12 @@
-use org.caythe.core.basetypes.Object
-use org.caythe.core.basetypes.Integer
-use org.caythe.core.collections.Collection
-
 /**
  * Single linked kist based implementation of a list.
  */
 export class<E>
+
+use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.Integer
+use org.caythe.core.collections.Collection
+
 implement Collection<Integer, E>
 delegate Object
 

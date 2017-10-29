@@ -1,8 +1,9 @@
+export class<E>
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.collections.Collection
 
-export class<E>
 implement Collection<Integer, V>
 delegate Object
 

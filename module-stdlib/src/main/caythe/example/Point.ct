@@ -1,14 +1,14 @@
+export class
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 
-export class
 delegate Object
 
 export Integer x { get }
 export Integer y { get }
 
-export new(Integer x, Integer y) {
+export constructor(Integer x, Integer y) {
     this.x = x
     this.y = y
-    return this
 }

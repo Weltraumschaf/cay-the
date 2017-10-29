@@ -1,7 +1,8 @@
+protected class
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.String
 
-protected class
 delegate Object
 
 /**

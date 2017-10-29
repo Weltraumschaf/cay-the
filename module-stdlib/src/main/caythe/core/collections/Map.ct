@@ -1,9 +1,10 @@
+export class<K, V>
+
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Boolean
 use org.caythe.core.basetypes.Integer
 use org.caythe.core.collections.Collection
 
-export class<K, V>
 implement Collection<K, V>
 delegate Object
 

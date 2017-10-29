@@ -1,5 +1,3 @@
-use org.caythe.core.basetypes.Object
-
 /**
  * Here is no constructor defind, but the two properties above are fianl
  * values: so there must be a cosntructor to set them unles there are setters
@@ -7,11 +5,15 @@ use org.caythe.core.basetypes.Object
  * {@code CliOptions.new(Boolean showHelp, Boolean showVersion)}.
  */
 package class
+
+use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.Boolean
+
 delegate Object
 
 /**
  * The keyword {@code property(get)} makes the compile aware that you
  * can call {@code value = opts.showHelp} on this object.
  */
-package property(get) Boolean showHelp
-package property(get) Boolean showVersion
+package Boolean showHelp { get }
+package Boolean showVersion { get }

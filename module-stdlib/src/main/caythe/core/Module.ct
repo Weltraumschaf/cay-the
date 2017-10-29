@@ -1,11 +1,12 @@
+export class
+
 use org.caythe.core.Version
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.String
 
-export class
 delegate Object
 
-export property(get) String group
-export property(get) String artifact
-export property(get) Version version
-export property(get) String namespace
+export String group { get }
+export String artifact { get }
+export Version version { get }
+export String namespace { get }

@@ -1,7 +1,8 @@
-use org.caythe.core.basetypes.Object
-
 /**
  *This is the boolean type.
  */
 export class
+
+use org.caythe.core.basetypes.Object
+
 delegate Object
