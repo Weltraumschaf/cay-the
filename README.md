@@ -31,6 +31,10 @@ documentation in a zip file. To execute Cay-The on the command line simply run:
 
 You need a [Java 8][java8] VM and a Bash compatible shell to run the CLI.
 
+## Helpfull Stuff and Links
+
+- [ANTLR Cheat Sheet](antlr_cheat_sheet.md)
+
 [antlr]:        http://www.antlr.org/
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-distribution/target/distribution-1.0.0-SNAPSHOT.zip
 [java8]:        https://java.com/en/download/

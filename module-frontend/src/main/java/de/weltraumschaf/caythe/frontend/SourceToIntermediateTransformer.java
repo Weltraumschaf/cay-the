@@ -23,22 +23,22 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return new NoOperation();
     }
 
-    @Override
-    public AstNode visitUnit(CayTheSourceParser.UnitContext ctx) {
-        final Collection<AstNode> statements = new ArrayList<>();
-
-        for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
-            final AstNode node = visit(statement);
-
-            if (Statement.isEmpty(node)) {
-                continue;
-            }
-
-            statements.add(node);
-        }
-
-        return new Unit(statements, cretePosition(ctx.getStart()));
-    }
+//    @Override
+//    public AstNode visitUnit(CayTheSourceParser.UnitContext ctx) {
+//        final Collection<AstNode> statements = new ArrayList<>();
+//
+//        for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
+//            final AstNode node = visit(statement);
+//
+//            if (Statement.isEmpty(node)) {
+//                continue;
+//            }
+//
+//            statements.add(node);
+//        }
+//
+//        return new Unit(statements, cretePosition(ctx.getStart()));
+//    }
 
     @Override
     public AstNode visitStatement(final CayTheSourceParser.StatementContext ctx) {
@@ -56,64 +56,64 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return new Statement(child, cretePosition(ctx.getStart()));
     }
 
-    @Override
-    public AstNode visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
-        final BinaryOperation assignment;
-        final Identifier identifier;
+//    @Override
+//    public AstNode visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
+//        final BinaryOperation assignment;
+//        final Identifier identifier;
+//
+//        if (null == ctx.assignStatement()) {
+//            // This is let w/o assignment: let a;
+//            identifier = new Identifier(ctx.IDENTIFIER().getText(), cretePosition(ctx.IDENTIFIER().getSymbol()));
+//            assignment = new BinaryOperation(
+//                BinaryOperation.Operator.ASSIGN,
+//                identifier,
+//                NilLiteral.NIL,
+//                cretePosition(ctx.KW_LET().getSymbol()));
+//        } else {
+//            // This is let w/ assignment: let a = 1 + 2;
+//            final CayTheSourceParser.AssignExpressionContext assignmentExpression
+//                = ctx.assignStatement().assignExpression();
+//            identifier = new Identifier(
+//                assignmentExpression.IDENTIFIER().getText(),
+//                cretePosition(assignmentExpression.IDENTIFIER().getSymbol()));
+//            assignment = new BinaryOperation(
+//                BinaryOperation.Operator.ASSIGN,
+//                identifier,
+//                visit(assignmentExpression.expression()),
+//                cretePosition(ctx.KW_LET().getSymbol()));
+//        }
+//
+//        return new Let(assignment, cretePosition(ctx.getStart()));
+//    }
 
-        if (null == ctx.assignStatement()) {
-            // This is let w/o assignment: let a;
-            identifier = new Identifier(ctx.IDENTIFIER().getText(), cretePosition(ctx.IDENTIFIER().getSymbol()));
-            assignment = new BinaryOperation(
-                BinaryOperation.Operator.ASSIGN,
-                identifier,
-                NilLiteral.NIL,
-                cretePosition(ctx.KW_LET().getSymbol()));
-        } else {
-            // This is let w/ assignment: let a = 1 + 2;
-            final CayTheSourceParser.AssignExpressionContext assignmentExpression
-                = ctx.assignStatement().assignExpression();
-            identifier = new Identifier(
-                assignmentExpression.IDENTIFIER().getText(),
-                cretePosition(assignmentExpression.IDENTIFIER().getSymbol()));
-            assignment = new BinaryOperation(
-                BinaryOperation.Operator.ASSIGN,
-                identifier,
-                visit(assignmentExpression.expression()),
-                cretePosition(ctx.KW_LET().getSymbol()));
-        }
+//    @Override
+//    public AstNode visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
+//        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
+//        final Identifier identifier = new Identifier(
+//            assignment.identifier.getText(),
+//            cretePosition(assignment.identifier));
+//        return new Const(
+//            new BinaryOperation(
+//                BinaryOperation.Operator.ASSIGN,
+//                identifier,
+//                visit(assignment.expression()),
+//                cretePosition(ctx.assignStatement().getStart())),
+//            cretePosition(ctx.getStart())
+//        );
+//    }
 
-        return new Let(assignment, cretePosition(ctx.getStart()));
-    }
-
-    @Override
-    public AstNode visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
-        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
-        final Identifier identifier = new Identifier(
-            assignment.identifier.getText(),
-            cretePosition(assignment.identifier));
-        return new Const(
-            new BinaryOperation(
-                BinaryOperation.Operator.ASSIGN,
-                identifier,
-                visit(assignment.expression()),
-                cretePosition(ctx.assignStatement().getStart())),
-            cretePosition(ctx.getStart())
-        );
-    }
-
-    @Override
-    public AstNode visitAssignStatement(final CayTheSourceParser.AssignStatementContext ctx) {
-        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignExpression();
-        final Identifier identifier = new Identifier(
-            assignment.identifier.getText(),
-            cretePosition(assignment.identifier));
-        return new BinaryOperation(
-            BinaryOperation.Operator.ASSIGN,
-            identifier,
-            visit(assignment.value),
-            cretePosition(assignment.OP_ASSIGN().getSymbol()));
-    }
+//    @Override
+//    public AstNode visitAssignStatement(final CayTheSourceParser.AssignStatementContext ctx) {
+//        final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignExpression();
+//        final Identifier identifier = new Identifier(
+//            assignment.identifier.getText(),
+//            cretePosition(assignment.identifier));
+//        return new BinaryOperation(
+//            BinaryOperation.Operator.ASSIGN,
+//            identifier,
+//            visit(assignment.value),
+//            cretePosition(assignment.OP_ASSIGN().getSymbol()));
+//    }
 
     @Override
     public AstNode visitReturnStatement(final CayTheSourceParser.ReturnStatementContext ctx) {
@@ -197,21 +197,21 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return statements;
     }
 
-    @Override
-    public AstNode visitCallExpression(final CayTheSourceParser.CallExpressionContext ctx) {
-        final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier));
-        final List<AstNode> arguments = new ArrayList<>();
-        final List<CayTheSourceParser.ExpressionContext> argumentExpressions
-            = ctx.arguments == null ?
-            Collections.emptyList() :
-            ctx.arguments.expression();
-
-        for (final CayTheSourceParser.ExpressionContext expresssion : argumentExpressions) {
-            arguments.add(visit(expresssion));
-        }
-
-        return new FunctionCall(identifier, arguments, cretePosition(ctx.identifier));
-    }
+//    @Override
+//    public AstNode visitCallExpression(final CayTheSourceParser.CallExpressionContext ctx) {
+//        final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier));
+//        final List<AstNode> arguments = new ArrayList<>();
+//        final List<CayTheSourceParser.ExpressionContext> argumentExpressions
+//            = ctx.arguments == null ?
+//            Collections.emptyList() :
+//            ctx.arguments.expression();
+//
+//        for (final CayTheSourceParser.ExpressionContext expresssion : argumentExpressions) {
+//            arguments.add(visit(expresssion));
+//        }
+//
+//        return new FunctionCall(identifier, arguments, cretePosition(ctx.identifier));
+//    }
 
     @Override
     public AstNode visitSubscriptExpression(final CayTheSourceParser.SubscriptExpressionContext ctx) {
@@ -381,45 +381,45 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             cretePosition(ctx.getStart()));
     }
 
-    @Override
-    public AstNode visitFunctionLiteral(final CayTheSourceParser.FunctionLiteralContext ctx) {
-        final List<Identifier> arguments = new ArrayList<>();
+//    @Override
+//    public AstNode visitFunctionLiteral(final CayTheSourceParser.FunctionLiteralContext ctx) {
+//        final List<Identifier> arguments = new ArrayList<>();
+//
+//        if (ctx.arguments != null) {
+//            for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {
+//                arguments.add(new Identifier(identifier.getText(), cretePosition(identifier.getSymbol())));
+//            }
+//        }
+//
+//        final List<AstNode> body = new ArrayList<>();
+//
+//        for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
+//            final AstNode node = visit(statement);
+//
+//            if (NoOperation.isNoop(node)) {
+//                continue;
+//            }
+//
+//            if (Statement.isEmpty(node)) {
+//                continue;
+//            }
+//
+//            body.add(node);
+//        }
+//
+//        return new FunctionLiteral(arguments, body, cretePosition(ctx.getStart()));
+//    }
 
-        if (ctx.arguments != null) {
-            for (final TerminalNode identifier : ctx.arguments.IDENTIFIER()) {
-                arguments.add(new Identifier(identifier.getText(), cretePosition(identifier.getSymbol())));
-            }
-        }
-
-        final List<AstNode> body = new ArrayList<>();
-
-        for (final CayTheSourceParser.StatementContext statement : ctx.body.statement()) {
-            final AstNode node = visit(statement);
-
-            if (NoOperation.isNoop(node)) {
-                continue;
-            }
-
-            if (Statement.isEmpty(node)) {
-                continue;
-            }
-
-            body.add(node);
-        }
-
-        return new FunctionLiteral(arguments, body, cretePosition(ctx.getStart()));
-    }
-
-    @Override
-    public AstNode visitArrayLiteral(final CayTheSourceParser.ArrayLiteralContext ctx) {
-        final List<AstNode> values = new ArrayList<>();
-
-        for (final CayTheSourceParser.ExpressionContext expression : ctx.values.expression()) {
-            values.add(visit(expression));
-        }
-
-        return new ArrayLiteral(values, cretePosition(ctx.getStart()));
-    }
+//    @Override
+//    public AstNode visitArrayLiteral(final CayTheSourceParser.ArrayLiteralContext ctx) {
+//        final List<AstNode> values = new ArrayList<>();
+//
+//        for (final CayTheSourceParser.ExpressionContext expression : ctx.values.expression()) {
+//            values.add(visit(expression));
+//        }
+//
+//        return new ArrayLiteral(values, cretePosition(ctx.getStart()));
+//    }
 
     @Override
     public AstNode visitHashLiteral(final CayTheSourceParser.HashLiteralContext ctx) {

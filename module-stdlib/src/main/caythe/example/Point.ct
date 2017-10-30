@@ -1,8 +1,13 @@
+/**
+ * This is a object describing a point.
+ */
 export class
 
+// Our imports:
 use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 
+// Delegate to object base type:
 delegate Object
 
 export Integer x { get }

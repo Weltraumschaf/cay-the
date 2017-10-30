@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.testing.AstSpecification;
 import de.weltraumschaf.caythe.testing.AstSpecificationFormatter;
 import de.weltraumschaf.caythe.testing.AstSpecificationParser;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,22 +21,24 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
+ * Runs all the test specified in {@literal *.astspec} files.
  */
+@Ignore
 @RunWith(Parameterized.class)
-public final class FooTest extends VisitorTestCase {
+public final class AstSpecTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
     private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);
     private final AstSpecificationFormatter fmt = new AstSpecificationFormatter();
     private final AstSpecification spec;
 
-    public FooTest(final AstSpecification spec, final String ignoredOne, final String ignoredTwo) {
+    public AstSpecTest(final AstSpecification spec, final String ignoredOne, final String ignoredTwo) {
         super();
         this.spec = spec;
     }
 
     @Parameterized.Parameters(name = "{index}: {1} : {2}")
     public static Collection<Object[]> data() throws IOException, URISyntaxException {
-        final URI fixtures = FooTest.class.getResource("/de/weltraumschaf/caythe/frontend").toURI();
+        final URI fixtures = AstSpecTest.class.getResource("/de/weltraumschaf/caythe/frontend").toURI();
         final AstSpecificationParser parser = new AstSpecificationParser();
         return parser.loadSpecificationsFromDirectory(Paths.get(fixtures))
             .stream()

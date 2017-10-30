@@ -106,7 +106,7 @@ final class Repl {
                 inputBuffer.append(line).append(CayThe.NL);
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
-                final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());
+                final AstNode ast = new SourceToIntermediateTransformer().visit(parser.type());
                 final ObjectType result = ast.accept(interpreter);
 
                 if (result == NullType.NULL) {

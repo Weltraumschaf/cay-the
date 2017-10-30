@@ -1,0 +1,57 @@
+/**
+ * This is a object descibing a point.
+ */
+export class
+
+
+// Our imports:
+use org.caythe.core.basetypes.Object
+use org.caythe.core.basetypes.Integer
+// Aliased import:
+use org.caythe.core.basetypes.String as FooString
+
+
+// Delegate to object base type:
+delegate Object
+delegate FooString
+
+private FooString foo
+private FooString bar {}
+
+export Integer x { get }
+export Integer y { get }
+
+export Point center {
+    get {
+        const Integer centerX = origin.x + (size.width / 2)
+        const Integer centerY = origin.y + (size.height / 2)
+        return new Point(x: centerX, y: centerY)
+    }
+    set(newCenter) {
+        origin.x = newCenter.x - (size.width / 2)
+        origin.y = newCenter.y - (size.height / 2)
+    }
+}
+
+export constructor(Integer x, Integer y) {
+    this.x = x
+    this.y = y
+}
+
+export Integer foo() {
+    const String s = "foo"
+
+    return s.length()
+}
+
+export Integer add(Integer a, Integer b) {
+    return a + b
+}
+
+protected Integer bar() {
+    return add(a: 1, b: 2) * 2
+}
+
+protected snafu() {
+    // Do nothing.
+}

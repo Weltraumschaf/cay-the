@@ -56,7 +56,7 @@ final class ModuleParser {
                 @SuppressWarnings("unchecked")
                 final CayTheSourceBaseVisitor<AstNode> visitor =
                     parsers.injector().getInstance(CayTheSourceBaseVisitor.class);
-                final AstNode unit = visitor.visit(parser.unit());
+                final AstNode unit = visitor.visit(parser.type());
                 units.add(unit);
             }
         }

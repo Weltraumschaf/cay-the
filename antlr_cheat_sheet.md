@@ -1,6 +1,7 @@
 # ANTLR Grammar Cheat Sheet
 
 Adopted form [Atlassian](https://theantlrguy.atlassian.net/wiki/display/ANTLR3/ANTLR+Cheat+Sheet).
+See [ANTLR 4 Documentation](https://github.com/antlr/antlr4/blob/master/doc/index.md).
 
 ## Example Grammar
 

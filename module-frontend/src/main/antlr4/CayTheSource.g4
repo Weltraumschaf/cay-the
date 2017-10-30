@@ -11,37 +11,118 @@ package de.weltraumschaf.caythe.frontend;
 // Parser production rules:
 ///////////////////////////
 
-unit
-   : statement* EOF
-   ;
+type
+    : NL*
+      typeDeclaration
+      importStatement*
+      delegateStatement*
+      propertyDeclaration*
+      constructorDeclaration*
+      methodDeclaration*
+      EOF
+    ;
+
+typeDeclaration
+    : visibility=typeVisibility facet=typeFacet NL+
+    ;
+
+typeVisibility
+    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
+    ;
+
+typeFacet
+    : KW_CLASS | KW_INTERFACE | KW_ANNOTATION | KW_ENUM
+    ;
+
+importStatement
+    : KW_USE name=fullQualifiedIdentifier (KW_AS alias=IDENTIFIER)? NL+
+    ;
+
+delegateStatement
+    : KW_DELEGATE delegate=IDENTIFIER NL+
+    ;
+
+propertyDeclaration
+    : visibility=propertyVisibility propertyType=IDENTIFIER propertyName=IDENTIFIER
+      (L_BRACE NL* propertyAccessor R_BRACE)? NL+
+    ;
+
+propertyAccessor
+    : propertyGetter? propertySetter?
+    ;
+
+propertyGetter
+    : KW_GET methodBody?
+    ;
+
+propertySetter
+    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN methodBody)?
+    ;
+
+propertyVisibility
+    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE | KW_PRIVATE
+    ;
+
+constructorDeclaration
+    : visibility=constructorVisibility
+      KW_CONSTRUCTOR L_PAREN methodArguments? R_PAREN
+      methodBody NL+
+    ;
+
+constructorVisibility
+    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
+    ;
+
+methodDeclaration
+    : visibility=methodVisibility
+      returnType=IDENTIFIER?
+      methodName=IDENTIFIER L_PAREN methodArguments? R_PAREN
+      methodBody
+    ;
+
+methodVisibility
+    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
+    ;
+
+methodArguments
+    : methodArgument (COMMA methodArgument)*
+    ;
+
+methodArgument
+    : argumentType=IDENTIFIER argumentName=IDENTIFIER
+    ;
+
+methodBody
+    : L_BRACE NL+ statement* R_BRACE NL+
+    ;
 
 statement
-    : assignStatement
-    | letStatement
-    | constStatement
-    | returnStatement
-    | breakStatement
-    | continueStatement
-    | ifExpression
-    | loopExpression
-    | expressionStatement
-    | NL
+    :   (assignStatement
+        | letStatement
+        | constStatement
+        | returnStatement
+        | breakStatement
+        | continueStatement
+        | ifExpression
+        | loopExpression
+        | expressionStatement)
+        NL+
     ;
 
 letStatement
-    : KW_LET ( IDENTIFIER NL | assignStatement )
+    : KW_LET variableType=IDENTIFIER ( IDENTIFIER | assignStatement )
     ;
 
 constStatement
-    : KW_CONST assignStatement
+    : KW_CONST constantType=IDENTIFIER assignStatement
     ;
 
 assignStatement
-    : assignExpression NL
+    : assignExpression
     ;
 
 returnStatement
-    : KW_RETURN value=expression? NL
+    : KW_RETURN value=expression
     ;
 
 breakStatement
@@ -70,13 +151,14 @@ expression
     | identifier=expression L_BRACKET index=expression R_BRACKET                    # subscriptExpression // foo[1] or bar["name"].
     | literalExpression                                                             # literalExpressionAlternative
     | ifExpression                                                                  # ifExpressionAlternative
-    | callExpression                                                                # callExpressionAlternative
-    | assignExpression                                                              # assignExpressionAlternative
+    | methodCallExpression                                                                # callExpressionAlternative
+    | fullQualifiedIdentifier                                                       # fullQualifiedIdentifierAlternative
+    | objectCreation                                                                # objectCreationAlternative
     ;
 
 literalExpression
     : literal
-    | functionLiteral
+    | methodLiteral
     | arrayLiteral
     | hashLiteral
     ;
@@ -90,8 +172,8 @@ literal
     | IDENTIFIER        # identifierLiteral
     ;
 
-functionLiteral
-    : KW_FUNCTION L_PAREN arguments=functionArguments? R_PAREN body=statementList
+methodLiteral
+    : IDENTIFIER L_PAREN arguments=functionArguments? R_PAREN body=statementList
     ;
 
 functionArguments
@@ -99,7 +181,7 @@ functionArguments
     ;
 
 arrayLiteral
-    : L_BRACKET values=expressionList? R_BRACKET
+    : L_BRACKET values=methodParameters? R_BRACKET
     ;
 
 hashLiteral
@@ -133,19 +215,35 @@ loopInit
     ;
 
 assignExpression
-    : identifier=IDENTIFIER OP_ASSIGN value=expression
+    : identifier=assignmentReceiver OP_ASSIGN value=expression
     ;
 
-callExpression
-    : identifier=IDENTIFIER L_PAREN arguments=expressionList? R_PAREN
+assignmentReceiver
+    : ( KW_THIS DOT )? fullQualifiedIdentifier
     ;
 
-expressionList
-    : expression ( COMMA expression )*
+methodCallExpression
+    : identifier=fullQualifiedIdentifier L_PAREN arguments=methodParameters? R_PAREN
     ;
 
 statementList
     : L_BRACE statements=statement* R_BRACE
+    ;
+
+fullQualifiedIdentifier
+    : IDENTIFIER ( DOT IDENTIFIER)*
+    ;
+
+objectCreation
+    : KW_NEW typeName=IDENTIFIER L_PAREN methodParameters R_PAREN
+    ;
+
+methodParameters
+    : methodParameter ( COMMA methodParameter)*
+    ;
+
+methodParameter
+    : parameterName=IDENTIFIER COLON parameterValue=expression
     ;
 
 // Lexer tokens:
@@ -160,9 +258,9 @@ OP_DIV      : '/' ;
 OP_MOD      : '%' ;
 OP_POW      : '^' ;
 
-OP_AND      : '&&' ;
-OP_OR       : '||' ;
-OP_NOT      : '!' ;
+OP_AND      : 'and' ;
+OP_OR       : 'or' ;
+OP_NOT      : 'not' ;
 
 RELOP_LT    : '<' ;
 RELOP_LTE   : '<=' ;
@@ -171,8 +269,8 @@ RELOP_GTE   : '>=' ;
 RELOP_EQ    : '==' ;
 RELOP_NEQ   : '!=' ;
 
-
 // Delimiters:
+DOT         : '.' ;
 COMMA       : ',' ;
 COLON       : ':' ;
 SEMICOLON   : ';' ;
@@ -183,21 +281,39 @@ R_BRACE     : '}' ;
 L_BRACKET   : '[' ;
 R_BRACKET   : ']' ;
 
-
 // Keywords:
-KW_LET      : 'let' ;
-KW_CONST    : 'const' ;
-KW_FUNCTION : 'fn' ;
+KW_LET          : 'let' ;
+KW_CONST        : 'const' ;
+KW_USE          : 'use' ;
+KW_AS           : 'as' ;
+KW_DELEGATE     : 'delegate';
+KW_GET          : 'get' ;
+KW_SET          : 'set' ;
+KW_CONSTRUCTOR  : 'constructor';
+KW_THIS         : 'this' ;
+KW_NEW          : 'new' ;
 // Control structures:
-KW_RETURN   : 'return' ;
-KW_IF       : 'if' ;
-KW_ELSE     : 'else' ;
-KW_LOOP     : 'loop' ;
-KW_BREAK    : 'break' ;
-KW_CONTINUE : 'continue' ;
-//KW_SWITCH   : 'switch' ;
-//KW_CASE     : 'case' ;
-//KW_DEFAULT  : 'default' ;
+KW_RETURN       : 'return' ;
+KW_IF           : 'if' ;
+KW_ELSE         : 'else' ;
+KW_LOOP         : 'loop' ;
+KW_BREAK        : 'break' ;
+KW_CONTINUE     : 'continue' ;
+KW_SWITCH       : 'switch' ;
+KW_CASE         : 'case' ;
+KW_DEFAULT      : 'default' ;
+KW_FALLTHROUGH  : 'fallthrough' ;
+// Visibilities:
+KW_PRIVATE      : 'private' ;
+KW_PACKAGE      : 'package' ;
+KW_PROTECTED    : 'protected' ;
+KW_PUBLIC       : 'public' ;
+KW_EXPORT       : 'export' ;
+// Type facets:
+KW_CLASS        : 'class' ;
+KW_INTERFACE    : 'interface' ;
+KW_ANNOTATION   : 'annotation' ;
+KW_ENUM         : 'enum' ;
 
 INTEGER : DIGIT+ ;
 REAL    : (DIGIT)+ '.' (DIGIT)* EXPONENT?
@@ -214,11 +330,10 @@ FALSE   : 'false' ;
 NIL     : 'nil' ;
 
 // Must be defined after keywords. Instead keywords will be recognized as identifier.
-IDENTIFIER  : LETTER ALPHANUM* ;
+IDENTIFIER  : LETTER (ALPHANUM | '-' | '_')* ;
 ALPHANUM    : LETTER | DIGIT ;
 LETTER      : [a-zA-Z] ;
 DIGIT       : [0-9] ;
-
 
 // Delimiter for expressions:
 NL : '\n' ;

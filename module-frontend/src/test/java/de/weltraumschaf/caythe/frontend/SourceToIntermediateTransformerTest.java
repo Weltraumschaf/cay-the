@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
  */
+@Ignore
 public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
     private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);

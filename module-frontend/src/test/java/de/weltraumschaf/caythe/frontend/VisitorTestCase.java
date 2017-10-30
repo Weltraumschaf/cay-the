@@ -47,7 +47,7 @@ abstract class VisitorTestCase {
     }
 
     ParseTree parseSource(final InputStream src) throws IOException {
-        return createSourceParser(src).unit();
+        return createSourceParser(src).type();
     }
 
 }
