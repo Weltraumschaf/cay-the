@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * The information from a module manifest.
  * <p>
- * This type is immutable by design: All setters return new objects.
+ * This type is immutable by design.
  * </p>
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
