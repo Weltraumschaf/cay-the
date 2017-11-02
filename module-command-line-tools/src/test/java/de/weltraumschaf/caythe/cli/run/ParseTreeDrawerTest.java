@@ -17,9 +17,9 @@ public final class ParseTreeDrawerTest {
 
     @Test
     public void convertFileName() {
-        assertThat(sut.convertFileName(Paths.get("Module.mf")), is(Paths.get("Module.png")));
-        assertThat(sut.convertFileName(Paths.get("foo/bar/Module.mf")), is(Paths.get("Module.png")));
-        assertThat(sut.convertFileName(Paths.get("FooBar.ct")), is(Paths.get("FooBar.png")));
-        assertThat(sut.convertFileName(Paths.get("foo/bar/FooBar.ct")), is(Paths.get("FooBar.png")));
+        assertThat(sut.convertFileName(Paths.get("Module.mf")), is(Paths.get("Module.ps")));
+        assertThat(sut.convertFileName(Paths.get("foo/bar/Module.mf")), is(Paths.get("Module.ps")));
+        assertThat(sut.convertFileName(Paths.get("FooBar.ct")), is(Paths.get("FooBar.ps")));
+        assertThat(sut.convertFileName(Paths.get("foo/bar/FooBar.ct")), is(Paths.get("FooBar.ps")));
     }
 }

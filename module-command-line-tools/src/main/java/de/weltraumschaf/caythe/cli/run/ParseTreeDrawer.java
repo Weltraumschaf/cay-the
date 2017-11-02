@@ -6,10 +6,12 @@ import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.gui.TreeViewer;
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.Tree;
 
 import javax.imageio.ImageIO;
+import javax.print.PrintException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,11 +23,11 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 /**
- * Draw and save the parse tree of given file to a PNG image file.
+ * Draw and save the parse tree of given file to a PostScript file.
  */
 final class ParseTreeDrawer {
 
-    private static final String FORMAT_NAME = "png";
+    private static final String FORMAT_NAME = "ps";
     private Parsers parsers = new Parsers();
     private final IO io;
 
@@ -34,7 +36,7 @@ final class ParseTreeDrawer {
         this.io = Validate.notNull(io, "io");
     }
 
-    void draw(final ModuleFiles files, final Path targetDirectory) throws IOException {
+    void draw(final ModuleFiles files, final Path targetDirectory) throws IOException, PrintException {
         if (!Files.isDirectory(targetDirectory)) {
             throw new IllegalArgumentException(String.format("Not a directory: %s!", targetDirectory));
         }
@@ -61,10 +63,12 @@ final class ParseTreeDrawer {
             final CayTheManifestParser parser = parsers.newManifestParser(in);
 
             drawAndWrite(target, parser, parser.manifest());
+        } catch (PrintException e) {
+            e.printStackTrace();
         }
     }
 
-    void writeSourceTree(final Path src, final Path target) throws IOException {
+    void writeSourceTree(final Path src, final Path target) throws IOException, PrintException {
         try (final InputStream in = Files.newInputStream(src)) {
             final CayTheSourceParser parser = parsers.newSourceParser(in);
 
@@ -72,27 +76,9 @@ final class ParseTreeDrawer {
         }
     }
 
-    private void drawAndWrite(final Path target, final Parser parser, final Tree parseTree) throws IOException {
-        final TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), parseTree);
-
-        try (final OutputStream out = Files.newOutputStream(target)) {
-            io.println(String.format("Writing %s ...", target));
-            ImageIO.write(drawImage(viewer), FORMAT_NAME, out);
-        }
+    private void drawAndWrite(final Path target, final Parser parser, final Tree parseTree) throws IOException, PrintException {
+        io.println(String.format("Writing %s ...", target));
+        Trees.save(parseTree, parser, target.toString());
     }
-
-    private BufferedImage drawImage(final TreeViewer viewer) {
-        final BufferedImage image = new BufferedImage(
-            viewer.getSize().width,
-            viewer.getSize().height,
-            BufferedImage.TYPE_INT_ARGB);
-        final Graphics graphics = image.createGraphics();
-
-        viewer.paint(graphics);
-        graphics.dispose();
-
-        return image;
-    }
-
 
 }
