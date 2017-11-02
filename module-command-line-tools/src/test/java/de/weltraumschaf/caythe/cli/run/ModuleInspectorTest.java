@@ -20,13 +20,13 @@ import static org.mockito.Mockito.when;
  */
 public final class ModuleInspectorTest {
     private final Path moduleDir = mock(Path.class);
-    private final ModuleInspector sut = new ModuleInspector(moduleDir);
+    private final ModuleInspector sut = new ModuleInspector(mock(IO.class));
 
     @Test
     public void preamble() {
         when(moduleDir.toString()).thenReturn("/foo/bar");
 
-        assertThat(sut.preamble(), is(
+        assertThat(sut.preamble(moduleDir), is(
             "Inspecting Module\n"
                 + "=================\n"
                 + "\n"

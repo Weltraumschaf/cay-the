@@ -22,20 +22,15 @@ final class ModuleParser {
     /**
      * Parses all files in the given directory.
      *
-     * @param moduleDir must not be {@code null}
+     * @param moduleFiles must not be {@code null}
      * @return never {@code null}
      * @throws IOException on any subsequent I/O error related to the parsed files
      */
-    Module parse(final Path moduleDir) throws IOException {
-        final ModuleFiles moduleFiles = findModuleFiles(moduleDir);
+    Module parse(final ModuleFiles moduleFiles) throws IOException {
         final Manifest manifest = parseModuleManifest(moduleFiles);
         final Collection<AstNode> units = parseSourceFiles(moduleFiles);
 
         return new Module(manifest, units, moduleFiles.getOtherFiles());
-    }
-
-    private ModuleFiles findModuleFiles(final Path moduleDir) throws IOException {
-        return new ModuleCrawler().find(moduleDir);
     }
 
     private Manifest parseModuleManifest(final ModuleFiles moduleFiles) throws IOException {

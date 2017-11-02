@@ -41,12 +41,21 @@ public final class RunSubCommand implements SubCommand {
             throw new IOException(String.format("Directory %s is not readable!", moduleDir));
         }
 
-        final Module module = new ModuleParser().parse(moduleDir);
+        final ModuleFiles files = new ModuleCrawler().find(moduleDir);
+
+        if (options.isParseTree()) {
+            new ParseTreeDrawer(ctx.getIo()).draw(files, Paths.get("."));
+            return;
+        }
+
+        final Module module = new ModuleParser().parse(files);
         new ModuleValidator().validate(module);
 
         if (options.isInspect()) {
-            new ModuleInspector(moduleDir).inspect(module, ctx.getIo());
+            new ModuleInspector(ctx.getIo()).inspect(module, moduleDir);
+            return;
         }
+
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);
 //        final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());

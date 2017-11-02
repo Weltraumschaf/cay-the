@@ -25,20 +25,20 @@ final class ModuleInspector {
         + "-\n"
         + "<endif>";
 
-    private final Path moduleDir;
+    private final IO io;
 
-    ModuleInspector(final Path moduleDir) {
+    ModuleInspector(final IO io) {
         super();
-        this.moduleDir = Validate.notNull(moduleDir, "moduleDir");
+        this.io = Validate.notNull(io, "io");
     }
 
-    void inspect(final Module module, final IO io) {
-        io.print(preamble());
+    void inspect(final Module module, final Path moduleDir) {
+        io.print(preamble(moduleDir));
         io.print(dumpManifestInfo(module.getManifest()));
         io.println("");
     }
 
-    String preamble() {
+    String preamble(final Path moduleDir) {
         final StringBuilder buffer = new StringBuilder();
 
         buffer.append("Inspecting Module\n");
