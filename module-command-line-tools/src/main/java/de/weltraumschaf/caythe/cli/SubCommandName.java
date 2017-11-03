@@ -16,11 +16,15 @@ public enum SubCommandName {
      */
     NONE,
     /**
-     * Subcommand to create the scaffold for a new module.
+     * Create the scaffold for a new module.
      */
     CREATE,
     /**
-     * Interprets the given sources.
+     * Inspect a module.
+     */
+    INSPECT,
+    /**
+     * Interprets a module.
      */
     RUN,
     /**

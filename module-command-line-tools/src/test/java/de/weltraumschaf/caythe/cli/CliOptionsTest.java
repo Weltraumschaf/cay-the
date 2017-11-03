@@ -13,7 +13,7 @@ public class CliOptionsTest {
 
     @Test
     public void usage() {
-        assertThat(sut.usage(), is("create|run|repl [--version] [-h|--help] [--debug]"));
+        assertThat(sut.usage(), is("create|inspect|run|repl [--version] [-h|--help] [--debug]"));
     }
 
     @Test

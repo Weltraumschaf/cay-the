@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterDescription;
 import de.weltraumschaf.caythe.CayThe;
 import de.weltraumschaf.caythe.cli.create.CreateCliOptions;
+import de.weltraumschaf.caythe.cli.inspect.InspectCliOptions;
 import de.weltraumschaf.caythe.cli.repl.ReplCliOptions;
 import de.weltraumschaf.caythe.cli.run.RunCliOptions;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
@@ -32,6 +33,7 @@ public final class CliOptions {
     private CreateCliOptions create;
     private ReplCliOptions repl;
     private RunCliOptions run;
+    private InspectCliOptions inspect;
 
     /**
      * Dedicated constructor.
@@ -57,6 +59,10 @@ public final class CliOptions {
      */
     public CreateCliOptions getCreate() {
         return create;
+    }
+
+    public InspectCliOptions getInspect() {
+        return inspect;
     }
 
     public ReplCliOptions getRepl() {
@@ -192,6 +198,9 @@ public final class CliOptions {
         create = new CreateCliOptions();
         parser.addCommand(SubCommandName.CREATE.toString(), create);
 
+        inspect = new InspectCliOptions();
+        parser.addCommand(SubCommandName.INSPECT.toString(), inspect);
+
         repl = new ReplCliOptions();
         parser.addCommand(SubCommandName.REPL.toString(), repl);
 
@@ -200,11 +209,11 @@ public final class CliOptions {
     }
 
     boolean isHelp() {
-        return main.isHelp() || create.isHelp() || repl.isHelp() || run.isHelp();
+        return main.isHelp() || create.isHelp() || inspect.isHelp() || repl.isHelp() || run.isHelp();
     }
 
     boolean isDebug() {
-        return main.isDebug() || create.isDebug() || repl.isDebug() || run.isDebug();
+        return main.isDebug() || create.isDebug() || inspect.isDebug() || repl.isDebug() || run.isDebug();
     }
 
     boolean isVerbose() {

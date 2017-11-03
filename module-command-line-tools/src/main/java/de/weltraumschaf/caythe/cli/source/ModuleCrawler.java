@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.cli.run;
+package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -14,8 +14,11 @@ import java.util.Collection;
 
 /**
  * Finds all files for a module.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
-final class ModuleCrawler {
+public final class ModuleCrawler {
     private static final String EXTENSION_OF_MANIFESTS_FILES = ".mf";
     private static final String EXTENSION_OF_SOURCE_FILES = ".ct";
 
@@ -25,7 +28,7 @@ final class ModuleCrawler {
      * @param moduleDir must not be {@code null}
      * @return never {@code null}
      */
-    ModuleFiles find(final Path moduleDir) throws IOException {
+    public ModuleFiles find(final Path moduleDir) throws IOException {
         Validate.notNull(moduleDir, "moduleDir");
         return new ModuleFiles(loadManifest(moduleDir),
             loadSourceFiles(moduleDir),

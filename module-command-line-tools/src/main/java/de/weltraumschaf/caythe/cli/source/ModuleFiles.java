@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.cli.run;
+package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -12,8 +12,11 @@ import java.util.Objects;
  * <p>
  * This class is by design immutable.
  * </p>
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
-final class ModuleFiles {
+public final class ModuleFiles {
     private final Path manifestFile;
     private final Collection<Path> sourceFiles;
     private final Collection<Path> otherFiles;
@@ -25,7 +28,7 @@ final class ModuleFiles {
      * @param sourceFiles  must not be {@code null}
      * @param otherFiles   must not be {@code null}
      */
-    ModuleFiles(final Path manifestFile, final Collection<Path> sourceFiles, final Collection<Path> otherFiles) {
+    public ModuleFiles(final Path manifestFile, final Collection<Path> sourceFiles, final Collection<Path> otherFiles) {
         super();
         this.manifestFile = Validate.notNull(manifestFile, "manifestFile");
         this.sourceFiles = Collections.unmodifiableCollection(Validate.notNull(sourceFiles, "sourceFiles"));
@@ -37,7 +40,7 @@ final class ModuleFiles {
      *
      * @return never {@code null}
      */
-    Path getManifestFile() {
+    public Path getManifestFile() {
         return manifestFile;
     }
 
@@ -46,7 +49,7 @@ final class ModuleFiles {
      *
      * @return never {@code null}, unmodifiable
      */
-    Collection<Path> getSourceFiles() {
+    public Collection<Path> getSourceFiles() {
         return sourceFiles;
     }
 
@@ -55,7 +58,7 @@ final class ModuleFiles {
      *
      * @return never {@code null}, unmodifiable
      */
-    Collection<Path> getOtherFiles() {
+    public Collection<Path> getOtherFiles() {
         return otherFiles;
     }
 

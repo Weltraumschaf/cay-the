@@ -13,13 +13,13 @@ public class MainCliOptionsTest {
 
     @Test
     public void delimitedSubcommandNames() {
-        assertThat(MainCliOptions.delimitedSubcommandNames(), is("create|run|repl"));
+        assertThat(MainCliOptions.delimitedSubcommandNames(), is("create|inspect|run|repl"));
     }
 
     @Test
     public void usage() {
         assertThat(
             MainCliOptions.usage(),
-            is("create|run|repl [--version] [-h|--help] [--debug]"));
+            is("create|inspect|run|repl [--version] [-h|--help] [--debug]"));
     }
 }

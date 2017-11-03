@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.cli.run;
+package de.weltraumschaf.caythe.cli.inspect;
 
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;

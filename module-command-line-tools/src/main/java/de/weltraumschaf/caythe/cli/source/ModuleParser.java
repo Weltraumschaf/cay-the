@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.cli.run;
+package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.caythe.frontend.*;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
@@ -15,8 +15,11 @@ import java.util.Collections;
 
 /**
  * Parses all files in a module.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0Ø
  */
-final class ModuleParser {
+public final class ModuleParser {
     private Parsers parsers = new Parsers();
 
     /**
@@ -26,7 +29,7 @@ final class ModuleParser {
      * @return never {@code null}
      * @throws IOException on any subsequent I/O error related to the parsed files
      */
-    Module parse(final ModuleFiles moduleFiles) throws IOException {
+    public Module parse(final ModuleFiles moduleFiles) throws IOException {
         final Manifest manifest = parseModuleManifest(moduleFiles);
         final Collection<AstNode> units = parseSourceFiles(moduleFiles);
 
@@ -48,8 +51,7 @@ final class ModuleParser {
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
-                @SuppressWarnings("unchecked")
-                final CayTheSourceBaseVisitor<AstNode> visitor =
+                @SuppressWarnings("unchecked") final CayTheSourceBaseVisitor<AstNode> visitor =
                     parsers.injector().getInstance(CayTheSourceBaseVisitor.class);
                 final AstNode unit = visitor.visit(parser.type());
                 units.add(unit);

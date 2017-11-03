@@ -2,26 +2,31 @@ package de.weltraumschaf.caythe.cli.run;
 
 import de.weltraumschaf.caythe.cli.CliContext;
 import de.weltraumschaf.caythe.cli.SubCommand;
-import de.weltraumschaf.caythe.frontend.CayTheManifestParser;
-import de.weltraumschaf.caythe.frontend.ManifestToIntermediateTransformer;
-import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.intermediate.model.Manifest;
+import de.weltraumschaf.caythe.cli.source.ModuleCrawler;
+import de.weltraumschaf.caythe.cli.source.ModuleFiles;
+import de.weltraumschaf.caythe.cli.source.ModuleValidator;
 import de.weltraumschaf.caythe.intermediate.model.Module;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Subcommand implementation to interpret a module.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class RunSubCommand implements SubCommand {
 
     private final CliContext ctx;
 
     public RunSubCommand(final CliContext ctx) {
         super();
-        this.ctx = ctx;
+        this.ctx = Validate.notNull(ctx, "ctx");
     }
 
     @Override
@@ -29,32 +34,11 @@ public final class RunSubCommand implements SubCommand {
         final RunCliOptions options = ctx.getOptions().getRun();
         final Path moduleDir = Paths.get(options.getModule());
 
-        if (!Files.exists(moduleDir)) {
-            throw new FileNotFoundException(String.format("Path %s does not exist!", moduleDir));
-        }
-
-        if (!Files.isDirectory(moduleDir)) {
-            throw new IOException(String.format("Path %s is not a directory!", moduleDir));
-        }
-
-        if (!Files.isReadable(moduleDir)) {
-            throw new IOException(String.format("Directory %s is not readable!", moduleDir));
-        }
+        new ModuleValidator().validate(moduleDir);
 
         final ModuleFiles files = new ModuleCrawler().find(moduleDir);
 
-        if (options.isParseTree()) {
-            new ParseTreeDrawer(ctx.getIo()).draw(files, Paths.get("."));
-            return;
-        }
 
-        final Module module = new ModuleParser().parse(files);
-        new ModuleValidator().validate(module);
-
-        if (options.isInspect()) {
-            new ModuleInspector(ctx.getIo()).inspect(module, moduleDir);
-            return;
-        }
 
 //        final InputStream src = Files.newInputStream(file);
 //        final CayTheSourceParser parser = parsers.newSourceParser(src);

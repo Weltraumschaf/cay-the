@@ -1,26 +1,21 @@
-package de.weltraumschaf.caythe.cli.run;
+package de.weltraumschaf.caythe.cli.inspect;
 
+import de.weltraumschaf.caythe.cli.source.ModuleFiles;
 import de.weltraumschaf.caythe.frontend.CayTheManifestParser;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
-import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.Tree;
 
-import javax.imageio.ImageIO;
 import javax.print.PrintException;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 /**
  * Draw and save the parse tree of given file to a PostScript file.

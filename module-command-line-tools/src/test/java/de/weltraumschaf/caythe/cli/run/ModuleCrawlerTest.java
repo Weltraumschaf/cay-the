@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.cli.run;
 
+import de.weltraumschaf.caythe.cli.source.ModuleCrawler;
+import de.weltraumschaf.caythe.cli.source.ModuleFiles;
 import org.junit.Test;
 
 import java.io.IOException;
