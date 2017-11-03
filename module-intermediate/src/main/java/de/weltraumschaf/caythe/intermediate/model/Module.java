@@ -18,13 +18,13 @@ public final class Module {
     public static final Module NONE = new Module(Manifest.NONE, Collections.emptyList(), Collections.emptyList());
 
     private final Manifest manifest;
-    private final Collection<AstNode> units;
+    private final Collection<AstNode> types;
     private final Collection<Path> resources;
 
-    public Module(final Manifest manifest, final Collection<AstNode> units, final Collection<Path> resources) {
+    public Module(final Manifest manifest, final Collection<AstNode> types, final Collection<Path> resources) {
         super();
         this.manifest = Validate.notNull(manifest, "manifest");
-        this.units = Validate.notNull(units, "units");
+        this.types = Validate.notNull(types, "types");
         this.resources = Validate.notNull(resources, "resources");
     }
 
@@ -32,8 +32,8 @@ public final class Module {
         return manifest;
     }
 
-    public Collection<AstNode> getUnits() {
-        return units;
+    public Collection<AstNode> getTypes() {
+        return types;
     }
 
     public Collection<Path> getResources() {
@@ -48,20 +48,20 @@ public final class Module {
 
         final Module module = (Module) o;
         return Objects.equals(manifest, module.manifest)
-            && Objects.equals(units, module.units)
+            && Objects.equals(types, module.types)
             && Objects.equals(resources, module.resources);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(manifest, units, resources);
+        return Objects.hash(manifest, types, resources);
     }
 
     @Override
     public String toString() {
         return "Module{" +
             "manifest=" + manifest +
-            ", units=" + units +
+            ", types=" + types +
             ", resources=" + resources +
             '}';
     }

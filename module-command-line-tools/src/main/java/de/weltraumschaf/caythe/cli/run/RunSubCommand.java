@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.cli.CliContext;
 import de.weltraumschaf.caythe.cli.SubCommand;
 import de.weltraumschaf.caythe.cli.source.ModuleCrawler;
 import de.weltraumschaf.caythe.cli.source.ModuleFiles;
+import de.weltraumschaf.caythe.cli.source.ModuleParser;
 import de.weltraumschaf.caythe.cli.source.ModuleValidator;
 import de.weltraumschaf.caythe.intermediate.model.Module;
 import de.weltraumschaf.commons.validate.Validate;
@@ -37,7 +38,9 @@ public final class RunSubCommand implements SubCommand {
         new ModuleValidator().validate(moduleDir);
 
         final ModuleFiles files = new ModuleCrawler().find(moduleDir);
-
+        final Module module = new ModuleParser().parse(files);
+        final ModuleValidator validator = new ModuleValidator();
+        validator.validate(module);
 
 
 //        final InputStream src = Files.newInputStream(file);

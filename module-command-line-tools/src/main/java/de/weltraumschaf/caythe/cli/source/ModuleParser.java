@@ -31,9 +31,9 @@ public final class ModuleParser {
      */
     public Module parse(final ModuleFiles moduleFiles) throws IOException {
         final Manifest manifest = parseModuleManifest(moduleFiles);
-        final Collection<AstNode> units = parseSourceFiles(moduleFiles);
+        final Collection<AstNode> types = parseSourceFiles(moduleFiles);
 
-        return new Module(manifest, units, moduleFiles.getOtherFiles());
+        return new Module(manifest, types, moduleFiles.getOtherFiles());
     }
 
     private Manifest parseModuleManifest(final ModuleFiles moduleFiles) throws IOException {
@@ -46,18 +46,18 @@ public final class ModuleParser {
     }
 
     private Collection<AstNode> parseSourceFiles(final ModuleFiles moduleFiles) throws IOException {
-        final Collection<AstNode> units = new ArrayList<>();
+        final Collection<AstNode> types = new ArrayList<>();
 
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
                 @SuppressWarnings("unchecked") final CayTheSourceBaseVisitor<AstNode> visitor =
                     parsers.injector().getInstance(CayTheSourceBaseVisitor.class);
-                final AstNode unit = visitor.visit(parser.type());
-                units.add(unit);
+                final AstNode type = visitor.visit(parser.type());
+                types.add(type);
             }
         }
 
-        return Collections.unmodifiableCollection(units);
+        return Collections.unmodifiableCollection(types);
     }
 }
