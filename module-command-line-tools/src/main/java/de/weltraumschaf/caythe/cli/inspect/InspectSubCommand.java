@@ -48,5 +48,11 @@ public final class InspectSubCommand implements SubCommand {
             new ModuleInspector(ctx.getIo()).inspect(module, moduleDir);
             return;
         }
+
+        //        if (options.isTree()) {
+//            final DotGenerator generator = new DotGenerator();
+//            ast.accept(generator);
+//            ctx.getIo().print(generator.getGraph());
+
     }
 }

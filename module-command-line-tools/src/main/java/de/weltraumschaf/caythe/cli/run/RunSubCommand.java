@@ -42,18 +42,7 @@ public final class RunSubCommand implements SubCommand {
         final ModuleValidator validator = new ModuleValidator();
         validator.validate(module);
 
-
-//        final InputStream src = Files.newInputStream(file);
-//        final CayTheSourceParser parser = parsers.newSourceParser(src);
-//        final AstNode ast = new SourceToIntermediateTransformer().visit(parser.unit());
-//
-//        if (options.isTree()) {
-//            final DotGenerator generator = new DotGenerator();
-//            ast.accept(generator);
-//            ctx.getIo().print(generator.getGraph());
-//        } else {
 //            ast.accept(new AstWalkingInterpreter());
-//        }
     }
 
 }

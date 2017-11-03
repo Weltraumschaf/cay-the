@@ -51,10 +51,9 @@ public final class ModuleParser {
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
-                @SuppressWarnings("unchecked") final CayTheSourceBaseVisitor<AstNode> visitor =
-                    parsers.injector().getInstance(CayTheSourceBaseVisitor.class);
-                final AstNode type = visitor.visit(parser.type());
-                types.add(type);
+                @SuppressWarnings("unchecked") final CayTheSourceVisitor<AstNode> visitor =
+                    parsers.injector().getInstance(CayTheSourceVisitor.class);
+                types.add(visitor.visit(parser.type()));
             }
         }
 
