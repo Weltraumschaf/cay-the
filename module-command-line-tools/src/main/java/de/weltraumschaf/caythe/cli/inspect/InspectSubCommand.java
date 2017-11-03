@@ -35,10 +35,10 @@ public final class InspectSubCommand implements SubCommand {
         validator.validate(moduleDir);
 
         final ModuleFiles files = new ModuleCrawler().find(moduleDir);
+        final Path currentWorkingDir = Paths.get(".");
 
         if (options.isParseTree()) {
-            new ParseTreeDrawer(ctx.getIo()).draw(files, Paths.get("."));
-            return;
+            new ParseTreeDrawer(ctx.getIo()).draw(files, currentWorkingDir);return;
         }
 
         final Module module = new ModuleParser().parse(files);
@@ -46,13 +46,12 @@ public final class InspectSubCommand implements SubCommand {
 
         if (options.isInspect()) {
             new ModuleInspector(ctx.getIo()).inspect(module, moduleDir);
-            return;
         }
 
-        //        if (options.isTree()) {
-//            final DotGenerator generator = new DotGenerator();
-//            ast.accept(generator);
-//            ctx.getIo().print(generator.getGraph());
+        if (options.isAstTree()) {
+            new AbstractSyntaxTreeDrawer(ctx.getIo()).draw(module, currentWorkingDir);
+        }
 
+        ctx.getIo().println("Done :-)");
     }
 }

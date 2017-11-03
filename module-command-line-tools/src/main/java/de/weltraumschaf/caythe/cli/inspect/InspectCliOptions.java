@@ -29,7 +29,7 @@ public final class InspectCliOptions extends CommonCliOptions {
     @Parameter(
         names = {"-t", "--ast-trees"},
         description = "Writes the abstract syntax trees of each parsed file into a separate GraphViz file in the current working directory.")
-    private boolean tree;
+    private boolean astTree;
 
     @Parameter(
         names = {"-p", "--parse-trees"},
@@ -44,8 +44,8 @@ public final class InspectCliOptions extends CommonCliOptions {
         return inspect;
     }
 
-    boolean isTree() {
-        return tree;
+    boolean isAstTree() {
+        return astTree;
     }
 
     boolean isParseTree() {

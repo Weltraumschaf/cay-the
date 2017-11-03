@@ -42,8 +42,6 @@ final class ParseTreeDrawer {
         for (final Path src : files.getSourceFiles()) {
             writeSourceTree(src, targetDirectory.resolve(convertFileName(src)));
         }
-
-        io.println("Done :-)");
     }
 
     Path convertFileName(final Path in) {
@@ -53,17 +51,15 @@ final class ParseTreeDrawer {
         return Paths.get(file.substring(start, stop) + FORMAT_NAME);
     }
 
-    void writeManifestTree(final Path src, final Path target) throws IOException {
+    private void writeManifestTree(final Path src, final Path target) throws IOException, PrintException {
         try (final InputStream in = Files.newInputStream(src)) {
             final CayTheManifestParser parser = parsers.newManifestParser(in);
 
             drawAndWrite(target, parser, parser.manifest());
-        } catch (PrintException e) {
-            e.printStackTrace();
         }
     }
 
-    void writeSourceTree(final Path src, final Path target) throws IOException, PrintException {
+    private void writeSourceTree(final Path src, final Path target) throws IOException, PrintException {
         try (final InputStream in = Files.newInputStream(src)) {
             final CayTheSourceParser parser = parsers.newSourceParser(in);
 
