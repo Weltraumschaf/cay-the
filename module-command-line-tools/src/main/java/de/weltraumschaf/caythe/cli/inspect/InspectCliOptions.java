@@ -20,18 +20,20 @@ public final class InspectCliOptions extends CommonCliOptions {
         .command("TODO").nl()
         .toString();
 
-    @Parameter(names = {"-m", "--module"}, description = "The module to run", required = true)
+    @Parameter(names = {"-m", "--module"}, description = "Path to the module to inspect.", required = true)
     private String module = "";
 
-    @Parameter(names = {"-i", "--inspect"}, description = "Inspects the given module and print the information to STDOUT")
+    @Parameter(names = {"-i", "--inspect"}, description = "Inspects the given module and print the information to STDOUT.")
     private boolean inspect;
 
-    @Parameter(names = {"-t", "--tree"}, description = "Prints the abstract syntax tree as dot graph syntax.")
+    @Parameter(
+        names = {"-t", "--ast-trees"},
+        description = "Writes the abstract syntax trees of each parsed file into a separate GraphViz file in the current working directory.")
     private boolean tree;
 
     @Parameter(
-        names = {"-p", "--parse-tree"},
-        description = "Writes the parse trees of each parsed file into a PNG file in the current working directory.")
+        names = {"-p", "--parse-trees"},
+        description = "Writes the parse trees of each parsed file into a separate PostScript file in the current working directory.")
     private boolean parseTree;
 
     String getModule() {
