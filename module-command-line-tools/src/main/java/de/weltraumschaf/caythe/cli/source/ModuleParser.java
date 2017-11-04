@@ -4,6 +4,8 @@ import de.weltraumschaf.caythe.frontend.*;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Module;
+import de.weltraumschaf.caythe.intermediate.model.Type;
+import de.weltraumschaf.caythe.intermediate.model.TypeName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +33,7 @@ public final class ModuleParser {
      */
     public Module parse(final ModuleFiles moduleFiles) throws IOException {
         final Manifest manifest = parseModuleManifest(moduleFiles);
-        final Collection<AstNode> types = parseSourceFiles(moduleFiles);
+        final Collection<Type> types = parseSourceFiles(moduleFiles);
 
         return new Module(manifest, types, moduleFiles.getOtherFiles());
     }
@@ -45,8 +47,8 @@ public final class ModuleParser {
         }
     }
 
-    private Collection<AstNode> parseSourceFiles(final ModuleFiles moduleFiles) throws IOException {
-        final Collection<AstNode> types = new ArrayList<>();
+    private Collection<Type> parseSourceFiles(final ModuleFiles moduleFiles) throws IOException {
+        final Collection<Type> types = new ArrayList<>();
 
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {

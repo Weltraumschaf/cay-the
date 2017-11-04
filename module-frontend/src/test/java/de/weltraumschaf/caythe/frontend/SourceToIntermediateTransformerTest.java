@@ -2,6 +2,8 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
+import de.weltraumschaf.caythe.intermediate.model.Type;
+import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -21,13 +23,13 @@ import static org.junit.Assert.assertThat;
 @Ignore
 public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
-    private final CayTheSourceVisitor<AstNode> sut = injector().getInstance(CayTheSourceVisitor.class);
+    private final CayTheSourceVisitor<Type> sut = new SourceToIntermediateTransformer(TypeName.NONE);
 
     @Test
     public void testFile() throws IOException {
         final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/caythe/frontend/test.ct");
 
-        final AstNode ast = sut.visit(parseSource(src));
+        final Type ast = sut.visit(parseSource(src));
 
         assertThat(ast, is(not(nullValue())));
     }
@@ -47,7 +49,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parseSource(src));
+        final Type ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }
@@ -75,7 +77,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parseSource(src));
+        final Type ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }
@@ -104,7 +106,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             )
             .end();
 
-        final AstNode ast = sut.visit(parseSource(src));
+        final Type ast = sut.visit(parseSource(src));
 
         assertThat( ast, is(expected));
     }

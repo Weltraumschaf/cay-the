@@ -4,6 +4,8 @@ import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * The information from a module type.
@@ -15,19 +17,151 @@ import java.util.Collection;
  * @since 1.0.0
  */
 public final class Type {
-    private final String name;
-    private final Facet facet;
-    private final Visibility  visibility ;
-    private final Collection<Property> properties = new ArrayList<>();
-    private final Method constructor;
-    private final Collection<Method> methods = new ArrayList<>();
-    private final Collection<Delegate> delegates = new ArrayList<>();
+    public static final Type NONE = new TypeBuilder().create();
+    private TypeName name;
+    private Facet facet;
+    private Visibility visibility;
+    private Method constructor;
+    private Collection<Property> properties ;
+    private Collection<Method> methods  ;
+    private Collection<Delegate> delegates ;
 
-    public Type(final String name, final Facet facet, final Visibility visibility, final Method constructor) {
+    /**
+     * Use the {@link TypeBuilder builder} to create instances.
+     */
+    private Type() {
         super();
-        this.name = Validate.notEmpty(name, "name");
-        this.facet = Validate.notNull(facet, "facet");
-        this.visibility = Validate.notNull(visibility, "visibility");
-        this.constructor = Validate.notNull(constructor, "constructor");
+    }
+
+    public TypeName getName() {
+        return name;
+    }
+
+    public Facet getFacet() {
+        return facet;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public Method getConstructor() {
+        return constructor;
+    }
+
+    public Collection<Property> getProperties() {
+        return Collections.unmodifiableCollection(properties);
+    }
+
+    public Collection<Method> getMethods() {
+        return Collections.unmodifiableCollection(methods);
+    }
+
+    public Collection<Delegate> getDelegates() {
+        return Collections.unmodifiableCollection(delegates);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof Type)) {
+            return false;
+        }
+
+        final Type type = (Type) o;
+        return Objects.equals(name, type.name) &&
+            facet == type.facet &&
+            visibility == type.visibility &&
+            Objects.equals(constructor, type.constructor) &&
+            Objects.equals(properties, type.properties) &&
+            Objects.equals(methods, type.methods) &&
+            Objects.equals(delegates, type.delegates);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, facet, visibility, constructor, properties, methods, delegates);
+    }
+
+    @Override
+    public String toString() {
+        return "Type{" +
+            "name='" + name + '\'' +
+            ", facet=" + facet +
+            ", visibility=" + visibility +
+            ", constructor=" + constructor +
+            ", properties=" + properties +
+            ", methods=" + methods +
+            ", delegates=" + delegates +
+            '}';
+    }
+
+    public static final class TypeBuilder {
+        private TypeName name = TypeName.NONE;
+        private Facet facet = Facet.CLASS;
+        private Visibility visibility = Visibility.PRIVATE;
+        private Method constructor = Method.NONE;
+        private final Collection<Property> properties = new ArrayList<>();
+        private final Collection<Method> methods = new ArrayList<>();
+        private final Collection<Delegate> delegates = new ArrayList<>();
+
+        public TypeBuilder() {
+            super();
+        }
+
+        public void setName(final TypeName name) {
+            this.name = Validate.notNull(name, "name");
+
+            if (TypeName.NONE.equals(name)) {
+                throw new IllegalArgumentException("Illegal type name: " + TypeName.NONE.getFullQualifiedName() + "!");
+            }
+        }
+
+        public void setFacet(final Facet f) {
+            this.facet = Validate.notNull(f, "f");
+        }
+
+        public void setVisibility(final Visibility v) {
+            this.visibility = Validate.notNull(v, "v");
+        }
+
+        public void setConstructor(final Method c) {
+            this.constructor = Validate.notNull(c, "c");
+
+            if (Method.NONE.equals(c)) {
+                throw new IllegalArgumentException("Illegal constructor method: " + c + "!");
+            }
+        }
+
+        public void addProperty(final Property p) {
+            Validate.notNull(p, "p");
+            properties.add(p);
+        }
+
+        public void addMethod(final Method m) {
+            Validate.notNull(m, "m");
+
+            if (Method.NONE.equals(m)) {
+                throw new IllegalArgumentException("Illegal method: " + constructor + "!");
+            }
+
+            methods.add(m);
+        }
+
+        public void addDelegate(final Delegate d) {
+            Validate.notNull(d, "d");
+            delegates.add(d);
+        }
+
+        public Type create() {
+            final Type t = new Type();
+            t.name = name;
+            t.facet = facet;
+            t.visibility = visibility;
+            t.constructor = constructor;
+            t.delegates = new ArrayList<>(delegates);
+            t.properties = new ArrayList<>(properties);
+            t.methods = new ArrayList<>(methods);
+            return t;
+        }
     }
 }

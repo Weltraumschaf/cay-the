@@ -25,7 +25,7 @@ public class ManifestToIntermediateTransformerTest extends VisitorTestCase {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
     @SuppressWarnings("unchecked")
-    private final CayTheManifestVisitor<Manifest> sut = injector().getInstance(CayTheManifestVisitor.class);
+    private final CayTheManifestVisitor<Manifest> sut = new ManifestToIntermediateTransformer();
 
     @Test
     public void visit_missingGroup() throws IOException {
