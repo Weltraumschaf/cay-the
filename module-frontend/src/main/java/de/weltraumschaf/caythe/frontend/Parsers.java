@@ -1,7 +1,5 @@
 package de.weltraumschaf.caythe.frontend;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.*;
 
@@ -16,24 +14,10 @@ import java.io.InputStream;
  */
 public final class Parsers {
 
-    private final Injector injector;
     private boolean debug;
-
-    public Parsers() {
-        this(Guice.createInjector(new DependencyInjectionConfig()));
-    }
-
-    private Parsers(final Injector injector) {
-        super();
-        this.injector = Validate.notNull(injector, "injector");
-    }
 
     public void debug(boolean debug) {
         this.debug = debug;
-    }
-
-    public Injector injector() {
-        return injector;
     }
 
     /**
@@ -71,7 +55,7 @@ public final class Parsers {
     }
 
     private <P extends Parser> P addErrorListener(final P parser) {
-        final ErrorListener listener = injector.getInstance(ErrorListener.class);
+        final ErrorListener listener = new DefaultErrorListener();
         listener.debug(debug);
         parser.addErrorListener(listener);
         return parser;

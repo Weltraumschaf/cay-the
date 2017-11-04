@@ -1,6 +1,5 @@
 package de.weltraumschaf.caythe.frontend;
 
-import com.google.inject.Injector;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.ByteArrayInputStream;
@@ -9,10 +8,6 @@ import java.io.InputStream;
 
 abstract class VisitorTestCase {
     private final Parsers parsers = new Parsers();
-
-    final Injector injector() {
-        return parsers.injector();
-    }
 
     private final InputStream stream(final String input) {
         return new ByteArrayInputStream(input.getBytes());

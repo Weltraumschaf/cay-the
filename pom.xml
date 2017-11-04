@@ -88,7 +88,6 @@
        <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
         <!-- Dependency versions. -->
-        <guice-core.version>4.1.0</guice-core.version>
         <antlr.version>4.7</antlr.version>
         <commons.version>2.2.0</commons.version>
         <stringtemplate.version>4.0.2</stringtemplate.version>
@@ -107,12 +106,6 @@
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4</artifactId>
                 <version>${antlr.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.inject</groupId>
-                <artifactId>guice</artifactId>
-                <version>${guice-core.version}</version>
             </dependency>
 
             <dependency>

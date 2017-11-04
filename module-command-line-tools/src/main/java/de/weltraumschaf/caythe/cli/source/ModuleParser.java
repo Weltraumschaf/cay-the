@@ -42,7 +42,7 @@ public final class ModuleParser {
         try (final InputStream src = Files.newInputStream(moduleFiles.getManifestFile())) {
             final CayTheManifestParser parser = parsers.newManifestParser(src);
             @SuppressWarnings("unchecked") final CayTheManifestVisitor<Manifest> visitor =
-                parsers.injector().getInstance(CayTheManifestVisitor.class);
+                new ManifestToIntermediateTransformer();
             return visitor.visit(parser.manifest());
         }
     }
@@ -53,8 +53,8 @@ public final class ModuleParser {
         for (final Path file : moduleFiles.getSourceFiles()) {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
-                @SuppressWarnings("unchecked") final CayTheSourceVisitor<AstNode> visitor =
-                    parsers.injector().getInstance(CayTheSourceVisitor.class);
+                @SuppressWarnings("unchecked") final CayTheSourceVisitor<Type> visitor =
+                    new SourceToIntermediateTransformer(TypeName.fromFileName(file));
                 types.add(visitor.visit(parser.type()));
             }
         }
