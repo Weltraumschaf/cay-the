@@ -19,6 +19,7 @@ final class AbstractSyntaxTreeDrawer {
     }
 
     void draw(final Module module, final Path targetDirectory) {
+        io.errorln("Not implemented yet!");
         //            final DotGenerator generator = new DotGenerator();
 //            ast.accept(generator);
 //            ctx.getIo().print(generator.getGraph());
