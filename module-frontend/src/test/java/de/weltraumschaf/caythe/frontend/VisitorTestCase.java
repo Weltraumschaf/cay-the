@@ -45,4 +45,7 @@ abstract class VisitorTestCase {
         return createSourceParser(src).type();
     }
 
+    ParseTree parseFile(final String file) throws IOException {
+        return parseSource(getClass().getResourceAsStream(file));
+    }
 }

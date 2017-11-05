@@ -49,10 +49,9 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     @Test
     public void typeDeclaration() throws IOException {
         final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final InputStream src = getClass().getResourceAsStream(file);
         final SourceToIntermediateTransformer sut = createSut(file);
 
-        final Type result = sut.visit(parseSource(src));
+        final Type result = sut.visit(parseFile(file));
 
         assertThat(result, is(not(nullValue())));
         assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
@@ -61,12 +60,11 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
-    public void importDeclarations() throws IOException {
+    public void importStatement() throws IOException {
         final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final InputStream src = getClass().getResourceAsStream(file);
         final SourceToIntermediateTransformer sut = createSut(file);
 
-        final Type result = sut.visit(parseSource(src));
+        final Type result = sut.visit(parseFile(file));
 
         assertThat(result, is(not(nullValue())));
         assertThat(result.getImports(), hasSize(3));
@@ -74,6 +72,21 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
             new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Object"), ""),
             new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Integer"), ""),
             new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.String"), "FooString")
+        ));
+    }
+
+    @Test
+    public void delegateStatement() throws IOException {
+        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
+
+        assertThat(result, is(not(nullValue())));
+        assertThat(result.getDelegates(), hasSize(2));
+        assertThat(result.getDelegates(), containsInAnyOrder(
+            new Delegate("Object"),
+            new Delegate("FooString")
         ));
     }
 

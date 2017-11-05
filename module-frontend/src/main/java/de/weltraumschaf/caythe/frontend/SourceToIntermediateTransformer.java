@@ -52,6 +52,12 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return defaultResult();
     }
 
+    @Override
+    public Type visitDelegateStatement(final CayTheSourceParser.DelegateStatementContext ctx) {
+        builder.addDelegate(new Delegate(ctx.delegate.getText()));
+        return defaultResult();
+    }
+
     //    @Override
 //    public Type visitType(CayTheSourceParser.TypeContext ctx) {
 //        final Collection<AstNode> statements = new ArrayList<>();
