@@ -17,7 +17,7 @@ public final class Import {
     public Import(final TypeName name, final String alias) {
         super();
         this.name = Validate.notNull(name, "name");
-        this.alias = Validate.notEmpty(alias, "alias");
+        this.alias = Validate.notNull(alias, "alias");
     }
 
     public TypeName getName() {

@@ -47,7 +47,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
-    public void parseTypeDeclaration() throws IOException {
+    public void typeDeclaration() throws IOException {
         final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
         final InputStream src = getClass().getResourceAsStream(file);
         final SourceToIntermediateTransformer sut = createSut(file);
@@ -61,14 +61,20 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
-    @Ignore
-    public void testFile() throws IOException {
-        final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/caythe/frontend/test.ct");
-        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
+    public void importDeclarations() throws IOException {
+        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
+        final InputStream src = getClass().getResourceAsStream(file);
+        final SourceToIntermediateTransformer sut = createSut(file);
 
-        final Type ast = sut.visit(parseSource(src));
+        final Type result = sut.visit(parseSource(src));
 
-        assertThat(ast, is(not(nullValue())));
+        assertThat(result, is(not(nullValue())));
+        assertThat(result.getImports(), hasSize(3));
+        assertThat(result.getImports(), containsInAnyOrder(
+            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Object"), ""),
+            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Integer"), ""),
+            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.String"), "FooString")
+        ));
     }
 
     @Test

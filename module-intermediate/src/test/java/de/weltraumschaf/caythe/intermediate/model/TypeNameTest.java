@@ -60,4 +60,11 @@ public class TypeNameTest {
     public void replaceDirectorySeparator_windowsSeparator() {
         assertThat(TypeName.replaceDirectorySeparator("foo\\bar\\baz\\Snafu"), is("foo.bar.baz.Snafu"));
     }
+
+    @Test
+    public void fromFullQualifiedName() {
+        assertThat(
+            TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Object"),
+            is(new TypeName("org.caythe.core.basetypes", "Object")));
+    }
 }

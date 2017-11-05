@@ -67,13 +67,17 @@ public final class TypeName {
         return new TypeName(withDots.substring(0, lastDot), withDots.substring(lastDot + 1));
     }
 
+    public static TypeName fromFullQualifiedName(final String fqn) {
+        final int lastDot = fqn.lastIndexOf('.');
+        return new TypeName(fqn.substring(0, lastDot), fqn.substring(lastDot + 1));
+    }
+
     static String replaceDirectorySeparator(final String in) {
         return in.replaceAll("[/\\\\]+", ".");
     }
 
     static String removeFileExtension(final String in) {
-        final int pos = in.lastIndexOf('.');
-        return in.substring(0, pos);
+        return in.substring(0, in.lastIndexOf('.'));
     }
 
     static String removeLeadingSlash(final String in) {

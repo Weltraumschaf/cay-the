@@ -2,10 +2,7 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.*;
-import de.weltraumschaf.caythe.intermediate.model.Facet;
-import de.weltraumschaf.caythe.intermediate.model.Type;
-import de.weltraumschaf.caythe.intermediate.model.TypeName;
-import de.weltraumschaf.caythe.intermediate.model.Visibility;
+import de.weltraumschaf.caythe.intermediate.model.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -47,7 +44,15 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return defaultResult();
     }
 
-//    @Override
+    @Override
+    public Type visitImportStatement(final CayTheSourceParser.ImportStatementContext ctx) {
+        final TypeName fqn = TypeName.fromFullQualifiedName(ctx.name.getText());
+        final String alias = null == ctx.alias ? "" : ctx.alias.getText();
+        builder.addImport(new Import(fqn, alias));
+        return defaultResult();
+    }
+
+    //    @Override
 //    public Type visitType(CayTheSourceParser.TypeContext ctx) {
 //        final Collection<AstNode> statements = new ArrayList<>();
 //
