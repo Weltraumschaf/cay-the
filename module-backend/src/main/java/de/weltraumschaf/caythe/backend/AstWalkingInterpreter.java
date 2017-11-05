@@ -267,26 +267,27 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
         boolean isConditionTrue = node.condition().accept(this).castToBoolean().value();
         ObjectType result = defaultResult();
 
-        while (isConditionTrue) {
-            // This inner loop executes the loop body.
-            for (final AstNode statement : node.statements()) {
-                final ObjectType statementResult = statement.accept(this);
-
-                if (statementResult.isOf(Type.CONTINUE)) {
-                    // Continue with the next while loop iteration.
-                    break;
-                }
-
-                result = statementResult;
-
-                if (result.isOneOf(Type.BREAK, Type.RETURN_VALUE)) {
-                    // Prevent further looping regardless to what the condition will evaluate.
-                    return result;
-                }
-            }
-
-            isConditionTrue = node.condition().accept(this).castToBoolean().value();
-        }
+        // FIXME Loop interpretation.
+//        while (isConditionTrue) {
+//            // This inner loop executes the loop body.
+//            for (final AstNode statement : node.statements()) {
+//                final ObjectType statementResult = statement.accept(this);
+//
+//                if (statementResult.isOf(Type.CONTINUE)) {
+//                    // Continue with the next while loop iteration.
+//                    break;
+//                }
+//
+//                result = statementResult;
+//
+//                if (result.isOneOf(Type.BREAK, Type.RETURN_VALUE)) {
+//                    // Prevent further looping regardless to what the condition will evaluate.
+//                    return result;
+//                }
+//            }
+//
+//            isConditionTrue = node.condition().accept(this).castToBoolean().value();
+//        }
 
         return result;
     }

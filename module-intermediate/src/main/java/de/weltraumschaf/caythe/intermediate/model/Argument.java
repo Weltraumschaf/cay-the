@@ -9,19 +9,19 @@ import java.util.Objects;
  */
 public final class Argument {
     private final String name;
-    private final TypeName type;
+    private final String type;
 
-    public Argument(final String name, final TypeName type) {
+    public Argument(final String name, final String type) {
         super();
         this.name = Validate.notEmpty(name, "name");
-        this.type = Validate.notNull(type, "type");
+        this.type = Validate.notEmpty(type, "type");
     }
 
     public String getName() {
         return name;
     }
 
-    public TypeName getType() {
+    public String getType() {
         return type;
     }
 

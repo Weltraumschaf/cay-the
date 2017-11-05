@@ -229,9 +229,10 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
 
-        for (final AstNode statement : node.statements()) {
-            statement.accept(this);
-        }
+        // FIXME Fix loop statements.
+//        for (final AstNode statement : node.statements()) {
+//            statement.accept(this);
+//        }
 
         currentNode.pop();
         return null;

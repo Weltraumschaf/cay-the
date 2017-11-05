@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -32,7 +33,7 @@ public final class AstWalkingInterpreterTest {
 
     private Type parse(final String src ) throws IOException {
         final CayTheSourceParser parser = parsers.newSourceParser(new ByteArrayInputStream(src.getBytes()));
-        return new SourceToIntermediateTransformer(TypeName.NONE).visit(parser.type());
+        return new SourceToIntermediateTransformer(Paths.get("Type.ct")).visit(parser.type());
     }
 
     @Test

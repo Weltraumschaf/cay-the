@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 public class SourceToIntermediateTransformerTest extends VisitorTestCase {
 
     private SourceToIntermediateTransformer createSut(final String src) {
-        return new SourceToIntermediateTransformer(TypeName.fromFileName(Paths.get(src)));
+        return new SourceToIntermediateTransformer(Paths.get(src));
     }
 
     @Test
@@ -87,6 +87,27 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
         assertThat(result.getDelegates(), containsInAnyOrder(
             new Delegate("Object"),
             new Delegate("FooString")
+        ));
+    }
+
+    @Test
+    @Ignore
+    public void visitPropertyDeclaration() throws IOException {
+        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
+
+        assertThat(result, is(not(nullValue())));
+        assertThat(result.getProperties(), hasSize(5));
+        assertThat(result.getProperties(), containsInAnyOrder(
+            new Property("foo", Visibility.PRIVATE, "FooString"),
+            new Property("bar", Visibility.PRIVATE, "FooString"),
+            new Property("x", Visibility.EXPORT, "Integer",
+                Property.defaultGetter("x", Visibility.EXPORT, "Integer"), Method.NONE),
+            new Property("y", Visibility.EXPORT, "Integer",
+                Property.defaultGetter("y", Visibility.EXPORT, "Integer"), Method.NONE),
+            new Property("center", Visibility.EXPORT, "Point")
         ));
     }
 

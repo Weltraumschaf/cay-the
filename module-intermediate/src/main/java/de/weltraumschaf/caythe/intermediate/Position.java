@@ -13,7 +13,7 @@ public final class Position implements Serializable{
         this(UNKNOWN_FILE, line, column);
     }
 
-    Position(final String file, final int line, final int column) {
+    public Position(final String file, final int line, final int column) {
         super();
         this.file = file;
         this.line = line;

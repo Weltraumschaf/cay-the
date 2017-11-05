@@ -7,9 +7,6 @@ import java.util.Objects;
 
 public final class NilLiteral extends BaseNode {
 
-    @Deprecated
-    public static final NilLiteral NIL = new NilLiteral(Position.UNKNOWN);
-
     public NilLiteral(final Position sourcePosition) {
         super(sourcePosition);
     }

@@ -6,8 +6,6 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Break extends BaseNode  {
-    @Deprecated
-    public static final Break BREAK = new Break(Position.UNKNOWN);
 
     public Break(final Position sourcePosition) {
         super(sourcePosition);

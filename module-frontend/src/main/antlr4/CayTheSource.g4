@@ -52,11 +52,11 @@ propertyAccessor
     ;
 
 propertyGetter
-    : KW_GET methodBody?
+    : KW_GET statementList?
     ;
 
 propertySetter
-    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN methodBody)?
+    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN statementList)?
     ;
 
 propertyVisibility
@@ -66,7 +66,7 @@ propertyVisibility
 constructorDeclaration
     : visibility=constructorVisibility
       KW_CONSTRUCTOR L_PAREN methodArguments? R_PAREN
-      methodBody NL+
+      statementList NL+
     ;
 
 constructorVisibility
@@ -77,7 +77,7 @@ methodDeclaration
     : visibility=methodVisibility
       returnType=IDENTIFIER?
       methodName=IDENTIFIER L_PAREN methodArguments? R_PAREN
-      methodBody
+      statementList
     ;
 
 methodVisibility
@@ -90,10 +90,6 @@ methodArguments
 
 methodArgument
     : argumentType=IDENTIFIER argumentName=IDENTIFIER
-    ;
-
-methodBody
-    : L_BRACE NL+ statement* R_BRACE NL+
     ;
 
 statement
@@ -110,7 +106,7 @@ statement
     ;
 
 letStatement
-    : KW_LET variableType=IDENTIFIER ( IDENTIFIER | assignStatement )
+    : KW_LET variableType=IDENTIFIER ( variableName=IDENTIFIER | assignStatement )
     ;
 
 constStatement
@@ -151,14 +147,13 @@ expression
     | identifier=expression L_BRACKET index=expression R_BRACKET                    # subscriptExpression // foo[1] or bar["name"].
     | literalExpression                                                             # literalExpressionAlternative
     | ifExpression                                                                  # ifExpressionAlternative
-    | methodCallExpression                                                                # callExpressionAlternative
+    | methodCallExpression                                                          # callExpressionAlternative
     | fullQualifiedIdentifier                                                       # fullQualifiedIdentifierAlternative
     | objectCreation                                                                # objectCreationAlternative
     ;
 
 literalExpression
     : literal
-    | methodLiteral
     | arrayLiteral
     | hashLiteral
     ;
@@ -172,16 +167,12 @@ literal
     | IDENTIFIER        # identifierLiteral
     ;
 
-methodLiteral
-    : IDENTIFIER L_PAREN arguments=functionArguments? R_PAREN body=statementList
-    ;
-
-functionArguments
-    : IDENTIFIER ( COMMA IDENTIFIER )*
-    ;
-
 arrayLiteral
-    : L_BRACKET values=methodParameters? R_BRACKET
+    : L_BRACKET values=arrayValues? R_BRACKET
+    ;
+
+arrayValues
+    : expression ( COMMA expression )*
     ;
 
 hashLiteral
@@ -227,7 +218,7 @@ methodCallExpression
     ;
 
 statementList
-    : L_BRACE statements=statement* R_BRACE
+    : L_BRACE NL+ statements=statement* R_BRACE NL+
     ;
 
 fullQualifiedIdentifier

@@ -10,13 +10,13 @@ public final class Loop extends BaseNode {
     private final AstNode init;
     private final AstNode condition;
     private final AstNode post;
-    private final Collection<AstNode> statements;
+    private final AstNode statements;
 
-    public Loop(final AstNode condition, final Collection<AstNode> statements, final Position sourcePosition) {
+    public Loop(final AstNode condition, final AstNode statements, final Position sourcePosition) {
         this(new NoOperation(), condition, new NoOperation(), statements, sourcePosition);
     }
 
-    public Loop(final AstNode init, final AstNode condition, final AstNode post, final Collection<AstNode> statements, final Position sourcePosition) {
+    public Loop(final AstNode init, final AstNode condition, final AstNode post, final AstNode statements, final Position sourcePosition) {
         super(sourcePosition);
         this.init = init;
         this.condition = condition;
@@ -24,7 +24,7 @@ public final class Loop extends BaseNode {
         this.post = post;
     }
 
-    public Collection<AstNode> statements() {
+    public AstNode statements() {
         return statements;
     }
 

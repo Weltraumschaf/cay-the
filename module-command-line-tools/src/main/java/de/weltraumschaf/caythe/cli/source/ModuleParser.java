@@ -1,11 +1,9 @@
 package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.caythe.frontend.*;
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Module;
 import de.weltraumschaf.caythe.intermediate.model.Type;
-import de.weltraumschaf.caythe.intermediate.model.TypeName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +52,7 @@ public final class ModuleParser {
             try (final InputStream src = Files.newInputStream(file)) {
                 final CayTheSourceParser parser = parsers.newSourceParser(src);
                 @SuppressWarnings("unchecked") final CayTheSourceVisitor<Type> visitor =
-                    new SourceToIntermediateTransformer(TypeName.fromFileName(file));
+                    new SourceToIntermediateTransformer(file);
                 types.add(visitor.visit(parser.type()));
             }
         }

@@ -18,6 +18,7 @@ import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +109,8 @@ final class Repl {
                 inputBuffer.append(line).append(CayThe.NL);
                 final CayTheSourceParser parser = parsers.newSourceParser(
                     new ByteArrayInputStream(inputBuffer.toString().getBytes(CayThe.DEFAULT_ENCODING)));
-                final Type ast = new SourceToIntermediateTransformer(TypeName.NONE).visit(parser.type());
+                final Type ast = new SourceToIntermediateTransformer(Paths.get("Anonymous.ct")).visit(parser.type());
+                // FIXME Fix the REPL.
                 final ObjectType result = NullType.NULL;//ast.accept(interpreter);
 
                 if (result == NullType.NULL) {

@@ -6,8 +6,6 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Continue extends BaseNode  {
-    @Deprecated
-    public static final Continue CONTINUE = new Continue(Position.UNKNOWN);
 
     public Continue(final Position sourcePosition) {
         super(sourcePosition);

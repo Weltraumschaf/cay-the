@@ -24,6 +24,15 @@ public final class Statement extends BaseNode {
         return visitor.visit(this);
     }
 
+    public static boolean isEmpty(final AstNode node) {
+        return node instanceof Statement && NoOperation.isNoop(((Statement) node).child);
+    }
+
+    @Override
+    public String serialize() {
+        return serialize("statement", serialize(child));
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Statement)) {
@@ -46,14 +55,5 @@ public final class Statement extends BaseNode {
             "child=" + child +
             ", sourcePosition=" + sourcePosition() +
             '}';
-    }
-
-    public static boolean isEmpty(final AstNode node) {
-        return node instanceof Statement && NoOperation.isNoop(((Statement) node).child);
-    }
-
-    @Override
-    public String serialize() {
-        return serialize("statement", serialize(child));
     }
 }

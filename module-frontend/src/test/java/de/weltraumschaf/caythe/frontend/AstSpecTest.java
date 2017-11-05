@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(Parameterized.class)
 public final class AstSpecTest extends VisitorTestCase {
     @SuppressWarnings("unchecked")
-    private final CayTheSourceVisitor<Type> sut = new SourceToIntermediateTransformer(TypeName.NONE);
+    private final CayTheSourceVisitor<Type> sut = new SourceToIntermediateTransformer(Paths.get("Foo.ct"));
     private final AstSpecificationFormatter fmt = new AstSpecificationFormatter();
     private final AstSpecification spec;
 
