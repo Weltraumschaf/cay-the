@@ -47,7 +47,7 @@ public final class Parsers {
     }
 
     private CharStream newCharStream(final InputStream src) throws IOException {
-        return new ANTLRInputStream(src);
+        return CharStreams.fromStream(src);
     }
 
     private TokenStream newTokenStream(final Lexer lexer) {
