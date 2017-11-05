@@ -102,8 +102,8 @@ public final class Type {
 
     public static final class TypeBuilder {
         private TypeName name = TypeName.NONE;
-        private Facet facet = Facet.CLASS;
-        private Visibility visibility = Visibility.PRIVATE;
+        private Facet facet = Facet.UNDEFINED;
+        private Visibility visibility = Visibility.UNDEFINED;
         private Method constructor = Method.NONE;
         private final Collection<Import> imports = new ArrayList<>();
         private final Collection<Property> properties = new ArrayList<>();

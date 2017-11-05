@@ -7,6 +7,7 @@ package de.weltraumschaf.caythe.intermediate.model;
  * @since 1.0.0
  */
 public enum Facet {
+    UNDEFINED,
     CLASS,
     INTERFACE,
     ANNOTATION,

@@ -31,19 +31,33 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
 
     @Test
     public void defaultResult() {
-        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
+        final SourceToIntermediateTransformer sut = createSut("/foo/bar/baz/Snafu.ct");
 
         final Type result = sut.defaultResult();
 
         assertThat(result, is(not(nullValue())));
-        assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
-        assertThat(result.getFacet(), is(Facet.CLASS));
-        assertThat(result.getVisibility(), is(Visibility.PRIVATE));
+        assertThat(result.getName(), is(new TypeName("foo.bar.baz", "Snafu")));
+        assertThat(result.getFacet(), is(Facet.UNDEFINED));
+        assertThat(result.getVisibility(), is(Visibility.UNDEFINED));
         assertThat(result.getConstructor(), is(Method.NONE));
         assertThat(result.getImports(), hasSize(0));
         assertThat(result.getDelegates(), hasSize(0));
         assertThat(result.getProperties(), hasSize(0));
         assertThat(result.getMethods(), hasSize(0));
+    }
+
+    @Test
+    public void parseTypeDeclaration() throws IOException {
+        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
+        final InputStream src = getClass().getResourceAsStream(file);
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseSource(src));
+
+        assertThat(result, is(not(nullValue())));
+        assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
+        assertThat(result.getFacet(), is(Facet.CLASS));
+        assertThat(result.getVisibility(), is(Visibility.EXPORT));
     }
 
     @Test
