@@ -2,13 +2,16 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
+import de.weltraumschaf.caythe.intermediate.model.Facet;
 import de.weltraumschaf.caythe.intermediate.model.Type;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
+import de.weltraumschaf.caythe.intermediate.model.Visibility;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.multiplication;
@@ -19,15 +22,33 @@ import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
-@Ignore
 public class SourceToIntermediateTransformerTest extends VisitorTestCase {
-    @SuppressWarnings("unchecked")
-    private final CayTheSourceVisitor<Type> sut = new SourceToIntermediateTransformer(TypeName.NONE);
+
+    private SourceToIntermediateTransformer createSut(final String src) {
+        return new SourceToIntermediateTransformer(TypeName.fromFileName(Paths.get(src)));
+    }
 
     @Test
+    public void defaultResult() {
+        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
+
+        final Type result = sut.defaultResult();
+
+        assertThat(result, is(not(nullValue())));
+        assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
+        assertThat(result.getFacet(), is(Facet.CLASS));
+        assertThat(result.getVisibility(), is(Visibility.PRIVATE));
+    }
+
+    @Test
+    @Ignore
     public void testFile() throws IOException {
         final InputStream src = getClass().getResourceAsStream("/de/weltraumschaf/caythe/frontend/test.ct");
+        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
 
         final Type ast = sut.visit(parseSource(src));
 
@@ -35,6 +56,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
+    @Ignore
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
         final Unit expected = UnitBuilder
@@ -48,6 +70,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
                 1, 0
             )
             .end();
+        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
 
         final Type ast = sut.visit(parseSource(src));
 
@@ -55,6 +78,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
+    @Ignore
     public void mathOperationWithMultipleOperands() throws IOException {
         final String src = "1 + 2 * 3 - 4\n";
         final Unit expected = UnitBuilder
@@ -76,6 +100,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
                 1, 0
             )
             .end();
+        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
 
         final Type ast = sut.visit(parseSource(src));
 
@@ -84,6 +109,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
 
 
     @Test
+    @Ignore
     public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
         final String src = "(1 + 2) * (3 - 4)\n";
         final Unit expected = UnitBuilder
@@ -105,6 +131,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
                 1, 0
             )
             .end();
+        final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
 
         final Type ast = sut.visit(parseSource(src));
 
