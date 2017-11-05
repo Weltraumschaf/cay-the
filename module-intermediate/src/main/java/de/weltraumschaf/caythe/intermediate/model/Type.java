@@ -22,6 +22,7 @@ public final class Type {
     private Facet facet;
     private Visibility visibility;
     private Method constructor;
+    private Collection<Import> imports;
     private Collection<Property> properties ;
     private Collection<Method> methods  ;
     private Collection<Delegate> delegates ;
@@ -47,6 +48,10 @@ public final class Type {
 
     public Method getConstructor() {
         return constructor;
+    }
+
+    public Collection<Import> getImports() {
+        return Collections.unmodifiableCollection(imports);
     }
 
     public Collection<Property> getProperties() {
@@ -100,6 +105,7 @@ public final class Type {
         private Facet facet = Facet.CLASS;
         private Visibility visibility = Visibility.PRIVATE;
         private Method constructor = Method.NONE;
+        private final Collection<Import> imports = new ArrayList<>();
         private final Collection<Property> properties = new ArrayList<>();
         private final Collection<Method> methods = new ArrayList<>();
         private final Collection<Delegate> delegates = new ArrayList<>();
@@ -132,6 +138,10 @@ public final class Type {
             }
         }
 
+        public void addImport(final Import i) {
+            Validate.notNull(i, "i");
+            imports.add(i);
+        }
         public void addProperty(final Property p) {
             Validate.notNull(p, "p");
             properties.add(p);
@@ -158,6 +168,8 @@ public final class Type {
             t.facet = facet;
             t.visibility = visibility;
             t.constructor = constructor;
+            // Make defensive copies:
+            t.imports = new ArrayList<>(imports);
             t.delegates = new ArrayList<>(delegates);
             t.properties = new ArrayList<>(properties);
             t.methods = new ArrayList<>(methods);

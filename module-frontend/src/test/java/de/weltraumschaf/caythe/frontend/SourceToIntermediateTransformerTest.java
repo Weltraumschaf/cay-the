@@ -2,10 +2,7 @@ package de.weltraumschaf.caythe.frontend;
 
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
-import de.weltraumschaf.caythe.intermediate.model.Facet;
-import de.weltraumschaf.caythe.intermediate.model.Type;
-import de.weltraumschaf.caythe.intermediate.model.TypeName;
-import de.weltraumschaf.caythe.intermediate.model.Visibility;
+import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -42,6 +39,11 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
         assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
         assertThat(result.getFacet(), is(Facet.CLASS));
         assertThat(result.getVisibility(), is(Visibility.PRIVATE));
+        assertThat(result.getConstructor(), is(Method.NONE));
+        assertThat(result.getImports(), hasSize(0));
+        assertThat(result.getDelegates(), hasSize(0));
+        assertThat(result.getProperties(), hasSize(0));
+        assertThat(result.getMethods(), hasSize(0));
     }
 
     @Test
