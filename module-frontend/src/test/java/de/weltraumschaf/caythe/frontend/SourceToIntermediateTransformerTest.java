@@ -60,7 +60,7 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
-    public void importStatement() throws IOException {
+    public void visitDelegateDeclaration() throws IOException {
         final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
         final SourceToIntermediateTransformer sut = createSut(file);
 

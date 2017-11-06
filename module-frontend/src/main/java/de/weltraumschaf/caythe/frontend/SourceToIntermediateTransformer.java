@@ -5,11 +5,8 @@ import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
@@ -51,7 +48,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     }
 
     @Override
-    public Type visitImportStatement(final CayTheSourceParser.ImportStatementContext ctx) {
+    public Type visitImportDeclaration(final CayTheSourceParser.ImportDeclarationContext ctx) {
         final TypeName fqn = TypeName.fromFullQualifiedName(ctx.name.getText());
         final String alias = null == ctx.alias ? "" : ctx.alias.getText();
         builder.addImport(new Import(fqn, alias));
@@ -59,7 +56,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     }
 
     @Override
-    public Type visitDelegateStatement(final CayTheSourceParser.DelegateStatementContext ctx) {
+    public Type visitDelegateDeclaration(final CayTheSourceParser.DelegateDeclarationContext ctx) {
         builder.addDelegate(new Delegate(ctx.delegate.getText()));
         return defaultResult();
     }
@@ -99,40 +96,42 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         return defaultResult();
     }
 
-//    @Override
-//    public Type visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
-//        final BinaryOperation assignment;
-//        final Identifier identifier;
-//
-//        if (null == ctx.assignStatement()) {
-//            // This is let w/o assignment: let Type a
-//            identifier = new Identifier(ctx.IDENTIFIER().getText(), cretePosition(ctx.IDENTIFIER().getSymbol()));
-//            assignment = new BinaryOperation(
-//                BinaryOperation.Operator.ASSIGN,
-//                identifier,
-//                NilLiteral.NIL,
-//                cretePosition(ctx.KW_LET().getSymbol()));
-//        } else {
-//            // This is let w/ assignment: let Integer a = 1 + 2
-//            final CayTheSourceParser.AssignExpressionContext assignmentExpression
-//                = ctx.assignStatement().assignExpression();
-//            identifier = new Identifier(
-//                assignmentExpression.IDENTIFIER().getText(),
-//                cretePosition(assignmentExpression.IDENTIFIER().getSymbol()));
-//            visit(assignmentExpression.expression());
-//            assignment = new BinaryOperation(
-//                BinaryOperation.Operator.ASSIGN,
-//                identifier,
-//                currentNode.pop(),
-//                cretePosition(ctx.KW_LET().getSymbol()));
-//        }
-//
-//        currentNode.push(new Let(assignment, cretePosition(ctx.getStart())));
-//        return defaultResult();
-//    }
+    @Override
+    public Type visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
+        final BinaryOperation assignment;
+        final String type = ctx.variableType.getText();
+        final Identifier name;
+
+        if (null == ctx.assignStatement()) {
+            // This is let w/o assignment: let Type a
+            name = new Identifier(ctx.variableName.getText(), cretePosition(ctx.variableName));
+            assignment = new BinaryOperation(
+                BinaryOperation.Operator.ASSIGN,
+                name,
+                new NilLiteral(cretePosition(ctx.getStart())),
+                cretePosition(ctx.KW_LET().getSymbol()));
+        } else {
+            // This is let w/ assignment: let Integer a = 1 + 2
+            final CayTheSourceParser.AssignExpressionContext assignmentExpression
+                = ctx.assignStatement().assignExpression();
+            name = new Identifier(
+                assignmentExpression.identifier.getText(),
+                cretePosition(assignmentExpression.identifier.getStart()));
+            visit(assignmentExpression.value);
+            assignment = new BinaryOperation(
+                BinaryOperation.Operator.ASSIGN,
+                name,
+                currentNode.pop(),
+                cretePosition(ctx.KW_LET().getSymbol()));
+        }
+
+        currentNode.push(new Let(type, assignment, cretePosition(ctx.getStart())));
+        return defaultResult();
+    }
 
     @Override
     public Type visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
+        // FIXME Add type here.
         final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
         final Identifier identifier = new Identifier(
             assignment.identifier.getText(),

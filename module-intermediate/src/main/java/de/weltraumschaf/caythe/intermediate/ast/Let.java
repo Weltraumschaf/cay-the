@@ -6,10 +6,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Let extends BaseNode {
+    private final String type;
     private final BinaryOperation assignment;
 
-    public Let(final BinaryOperation assignment, final Position sourcePosition) {
+    public Let(final String type, final BinaryOperation assignment, final Position sourcePosition) {
         super(sourcePosition);
+        this.type = type;
         this.assignment = assignment;
     }
 
@@ -23,31 +25,33 @@ public final class Let extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize("let", serialize(assignment));
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Let)) {
             return false;
         }
 
-        final Let that = (Let) o;
-        return Objects.equals(assignment, that.assignment)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+        final Let let = (Let) o;
+        return  Objects.equals(sourcePosition(), let.sourcePosition()) &&
+            Objects.equals(type, let.type) &&
+            Objects.equals(assignment, let.assignment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(assignment, sourcePosition());
+        return Objects.hash(sourcePosition(), type, assignment);
     }
 
     @Override
     public String toString() {
         return "Let{" +
-            "assignment=" + assignment +
+            "type=" + type +
+            ", assignment=" + assignment +
             ", sourcePosition=" + sourcePosition() +
             '}';
-    }
-
-    @Override
-    public String serialize() {
-        return serialize("let", serialize(assignment));
     }
 }

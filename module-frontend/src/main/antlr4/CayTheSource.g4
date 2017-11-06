@@ -5,27 +5,42 @@ package de.weltraumschaf.caythe.frontend;
 }
 
 /*
- * Statement must be terminated with '\n'. Expressions always return a value.
+ * This grammar descirbse the source code of all top level units: class, interface,
+ * annotation, enum.
+ *
+ * Declarations and statements must be terminated with a newline (NL = '\n').
  */
 
-// Parser production rules:
-///////////////////////////
 
+// The main entry rule to declare a type.
 type
     : NL*
       typeDeclaration
-      importStatement*
-      delegateStatement*
+      importDeclaration*
+      delegateDeclaration*
       propertyDeclaration*
       constructorDeclaration*
       methodDeclaration*
       EOF
     ;
 
+/*
+ * Declarations:
+ *
+ * Main declratarions. A type is declared of:
+ *  - it's visibility and facet.
+ *  - imports of other types.
+ *  - properties.
+ *  - delegates.
+ *  - constructors.
+ *  - methods.
+ */
+
 typeDeclaration
     : visibility=typeVisibility facet=typeFacet NL+
     ;
 
+// Type can't be private because such a type would not be accessible by anything.
 typeVisibility
     : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
     ;
@@ -34,11 +49,11 @@ typeFacet
     : KW_CLASS | KW_INTERFACE | KW_ANNOTATION | KW_ENUM
     ;
 
-importStatement
+importDeclaration
     : KW_USE name=fullQualifiedIdentifier (KW_AS alias=IDENTIFIER)? NL+
     ;
 
-delegateStatement
+delegateDeclaration
     : KW_DELEGATE delegate=IDENTIFIER NL+
     ;
 
@@ -69,6 +84,8 @@ constructorDeclaration
       statementList NL+
     ;
 
+// Constructors can't be private because it make no sense to not instantiate
+// an object, when there are no static methods.
 constructorVisibility
     : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
     ;
@@ -81,9 +98,11 @@ methodDeclaration
     ;
 
 methodVisibility
-    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE
+    : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE | KW_PRIVATE
     ;
 
+// Int the method declaration we name it "arguments". Later in the method
+// invocation we name the passed in values "parameters".
 methodArguments
     : methodArgument (COMMA methodArgument)*
     ;
@@ -92,8 +111,19 @@ methodArgument
     : argumentType=IDENTIFIER argumentName=IDENTIFIER
     ;
 
+/*
+ * Statements:
+ *
+ * Statements are the top level building unit of a block used in methods (also
+ * property accessors) and constructors.
+ */
+
+statementList
+    : L_BRACE NL+ statements=statement* R_BRACE NL+
+    ;
+
 statement
-    :   (assignStatement
+    :   ( assignStatement
         | letStatement
         | constStatement
         | returnStatement
@@ -101,7 +131,7 @@ statement
         | continueStatement
         | ifExpression
         | loopExpression
-        | expressionStatement)
+        | expressionStatement )
         NL+
     ;
 
@@ -133,8 +163,13 @@ expressionStatement
     : expression NL
     ;
 
+/*
+ * Expressions always return a value.
+ */
+
 expression
-    // Here we define the operator precedence because ANTLR4 can deal with left recursion.
+    // Here we define the operator precedence (top to bottom) because ANTLR4 can
+    // deal with left recursion.
     : operator=( OP_NOT | OP_SUB ) operand=expression                              # negationOperation
     | <assoc=right> firstOperand=expression OP_POW secondOperand=expression                                    # powerOperation
     | firstOperand=expression operator=( OP_MUL | OP_DIV | OP_MOD ) secondOperand=expression                   # multiplicativeOperation
@@ -149,42 +184,13 @@ expression
     | ifExpression                                                                  # ifExpressionAlternative
     | methodCallExpression                                                          # callExpressionAlternative
     | fullQualifiedIdentifier                                                       # fullQualifiedIdentifierAlternative
-    | objectCreation                                                                # objectCreationAlternative
+    | newObjectExpression                                                           # newObjectExpressionAlternative
     ;
 
 literalExpression
     : literal
     | arrayLiteral
     | hashLiteral
-    ;
-
-literal
-    : NIL               # nilLiteral
-    | BOOLEAN           # booleanLiteral
-    | REAL              # realLiteral
-    | INTEGER           # integerLiteral
-    | STRING            # stringLiteral
-    | IDENTIFIER        # identifierLiteral
-    ;
-
-arrayLiteral
-    : L_BRACKET values=arrayValues? R_BRACKET
-    ;
-
-arrayValues
-    : expression ( COMMA expression )*
-    ;
-
-hashLiteral
-    : L_BRACE values=hashValues? R_BRACE
-    ;
-
-hashValues
-    : hashPair ( COMMA hashPair )*
-    ;
-
-hashPair
-    : key=expression COLON value=expression
     ;
 
 ifExpression
@@ -217,15 +223,7 @@ methodCallExpression
     : identifier=fullQualifiedIdentifier L_PAREN arguments=methodParameters? R_PAREN
     ;
 
-statementList
-    : L_BRACE NL+ statements=statement* R_BRACE NL+
-    ;
-
-fullQualifiedIdentifier
-    : IDENTIFIER ( DOT IDENTIFIER)*
-    ;
-
-objectCreation
+newObjectExpression
     : KW_NEW typeName=IDENTIFIER L_PAREN methodParameters R_PAREN
     ;
 
@@ -237,8 +235,42 @@ methodParameter
     : parameterName=IDENTIFIER COLON parameterValue=expression
     ;
 
-// Lexer tokens:
-////////////////
+/*
+ * Literals:
+ */
+
+literal
+    : NIL               # nilLiteral
+    | BOOLEAN           # booleanLiteral
+    | REAL              # realLiteral
+    | INTEGER           # integerLiteral
+    | STRING            # stringLiteral
+    | IDENTIFIER        # identifierLiteral
+    ;
+
+arrayLiteral
+    : L_BRACKET values=arrayValues? R_BRACKET
+    ;
+
+arrayValues
+    : expression ( COMMA expression )*
+    ;
+
+hashLiteral
+    : L_BRACE values=hashValues? R_BRACE
+    ;
+
+hashValues
+    : hashPair ( COMMA hashPair )*
+    ;
+
+hashPair
+    : key=expression COLON value=expression
+    ;
+
+fullQualifiedIdentifier
+    : IDENTIFIER ( DOT IDENTIFIER)*
+    ;
 
 // Operators:
 OP_ASSIGN   : '=' ;

@@ -23,7 +23,7 @@ public class LetTest {
     @Test
     public void serialize() {
         final Let sut = new Let(
-            assign(
+            "Foo", assign(
                 identifier("foo", 1,2),
                 integer(23L, 3,4),
                 5, 6),
