@@ -100,4 +100,8 @@ public interface AstVisitor<R> {
         return null;
     }
 
+    default R visit(final MethodParameter node) {
+        return null;
+    }
+
 }

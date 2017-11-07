@@ -60,9 +60,9 @@ public final class Loop extends BaseNode {
     public String toString() {
         return "Loop{" +
             "init=" + init +
-            "condition=" + condition +
-            "post=" + post +
-            "statements=" + statements +
+            ", condition=" + condition +
+            ", post=" + post +
+            ", statements=" + statements +
             ", sourcePosition=" + sourcePosition() +
             '}';
     }

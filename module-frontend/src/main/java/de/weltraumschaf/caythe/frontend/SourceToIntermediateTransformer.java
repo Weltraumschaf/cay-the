@@ -265,21 +265,31 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         currentNode.push(new StatementList(statements, cretePosition(body.get(0).getStart())));
     }
 
-//    @Override
-//    public Type visitMethodCallExpression(final CayTheSourceParser.MethodCallExpressionContext ctx) {
-//        final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier));
-//        final List<AstNode> arguments = new ArrayList<>();
-//        final List<CayTheSourceParser.ExpressionContext> argumentExpressions
-//            = ctx.arguments == null ?
-//            Collections.emptyList() :
-//            ctx.arguments.expression();
-//
-//        for (final CayTheSourceParser.ExpressionContext expresssion : argumentExpressions) {
-//            arguments.add(visit(expresssion));
-//        }
-//
-//        return new FunctionCall(identifier, arguments, cretePosition(ctx.identifier));
-//    }
+    @Override
+    public Type visitMethodCallExpression(final CayTheSourceParser.MethodCallExpressionContext ctx) {
+        final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier.getStart()));
+        final List<AstNode> parameters = new ArrayList<>();
+        final List<CayTheSourceParser.MethodParameterContext> parametersExpressions
+            = ctx.arguments == null ?
+            Collections.emptyList() :
+            ctx.arguments.methodParameter();
+
+        for (final CayTheSourceParser.MethodParameterContext parameterExpression : parametersExpressions) {
+            visit(parameterExpression);
+            parameters.add(currentNode.pop());
+        }
+
+        currentNode.push(new FunctionCall(identifier, parameters, cretePosition(ctx.identifier.getStart())));
+        return defaultResult();
+    }
+
+    @Override
+    public Type visitMethodParameter(final CayTheSourceParser.MethodParameterContext ctx) {
+        final Identifier name = new Identifier(ctx.parameterName.getText(), cretePosition(ctx.parameterName));
+        visit(ctx.parameterValue);
+        currentNode.push(new MethodParameter(name, currentNode.pop(), cretePosition(ctx.getStart())));
+        return defaultResult();
+    }
 
     @Override
     public Type visitSubscriptExpression(final CayTheSourceParser.SubscriptExpressionContext ctx) {

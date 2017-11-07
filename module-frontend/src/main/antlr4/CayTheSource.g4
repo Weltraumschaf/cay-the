@@ -224,7 +224,7 @@ methodCallExpression
     ;
 
 newObjectExpression
-    : KW_NEW typeName=IDENTIFIER L_PAREN methodParameters R_PAREN
+    : KW_NEW typeName=IDENTIFIER L_PAREN arguments=methodParameters? R_PAREN
     ;
 
 methodParameters
