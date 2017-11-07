@@ -131,16 +131,17 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
     @Override
     public Type visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
-        // FIXME Add type here.
+        final String type = ctx.constantType.getText();
         final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
-        final Identifier identifier = new Identifier(
+        final Identifier name = new Identifier(
             assignment.identifier.getText(),
             cretePosition(assignment.identifier.start));
         visit(assignment.expression());
         final Const constant = new Const(
+            type,
             new BinaryOperation(
                 BinaryOperation.Operator.ASSIGN,
-                identifier,
+                name,
                 currentNode.pop(),
                 cretePosition(ctx.assignStatement().getStart())),
             cretePosition(ctx.getStart())

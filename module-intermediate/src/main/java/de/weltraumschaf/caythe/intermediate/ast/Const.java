@@ -6,10 +6,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 public final class Const extends BaseNode {
+    private final String type;
     private final BinaryOperation assignment;
 
-    public Const(final BinaryOperation assignment, final Position sourcePosition) {
+    public Const(final String type, final BinaryOperation assignment, final Position sourcePosition) {
         super(sourcePosition);
+        this.type = type;
         this.assignment = assignment;
     }
 
@@ -23,31 +25,34 @@ public final class Const extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize("const", serialize(assignment));
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Const)) {
             return false;
         }
 
         final Const that = (Const) o;
-        return Objects.equals(assignment, that.assignment)
+        return Objects.equals(type, that.type)
+            && Objects.equals(assignment, that.assignment)
             && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(assignment, sourcePosition());
+        return Objects.hash(type, assignment, sourcePosition());
     }
 
     @Override
     public String toString() {
         return "Const{" +
-            "assignment=" + assignment +
+            "type='" + type + '\'' +
+            ", assignment=" + assignment +
             ", sourcePosition=" + sourcePosition() +
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("const", serialize(assignment));
-    }
 }

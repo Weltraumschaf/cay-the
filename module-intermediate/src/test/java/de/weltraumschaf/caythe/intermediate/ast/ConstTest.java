@@ -21,6 +21,7 @@ public class ConstTest {
     @Test
     public void serialize() {
         final Const sut = new Const(
+            "Foo",
             assign(
                 identifier("foo", 1,2),
                 integer(23L, 3,4),
