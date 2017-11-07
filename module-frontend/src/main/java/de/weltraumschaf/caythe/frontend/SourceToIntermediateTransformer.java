@@ -307,21 +307,17 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             BinaryOperation.Operator.EQUAL,
             BinaryOperation.Operator.NOT_EQUAL);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
+        final Position operatorPosition = cretePosition(ctx.operator);
+        final CayTheSourceParser.ExpressionContext firstOperandExpression = ctx.firstOperand;
+        final CayTheSourceParser.ExpressionContext secondOperandExpression = ctx.secondOperand;
 
         if (allowed.contains(operator)) {
-            visit(ctx.firstOperand);
-            final AstNode firstOperand = currentNode.pop();
-            visit(ctx.secondOperand);
-            final AstNode secondOperand = currentNode.pop();
-            currentNode.push(new BinaryOperation(
-                operator,
-                firstOperand,
-                secondOperand,
-                cretePosition(ctx.getStart())));
-            return defaultResult();
+            visitBinaryOperator(operator, operatorPosition, firstOperandExpression, secondOperandExpression);
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
+
+        return defaultResult();
     }
 
     @Override
@@ -332,21 +328,17 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             BinaryOperation.Operator.GREATER_THAN,
             BinaryOperation.Operator.GREATER_THAN_EQUAL);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
+        final Position operatorPosition = cretePosition(ctx.operator);
+        final CayTheSourceParser.ExpressionContext firstOperandExpression = ctx.firstOperand;
+        final CayTheSourceParser.ExpressionContext secondOperandExpression = ctx.secondOperand;
 
         if (allowed.contains(operator)) {
-            visit(ctx.firstOperand);
-            final AstNode firstOperand = currentNode.pop();
-            visit(ctx.secondOperand);
-            final AstNode secondOperand = currentNode.pop();
-            currentNode.push(new BinaryOperation(
-                operator,
-                firstOperand,
-                secondOperand,
-                cretePosition(ctx.getStart())));
-            return defaultResult();
+            visitBinaryOperator(operator, operatorPosition, firstOperandExpression, secondOperandExpression);
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
+
+        return defaultResult();
     }
 
     @Override
@@ -369,21 +361,17 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             BinaryOperation.Operator.ADDITION,
             BinaryOperation.Operator.SUBTRACTION);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
+        final Position operatorPosition = cretePosition(ctx.operator);
+        final CayTheSourceParser.ExpressionContext firstOperandExpression = ctx.firstOperand;
+        final CayTheSourceParser.ExpressionContext secondOperandExpression = ctx.secondOperand;
 
         if (allowed.contains(operator)) {
-            visit(ctx.firstOperand);
-            final AstNode firstOperand = currentNode.pop();
-            visit(ctx.secondOperand);
-            final AstNode secondOperand = currentNode.pop();
-            currentNode.push(new BinaryOperation(
-                operator,
-                firstOperand,
-                secondOperand,
-                cretePosition(ctx.getStart())));
-            return defaultResult();
+            visitBinaryOperator(operator, operatorPosition, firstOperandExpression, secondOperandExpression);
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
+
+        return defaultResult();
     }
 
     @Override
@@ -393,21 +381,29 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             BinaryOperation.Operator.DIVISION,
             BinaryOperation.Operator.MODULO);
         final BinaryOperation.Operator operator = BinaryOperation.Operator.forLiteral(ctx.operator.getText());
+        final Position operatorPosition = cretePosition(ctx.operator);
+        final CayTheSourceParser.ExpressionContext firstOperandExpression = ctx.firstOperand;
+        final CayTheSourceParser.ExpressionContext secondOperandExpression = ctx.secondOperand;
 
         if (allowed.contains(operator)) {
-            visit(ctx.firstOperand);
-            final AstNode firstOperand = currentNode.pop();
-            visit(ctx.secondOperand);
-            final AstNode secondOperand = currentNode.pop();
-            currentNode.push(new BinaryOperation(
-                operator,
-                firstOperand,
-                secondOperand,
-                cretePosition(ctx.getStart())));
-            return defaultResult();
+            visitBinaryOperator(operator, operatorPosition, firstOperandExpression, secondOperandExpression);
         } else {
             throw newUnsupportedOperatorError(ctx.operator);
         }
+
+        return defaultResult();
+    }
+
+    private void visitBinaryOperator(final BinaryOperation.Operator op, final Position pos, final CayTheSourceParser.ExpressionContext first, final CayTheSourceParser.ExpressionContext second) {
+        visit(first);
+        final AstNode firstOperand = currentNode.pop();
+        visit(second);
+        final AstNode secondOperand = currentNode.pop();
+        currentNode.push(new BinaryOperation(
+            op,
+            firstOperand,
+            secondOperand,
+            pos));
     }
 
     @Override
