@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 /**
  * Formats values to single bytes.
  * <p>
- * Based on <a href=" http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java>
+ * Based on <a href="http://stackoverflow.com/questions/4485128/how-do-i-convert-long-to-byte-and-back-in-java">
  * SO article. Big endian formatting.</a>
  * </p>
  */

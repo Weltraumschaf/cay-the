@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -35,9 +36,12 @@
                 LICENSE
 
                 "THE BEER-WARE LICENSE" (Revision 42):
-                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt; wrote this file.
-                As long as you retain this notice you can do whatever you want with
-                this stuff. If we meet some day, and you think this stuff is worth it,
+                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt;
+                wrote this file.
+                As long as you retain this notice you can do whatever you want
+                with
+                this stuff. If we meet some day, and you think this stuff is
+                worth it,
                 you can buy me a beer in return.
             </comments>
         </license>
@@ -49,8 +53,10 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/Weltraumschaf/cay-the.git</connection>
-        <developerConnection>scm:git:git@github.com:Weltraumschaf/cay-the.git</developerConnection>
+        <connection>scm:git:git://github.com/Weltraumschaf/cay-the.git
+        </connection>
+        <developerConnection>scm:git:git@github.com:Weltraumschaf/cay-the.git
+        </developerConnection>
         <url>https://github.com/Weltraumschaf/cay-the.git</url>
         <tag>HEAD</tag>
     </scm>
@@ -81,11 +87,12 @@
     </modules>
 
     <properties>
-        <enforcer.skip>true</enforcer.skip><!-- String template does not enforce. -->
+        <enforcer.skip>true
+        </enforcer.skip><!-- String template does not enforce. -->
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
 
-       <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
+        <antlr.outputdir>de/weltraumschaf/caythe/frontend</antlr.outputdir>
 
         <!-- Dependency versions. -->
         <antlr.version>4.7</antlr.version>
@@ -152,6 +159,24 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>${dependency.plantuml.version}</version>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <!-- This will probably break after jigsaw becomes mainstream? -->
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>${project.build.version.source}</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+        </dependency>
+    </dependencies>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -181,5 +206,35 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+
+                        <goals>
+                            <goal>javadoc</goal>
+                            <goal>jar</goal>
+                        </goals>
+
+                        <configuration>
+                            <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+                            <docletArtifact>
+                                <!-- https://github.com/talsma-ict/umldoclet/blob/master/USAGE.md -->
+                                <groupId>nl.talsmasoftware</groupId>
+                                <artifactId>umldoclet</artifactId>
+                                <version>1.0.13</version>
+                            </docletArtifact>
+                            <additionalparam>
+                                -umlImageFormat SVG
+                            </additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

@@ -5,6 +5,7 @@
  * on GitHub.
  * </p>
  * <pre>
+ * {@literal
  *                    +-----------------------------+
  *                    |            CPU              |
  *                    |  +-----+                    |
@@ -21,6 +22,6 @@
  *                    |  |     |         +-------+  |
  *                    |  +-----+           stack    |
  *                    +-----------------------------+
- * </pre>
+ * }</pre>
  */
 package de.weltraumschaf.caythe.backend.vm;
