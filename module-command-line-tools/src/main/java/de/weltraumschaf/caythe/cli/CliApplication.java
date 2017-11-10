@@ -45,8 +45,7 @@ public final class CliApplication extends InvokableAdapter {
      * @param args CLI arguments
      */
     public static void main(final String[] args) {
-        final CliApplication app = new CliApplication(args);
-        InvokableAdapter.main(app);
+        InvokableAdapter.main(new CliApplication(args));
     }
 
     /**
