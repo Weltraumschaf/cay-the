@@ -50,19 +50,6 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
     }
 
     @Test
-    public void typeDeclaration() throws IOException {
-        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final SourceToIntermediateTransformer sut = createSut(file);
-
-        final Type result = sut.visit(parseFile(file));
-
-        assertThat(result, is(not(nullValue())));
-        assertThat(result.getName(), is(new TypeName("de.weltraumschaf.caythe.frontend", "Type")));
-        assertThat(result.getFacet(), is(Facet.CLASS));
-        assertThat(result.getVisibility(), is(Visibility.EXPORT));
-    }
-
-    @Test
     public void visitDelegateDeclaration() throws IOException {
         final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
         final SourceToIntermediateTransformer sut = createSut(file);
