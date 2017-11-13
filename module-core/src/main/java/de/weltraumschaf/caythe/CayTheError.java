@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 /**
  * Base exception type for all modules.
  * <p>
@@ -10,7 +12,12 @@ package de.weltraumschaf.caythe;
  * @since 1.0.0
  */
 public class CayTheError extends RuntimeException {
+    /**
+     * Dedicated constructor.
+     *
+     * @param message mut not be {@code null} or empty
+     */
     public CayTheError(final String message) {
-        super(message);
+        super(Validate.notEmpty(message, "message"));
     }
 }
