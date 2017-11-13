@@ -12,15 +12,19 @@ import org.antlr.v4.runtime.Token;
 public final class SyntaxError extends CayTheError {
     private static final String UNSUPPORTED_OPERATOR = "Unsupported operator: '%s'!";
 
-    SyntaxError(final String message) {
+    private SyntaxError(final String message) {
         super(message);
     }
 
-    static SyntaxError newUnsupportedOperatorError(final Token operator) {
+    public static SyntaxError newUnsupportedOperatorError(final Token operator) {
         return newError(operator, UNSUPPORTED_OPERATOR, operator.getText());
     }
 
-    static SyntaxError newError(final Token position, final String messageFormat, final Object... args) {
+    public static SyntaxError newError(final String messageFormat, final Object... args) {
+        return newError(null, messageFormat, args);
+    }
+
+    public static SyntaxError newError(final Token position, final String messageFormat, final Object... args) {
         final StringBuilder buffer = new StringBuilder("[E] ");
         buffer.append(String.format(messageFormat, args));
 

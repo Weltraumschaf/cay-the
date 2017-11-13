@@ -1,12 +1,9 @@
 package de.weltraumschaf.caythe.backend;
 
-import de.weltraumschaf.caythe.backend.types.NullType;
-import de.weltraumschaf.caythe.backend.types.ObjectType;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.Parsers;
-import de.weltraumschaf.caythe.frontend.SourceToIntermediateTransformer;
+import de.weltraumschaf.caythe.frontend.transform.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.model.Type;
-import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import de.weltraumschaf.commons.testing.rules.CapturedOutput;
 import org.junit.Ignore;
 import org.junit.Rule;

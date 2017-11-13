@@ -1,5 +1,8 @@
-package de.weltraumschaf.caythe.frontend;
+package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.frontend.CayTheManifestBaseVisitor;
+import de.weltraumschaf.caythe.frontend.CayTheManifestParser;
+import de.weltraumschaf.caythe.frontend.SyntaxError;
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Version;
@@ -43,19 +46,19 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
         super.visitManifest(ctx);
 
         if (EMPTY_LITERAL.equals(group)) {
-            throw new SyntaxError(MISSING_DIRECTIVE.apply("group"));
+            throw SyntaxError.newError(MISSING_DIRECTIVE.apply("group"));
         }
 
         if (EMPTY_LITERAL.equals(artifact)) {
-            throw new SyntaxError(MISSING_DIRECTIVE.apply("artifact"));
+            throw SyntaxError.newError(MISSING_DIRECTIVE.apply("artifact"));
         }
 
         if (Version.NONE.equals(version)) {
-            throw new SyntaxError(MISSING_DIRECTIVE.apply("version"));
+            throw SyntaxError.newError(MISSING_DIRECTIVE.apply("version"));
         }
 
         if (EMPTY_LITERAL.equals(namespace)) {
-            throw new SyntaxError(MISSING_DIRECTIVE.apply("namespace"));
+            throw SyntaxError.newError(MISSING_DIRECTIVE.apply("namespace"));
         }
 
         return new Manifest(new Coordinate(group, artifact, version), namespace, imports);
@@ -138,7 +141,7 @@ public final class ManifestToIntermediateTransformer extends CayTheManifestBaseV
     private SyntaxError error(final Token token, final String message, final Object... args) {
         Validate.notNull(token, "token");
         Validate.notEmpty(message, "message");
-        return new SyntaxError(
+        return SyntaxError.newError(
             String.format(message, args)
                 + String.format(" (at line %d, column %d)", token.getLine(), token.getCharPositionInLine() + 1));
     }

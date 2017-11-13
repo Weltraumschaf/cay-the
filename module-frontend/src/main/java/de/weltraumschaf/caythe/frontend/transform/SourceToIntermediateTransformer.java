@@ -1,5 +1,7 @@
-package de.weltraumschaf.caythe.frontend;
+package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
+import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.model.*;
@@ -11,7 +13,6 @@ import java.util.*;
 
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newError;
 import static de.weltraumschaf.caythe.frontend.SyntaxError.newUnsupportedOperatorError;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.nil;
 
 /**
  * Default implementation which converts the parsed tree from a source file into intermediate model.

@@ -1,5 +1,7 @@
-package de.weltraumschaf.caythe.frontend;
+package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.frontend.VisitorTestCase;
+import de.weltraumschaf.caythe.frontend.transform.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
 import de.weltraumschaf.caythe.intermediate.model.*;
@@ -7,9 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;

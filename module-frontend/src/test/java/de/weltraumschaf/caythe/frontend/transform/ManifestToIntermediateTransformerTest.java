@@ -1,5 +1,9 @@
-package de.weltraumschaf.caythe.frontend;
+package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.frontend.CayTheManifestVisitor;
+import de.weltraumschaf.caythe.frontend.SyntaxError;
+import de.weltraumschaf.caythe.frontend.VisitorTestCase;
+import de.weltraumschaf.caythe.frontend.transform.ManifestToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.model.Coordinate;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 

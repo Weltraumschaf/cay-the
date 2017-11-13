@@ -1,8 +1,7 @@
 package de.weltraumschaf.caythe.frontend;
 
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
+import de.weltraumschaf.caythe.frontend.transform.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.model.Type;
-import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import de.weltraumschaf.caythe.testing.AstSpecification;
 import de.weltraumschaf.caythe.testing.AstSpecificationFormatter;
 import de.weltraumschaf.caythe.testing.AstSpecificationParser;
@@ -18,7 +17,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static de.weltraumschaf.caythe.testing.CayTheTestingMatchers.asSpecified;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

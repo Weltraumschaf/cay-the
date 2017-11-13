@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.caythe.frontend.*;
+import de.weltraumschaf.caythe.frontend.transform.ManifestToIntermediateTransformer;
+import de.weltraumschaf.caythe.frontend.transform.SourceToIntermediateTransformer;
 import de.weltraumschaf.caythe.intermediate.model.Manifest;
 import de.weltraumschaf.caythe.intermediate.model.Module;
 import de.weltraumschaf.caythe.intermediate.model.Type;
