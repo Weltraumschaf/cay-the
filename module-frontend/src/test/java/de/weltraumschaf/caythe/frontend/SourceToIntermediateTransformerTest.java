@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.multiplication;
@@ -16,6 +18,7 @@ import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBu
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
@@ -107,7 +110,9 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
                 Property.defaultGetter("x", Visibility.EXPORT, "Integer"), Method.NONE),
             new Property("y", Visibility.EXPORT, "Integer",
                 Property.defaultGetter("y", Visibility.EXPORT, "Integer"), Method.NONE),
-            new Property("center", Visibility.EXPORT, "Point")
+            new Property("center", Visibility.EXPORT, "Point",
+                new Method("getCenter", Visibility.EXPORT, "Point", Collections.emptyList(), mock(AstNode.class)),
+                new Method("setCenter", Visibility.EXPORT, "", Collections.singleton(new Argument("newCenter", "Point")), mock(AstNode.class)))
         ));
     }
 

@@ -71,10 +71,12 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
         if (null != ctx.propertyAccessor()) {
             if (null != ctx.propertyAccessor().propertyGetter()) {
+                // TODO Implement non default getter.
                 getter = Property.defaultGetter(name, visibility, type);
             }
 
             if (null != ctx.propertyAccessor().propertySetter()) {
+                // TODO Implement non default setter.
                 setter = Property.defaultSetter(name, visibility, type);
             }
         }
