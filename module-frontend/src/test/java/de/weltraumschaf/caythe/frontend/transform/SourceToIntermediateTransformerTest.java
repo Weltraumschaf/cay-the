@@ -26,11 +26,7 @@ import static org.mockito.Mockito.mock;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public class SourceToIntermediateTransformerTest extends VisitorTestCase {
-
-    private SourceToIntermediateTransformer createSut(final String src) {
-        return new SourceToIntermediateTransformer(Paths.get(src));
-    }
+public class SourceToIntermediateTransformerTest extends TransformVisitorTestCase {
 
     @Test
     public void defaultResult() {
@@ -47,37 +43,6 @@ public class SourceToIntermediateTransformerTest extends VisitorTestCase {
         assertThat(result.getDelegates(), hasSize(0));
         assertThat(result.getProperties(), hasSize(0));
         assertThat(result.getMethods(), hasSize(0));
-    }
-
-    @Test
-    public void importDeclaration() throws IOException {
-        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final SourceToIntermediateTransformer sut = createSut(file);
-
-        final Type result = sut.visit(parseFile(file));
-
-        assertThat(result, is(not(nullValue())));
-        assertThat(result.getImports(), hasSize(3));
-        assertThat(result.getImports(), containsInAnyOrder(
-            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Object"), ""),
-            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.Integer"), ""),
-            new Import(TypeName.fromFullQualifiedName("org.caythe.core.basetypes.String"), "FooString")
-        ));
-    }
-
-    @Test
-    public void delegateStatement() throws IOException {
-        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final SourceToIntermediateTransformer sut = createSut(file);
-
-        final Type result = sut.visit(parseFile(file));
-
-        assertThat(result, is(not(nullValue())));
-        assertThat(result.getDelegates(), hasSize(2));
-        assertThat(result.getDelegates(), containsInAnyOrder(
-            new Delegate("Object"),
-            new Delegate("FooString")
-        ));
     }
 
     @Test

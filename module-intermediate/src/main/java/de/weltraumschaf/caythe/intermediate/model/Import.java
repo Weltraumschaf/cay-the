@@ -14,6 +14,10 @@ public final class Import {
     private final TypeName name;
     private final String alias;
 
+    public Import(final TypeName name) {
+        this(name, "");
+    }
+
     public Import(final TypeName name, final String alias) {
         super();
         this.name = Validate.notNull(name, "name");

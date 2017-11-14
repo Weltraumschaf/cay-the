@@ -24,23 +24,23 @@ public class SourceToIntermediateTransformer_DelegateDeclarationTest extends Tra
 
     @Test
     public void noDelegate() throws IOException {
-        final String file = createFixtureFile(FIXTURE_DIR + "/ClassNoDelegate.ct");
+        final String file = createFixtureFile(FIXTURE_DIR + "/NoDelegate.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
 
-        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "ClassNoDelegate")));
+        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "NoDelegate")));
         assertThat(result.getDelegates(), hasSize(0));
     }
 
     @Test
     public void oneDelegate() throws IOException {
-        final String file = createFixtureFile(FIXTURE_DIR + "/AnnotationOneDelegate.ct");
+        final String file = createFixtureFile(FIXTURE_DIR + "/OneDelegate.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
 
-        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "AnnotationOneDelegate")));
+        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "OneDelegate")));
         assertThat(result.getDelegates(), hasSize(1));
         assertThat(
             result.getDelegates(),
@@ -50,12 +50,12 @@ public class SourceToIntermediateTransformer_DelegateDeclarationTest extends Tra
 
     @Test
     public void twoDelegate() throws IOException {
-        final String file = createFixtureFile(FIXTURE_DIR + "/InterfaceTwoDelegate.ct");
+        final String file = createFixtureFile(FIXTURE_DIR + "/TwoDelegate.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
 
-        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "InterfaceTwoDelegate")));
+        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "TwoDelegate")));
         assertThat(result.getDelegates(), hasSize(2));
         assertThat(
             result.getDelegates(),
@@ -66,12 +66,12 @@ public class SourceToIntermediateTransformer_DelegateDeclarationTest extends Tra
 
     @Test
     public void threeDelegate() throws IOException {
-        final String file = createFixtureFile(FIXTURE_DIR + "/EnumThreeDelegate.ct");
+        final String file = createFixtureFile(FIXTURE_DIR + "/ThreeDelegate.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
 
-        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "EnumThreeDelegate")));
+        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "ThreeDelegate")));
         assertThat(result.getDelegates(), hasSize(3));
         assertThat(
             result.getDelegates(),
@@ -83,12 +83,12 @@ public class SourceToIntermediateTransformer_DelegateDeclarationTest extends Tra
 
     @Test
     public void fourDelegate() throws IOException {
-        final String file = createFixtureFile(FIXTURE_DIR + "/ClassFourDelegate.ct");
+        final String file = createFixtureFile(FIXTURE_DIR + "/FourDelegate.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
 
-        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "ClassFourDelegate")));
+        assertThat(result.getName(), is(new TypeName(EXPECTED_PACKAGE, "FourDelegate")));
         assertThat(result.getDelegates(), hasSize(4));
         assertThat(
             result.getDelegates(),

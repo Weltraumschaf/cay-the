@@ -1,22 +1,15 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.frontend.VisitorTestCase;
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.Unit;
-import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
-import de.weltraumschaf.caythe.intermediate.model.*;
-import org.junit.Ignore;
+import de.weltraumschaf.caythe.intermediate.model.Facet;
+import de.weltraumschaf.caythe.intermediate.model.Type;
+import de.weltraumschaf.caythe.intermediate.model.TypeName;
+import de.weltraumschaf.caythe.intermediate.model.Visibility;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Collections;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.

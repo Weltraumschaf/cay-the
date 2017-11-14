@@ -1,0 +1,4 @@
+public class
+
+use org.snafu.core.Foo
+use org.snafu.core.Bar
