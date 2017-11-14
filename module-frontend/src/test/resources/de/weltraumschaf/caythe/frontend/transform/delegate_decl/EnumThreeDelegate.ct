@@ -1,0 +1,5 @@
+public enum
+
+delegate Foo
+delegate Bar
+delegate Baz

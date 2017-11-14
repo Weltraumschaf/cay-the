@@ -1,0 +1,6 @@
+public class
+
+delegate Foo
+delegate Bar
+delegate Baz
+delegate Snafu

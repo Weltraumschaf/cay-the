@@ -24,18 +24,14 @@ import static org.mockito.Mockito.mock;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public class SourceToIntermediateTransformer_TypeDeclarationTest extends VisitorTestCase {
+public class SourceToIntermediateTransformer_TypeDeclarationTest extends TransformVisitorTestCase {
 
-    private static final String FIXTURE_DIR = "/de/weltraumschaf/caythe/frontend/transform";
-    private static final String EXPECTED_PACKAGE = "de.weltraumschaf.caythe.frontend.transform";
-
-    private SourceToIntermediateTransformer createSut(final String src) {
-        return new SourceToIntermediateTransformer(Paths.get(src));
-    }
+    private static final String FIXTURE_DIR = "/type_decl";
+    private static final String EXPECTED_PACKAGE = EXPECTED_BASE_PACKAGE + ".type_decl";
 
     @Test
     public void emptyClass() throws IOException {
-        final String file = FIXTURE_DIR + "/EmptyClass.ct";
+        final String file = createFixtureFile(FIXTURE_DIR + "/EmptyClass.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
@@ -47,7 +43,7 @@ public class SourceToIntermediateTransformer_TypeDeclarationTest extends Visitor
 
     @Test
     public void emptyInterface() throws IOException {
-        final String file = FIXTURE_DIR + "/EmptyInterface.ct";
+        final String file = createFixtureFile(FIXTURE_DIR + "/EmptyInterface.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
@@ -59,7 +55,7 @@ public class SourceToIntermediateTransformer_TypeDeclarationTest extends Visitor
 
     @Test
     public void emptyAnnotation() throws IOException {
-        final String file = FIXTURE_DIR + "/EmptyAnnotation.ct";
+        final String file = createFixtureFile(FIXTURE_DIR + "/EmptyAnnotation.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
@@ -71,7 +67,7 @@ public class SourceToIntermediateTransformer_TypeDeclarationTest extends Visitor
 
     @Test
     public void emptyEnum() throws IOException {
-        final String file = FIXTURE_DIR + "/EmptyEnum.ct";
+        final String file = createFixtureFile(FIXTURE_DIR + "/EmptyEnum.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
 
         final Type result = sut.visit(parseFile(file));
