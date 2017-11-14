@@ -56,15 +56,27 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
         assertThat(result, is(not(nullValue())));
         assertThat(result.getProperties(), hasSize(5));
         assertThat(result.getProperties(), containsInAnyOrder(
-            new Property("foo", Visibility.PRIVATE, "FooString"),
-            new Property("bar", Visibility.PRIVATE, "FooString"),
-            new Property("x", Visibility.EXPORT, "Integer",
-                Property.defaultGetter("x", Visibility.EXPORT, "Integer"), Method.NONE),
-            new Property("y", Visibility.EXPORT, "Integer",
-                Property.defaultGetter("y", Visibility.EXPORT, "Integer"), Method.NONE),
-            new Property("center", Visibility.EXPORT, "Point",
-                new Method("getCenter", Visibility.EXPORT, "Point", Collections.emptyList(), mock(AstNode.class)),
-                new Method("setCenter", Visibility.EXPORT, "", Collections.singleton(new Argument("newCenter", "Point")), mock(AstNode.class)))
+            new Property("foo", Visibility.PRIVATE, new TypeName("org.caythe.core.basetypes", "String")),
+            new Property("bar", Visibility.PRIVATE, new TypeName("org.caythe.core.basetypes", "String")),
+            new Property("x", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer"),
+                Property.defaultGetter("x", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer")),
+                Method.NONE),
+            new Property("y", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer"),
+                Property.defaultGetter("y", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer")),
+                Method.NONE),
+            new Property("center", Visibility.EXPORT, new TypeName("org.snafu", "Point"),
+                new Method(
+                    "getCenter",
+                    Visibility.EXPORT,
+                    new TypeName("org.snafu", "Point"),
+                    Collections.emptyList(),
+                    mock(AstNode.class)),
+                new Method(
+                    "setCenter",
+                    Visibility.EXPORT,
+                    TypeName.NONE,
+                    Collections.singleton(new Argument("newCenter", new TypeName("org.snafu", "Point"))),
+                    mock(AstNode.class)))
         ));
     }
 

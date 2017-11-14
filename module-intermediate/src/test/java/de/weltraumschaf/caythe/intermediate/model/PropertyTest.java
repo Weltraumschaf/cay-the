@@ -16,26 +16,30 @@ public class PropertyTest {
 
     @Test
     public void defaultGetter() throws Exception {
-        final Method getter = Property.defaultGetter("foo", Visibility.PACKAGE, "String");
+        final TypeName returnType = new TypeName("org.snafu", "Foo");
+
+        final Method getter = Property.defaultGetter("foo", Visibility.PACKAGE, returnType);
 
         assertThat(getter.getName(), is("foo"));
         assertThat(getter.getArguments(), hasSize(0));
         assertThat(getter.getBody(), is(new NoOperation()));
-        assertThat(getter.getReturnType(), is("String"));
+        assertThat(getter.getReturnType(), is(returnType));
         assertThat(getter.getVisibility(), is(Visibility.PACKAGE));
     }
 
     @Test
     public void defaultSetter() throws Exception {
-        final Method setter = Property.defaultSetter("foo", Visibility.PACKAGE, "String");
+        final TypeName argumentType = new TypeName("org.snafu", "Foo");
+
+        final Method setter = Property.defaultSetter("foo", Visibility.PACKAGE, argumentType);
 
         assertThat(setter.getName(), is("foo"));
         assertThat(setter.getArguments(), hasSize(1));
         assertThat(setter.getArguments(), containsInAnyOrder(
-            new Argument("newFoo", "String")
+            new Argument("newFoo", argumentType)
         ));
         assertThat(setter.getBody(), is(new NoOperation()));
-        assertThat(setter.getReturnType(), is(""));
+        assertThat(setter.getReturnType(), is(TypeName.NONE));
         assertThat(setter.getVisibility(), is(Visibility.PACKAGE));
     }
 

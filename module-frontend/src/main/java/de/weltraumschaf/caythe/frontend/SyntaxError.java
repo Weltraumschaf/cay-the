@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.Token;
  */
 public final class SyntaxError extends CayTheError {
     private static final String UNSUPPORTED_OPERATOR = "Unsupported operator: '%s'!";
+    private static final String UNKNOWN_TYPE = "Unknown type '%s'!";
 
     /**
      * Use the factory methods.
@@ -31,6 +32,17 @@ public final class SyntaxError extends CayTheError {
     public static SyntaxError newUnsupportedOperatorError(final Token operator) {
         Validate.notNull(operator, "operator");
         return newError(operator, UNSUPPORTED_OPERATOR, operator.getText());
+    }
+
+    /**
+     * Create an error for unknown type.
+     *
+     * @param type must not be {@code null}
+     * @return never {@code null}
+     */
+    public static SyntaxError newUnknownTypeError(final Token type) {
+        Validate.notNull(type, "type");
+        return newError(type, UNKNOWN_TYPE, type.getText());
     }
 
     /**

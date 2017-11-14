@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
@@ -23,9 +24,10 @@ public class LetTest {
     @Test
     public void serialize() {
         final Let sut = new Let(
-            "Foo", assign(
-                identifier("foo", 1,2),
-                integer(23L, 3,4),
+            new TypeName("org.snafu", "Foo"),
+            assign(
+                identifier("foo", 1, 2),
+                integer(23L, 3, 4),
                 5, 6),
             new Position(7, 8));
 

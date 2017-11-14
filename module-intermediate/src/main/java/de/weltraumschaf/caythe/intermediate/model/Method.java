@@ -16,14 +16,14 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Method {
-    public static final Method NONE = new Method("NONE", Visibility.PRIVATE, "", Collections.emptyList(), new NoOperation());
+    public static final Method NONE = new Method("NONE", Visibility.PRIVATE, TypeName.NONE, Collections.emptyList(), new NoOperation());
     private final String name;
     private final Visibility  visibility;
-    private final String returnType;
+    private final TypeName returnType;
     private final Collection<Argument> arguments;
     private final AstNode body;
 
-    public Method(final String name, final Visibility visibility, final String returnType, final Collection<Argument> arguments, final AstNode body) {
+    public Method(final String name, final Visibility visibility, final TypeName returnType, final Collection<Argument> arguments, final AstNode body) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.visibility = Validate.notNull(visibility, "visibility");
@@ -40,7 +40,7 @@ public final class Method {
         return visibility;
     }
 
-    public String getReturnType() {
+    public TypeName getReturnType() {
         return returnType;
     }
 

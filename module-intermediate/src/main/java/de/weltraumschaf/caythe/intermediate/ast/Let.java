@@ -2,14 +2,15 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.TypeName;
 
 import java.util.Objects;
 
 public final class Let extends BaseNode {
-    private final String type;
+    private final TypeName type;
     private final BinaryOperation assignment;
 
-    public Let(final String type, final BinaryOperation assignment, final Position sourcePosition) {
+    public Let(final TypeName type, final BinaryOperation assignment, final Position sourcePosition) {
         super(sourcePosition);
         this.type = type;
         this.assignment = assignment;

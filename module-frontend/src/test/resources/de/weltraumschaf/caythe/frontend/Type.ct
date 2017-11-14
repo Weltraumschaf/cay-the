@@ -9,6 +9,7 @@ use org.caythe.core.basetypes.Object
 use org.caythe.core.basetypes.Integer
 // Aliased import:
 use org.caythe.core.basetypes.String as FooString
+use org.snafu.Point
 
 
 // Delegate to object base type:

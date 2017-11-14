@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.frontend.transform;
 
 import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
+import de.weltraumschaf.caythe.frontend.SyntaxError;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.*;
 import de.weltraumschaf.caythe.intermediate.model.*;
@@ -24,6 +25,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
     private final Deque<AstNode> currentNode = new ArrayDeque<>();
     private final Type.TypeBuilder builder = new Type.TypeBuilder();
+    private final ImportLookupTable imports = new ImportLookupTable();
     private final String file;
 
     public SourceToIntermediateTransformer(final Path file) {
@@ -52,7 +54,21 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     public Type visitImportDeclaration(final CayTheSourceParser.ImportDeclarationContext ctx) {
         final TypeName fqn = TypeName.fromFullQualifiedName(ctx.name.getText());
         final String alias = null == ctx.alias ? "" : ctx.alias.getText();
-        builder.addImport(new Import(fqn, alias));
+        final Import anImport = new Import(fqn, alias);
+
+        if (anImport.hasAlias()) {
+            if (imports.has(anImport.getAlias())) {
+                throw SyntaxError.newError("TODO");
+            }
+        } else {
+            if (imports.has(anImport.getName().getBasename())) {
+                throw SyntaxError.newError("TODO");
+            }
+        }
+
+        builder.addImport(anImport);
+        imports.add(anImport);
+
         return defaultResult();
     }
 
@@ -65,7 +81,14 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     @Override
     public Type visitPropertyDeclaration(final CayTheSourceParser.PropertyDeclarationContext ctx) {
         final Visibility visibility = Visibility.valueOf(ctx.visibility.getText().toUpperCase());
-        final String type = ctx.propertyType.getText();
+        final TypeName type;
+
+        if (imports.has(ctx.propertyType.getText())) {
+            type = imports.get(ctx.propertyType.getText()).getName();
+        } else {
+            throw SyntaxError.newUnknownTypeError(ctx.propertyType);
+        }
+
         final String name = ctx.propertyName.getText();
         Method getter = Method.NONE;
         Method setter = Method.NONE;
@@ -102,7 +125,14 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     @Override
     public Type visitLetStatement(final CayTheSourceParser.LetStatementContext ctx) {
         final BinaryOperation assignment;
-        final String type = ctx.variableType.getText();
+        final TypeName type;
+
+        if (imports.has(ctx.variableType.getText())) {
+            type = imports.get(ctx.variableType.getText()).getName();
+        } else {
+            throw SyntaxError.newUnknownTypeError(ctx.variableType);
+        }
+
         final Identifier name;
 
         if (null == ctx.assignStatement()) {
@@ -134,7 +164,14 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
     @Override
     public Type visitConstStatement(final CayTheSourceParser.ConstStatementContext ctx) {
-        final String type = ctx.constantType.getText();
+        final TypeName type;
+
+        if (imports.has(ctx.constantType.getText())) {
+            type = imports.get(ctx.constantType.getText()).getName();
+        } else {
+            throw SyntaxError.newUnknownTypeError(ctx.constantType);
+        }
+
         final CayTheSourceParser.AssignExpressionContext assignment = ctx.assignStatement().assignExpression();
         final Identifier name = new Identifier(
             assignment.identifier.getText(),

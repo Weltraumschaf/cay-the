@@ -32,6 +32,10 @@ public final class Import {
         return alias;
     }
 
+    public boolean hasAlias() {
+        return !alias.isEmpty();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Import)) {
