@@ -53,7 +53,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     @Override
     public Type visitImportDeclaration(final CayTheSourceParser.ImportDeclarationContext ctx) {
         final TypeName fqn = TypeName.fromFullQualifiedName(ctx.name.getText());
-        final String alias = null == ctx.alias ? "" : ctx.alias.getText();
+        final String alias = isNull(ctx.alias) ? "" : ctx.alias.getText();
         final Import anImport = new Import(fqn, alias);
 
         if (anImport.hasAlias()) {
@@ -93,21 +93,34 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         Method getter = Method.NONE;
         Method setter = Method.NONE;
 
-        if (null != ctx.propertyAccessor()) {
-            if (null != ctx.propertyAccessor().propertyGetter()) {
-                // TODO Implement non default getter.
-                getter = Property.defaultGetter(name, visibility, type);
+        if (isNotNull(ctx.propertyAccessor())) {
+            final CayTheSourceParser.PropertyGetterContext getterContext = ctx.propertyAccessor().propertyGetter();
+
+            if (isNotNull(getterContext)) {
+                if (isNull(getterContext.statementList())) {
+                    getter = Property.defaultGetter(name, visibility, type);
+                } else {
+                    visit(getterContext.statementList());
+                    getter = Property.customGetter(name, visibility, type, currentNode.pop());
+                }
             }
 
-            if (null != ctx.propertyAccessor().propertySetter()) {
-                // TODO Implement non default setter.
-                setter = Property.defaultSetter(name, visibility, type);
+            final CayTheSourceParser.PropertySetterContext setterContext = ctx.propertyAccessor().propertySetter();
+
+            if (isNotNull(setterContext)) {
+                if (isNull(setterContext.statementList())) {
+                    setter = Property.defaultSetter(name, visibility, type);
+                } else {
+                    visit(setterContext.statementList());
+                    setter = Property.customSetter(name, visibility, type, currentNode.pop());
+                }
             }
         }
 
         builder.addProperty(new Property(name, visibility, type, getter, setter));
         return defaultResult();
     }
+
 
     @Override
     public Type visitStatementList(final CayTheSourceParser.StatementListContext ctx) {
@@ -135,7 +148,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
         final Identifier name;
 
-        if (null == ctx.assignStatement()) {
+        if (isNull(ctx.assignStatement())) {
             // This is let w/o assignment: let Type a
             name = new Identifier(ctx.variableName.getText(), cretePosition(ctx.variableName));
             assignment = new BinaryOperation(
@@ -208,7 +221,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
     @Override
     public Type visitReturnStatement(final CayTheSourceParser.ReturnStatementContext ctx) {
-        if (ctx.value == null) {
+        if (isNull(ctx.value)) {
             currentNode.push(new NilLiteral(cretePosition(ctx.start)));
         } else {
             visit(ctx.value);
@@ -244,7 +257,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         final AstNode consequence = currentNode.pop();
         final AstNode alternative;
 
-        if (ctx.alternative == null) {
+        if (isNull(ctx.alternative)) {
             alternative = new NoOperation();
         } else {
             visit(ctx.alternative.statements);
@@ -310,7 +323,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
         final Identifier identifier = new Identifier(ctx.identifier.getText(), cretePosition(ctx.identifier.getStart()));
         final List<AstNode> parameters = new ArrayList<>();
         final List<CayTheSourceParser.MethodParameterContext> parametersExpressions
-            = ctx.arguments == null ?
+            = isNull(ctx.arguments) ?
             Collections.emptyList() :
             ctx.arguments.methodParameter();
 
@@ -561,7 +574,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     public Type visitHashLiteral(final CayTheSourceParser.HashLiteralContext ctx) {
         final Map<AstNode, AstNode> values = new HashMap<>();
 
-        if (ctx.values == null) {
+        if (isNull(ctx.values)) {
             currentNode.push(new HashLiteral(values, cretePosition(ctx.getStart())));
             return defaultResult();
         }
@@ -574,7 +587,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
                 throw newError(pair.key.getStart(), "Duplicate key given '%s'!", key);
             }
 
-            if (pair.value == null) {
+            if (isNull(pair.value)) {
                 throw newError(pair.key.getStart(), "Missing value for key '%s'!", key);
             }
 
@@ -584,6 +597,14 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
         currentNode.push(new HashLiteral(values, cretePosition(ctx.getStart())));
         return defaultResult();
+    }
+
+    private boolean isNull(final Object o) {
+        return o == null;
+    }
+
+    private boolean isNotNull(final Object o) {
+        return !isNull(o);
     }
 
 }

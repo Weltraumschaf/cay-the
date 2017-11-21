@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.caythe.StringUtil;
+import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -34,13 +35,21 @@ public final class Property {
         this.setter = setter;
     }
 
+    public static Method customGetter(final String name, final Visibility visibility, final TypeName returnType, final AstNode body) {
+        return new Method(name, visibility, returnType, Collections.emptyList(), body);
+    }
+
     public static Method defaultGetter(final String name, final Visibility visibility, final TypeName returnType) {
-        return new Method(name, visibility, returnType, Collections.emptyList(), new NoOperation());
+        return customGetter(name, visibility, returnType, new NoOperation());
+    }
+
+    public static Method customSetter(final String name, final Visibility visibility, final TypeName argumentType, final AstNode body) {
+        final Argument arg = new Argument("new" + StringUtil.upperCaseFirst(name), argumentType);
+        return new Method(name, visibility, TypeName.NONE, Collections.singleton(arg), body);
     }
 
     public static Method defaultSetter(final String name, final Visibility visibility, final TypeName argumentType) {
-        final Argument arg = new Argument("new" + StringUtil.upperCaseFirst(name), argumentType);
-        return new Method(name, visibility, TypeName.NONE, Collections.singleton(arg), new NoOperation());
+        return customSetter(name, visibility, argumentType, new NoOperation());
     }
 
     public Visibility getVisibility() {

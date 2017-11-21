@@ -1,0 +1,9 @@
+export class
+
+use org.caythe.core.basetypes.String
+use org.caythe.core.basetypes.Integer
+use org.caythe.core.basetypes.Float
+
+private String foo { get }
+public Integer bar { get set }
+export Float baz { set }

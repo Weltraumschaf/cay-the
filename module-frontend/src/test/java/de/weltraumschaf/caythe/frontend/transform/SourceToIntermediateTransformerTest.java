@@ -47,41 +47,6 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
 
     @Test
     @Ignore
-    public void visitPropertyDeclaration() throws IOException {
-        final String file = "/de/weltraumschaf/caythe/frontend/Type.ct";
-        final SourceToIntermediateTransformer sut = createSut(file);
-
-        final Type result = sut.visit(parseFile(file));
-
-        assertThat(result, is(not(nullValue())));
-        assertThat(result.getProperties(), hasSize(5));
-        assertThat(result.getProperties(), containsInAnyOrder(
-            new Property("foo", Visibility.PRIVATE, new TypeName("org.caythe.core.basetypes", "String")),
-            new Property("bar", Visibility.PRIVATE, new TypeName("org.caythe.core.basetypes", "String")),
-            new Property("x", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer"),
-                Property.defaultGetter("x", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer")),
-                Method.NONE),
-            new Property("y", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer"),
-                Property.defaultGetter("y", Visibility.EXPORT, new TypeName("org.caythe.core.basetypes", "Integer")),
-                Method.NONE),
-            new Property("center", Visibility.EXPORT, new TypeName("org.snafu", "Point"),
-                new Method(
-                    "getCenter",
-                    Visibility.EXPORT,
-                    new TypeName("org.snafu", "Point"),
-                    Collections.emptyList(),
-                    mock(AstNode.class)),
-                new Method(
-                    "setCenter",
-                    Visibility.EXPORT,
-                    TypeName.NONE,
-                    Collections.singleton(new Argument("newCenter", new TypeName("org.snafu", "Point"))),
-                    mock(AstNode.class)))
-        ));
-    }
-
-    @Test
-    @Ignore
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
         final Unit expected = UnitBuilder
