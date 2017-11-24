@@ -1,8 +1,12 @@
 package de.weltraumschaf.caythe.intermediate;
 
-
 import de.weltraumschaf.caythe.intermediate.ast.*;
 
+/**
+ * Interface for a visitor to traverse AST nodes.
+ *
+ * @param <R> return type of the visitor
+ */
 public interface AstVisitor<R> {
     default R visit(final ArrayLiteral node) {
         return null;
@@ -93,10 +97,6 @@ public interface AstVisitor<R> {
     }
 
     default R visit(final UnaryOperation node) {
-        return null;
-    }
-
-    default R visit(final Unit node) {
         return null;
     }
 

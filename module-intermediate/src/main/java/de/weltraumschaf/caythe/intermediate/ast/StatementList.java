@@ -39,12 +39,13 @@ public final class StatementList extends BaseNode {
         }
 
         final StatementList that = (StatementList) o;
-        return Objects.equals(children, that.children);
+        return Objects.equals(children, that.children)
+            && Objects.equals(sourcePosition(), that.sourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(children);
+        return Objects.hash(children, sourcePosition());
     }
 
     @Override
@@ -52,5 +53,9 @@ public final class StatementList extends BaseNode {
         return "StatementList{" +
             "children=" + children +
             '}';
+    }
+
+    public Iterable<? extends AstNode> getStatements() {
+        return children;
     }
 }

@@ -1,16 +1,12 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.frontend.VisitorTestCase;
-import de.weltraumschaf.caythe.frontend.transform.SourceToIntermediateTransformer;
-import de.weltraumschaf.caythe.intermediate.ast.*;
-import de.weltraumschaf.caythe.intermediate.ast.builder.UnitBuilder;
+import de.weltraumschaf.caythe.intermediate.ast.StatementList;
+import de.weltraumschaf.caythe.intermediate.ast.builder.StatementListBuilder;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Collections;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.multiplication;
@@ -49,7 +45,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
-        final Unit expected = UnitBuilder
+        final StatementList expected = StatementListBuilder
             .unit(1, 0)
             .statement(
                 addition(
@@ -71,7 +67,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void mathOperationWithMultipleOperands() throws IOException {
         final String src = "1 + 2 * 3 - 4\n";
-        final Unit expected = UnitBuilder
+        final StatementList expected = StatementListBuilder
             .unit(1, 0)
             .statement(
                 subtraction(
@@ -102,7 +98,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
         final String src = "(1 + 2) * (3 - 4)\n";
-        final Unit expected = UnitBuilder
+        final StatementList expected = StatementListBuilder
             .unit(1, 0)
             .statement(
                 multiplication(

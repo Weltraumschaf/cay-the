@@ -3,17 +3,17 @@ package de.weltraumschaf.caythe.intermediate.ast.builder;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.Statement;
-import de.weltraumschaf.caythe.intermediate.ast.Unit;
+import de.weltraumschaf.caythe.intermediate.ast.StatementList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class UnitBuilder {
+public final class StatementListBuilder {
     private final List<AstNode> statements = new ArrayList<>();
     private final Position position;
 
-    private UnitBuilder(final Position position) {
+    private StatementListBuilder(final Position position) {
         super();
         this.position = position;
     }
@@ -24,15 +24,15 @@ public final class UnitBuilder {
         return list;
     }
 
-    public static UnitBuilder unit(final int line, final int column) {
-        return new UnitBuilder(new Position(line, column));
+    public static StatementListBuilder unit(final int line, final int column) {
+        return new StatementListBuilder(new Position(line, column));
     }
 
-    public Unit end() {
-        return new Unit(statements, position);
+    public StatementList end() {
+        return new StatementList(statements, position);
     }
 
-    public UnitBuilder statement(final AstNode statement, final int line, final int column) {
+    public StatementListBuilder statement(final AstNode statement, final int line, final int column) {
         statements.add(new Statement(statement, new Position(line, column)));
         return this;
     }
