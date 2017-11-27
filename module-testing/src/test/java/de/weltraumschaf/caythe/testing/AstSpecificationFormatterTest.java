@@ -20,13 +20,13 @@ public class AstSpecificationFormatterTest {
             new AstSpecification(
                 "",
                 "",
-                "(unit (+ 1 (* 2 3 [1, 1]) [2, 2]) [3, 3])",
+                "(block (+ 1 (* 2 3 [1, 1]) [2, 2]) [3, 3])",
                 mock(Path.class)));
 
         assertThat(
             result.getExpectation(),
             is("" +
-                "(unit\n" +
+                "(block\n" +
                 "  (+ 1\n" +
                 "    (* 2 3 [1, 1])\n" +
                 "  [2, 2])\n" +
@@ -35,7 +35,7 @@ public class AstSpecificationFormatterTest {
 
     @Test
     public void format_withNewlines() {
-        final String ast = "(unit\n" +
+        final String ast = "(block\n" +
             "  (statements\n" +
             "    (let\n" +
             "      (=\n" +

@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.intermediate.ast.Block;
 import de.weltraumschaf.caythe.intermediate.ast.Statement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public final class BlockBuilder {
-    private final List<AstNode> statements = new ArrayList<>();
+    private final Collection<AstNode> statements = new ArrayList<>();
     private final Position position;
 
     private BlockBuilder(final Position position) {
@@ -24,13 +25,7 @@ public final class BlockBuilder {
         this.position = position;
     }
 
-    private List<AstNode> list(final AstNode... nodes) {
-        final List<AstNode> list = new ArrayList<>();
-        Collections.addAll(list, nodes);
-        return list;
-    }
-
-    public static BlockBuilder unit(final int line, final int column) {
+    public static BlockBuilder block(final int line, final int column) {
         return new BlockBuilder(new Position(line, column));
     }
 

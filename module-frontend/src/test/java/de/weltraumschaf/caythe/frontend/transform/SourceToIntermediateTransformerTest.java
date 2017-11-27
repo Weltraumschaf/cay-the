@@ -46,7 +46,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
         final Block expected = BlockBuilder
-            .unit(1, 0)
+            .block(1, 0)
             .statement(
                 addition(
                     integer(2L, 1, 0),
@@ -68,7 +68,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     public void mathOperationWithMultipleOperands() throws IOException {
         final String src = "1 + 2 * 3 - 4\n";
         final Block expected = BlockBuilder
-            .unit(1, 0)
+            .block(1, 0)
             .statement(
                 subtraction(
                     addition(
@@ -99,7 +99,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
         final String src = "(1 + 2) * (3 - 4)\n";
         final Block expected = BlockBuilder
-            .unit(1, 0)
+            .block(1, 0)
             .statement(
                 multiplication(
                     addition(
