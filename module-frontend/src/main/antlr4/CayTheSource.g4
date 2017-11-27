@@ -67,11 +67,11 @@ propertyAccessor
     ;
 
 propertyGetter
-    : KW_GET statementList?
+    : KW_GET block?
     ;
 
 propertySetter
-    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN statementList)?
+    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN block)?
     ;
 
 propertyVisibility
@@ -81,7 +81,7 @@ propertyVisibility
 constructorDeclaration
     : visibility=constructorVisibility
       KW_CONSTRUCTOR L_PAREN methodArguments? R_PAREN
-      statementList NL+
+      block NL+
     ;
 
 // Constructors can't be private because it make no sense to not instantiate
@@ -94,7 +94,7 @@ methodDeclaration
     : visibility=methodVisibility
       returnType=IDENTIFIER?
       methodName=IDENTIFIER L_PAREN methodArguments? R_PAREN
-      statementList
+      block
     ;
 
 methodVisibility
@@ -118,7 +118,7 @@ methodArgument
  * property accessors) and constructors.
  */
 
-statementList
+block
     : L_BRACE NL+ statements=statement* R_BRACE NL+
     ;
 
@@ -195,16 +195,16 @@ literalExpression
 
 ifExpression
     // We want at least one statetement.
-    : KW_IF condition=expression consequence=statementList
-      ( KW_ELSE alternative=statementList )?
+    : KW_IF condition=expression consequence=block
+      ( KW_ELSE alternative=block )?
     ;
 
 loopExpression
     // We want at least one statetement.
-    : KW_LOOP body=statementList                                            # endlessLoopExpression
-    | KW_LOOP condition=expression body=statementList                       # conditionalLoopExpression
+    : KW_LOOP body=block                                            # endlessLoopExpression
+    | KW_LOOP condition=expression body=block                       # conditionalLoopExpression
     | KW_LOOP init=loopInit SEMICOLON condition=expression SEMICOLON post=expression
-      body=statementList                                                    # traditionalLoopExpression
+      body=block                                                    # traditionalLoopExpression
     ;
 
 loopInit

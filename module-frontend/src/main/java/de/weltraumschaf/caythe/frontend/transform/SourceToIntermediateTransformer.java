@@ -97,10 +97,10 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             final CayTheSourceParser.PropertyGetterContext getterContext = ctx.propertyAccessor().propertyGetter();
 
             if (isNotNull(getterContext)) {
-                if (isNull(getterContext.statementList())) {
+                if (isNull(getterContext.block())) {
                     getter = Property.defaultGetter(name, visibility, type);
                 } else {
-                    visit(getterContext.statementList());
+                    visit(getterContext.block());
                     getter = Property.customGetter(name, visibility, type, currentNode.pop());
                 }
             }
@@ -108,10 +108,10 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             final CayTheSourceParser.PropertySetterContext setterContext = ctx.propertyAccessor().propertySetter();
 
             if (isNotNull(setterContext)) {
-                if (isNull(setterContext.statementList())) {
+                if (isNull(setterContext.block())) {
                     setter = Property.defaultSetter(name, visibility, type);
                 } else {
-                    visit(setterContext.statementList());
+                    visit(setterContext.block());
                     setter = Property.customSetter(name, visibility, type, currentNode.pop());
                 }
             }
@@ -123,7 +123,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
 
 
     @Override
-    public Type visitStatementList(final CayTheSourceParser.StatementListContext ctx) {
+    public Type visitBlock(final CayTheSourceParser.BlockContext ctx) {
         final Collection<AstNode> statements = new ArrayList<>();
 
         for (final CayTheSourceParser.StatementContext statement : ctx.statement()) {
