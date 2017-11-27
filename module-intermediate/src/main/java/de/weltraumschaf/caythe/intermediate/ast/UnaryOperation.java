@@ -29,8 +29,18 @@ public final class UnaryOperation extends BaseNode {
     }
 
     @Override
+
     public <R> R accept(final AstVisitor<? extends R> visitor) {
         return visitor.visit(this);
+    }
+    @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(operand));
+    }
+
+    @Override
+    public String getNodeName() {
+        return operator.literal;
     }
 
     @Override
@@ -59,10 +69,6 @@ public final class UnaryOperation extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize(operator.literal, serialize(operand));
-    }
 
     public static enum Operator {
         NEG("-"),

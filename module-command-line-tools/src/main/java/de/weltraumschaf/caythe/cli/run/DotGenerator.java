@@ -39,13 +39,17 @@ final class DotGenerator implements AstVisitor<Void> {
         buffer.append(';').append(NL);
     }
 
+    private String formatNode(final AstNode node) {
+        return String.format("<%s>", node.getNodeName());
+    }
+
     String getGraph() {
         return buffer.toString();
     }
 
     @Override
     public Void visit(final ArrayLiteral node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<array>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -60,7 +64,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final BinaryOperation node) {
-        final DotNode dotNode = new DotNode(generateName(node), node.getOperator().literal());
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -80,7 +84,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Break node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<break>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         return null;
@@ -88,7 +92,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Const node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<const>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -99,7 +103,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Continue node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<continue>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         return null;
@@ -115,7 +119,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final FunctionCall node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<fn-call>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -131,7 +135,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final FunctionLiteral node) {
-        final DotNode fnDeclDotNode = new DotNode(generateName(node), "<fn-decl>");
+        final DotNode fnDeclDotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(fnDeclDotNode);
         appendDotEdge(currentNode.peek(), fnDeclDotNode);
         currentNode.push(fnDeclDotNode);
@@ -159,13 +163,13 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final HashLiteral node) {
-        final DotNode hashDotNode = new DotNode(generateName(node), "<hash>");
+        final DotNode hashDotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(hashDotNode);
         appendDotEdge(currentNode.peek(), hashDotNode);
         currentNode.push(hashDotNode);
 
         for (final Map.Entry<AstNode, AstNode> pair : node.getValues().entrySet()) {
-            final DotNode pairDotNode = new DotNode(generateName(node), "<pair>");
+            final DotNode pairDotNode = new DotNode(generateName(node), formatNode(node));
             appendDotNode(pairDotNode);
             appendDotEdge(currentNode.peek(), pairDotNode);
             currentNode.push(pairDotNode);
@@ -180,7 +184,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Identifier node) {
-        final DotNode dotNode = new DotNode(generateName(node), node.getName());
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         return null;
@@ -188,7 +192,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final IfExpression node) {
-        final DotNode ifDotNode = new DotNode(generateName(node), "<if>");
+        final DotNode ifDotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(ifDotNode);
         appendDotEdge(currentNode.peek(), ifDotNode);
         currentNode.push(ifDotNode);
@@ -213,7 +217,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Let node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<let>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -224,7 +228,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Loop node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<loop>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -240,7 +244,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final NoOperation node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<noop>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         return null;
@@ -248,7 +252,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final NilLiteral node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<null>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         return null;
@@ -256,7 +260,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Return node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<return>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -267,7 +271,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Statement node) {
-        final DotNode dotNode = new DotNode(generateName(node), "<statement>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -286,7 +290,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final Subscript node) {
-        final DotNode dotNode = new DotNode(generateName(node), "[]");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -298,7 +302,7 @@ final class DotGenerator implements AstVisitor<Void> {
 
     @Override
     public Void visit(final UnaryOperation node) {
-        final DotNode dotNode = new DotNode(generateName(node), node.getOperator().literal());
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
@@ -310,7 +314,7 @@ final class DotGenerator implements AstVisitor<Void> {
     @Override
     public Void visit(final Block node) {
         buffer.append("graph AST {").append(NL);
-        final DotNode dotNode = new DotNode(generateName(node), "<block>");
+        final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         currentNode.push(dotNode);
 

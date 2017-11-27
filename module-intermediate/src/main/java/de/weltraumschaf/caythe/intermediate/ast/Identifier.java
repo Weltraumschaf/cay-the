@@ -23,6 +23,16 @@ public final class Identifier extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), name);
+    }
+
+    @Override
+    public String getNodeName() {
+        return "identifier";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Identifier)) {
             return false;
@@ -46,8 +56,4 @@ public final class Identifier extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("identifier", name);
-    }
 }

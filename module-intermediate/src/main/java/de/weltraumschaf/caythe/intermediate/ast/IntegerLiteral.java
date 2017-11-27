@@ -23,6 +23,16 @@ public final class IntegerLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), String.valueOf(value));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "integer";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof IntegerLiteral)) {
             return false;
@@ -46,8 +56,4 @@ public final class IntegerLiteral extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("integer", String.valueOf(value));
-    }
 }

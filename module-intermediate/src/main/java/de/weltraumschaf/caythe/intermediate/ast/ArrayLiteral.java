@@ -24,6 +24,16 @@ public final class ArrayLiteral extends BaseNode  {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(values));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "array";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof ArrayLiteral)) {
             return false;
@@ -47,8 +57,4 @@ public final class ArrayLiteral extends BaseNode  {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("array", serialize(values));
-    }
 }

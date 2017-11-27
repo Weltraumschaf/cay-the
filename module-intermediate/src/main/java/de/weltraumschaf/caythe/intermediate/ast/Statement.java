@@ -3,7 +3,6 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public final class Statement extends BaseNode {
@@ -30,7 +29,12 @@ public final class Statement extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("statement", serialize(child));
+        return serialize(getNodeName(), serialize(child));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "statement";
     }
 
     @Override

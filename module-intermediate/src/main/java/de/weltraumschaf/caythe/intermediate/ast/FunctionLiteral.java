@@ -31,6 +31,18 @@ public final class FunctionLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        final String serializedArguments = serialize(arguments.stream().map(a -> (AstNode) a).collect(Collectors.toList()));
+        final String serializedBody = serialize(body);
+        return serialize(getNodeName(), String.format("(%s) (%s)", serializedArguments, serializedBody));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "fn-decl";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof FunctionLiteral)) {
             return false;
@@ -56,10 +68,4 @@ public final class FunctionLiteral extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        final String serializedArguments = serialize(arguments.stream().map(a -> (AstNode) a).collect(Collectors.toList()));
-        final String serializedBody = serialize(body);
-        return serialize("fn-decl", String.format("(%s) (%s)", serializedArguments, serializedBody));
-    }
 }

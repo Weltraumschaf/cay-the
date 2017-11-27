@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
+import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 import org.junit.Test;
 
@@ -12,6 +13,16 @@ import static org.hamcrest.Matchers.*;
 public class AstNodeTest {
     private final AstNode sut = new AstNode() {
         @Override
+        public <R> R accept(final AstVisitor<? extends R> visitor) {
+            return null;
+        }
+
+        @Override
+        public String getNodeName() {
+            return "";
+        }
+
+        @Override
         public String serialize() {
             return "";
         }
@@ -20,11 +31,6 @@ public class AstNodeTest {
     @Test
     public void sourcePosition() throws Exception {
         assertThat(sut.sourcePosition(), is(Position.UNKNOWN));
-    }
-
-    @Test
-    public void accept() throws Exception {
-        assertThat(sut.accept(null), is(nullValue()));
     }
 
 }

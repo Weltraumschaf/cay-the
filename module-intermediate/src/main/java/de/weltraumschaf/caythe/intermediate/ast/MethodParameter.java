@@ -20,7 +20,12 @@ public final class MethodParameter extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("param", serialize(name) + " " + serialize(value));
+        return serialize(getNodeName(), serialize(name) + " " + serialize(value));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "param";
     }
 
     @Override

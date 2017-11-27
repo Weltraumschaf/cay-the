@@ -23,6 +23,16 @@ public final class RealLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), String.valueOf(value));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "real";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof RealLiteral)) {
             return false;
@@ -46,8 +56,4 @@ public final class RealLiteral extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("real", String.valueOf(value));
-    }
 }

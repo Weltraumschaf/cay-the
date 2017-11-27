@@ -17,6 +17,16 @@ public final class Break extends BaseNode  {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName());
+    }
+
+    @Override
+    public String getNodeName() {
+        return "break";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Break)) {
             return false;
@@ -36,10 +46,5 @@ public final class Break extends BaseNode  {
         return "Break{" +
             "sourcePosition=" + sourcePosition() +
             "}";
-    }
-
-    @Override
-    public String serialize() {
-        return serialize("break");
     }
 }

@@ -35,6 +35,16 @@ public final class IfExpression extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(condition, consequence, alternative));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "if";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof IfExpression)) {
             return false;
@@ -62,8 +72,4 @@ public final class IfExpression extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("if", serialize(condition, consequence, alternative));
-    }
 }

@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
+import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 import org.junit.Test;
 
@@ -43,7 +44,17 @@ public class BaseNodeTest {
 
         @Override
         public String serialize() {
-            return serialize("bar");
+            return serialize(getNodeName());
+        }
+
+        @Override
+        public String getNodeName() {
+            return "bar";
+        }
+
+        @Override
+        public <R> R accept(final AstVisitor<? extends R> visitor) {
+            return null;
         }
     }
 }

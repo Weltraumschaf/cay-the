@@ -25,6 +25,16 @@ public final class BooleanLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), String.valueOf(value));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "boolean";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof BooleanLiteral)) {
             return false;
@@ -48,8 +58,4 @@ public final class BooleanLiteral extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("boolean", String.valueOf(value));
-    }
 }

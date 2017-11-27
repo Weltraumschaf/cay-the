@@ -27,7 +27,12 @@ public final class Const extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("const", serialize(assignment));
+        return serialize(getNodeName(), serialize(assignment));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "const";
     }
 
     @Override

@@ -40,6 +40,16 @@ public final class BinaryOperation extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(leftOperand, rightOperand));
+    }
+
+    @Override
+    public String getNodeName() {
+        return operator.literal;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof BinaryOperation)) {
             return false;
@@ -67,10 +77,6 @@ public final class BinaryOperation extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize(operator.literal, serialize(leftOperand, rightOperand));
-    }
 
     public enum Operator {
         ASSIGN("="),

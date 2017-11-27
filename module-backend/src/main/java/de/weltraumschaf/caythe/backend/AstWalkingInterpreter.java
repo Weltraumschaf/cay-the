@@ -137,7 +137,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
             throw newError(leftOperand, "Left operand '%s' of assignment is not an identifier!", leftOperand);
         }
 
-        final String identifier = ((Identifier) leftOperand).getName();
+        final String identifier = ((Identifier) leftOperand).getNodeName();
         final ObjectType value = assignment.getRightOperand().accept(this);
 
         if (isConst) {
@@ -161,7 +161,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final FunctionCall node) {
-        final String identifier = node.getIdentifier().getName();
+        final String identifier = node.getIdentifier().getNodeName();
 
         if (currentScope().has(identifier)) {
             final ObjectType assignedValue = currentScope().get(identifier);
@@ -180,7 +180,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
                 for (int i = 0; i < node.getArguments().size(); ++i) {
                     // Function argument values are const (aka. final).
-                    final String name = function.getParameterIdentifiers().get(i).getName();
+                    final String name = function.getParameterIdentifiers().get(i).getNodeName();
                     final ObjectType value = node.getArguments().get(i).accept(this);
                     functionScope.setConst(name, value);
                 }
@@ -234,11 +234,11 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Identifier node) {
-        if (currentScope().has(node.getName())) {
-            return currentScope().get(node.getName());
+        if (currentScope().has(node.getNodeName())) {
+            return currentScope().get(node.getNodeName());
         }
 
-        throw newError(node, "There is no const/var '%s' declared!", node.getName());
+        throw newError(node, "There is no const/var '%s' declared!", node.getNodeName());
     }
 
     @Override

@@ -30,6 +30,16 @@ public final class FunctionCall extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(identifier) + " " + serialize(arguments));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "fn-call";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof FunctionCall)) {
             return false;
@@ -53,10 +63,5 @@ public final class FunctionCall extends BaseNode {
             ", arguments=" + arguments +
             ", sourcePosition=" + sourcePosition() +
             '}';
-    }
-
-    @Override
-    public String serialize() {
-        return serialize("fn-call", serialize(identifier) + " " + serialize(arguments));
     }
 }

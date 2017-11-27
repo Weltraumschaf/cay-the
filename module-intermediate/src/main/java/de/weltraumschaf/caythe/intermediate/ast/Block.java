@@ -32,7 +32,12 @@ public final class Block extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("block", serialize(children));
+        return serialize(getNodeName(), serialize(children));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "block";
     }
 
     @Override

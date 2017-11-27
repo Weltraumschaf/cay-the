@@ -25,6 +25,20 @@ public final class HashLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        final String serializedValues = values.entrySet()
+            .stream()
+            .map(e -> "("+ serialize(e.getKey(), e.getValue()) + ")")
+            .collect(Collectors.joining(" "));
+        return serialize(getNodeName(), serializedValues);
+    }
+
+    @Override
+    public String getNodeName() {
+        return "hash";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof HashLiteral)) {
             return false;
@@ -46,14 +60,5 @@ public final class HashLiteral extends BaseNode {
             "values=" + values +
             ", sourcePosition=" + sourcePosition() +
             '}';
-    }
-
-    @Override
-    public String serialize() {
-        final String serializedValues = values.entrySet()
-            .stream()
-            .map(e -> String.format("(%s)", serialize(e.getKey(), e.getValue())))
-            .collect(Collectors.joining(" "));
-        return serialize("hash", serializedValues);
     }
 }

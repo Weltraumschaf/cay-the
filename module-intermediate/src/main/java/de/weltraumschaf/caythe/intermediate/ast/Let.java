@@ -27,7 +27,12 @@ public final class Let extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("let", serialize(assignment));
+        return serialize(getNodeName(), serialize(assignment));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "let";
     }
 
     @Override

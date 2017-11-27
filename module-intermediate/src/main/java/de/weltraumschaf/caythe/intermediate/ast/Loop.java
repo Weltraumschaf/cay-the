@@ -3,7 +3,6 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public final class Loop extends BaseNode {
@@ -38,6 +37,16 @@ public final class Loop extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(init, condition, post) + " " + serialize(statements));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "loop";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Loop)) {
             return false;
@@ -67,8 +76,4 @@ public final class Loop extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("loop", serialize(init, condition, post) + " " + serialize(statements));
-    }
 }

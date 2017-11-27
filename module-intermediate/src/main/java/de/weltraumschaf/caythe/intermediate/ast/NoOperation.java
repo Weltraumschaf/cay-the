@@ -21,6 +21,16 @@ public  final class NoOperation extends BaseNode  {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName());
+    }
+
+    @Override
+    public String getNodeName() {
+        return "noop";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof NoOperation)) {
             return false;
@@ -46,8 +56,4 @@ public  final class NoOperation extends BaseNode  {
         return node instanceof NoOperation;
     }
 
-    @Override
-    public String serialize() {
-        return serialize("noop");
-    }
 }

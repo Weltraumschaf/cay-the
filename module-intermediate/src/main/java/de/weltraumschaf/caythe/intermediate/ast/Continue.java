@@ -17,6 +17,16 @@ public final class Continue extends BaseNode  {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName());
+    }
+
+    @Override
+    public String getNodeName() {
+        return "continue";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Continue)) {
             return false;
@@ -36,10 +46,5 @@ public final class Continue extends BaseNode  {
         return "Continue{" +
             "sourcePosition=" + sourcePosition() +
             "}";
-    }
-
-    @Override
-    public String serialize() {
-        return serialize("continue");
     }
 }

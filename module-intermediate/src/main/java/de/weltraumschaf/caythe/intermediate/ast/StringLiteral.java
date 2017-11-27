@@ -19,6 +19,16 @@ public final class StringLiteral extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), value);
+    }
+
+    @Override
+    public String getNodeName() {
+        return "string";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof StringLiteral)) {
             return false;
@@ -46,8 +56,4 @@ public final class StringLiteral extends BaseNode {
         return value;
     }
 
-    @Override
-    public String serialize() {
-        return serialize("string", value);
-    }
 }

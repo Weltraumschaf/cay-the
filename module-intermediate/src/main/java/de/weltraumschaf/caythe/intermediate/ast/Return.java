@@ -23,6 +23,16 @@ public final class Return extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(result));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "return";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Return)) {
             return false;
@@ -46,8 +56,4 @@ public final class Return extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("return", serialize(result));
-    }
 }

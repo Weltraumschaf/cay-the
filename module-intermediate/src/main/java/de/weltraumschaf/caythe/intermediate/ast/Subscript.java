@@ -29,6 +29,16 @@ public final class Subscript extends BaseNode {
     }
 
     @Override
+    public String serialize() {
+        return serialize(getNodeName(), serialize(identifier, index));
+    }
+
+    @Override
+    public String getNodeName() {
+        return "[]";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Subscript)) {
             return false;
@@ -54,8 +64,4 @@ public final class Subscript extends BaseNode {
             '}';
     }
 
-    @Override
-    public String serialize() {
-        return serialize("[]", serialize(identifier, index));
-    }
 }
