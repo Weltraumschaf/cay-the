@@ -34,7 +34,7 @@ public final class FunctionLiteral extends BaseNode {
     public String serialize() {
         final String serializedArguments = serialize(arguments.stream().map(a -> (AstNode) a).collect(Collectors.toList()));
         final String serializedBody = serialize(body);
-        return serialize(getNodeName(), String.format("(%s) (%s)", serializedArguments, serializedBody));
+        return serialize(String.format("(%s) (%s)", serializedArguments, serializedBody));
     }
 
     @Override

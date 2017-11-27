@@ -26,7 +26,7 @@ public final class BooleanLiteral extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), String.valueOf(value));
+        return serialize(String.valueOf(value));
     }
 
     @Override

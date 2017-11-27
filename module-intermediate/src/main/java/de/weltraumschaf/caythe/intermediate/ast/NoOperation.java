@@ -21,11 +21,6 @@ public  final class NoOperation extends BaseNode  {
     }
 
     @Override
-    public String serialize() {
-        return serialize(getNodeName());
-    }
-
-    @Override
     public String getNodeName() {
         return "noop";
     }

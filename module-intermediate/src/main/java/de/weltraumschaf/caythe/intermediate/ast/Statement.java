@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public final class Statement extends BaseNode {
 
     public Statement(final AstNode child, final Position sourcePosition) {
         super(sourcePosition);
-        this.child = child;
+        this.child = Validate.notNull(child, "child");
     }
 
     public AstNode getChild() {
@@ -29,7 +30,7 @@ public final class Statement extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(child));
+        return serialize(serialize(child));
     }
 
     @Override

@@ -17,11 +17,6 @@ public final class NilLiteral extends BaseNode {
     }
 
     @Override
-    public String serialize() {
-        return serialize(getNodeName());
-    }
-
-    @Override
     public String getNodeName() {
         return "nil";
     }

@@ -13,7 +13,7 @@ abstract class BaseNode implements AstNode {
 
     BaseNode(final Position sourcePosition) {
         super();
-        this.sourcePosition = sourcePosition;
+        this.sourcePosition = Validate.notNull(sourcePosition, "sourcePosition");
     }
 
     @Override
@@ -21,14 +21,14 @@ abstract class BaseNode implements AstNode {
         return sourcePosition;
     }
 
-    final String serialize(final String name) {
-        return serialize(name, "");
+    @Override
+    public String serialize() {
+        return serialize("");
     }
 
-    final String serialize(final String name, final String additional) {
-        Validate.notEmpty(name, "name");
+    final String serialize(final String additional) {
         return String.format(SERIALIZATION_FORMAT,
-            name,
+            getNodeName(),
             additional.isEmpty() ? "" : " " + additional,
             serialize(sourcePosition));
     }

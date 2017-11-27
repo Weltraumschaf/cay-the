@@ -27,7 +27,7 @@ public final class Let extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(assignment));
+        return serialize(serialize(assignment));
     }
 
     @Override

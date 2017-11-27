@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,8 +17,8 @@ public final class UnaryOperation extends BaseNode {
 
     public UnaryOperation(final Operator operator, final AstNode operand, final Position sourcePosition) {
         super(sourcePosition);
-        this.operator = operator;
-        this.operand = operand;
+        this.operator = Validate.notNull(operator, "operator");
+        this.operand = Validate.notNull(operand, "operand");
     }
 
     public Operator getOperator() {
@@ -35,7 +36,7 @@ public final class UnaryOperation extends BaseNode {
     }
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(operand));
+        return serialize(serialize(operand));
     }
 
     @Override

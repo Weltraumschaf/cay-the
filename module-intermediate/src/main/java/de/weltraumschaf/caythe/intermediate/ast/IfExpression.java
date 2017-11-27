@@ -36,7 +36,7 @@ public final class IfExpression extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(condition, consequence, alternative));
+        return serialize(serialize(condition, consequence, alternative));
     }
 
     @Override

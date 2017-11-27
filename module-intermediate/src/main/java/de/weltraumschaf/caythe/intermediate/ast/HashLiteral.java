@@ -30,7 +30,7 @@ public final class HashLiteral extends BaseNode {
             .stream()
             .map(e -> "("+ serialize(e.getKey(), e.getValue()) + ")")
             .collect(Collectors.joining(" "));
-        return serialize(getNodeName(), serializedValues);
+        return serialize(serializedValues);
     }
 
     @Override

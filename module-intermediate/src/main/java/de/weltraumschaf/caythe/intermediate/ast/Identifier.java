@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public final class Identifier extends BaseNode {
 
     public Identifier(final String name, final Position sourcePosition) {
         super(sourcePosition);
-        this.name = name;
+        this.name = Validate.notEmpty(name,"name");
     }
 
     public String getName() {
@@ -24,7 +25,7 @@ public final class Identifier extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), name);
+        return serialize(name);
     }
 
     @Override

@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
@@ -12,8 +13,8 @@ public final class Const extends BaseNode {
 
     public Const(final TypeName type, final BinaryOperation assignment, final Position sourcePosition) {
         super(sourcePosition);
-        this.type = type;
-        this.assignment = assignment;
+        this.type = Validate.notNull(type, "type");
+        this.assignment = Validate.notNull(assignment, "assignment");
     }
 
     public BinaryOperation getAssignment() {
@@ -27,7 +28,7 @@ public final class Const extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(assignment));
+        return serialize(serialize(assignment));
     }
 
     @Override

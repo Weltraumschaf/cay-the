@@ -17,11 +17,6 @@ public final class Continue extends BaseNode  {
     }
 
     @Override
-    public String serialize() {
-        return serialize(getNodeName());
-    }
-
-    @Override
     public String getNodeName() {
         return "continue";
     }

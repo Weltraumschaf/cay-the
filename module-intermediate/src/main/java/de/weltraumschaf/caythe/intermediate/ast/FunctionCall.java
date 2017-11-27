@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,8 +13,8 @@ public final class FunctionCall extends BaseNode {
 
     public FunctionCall(final Identifier identifier, final List<AstNode> arguments, final Position sourcePosition) {
         super(sourcePosition);
-        this.identifier = identifier;
-        this.arguments = arguments;
+        this.identifier = Validate.notNull(identifier, "identifier");
+        this.arguments = Validate.notNull(arguments, "arguments");
     }
 
     public Identifier getIdentifier() {
@@ -31,7 +32,7 @@ public final class FunctionCall extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(identifier) + " " + serialize(arguments));
+        return serialize(serialize(identifier) + " " + serialize(arguments));
     }
 
     @Override

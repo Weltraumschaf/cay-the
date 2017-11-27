@@ -25,7 +25,7 @@ public final class ArrayLiteral extends BaseNode  {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(values));
+        return serialize(serialize(values));
     }
 
     @Override

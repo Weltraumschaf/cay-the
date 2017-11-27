@@ -41,7 +41,7 @@ public final class BinaryOperation extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(leftOperand, rightOperand));
+        return serialize(serialize(leftOperand, rightOperand));
     }
 
     @Override

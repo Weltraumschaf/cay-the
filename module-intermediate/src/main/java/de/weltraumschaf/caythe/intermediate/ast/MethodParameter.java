@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
@@ -14,13 +15,13 @@ public final class MethodParameter extends BaseNode {
 
     public MethodParameter(final Identifier name, final AstNode value, final Position sourcePosition) {
         super(sourcePosition);
-        this.name = name;
-        this.value = value;
+        this.name = Validate.notNull(name, "name");
+        this.value = Validate.notNull(value, "value");
     }
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(name) + " " + serialize(value));
+        return serialize(serialize(name) + " " + serialize(value));
     }
 
     @Override

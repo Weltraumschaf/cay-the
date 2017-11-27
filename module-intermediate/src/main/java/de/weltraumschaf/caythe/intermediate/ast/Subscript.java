@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
@@ -11,8 +12,8 @@ public final class Subscript extends BaseNode {
 
     public Subscript(final AstNode identifier, final AstNode index, final Position sourcePosition) {
         super(sourcePosition);
-        this.identifier = identifier;
-        this.index = index;
+        this.identifier = Validate.notNull(identifier, "identifier");
+        this.index = Validate.notNull(index, "index");
     }
 
     public AstNode getIdentifier() {
@@ -30,7 +31,7 @@ public final class Subscript extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(getNodeName(), serialize(identifier, index));
+        return serialize(serialize(identifier, index));
     }
 
     @Override

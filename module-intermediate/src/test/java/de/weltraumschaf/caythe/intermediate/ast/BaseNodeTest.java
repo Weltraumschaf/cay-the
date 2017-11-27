@@ -14,26 +14,16 @@ public class BaseNodeTest {
 
     private final BaseNode sut = new BaseNodeStub();
 
-    @Test(expected = NullPointerException.class)
-    public void serialize_nameMustNotBeNull() {
-        sut.serialize((String) null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void serialize_nameMustNotBeEmpty() {
-        sut.serialize("");
-    }
-
     @Test
     public void serialize_withoutNoAdditional() {
-        assertThat(sut.serialize("foo"), is("(foo [1:2])"));
+        assertThat(sut.serialize("foo"), is("(bar foo [1:2])"));
     }
 
     @Test
     public void serialize_withAdditional() {
         assertThat(
-            sut.serialize("foo", "add"),
-            is("(foo add [1:2])"));
+            sut.serialize("add"),
+            is("(bar add [1:2])"));
     }
 
     private static final class BaseNodeStub extends BaseNode {
