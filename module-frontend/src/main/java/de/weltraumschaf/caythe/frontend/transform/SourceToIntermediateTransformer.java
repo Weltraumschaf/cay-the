@@ -131,7 +131,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             statements.add(currentNode.pop());
         }
 
-        currentNode.push(new StatementList(statements, cretePosition(ctx.start)));
+        currentNode.push(new Block(statements, cretePosition(ctx.start)));
         return defaultResult();
     }
 
@@ -315,7 +315,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             statements.add(node);
         }
 
-        currentNode.push(new StatementList(statements, cretePosition(body.get(0).getStart())));
+        currentNode.push(new Block(statements, cretePosition(body.get(0).getStart())));
     }
 
     @Override

@@ -1,3 +1,9 @@
+/*
+ * This is the ANTLR grammar definition for source code.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 grammar CayTheSource;
 
 @header {

@@ -308,9 +308,9 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final StatementList node) {
+    public Void visit(final Block node) {
         buffer.append("graph AST {").append(NL);
-        final DotNode dotNode = new DotNode(generateName(node), "<statement-list>");
+        final DotNode dotNode = new DotNode(generateName(node), "<block>");
         appendDotNode(dotNode);
         currentNode.push(dotNode);
 

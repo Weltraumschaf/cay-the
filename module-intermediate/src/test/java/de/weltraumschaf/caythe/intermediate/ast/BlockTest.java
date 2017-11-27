@@ -13,26 +13,26 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link StatementList}.
+ * Tests for {@link Block}.
  */
-public final class StatementListTest {
+public final class BlockTest {
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(StatementList.class).verify();
+        EqualsVerifier.forClass(Block.class).verify();
     }
 
     @Test
     public void serialize_empty() {
-        final StatementList sut = new StatementList(
+        final Block sut = new Block(
             Collections.emptyList(),
             new Position(1, 2));
 
-        assertThat(sut.serialize(), is("(statement-list [1:2])"));
+        assertThat(sut.serialize(), is("(block [1:2])"));
     }
 
     @Test
     public void serialize_oneStatement() {
-        final StatementList sut = new StatementList(
+        final Block sut = new Block(
             Collections.singleton(new Statement(
                 addition(
                     integer(2L , 7 ,8),
@@ -44,12 +44,12 @@ public final class StatementListTest {
 
         assertThat(
             sut.serialize(),
-            is("(statement-list (statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) [1:2])"));
+            is("(block (statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) [1:2])"));
     }
 
     @Test
     public void serialize_threeStatement() {
-        final StatementList sut = new StatementList(
+        final Block sut = new Block(
             Arrays.asList(new Statement(
                 addition(
                     integer(2L, 7, 8),
@@ -73,7 +73,7 @@ public final class StatementListTest {
 
         assertThat(
             sut.serialize(),
-            is("(statement-list " +
+            is("(block " +
                 "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +
                 "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +
                 "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +

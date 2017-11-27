@@ -2,18 +2,24 @@ package de.weltraumschaf.caythe.intermediate.ast.builder;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.ast.Block;
 import de.weltraumschaf.caythe.intermediate.ast.Statement;
-import de.weltraumschaf.caythe.intermediate.ast.StatementList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class StatementListBuilder {
+/**
+ * Builder to create blocks.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
+public final class BlockBuilder {
     private final List<AstNode> statements = new ArrayList<>();
     private final Position position;
 
-    private StatementListBuilder(final Position position) {
+    private BlockBuilder(final Position position) {
         super();
         this.position = position;
     }
@@ -24,15 +30,15 @@ public final class StatementListBuilder {
         return list;
     }
 
-    public static StatementListBuilder unit(final int line, final int column) {
-        return new StatementListBuilder(new Position(line, column));
+    public static BlockBuilder unit(final int line, final int column) {
+        return new BlockBuilder(new Position(line, column));
     }
 
-    public StatementList end() {
-        return new StatementList(statements, position);
+    public Block end() {
+        return new Block(statements, position);
     }
 
-    public StatementListBuilder statement(final AstNode statement, final int line, final int column) {
+    public BlockBuilder statement(final AstNode statement, final int line, final int column) {
         statements.add(new Statement(statement, new Position(line, column)));
         return this;
     }

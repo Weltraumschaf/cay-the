@@ -369,7 +369,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final StatementList node) {
+    public ObjectType visit(final Block node) {
         ObjectType result = defaultResult();
 
         for (final AstNode statement : node.getStatements()) {

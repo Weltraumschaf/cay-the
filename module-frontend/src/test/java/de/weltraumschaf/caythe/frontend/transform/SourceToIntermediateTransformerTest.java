@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.intermediate.ast.StatementList;
-import de.weltraumschaf.caythe.intermediate.ast.builder.StatementListBuilder;
+import de.weltraumschaf.caythe.intermediate.ast.Block;
+import de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void simpleBinaryOperation() throws IOException {
         final String src = "2 + 3\n";
-        final StatementList expected = StatementListBuilder
+        final Block expected = BlockBuilder
             .unit(1, 0)
             .statement(
                 addition(
@@ -67,7 +67,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void mathOperationWithMultipleOperands() throws IOException {
         final String src = "1 + 2 * 3 - 4\n";
-        final StatementList expected = StatementListBuilder
+        final Block expected = BlockBuilder
             .unit(1, 0)
             .statement(
                 subtraction(
@@ -98,7 +98,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
     @Ignore
     public void mathOperationWithMultipleOperandsAndPArens() throws IOException {
         final String src = "(1 + 2) * (3 - 4)\n";
-        final StatementList expected = StatementListBuilder
+        final Block expected = BlockBuilder
             .unit(1, 0)
             .statement(
                 multiplication(

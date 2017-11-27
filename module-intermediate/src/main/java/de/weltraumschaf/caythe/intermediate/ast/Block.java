@@ -8,17 +8,20 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
+ * A block is a set of statements.
  *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
-public final class StatementList extends BaseNode {
+public final class Block extends BaseNode {
     private final Collection<AstNode> children;
 
-    public StatementList(final Collection<AstNode> children, final Position sourcePosition) {
+    public Block(final Collection<AstNode> children, final Position sourcePosition) {
         super(sourcePosition);
         this.children = children;
     }
 
-    public Collection<AstNode> getChildren() {
+    public Collection<AstNode> getStatements() {
         return Collections.unmodifiableCollection(children);
     }
 
@@ -29,16 +32,16 @@ public final class StatementList extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize("statement-list", serialize(children));
+        return serialize("block", serialize(children));
     }
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof StatementList)) {
+        if (!(o instanceof Block)) {
             return false;
         }
 
-        final StatementList that = (StatementList) o;
+        final Block that = (Block) o;
         return Objects.equals(children, that.children)
             && Objects.equals(sourcePosition(), that.sourcePosition());
     }
@@ -50,12 +53,9 @@ public final class StatementList extends BaseNode {
 
     @Override
     public String toString() {
-        return "StatementList{" +
+        return "Block{" +
             "children=" + children +
             '}';
     }
 
-    public Iterable<? extends AstNode> getStatements() {
-        return children;
-    }
 }
