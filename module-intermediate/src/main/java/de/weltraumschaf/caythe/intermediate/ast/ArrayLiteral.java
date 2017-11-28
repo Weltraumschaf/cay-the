@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Represents an array literal.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */

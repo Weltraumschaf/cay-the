@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * Represents a hash literal.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */

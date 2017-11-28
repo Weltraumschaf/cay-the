@@ -6,7 +6,7 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 /**
- * Represents an boolean literal.
+ * Represents a boolean literal.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0

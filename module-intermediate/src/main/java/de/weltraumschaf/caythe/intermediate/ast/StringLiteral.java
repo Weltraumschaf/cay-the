@@ -7,6 +7,8 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.util.Objects;
 
 /**
+ * Represents a string literal.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */

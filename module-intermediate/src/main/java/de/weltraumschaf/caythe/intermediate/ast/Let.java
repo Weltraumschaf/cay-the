@@ -7,6 +7,8 @@ import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import java.util.Objects;
 
 /**
+ * Represents a variable declaration.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */

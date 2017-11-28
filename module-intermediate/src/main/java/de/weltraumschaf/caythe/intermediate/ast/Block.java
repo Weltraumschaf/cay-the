@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- * A block is a set of statements.
+ * Represents a block which is a set of statements.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0

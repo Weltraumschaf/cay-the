@@ -12,6 +12,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * Represents a binary operation.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */

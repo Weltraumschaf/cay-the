@@ -6,6 +6,8 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import java.util.Objects;
 
 /**
+ * Represents an if expression.
+ *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
