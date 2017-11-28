@@ -3,13 +3,10 @@ package de.weltraumschaf.caythe.intermediate.ast.builder;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.Block;
-import de.weltraumschaf.caythe.intermediate.ast.Statement;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Builder to create blocks.

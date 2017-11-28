@@ -134,6 +134,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     }
 
     @Test
+    @Ignore
     public void onePropertyWithCustomGetterNoSetter() throws IOException {
         final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterNoSetter.ct");
         final SourceToIntermediateTransformer sut = createSut(file);

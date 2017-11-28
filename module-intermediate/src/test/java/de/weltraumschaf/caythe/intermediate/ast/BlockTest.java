@@ -33,50 +33,44 @@ public final class BlockTest {
     @Test
     public void serialize_oneStatement() {
         final Block sut = new Block(
-            Collections.singleton(new Statement(
+            Collections.singleton(
                 addition(
                     integer(2L , 7 ,8),
                     integer(3L, 9, 10),
-                    11, 12),
-                new Position(1, 2)
-            )),
+                    11, 12)
+            ),
             new Position(1, 2));
 
         assertThat(
             sut.serialize(),
-            is("(block (statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) [1:2])"));
+            is("(block (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2])"));
     }
 
     @Test
     public void serialize_threeStatement() {
         final Block sut = new Block(
-            Arrays.asList(new Statement(
+            Arrays.asList(
                 addition(
                     integer(2L, 7, 8),
                     integer(3L, 9, 10),
                     11, 12),
-                new Position(1, 2)
-            ), new Statement(
                 addition(
                     integer(2L, 7, 8),
                     integer(3L, 9, 10),
                     11, 12),
-                new Position(1, 2)
-            ), new Statement(
                 addition(
                     integer(2L, 7, 8),
                     integer(3L, 9, 10),
-                    11, 12),
-                new Position(1, 2)
-            )),
+                    11, 12)
+            ),
             new Position(1, 2));
 
         assertThat(
             sut.serialize(),
             is("(block " +
-                "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +
-                "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +
-                "(statement (+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) [1:2]) " +
+                "(+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) " +
+                "(+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) " +
+                "(+ (integer 2 [7:8]) (integer 3 [9:10]) [11:12]) " +
                 "[1:2])"));
     }
 }

@@ -309,7 +309,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             visit(statement);
             final AstNode node = currentNode.pop();
 
-            if (NoOperation.isNoop(node) || Statement.isEmpty(node)) {
+            if (NoOperation.isNoop(node)) {
                 continue;
             }
 

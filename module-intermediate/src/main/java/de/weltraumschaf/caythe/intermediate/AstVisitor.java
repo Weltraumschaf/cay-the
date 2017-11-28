@@ -80,10 +80,6 @@ public interface AstVisitor<R> {
         return null;
     }
 
-    default R visit(final Statement node) {
-        return null;
-    }
-
     default R visit(final Block node) {
         return null;
     }

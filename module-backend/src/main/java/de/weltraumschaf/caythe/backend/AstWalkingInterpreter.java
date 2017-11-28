@@ -308,11 +308,6 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final Statement node) {
-        return node.getChild().accept(this);
-    }
-
-    @Override
     public ObjectType visit(final StringLiteral node) {
         return new StringType(node.getValue());
     }
