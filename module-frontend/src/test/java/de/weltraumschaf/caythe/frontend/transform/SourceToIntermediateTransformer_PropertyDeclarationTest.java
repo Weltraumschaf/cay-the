@@ -1,18 +1,20 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.ast.Return;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Collections;
 
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.*;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.*;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
@@ -132,7 +134,6 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     }
 
     @Test
-    @Ignore
     public void onePropertyWithCustomGetterNoSetter() throws IOException {
         final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterNoSetter.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
@@ -140,7 +141,18 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        fail("Add assertion for method body of custom getter.");
+        final AstNode getterBody = block(file, 6, 8)
+            .statement(new Return(
+                addition(
+                    identifier("foo", 7, 16),
+                    integer(42L, 7, 22),
+                    7, 20),
+                new Position(file, 7, 9)))
+            .end();
+        assertThat(result.getProperties(), containsInAnyOrder(
+            new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
+                Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
+                Method.NONE)));
     }
 
     @Test

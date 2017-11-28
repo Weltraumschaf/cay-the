@@ -8,13 +8,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.multiplication;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.subtraction;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.*;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
@@ -52,8 +49,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
                     integer(2L, 1, 0),
                     integer(3L, 1, 4),
                     1, 0
-                ),
-                1, 0
+                )
             )
             .end();
         final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
@@ -82,8 +78,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
                     ),
                     integer(4L, 1, 12),
                     1, 0
-                ),
-                1, 0
+                )
             )
             .end();
         final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");
@@ -113,8 +108,7 @@ public class SourceToIntermediateTransformerTest extends TransformVisitorTestCas
                         1, 11
                     ),
                     1, 0
-                ),
-                1, 0
+                )
             )
             .end();
         final SourceToIntermediateTransformer sut = createSut("/de/weltraumschaf/caythe/frontend/Type.ct");

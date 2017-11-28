@@ -35,6 +35,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     }
 
     private Position cretePosition(final Token t) {
+        // FIXME t.getCharPositionInLine() + 1 because starts at 0.
         return new Position(file, t.getLine(), t.getCharPositionInLine());
     }
 

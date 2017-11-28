@@ -1,8 +1,8 @@
 export class
 
-use org.caythe.core.basetypes.String
+use org.caythe.core.basetypes.Integer
 
-public String foo {
+public Integer foo {
     get {
          return foo + 42
      }

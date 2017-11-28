@@ -6,6 +6,7 @@ import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
+@Deprecated
 public final class Statement extends BaseNode {
 
     private final AstNode child;
