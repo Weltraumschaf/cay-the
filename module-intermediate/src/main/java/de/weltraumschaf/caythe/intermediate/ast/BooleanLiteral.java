@@ -5,6 +5,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
+/**
+ * Represents an boolean literal.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class BooleanLiteral extends BaseNode {
     public static final BooleanLiteral TRUE = new BooleanLiteral(true, Position.UNKNOWN);
     public static final BooleanLiteral FALSE = new BooleanLiteral(false, Position.UNKNOWN);

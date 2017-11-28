@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class HashLiteral extends BaseNode {
     private final Map<AstNode, AstNode> values;
 

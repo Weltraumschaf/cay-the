@@ -7,6 +7,12 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents a function call.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class FunctionCall extends BaseNode {
     private final Identifier identifier;
     private final List<AstNode> arguments;

@@ -2,19 +2,26 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a method deceleration.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class FunctionLiteral extends BaseNode {
     private final List<Identifier> arguments;
     private final List<AstNode> body;
 
     public FunctionLiteral(final List<Identifier> arguments, final List<AstNode> body, final Position sourcePosition) {
         super(sourcePosition);
-        this.arguments = arguments;
-        this.body = body;
+        this.arguments = Validate.notNull(arguments, "arguments");
+        this.body = Validate.notNull(body, "body");
     }
 
     public List<Identifier> getArguments() {

@@ -5,6 +5,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
+/**
+ * Represents an integer literal.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class IntegerLiteral extends BaseNode {
     private final long value;
 

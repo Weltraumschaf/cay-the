@@ -6,6 +6,10 @@ import de.weltraumschaf.caythe.intermediate.model.TypeName;
 
 import java.util.Objects;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class Let extends BaseNode {
     private final TypeName type;
     private final BinaryOperation assignment;

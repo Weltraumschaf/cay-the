@@ -11,6 +11,10 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class UnaryOperation extends BaseNode {
     private final Operator operator;
     private final AstNode operand;

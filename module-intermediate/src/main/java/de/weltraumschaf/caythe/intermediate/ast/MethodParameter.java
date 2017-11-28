@@ -7,7 +7,8 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.util.Objects;
 
 /**
- *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public final class MethodParameter extends BaseNode {
     private final Identifier name;

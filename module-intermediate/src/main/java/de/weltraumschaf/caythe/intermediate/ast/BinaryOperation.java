@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,6 +11,10 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class BinaryOperation extends BaseNode {
     private final Operator operator;
     private final AstNode leftOperand;
@@ -17,9 +22,9 @@ public final class BinaryOperation extends BaseNode {
 
     public BinaryOperation(final Operator operator, final AstNode leftOperand, final AstNode rightOperand, final Position sourcePosition) {
         super(sourcePosition);
-        this.operator = operator;
-        this.leftOperand = leftOperand;
-        this.rightOperand = rightOperand;
+        this.operator = Validate.notNull(operator, "operator");
+        this.leftOperand = Validate.notNull(leftOperand, "leftOperand");
+        this.rightOperand = Validate.notNull(rightOperand, "rightOperand");
     }
 
     public Operator getOperator() {

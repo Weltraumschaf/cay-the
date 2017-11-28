@@ -5,6 +5,10 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class IfExpression extends BaseNode {
     private final AstNode condition;
     private final AstNode consequence;

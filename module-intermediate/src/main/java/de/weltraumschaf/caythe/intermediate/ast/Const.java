@@ -7,6 +7,12 @@ import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
 
+/**
+ * Represents a constant definition.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class Const extends BaseNode {
     private final TypeName type;
     private final BinaryOperation assignment;

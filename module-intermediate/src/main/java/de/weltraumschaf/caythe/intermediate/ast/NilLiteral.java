@@ -5,6 +5,10 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class NilLiteral extends BaseNode {
 
     public NilLiteral(final Position sourcePosition) {

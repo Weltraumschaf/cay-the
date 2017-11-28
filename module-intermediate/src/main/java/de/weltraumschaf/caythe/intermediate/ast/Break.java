@@ -5,6 +5,12 @@ import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
 
+/**
+ * Represents a loop break.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 public final class Break extends BaseNode  {
 
     public Break(final Position sourcePosition) {

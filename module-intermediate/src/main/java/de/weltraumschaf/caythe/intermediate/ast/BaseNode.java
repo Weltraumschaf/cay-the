@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
+ */
 abstract class BaseNode implements AstNode {
     private static final String SERIALIZATION_FORMAT = "(%s%s%s)";
     private final Position sourcePosition;
