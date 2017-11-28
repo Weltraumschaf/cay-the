@@ -27,7 +27,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     private static final String FIXTURE_DIR = "/property_decl";
     private static final TypeName TYPE_STRING = new TypeName("org.caythe.core.basetypes", "String");
     private static final TypeName TYPE_INTEGER = new TypeName("org.caythe.core.basetypes", "Integer");
-    private static final TypeName TYPE_FLOAT = new TypeName("org.caythe.core.basetypes", "Float");
+    private static final TypeName TYPE_REAL = new TypeName("org.caythe.core.basetypes", "Real");
 
     @Test
     public void noProperties() throws IOException {
@@ -63,7 +63,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         assertThat(result.getProperties(), containsInAnyOrder(
             new Property("foo", Visibility.PRIVATE, TYPE_STRING),
             new Property("bar", Visibility.PUBLIC, TYPE_INTEGER),
-            new Property("baz", Visibility.EXPORT, TYPE_FLOAT)
+            new Property("baz", Visibility.EXPORT, TYPE_REAL)
         ));
     }
 
@@ -127,9 +127,9 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
             new Property("bar", Visibility.PUBLIC, TYPE_INTEGER,
                 Property.defaultGetter("bar", Visibility.PUBLIC, TYPE_INTEGER),
                 Property.defaultSetter("bar", Visibility.PUBLIC, TYPE_INTEGER)),
-            new Property("baz", Visibility.EXPORT, TYPE_FLOAT,
+            new Property("baz", Visibility.EXPORT, TYPE_REAL,
                 Method.NONE,
-                Property.defaultSetter("baz", Visibility.EXPORT, TYPE_FLOAT))
+                Property.defaultSetter("baz", Visibility.EXPORT, TYPE_REAL))
         ));
     }
 

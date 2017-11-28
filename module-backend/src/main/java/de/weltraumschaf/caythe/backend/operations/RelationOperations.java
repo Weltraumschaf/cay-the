@@ -15,18 +15,18 @@ public final class RelationOperations {
     }
 
     public ObjectType lessThan(final ObjectType left, final ObjectType right) {
-        return BooleanType.valueOf(left.castToFloat().value() < right.castToFloat().value());
+        return BooleanType.valueOf(left.castToReal().value() < right.castToReal().value());
     }
 
     public ObjectType lessThanOrEqual(final ObjectType left, final ObjectType right) {
-        return BooleanType.valueOf(left.castToFloat().value() <= right.castToFloat().value());
+        return BooleanType.valueOf(left.castToReal().value() <= right.castToReal().value());
     }
 
     public ObjectType greaterThan(final ObjectType left, final ObjectType right) {
-        return BooleanType.valueOf(left.castToFloat().value() > right.castToFloat().value());
+        return BooleanType.valueOf(left.castToReal().value() > right.castToReal().value());
     }
 
     public ObjectType greaterThanOrEqual(final ObjectType left, final ObjectType right) {
-        return BooleanType.valueOf(left.castToFloat().value() >= right.castToFloat().value());
+        return BooleanType.valueOf(left.castToReal().value() >= right.castToReal().value());
     }
 }

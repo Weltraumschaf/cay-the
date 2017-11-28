@@ -57,11 +57,11 @@ public final class StringType implements ObjectType {
     }
 
     @Override
-    public FloatType castToFloat() {
+    public RealType castToReal() {
         try {
-            return new FloatType(Double.parseDouble(value));
+            return new RealType(Double.parseDouble(value));
         } catch (final NumberFormatException ex) {
-            return new FloatType(0);
+            return new RealType(0);
         }
     }
 

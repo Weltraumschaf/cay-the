@@ -57,8 +57,8 @@ public final class BooleanType implements ObjectType {
     }
 
     @Override
-    public FloatType castToFloat() {
-        return value ? new FloatType(1) : new FloatType(0);
+    public RealType castToReal() {
+        return value ? new RealType(1) : new RealType(0);
     }
 
     @Override

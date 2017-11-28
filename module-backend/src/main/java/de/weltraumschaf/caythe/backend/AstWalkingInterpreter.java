@@ -156,7 +156,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final RealLiteral node) {
-        return new FloatType(node.getValue());
+        return new RealType(node.getValue());
     }
 
     @Override

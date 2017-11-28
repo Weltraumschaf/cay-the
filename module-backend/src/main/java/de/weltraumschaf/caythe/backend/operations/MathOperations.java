@@ -9,7 +9,7 @@ public final class MathOperations {
             case INTEGER:
                 return new IntegerType(left.castToInteger().value() + right.castToInteger().value());
             case FLOAT:
-                return new FloatType(left.castToFloat().value() + right.castToFloat().value());
+                return new RealType(left.castToReal().value() + right.castToReal().value());
             case STRING:
                 return new StringType(left.castToString().value() + right.castToString().value());
             default:
@@ -22,7 +22,7 @@ public final class MathOperations {
             case INTEGER:
                 return new IntegerType(left.castToInteger().value() - right.castToInteger().value());
             case FLOAT:
-                return new FloatType(left.castToFloat().value() - right.castToFloat().value());
+                return new RealType(left.castToReal().value() - right.castToReal().value());
             default:
                 throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
         }
@@ -34,7 +34,7 @@ public final class MathOperations {
             case INTEGER:
                 return new IntegerType(left.castToInteger().value() * right.castToInteger().value());
             case FLOAT:
-                return new FloatType(left.castToFloat().value() * right.castToFloat().value());
+                return new RealType(left.castToReal().value() * right.castToReal().value());
             default:
                 throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
         }
@@ -45,7 +45,7 @@ public final class MathOperations {
             case INTEGER:
                 return new IntegerType(left.castToInteger().value() / right.castToInteger().value());
             case FLOAT:
-                return new FloatType(left.castToFloat().value() / right.castToFloat().value());
+                return new RealType(left.castToReal().value() / right.castToReal().value());
             default:
                 throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
         }
@@ -56,21 +56,21 @@ public final class MathOperations {
             case INTEGER:
                 return new IntegerType(left.castToInteger().value() % right.castToInteger().value());
             case FLOAT:
-                return new FloatType(left.castToFloat().value() % right.castToFloat().value());
+                return new RealType(left.castToReal().value() % right.castToReal().value());
             default:
                 throw new UnsupportedOperationException("Can't use type " + left.type() + " for addition!");
         }
     }
 
     public ObjectType power(final ObjectType left, final ObjectType right) {
-        return new FloatType(Math.pow(left.castToFloat().value(), right.castToFloat().value()));
+        return new RealType(Math.pow(left.castToReal().value(), right.castToReal().value()));
     }
 
     public ObjectType negate(final ObjectType operand) {
         if (operand.isOf(Type.INTEGER)) {
             return new IntegerType(operand.castToInteger().value() * -1L);
         } else if (operand.isOf(Type.FLOAT)) {
-            return new FloatType(operand.castToFloat().value() * -1.0d);
+            return new RealType(operand.castToReal().value() * -1.0d);
         } else {
             throw new UnsupportedOperationException("Can't negate type " + operand.type() + "!");
         }

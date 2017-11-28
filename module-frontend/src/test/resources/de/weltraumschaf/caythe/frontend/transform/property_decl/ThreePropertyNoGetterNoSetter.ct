@@ -2,8 +2,8 @@ export class
 
 use org.caythe.core.basetypes.String
 use org.caythe.core.basetypes.Integer
-use org.caythe.core.basetypes.Float
+use org.caythe.core.basetypes.Real
 
 private String foo
 public Integer bar {}
-export Float baz
+export Real baz

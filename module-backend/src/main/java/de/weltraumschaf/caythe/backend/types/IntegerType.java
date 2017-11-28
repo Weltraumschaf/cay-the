@@ -57,8 +57,8 @@ public final class IntegerType implements ObjectType {
     }
 
     @Override
-    public FloatType castToFloat() {
-        return new FloatType(value);
+    public RealType castToReal() {
+        return new RealType(value);
     }
 
     @Override

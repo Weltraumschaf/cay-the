@@ -2,10 +2,10 @@ package de.weltraumschaf.caythe.backend.types;
 
 import java.util.Objects;
 
-public final class FloatType implements ObjectType {
+public final class RealType implements ObjectType {
     private final double value;
 
-    public FloatType(final double value) {
+    public RealType(final double value) {
         super();
         this.value = value;
     }
@@ -26,12 +26,12 @@ public final class FloatType implements ObjectType {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof FloatType)) {
+        if (!(o instanceof RealType)) {
             return false;
         }
 
-        final FloatType floatType = (FloatType) o;
-        return Double.compare(floatType.value, value) == 0;
+        final RealType realType = (RealType) o;
+        return Double.compare(realType.value, value) == 0;
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class FloatType implements ObjectType {
 
     @Override
     public String toString() {
-        return "FloatType{" +
+        return "RealType{" +
             "value=" + value +
             '}';
     }
@@ -57,7 +57,7 @@ public final class FloatType implements ObjectType {
     }
 
     @Override
-    public FloatType castToFloat() {
+    public RealType castToReal() {
         return this;
     }
 
@@ -66,8 +66,8 @@ public final class FloatType implements ObjectType {
         return new StringType(String.valueOf(value));
     }
 
-    public static FloatType valueOf(final String value) {
-        return new FloatType(Double.parseDouble(value));
+    public static RealType valueOf(final String value) {
+        return new RealType(Double.parseDouble(value));
     }
 
 }

@@ -43,8 +43,8 @@ public final class NullType implements ObjectType {
     }
 
     @Override
-    public FloatType castToFloat() {
-        return new FloatType(0);
+    public RealType castToReal() {
+        return new RealType(0);
     }
 
     @Override

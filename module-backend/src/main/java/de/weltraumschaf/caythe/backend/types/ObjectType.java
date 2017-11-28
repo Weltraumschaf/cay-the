@@ -34,7 +34,7 @@ public interface ObjectType {
         throw new UnsupportedOperationException("Can't cast " + getClass().getSimpleName() + " to integer type!");
     }
 
-    default FloatType castToFloat() {
+    default RealType castToReal() {
         throw new UnsupportedOperationException("Can't cast " + getClass().getSimpleName() + " to float type!");
     }
 
