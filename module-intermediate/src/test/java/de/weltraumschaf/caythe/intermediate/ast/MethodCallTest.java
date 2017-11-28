@@ -12,18 +12,18 @@ import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Tests for {@link FunctionCall}.
+ * Tests for {@link MethodCall}.
  */
-public class FunctionCallTest {
+public class MethodCallTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(FunctionCall.class).verify();
+        EqualsVerifier.forClass(MethodCall.class).verify();
     }
 
     @Test
     public void serialize() {
-        final FunctionCall sut = new FunctionCall(
+        final MethodCall sut = new MethodCall(
             identifier("foo", 1, 2),
             Arrays.asList(integer(23L, 3, 4), integer(42L, 5, 6)),
             new Position(1, 2));

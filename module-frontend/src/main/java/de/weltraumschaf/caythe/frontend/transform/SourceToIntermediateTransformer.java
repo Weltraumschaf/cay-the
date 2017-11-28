@@ -333,7 +333,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
             parameters.add(currentNode.pop());
         }
 
-        currentNode.push(new FunctionCall(identifier, parameters, cretePosition(ctx.identifier.getStart())));
+        currentNode.push(new MethodCall(identifier, parameters, cretePosition(ctx.identifier.getStart())));
         return defaultResult();
     }
 

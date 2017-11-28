@@ -36,11 +36,11 @@ public interface AstVisitor<R> {
         return null;
     }
 
-    default R visit(final FunctionCall node) {
+    default R visit(final MethodCall node) {
         return null;
     }
 
-    default R visit(final FunctionLiteral node) {
+    default R visit(final MethodDeclaration node) {
         return null;
     }
 

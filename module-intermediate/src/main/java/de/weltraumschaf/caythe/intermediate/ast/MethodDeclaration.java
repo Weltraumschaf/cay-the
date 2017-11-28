@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class FunctionLiteral extends BaseNode {
+public final class MethodDeclaration extends BaseNode {
     private final List<Identifier> arguments;
     private final List<AstNode> body;
 
-    public FunctionLiteral(final List<Identifier> arguments, final List<AstNode> body, final Position sourcePosition) {
+    public MethodDeclaration(final List<Identifier> arguments, final List<AstNode> body, final Position sourcePosition) {
         super(sourcePosition);
         this.arguments = Validate.notNull(arguments, "arguments");
         this.body = Validate.notNull(body, "body");
@@ -51,11 +51,11 @@ public final class FunctionLiteral extends BaseNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof FunctionLiteral)) {
+        if (!(o instanceof MethodDeclaration)) {
             return false;
         }
 
-        final FunctionLiteral that = (FunctionLiteral) o;
+        final MethodDeclaration that = (MethodDeclaration) o;
         return Objects.equals(arguments, that.arguments)
             && Objects.equals(body, that.body)
             && Objects.equals(sourcePosition(), that.sourcePosition());
@@ -68,7 +68,7 @@ public final class FunctionLiteral extends BaseNode {
 
     @Override
     public String toString() {
-        return "FunctionLiteral{" +
+        return "MethodDeclaration{" +
             "arguments=" + arguments +
             ", body=" + body +
             ", sourcePosition=" + sourcePosition() +

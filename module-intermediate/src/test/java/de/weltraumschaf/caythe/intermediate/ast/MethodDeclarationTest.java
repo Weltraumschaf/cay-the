@@ -14,18 +14,18 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 /**
- * Tests for {@link FunctionLiteral}.
+ * Tests for {@link MethodDeclaration}.
  */
-public class FunctionLiteralTest {
+public class MethodDeclarationTest {
 
     @Test
     public void equalsAndHashCode() {
-        EqualsVerifier.forClass(FunctionLiteral.class).verify();
+        EqualsVerifier.forClass(MethodDeclaration.class).verify();
     }
 
     @Test
     public void serialize() {
-        final FunctionLiteral sut = new FunctionLiteral(
+        final MethodDeclaration sut = new MethodDeclaration(
             Arrays.asList(identifier("foo" , 2, 3), identifier("bar", 4, 5)),
             Collections.singletonList(
                 subtraction(

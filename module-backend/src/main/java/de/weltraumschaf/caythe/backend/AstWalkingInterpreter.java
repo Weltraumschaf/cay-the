@@ -160,7 +160,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final FunctionCall node) {
+    public ObjectType visit(final MethodCall node) {
         final String identifier = node.getIdentifier().getNodeName();
 
         if (currentScope().has(identifier)) {
@@ -217,7 +217,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
-    public ObjectType visit(final FunctionLiteral node) {
+    public ObjectType visit(final MethodDeclaration node) {
         return new FunctionType(currentScope(), node.getArguments(), node.getBody());
     }
 

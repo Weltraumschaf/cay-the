@@ -118,7 +118,7 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final FunctionCall node) {
+    public Void visit(final MethodCall node) {
         final DotNode dotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(dotNode);
         appendDotEdge(currentNode.peek(), dotNode);
@@ -134,7 +134,7 @@ final class DotGenerator implements AstVisitor<Void> {
     }
 
     @Override
-    public Void visit(final FunctionLiteral node) {
+    public Void visit(final MethodDeclaration node) {
         final DotNode fnDeclDotNode = new DotNode(generateName(node), formatNode(node));
         appendDotNode(fnDeclDotNode);
         appendDotEdge(currentNode.peek(), fnDeclDotNode);

@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a function call.
+ * Represents a method call.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class FunctionCall extends BaseNode {
+public final class MethodCall extends BaseNode {
     private final Identifier identifier;
     private final List<AstNode> arguments;
 
-    public FunctionCall(final Identifier identifier, final List<AstNode> arguments, final Position sourcePosition) {
+    public MethodCall(final Identifier identifier, final List<AstNode> arguments, final Position sourcePosition) {
         super(sourcePosition);
         this.identifier = Validate.notNull(identifier, "identifier");
         this.arguments = Validate.notNull(arguments, "arguments");
@@ -48,11 +48,11 @@ public final class FunctionCall extends BaseNode {
 
     @Override
     public boolean equals(final Object o) {
-        if (!(o instanceof FunctionCall)) {
+        if (!(o instanceof MethodCall)) {
             return false;
         }
 
-        final FunctionCall that = (FunctionCall) o;
+        final MethodCall that = (MethodCall) o;
         return Objects.equals(identifier, that.identifier)
             && Objects.equals(arguments, that.arguments)
             && Objects.equals(sourcePosition(), that.sourcePosition());
@@ -65,7 +65,7 @@ public final class FunctionCall extends BaseNode {
 
     @Override
     public String toString() {
-        return "FunctionCall{" +
+        return "MethodCall{" +
             "identifier=" + identifier +
             ", arguments=" + arguments +
             ", sourcePosition=" + sourcePosition() +
