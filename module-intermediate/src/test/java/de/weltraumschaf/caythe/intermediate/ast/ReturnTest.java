@@ -4,13 +4,9 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import java.util.Collections;
-
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.bool;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link Return}.

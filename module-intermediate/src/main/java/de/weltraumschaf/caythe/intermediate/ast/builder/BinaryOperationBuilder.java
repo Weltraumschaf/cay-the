@@ -3,71 +3,98 @@ package de.weltraumschaf.caythe.intermediate.ast.builder;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.BinaryOperation;
+import de.weltraumschaf.commons.validate.Validate;
 
 public final class BinaryOperationBuilder {
 
-    private BinaryOperationBuilder() {
+    private final StatementBuilder parent;
+    
+    BinaryOperationBuilder(final StatementBuilder parent) {
         super();
-        throw new UnsupportedOperationException("Do not call by reflection!");
+        this.parent = Validate.notNull(parent, "parent");
     }
 
-    public static BinaryOperation assign(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.ASSIGN, leftOperand, rightOperand, new Position(line, column));
+    private Position createPosition(final int line, final int column) {
+        return new Position(parent.getFile(), line, column);
     }
 
-    public static BinaryOperation addition(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.ADDITION, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder assign(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.assign(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation subtraction(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.SUBTRACTION, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder addition(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.addition(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation multiplication(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.MULTIPLICATION, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder subtraction(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.subtraction(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation division(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.DIVISION, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder multiplication(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.multiplication(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation modulo(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.MODULO, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder division(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.division(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation power(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.POWER, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder modulo(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.modulo(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation and(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.AND, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder power(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.power(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation or(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.OR, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder and(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.and(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation lessThan(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.LESS_THAN, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder or(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.or(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation lessThanEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.LESS_THAN_EQUAL, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder lessThan(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.lessThan(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation greaterThan(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.GREATER_THAN, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder lessThanEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.lessThanEqual(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation greaterThanEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.GREATER_THAN_EQUAL, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder greaterThan(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.greaterThan(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation equal(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.EQUAL, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder greaterThanEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.greaterThanEqual(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
     }
 
-    public static BinaryOperation notEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
-        return new BinaryOperation(BinaryOperation.Operator.NOT_EQUAL, leftOperand, rightOperand, new Position(line, column));
+    public BinaryOperationBuilder equal(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.equal(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
+    }
+
+    public BinaryOperationBuilder notEqual(final AstNode leftOperand, final AstNode rightOperand, final int line, final int column) {
+        parent.addStatement(BinaryOperationFactory.notEqual(leftOperand, rightOperand, createPosition(line, column)));
+        return this;
+    }
+
+    public StatementBuilder end() {
+        return parent;
     }
 }
+

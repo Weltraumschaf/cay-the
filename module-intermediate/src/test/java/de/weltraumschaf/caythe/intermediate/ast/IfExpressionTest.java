@@ -1,12 +1,11 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.Position;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.addition;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.greaterThan;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.subtraction;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.*;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.is;
@@ -25,9 +24,9 @@ public class IfExpressionTest {
     @Test
     public void serialize() {
         final IfExpression sut = new IfExpression(
-            greaterThan(identifier("a", 1, 2), identifier("b", 3, 4), 5,6),
-            addition(integer(2L , 7 ,8), integer(3L, 9, 10), 11, 12),
-            subtraction(integer(2L , 7 ,8), integer(3L, 9, 10), 11, 12),
+            greaterThan(identifier("a", 1, 2), identifier("b", 3, 4), 5, 6),
+            addition(integer(2L, 7, 8), integer(3L, 9, 10), 11, 12),
+            subtraction(integer(2L, 7, 8), integer(3L, 9, 10), 11, 12),
             new Position(1, 2)
         );
 

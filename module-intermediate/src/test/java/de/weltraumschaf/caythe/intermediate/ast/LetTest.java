@@ -5,7 +5,6 @@ import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.assign;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.is;
@@ -25,10 +24,10 @@ public class LetTest {
     public void serialize() {
         final Let sut = new Let(
             new TypeName("org.snafu", "Foo"),
-            assign(
+            new BinaryOperation(BinaryOperation.Operator.ASSIGN,
                 identifier("foo", 1, 2),
                 integer(23L, 3, 4),
-                5, 6),
+                new Position(5, 6)),
             new Position(7, 8));
 
         assertThat(sut.serialize(), is("(let (= (identifier foo [1:2]) (integer 23 [3:4]) [5:6]) [7:8])"));

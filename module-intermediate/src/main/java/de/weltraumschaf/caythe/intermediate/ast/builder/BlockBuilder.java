@@ -5,8 +5,10 @@ import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.Block;
 import de.weltraumschaf.commons.validate.Validate;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 
 /**
  * Builder to create blocks.
@@ -15,8 +17,9 @@ import java.util.Collection;
  * @since 1.0.0
  */
 public final class BlockBuilder {
-    private final Collection<AstNode> statements = new ArrayList<>();
+
     private final Position position;
+    public StatementBuilder statements;
 
     private BlockBuilder(final Position position) {
         super();
@@ -32,11 +35,15 @@ public final class BlockBuilder {
     }
 
     public Block end() {
-        return new Block(statements, position);
+        return new Block(statements.getStatements(), position);
     }
 
-    public BlockBuilder statement(final AstNode statement) {
-        statements.add(Validate.notNull(statement, "statement"));
-        return this;
+    public StatementBuilder statements() {
+        statements = new StatementBuilder(this);
+        return statements;
+    }
+
+    String getFile() {
+        return position.getFile();
     }
 }

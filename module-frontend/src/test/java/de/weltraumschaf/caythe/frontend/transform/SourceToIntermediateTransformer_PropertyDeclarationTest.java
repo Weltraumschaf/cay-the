@@ -1,20 +1,19 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.Return;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.addition;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.*;
 
 /**
  * Tests for {@link SourceToIntermediateTransformer}.
@@ -142,14 +141,17 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        final AstNode getterBody = block(file, 6, 8)
-            .statement(new Return(
-                addition(
-                    identifier("foo", 7, 16),
-                    integer(42L, 7, 22),
-                    7, 20),
-                new Position(file, 7, 9)))
-            .end();
+        final AstNode getterBody =
+            block(file, 6, 8)
+                .statements()
+                .returnStatement(
+                    addition(
+                        identifier("foo", 7, 16),
+                        integer(42L, 7, 22),
+                        7, 20),
+                    7, 9)
+                .end()
+                .end();
         assertThat(result.getProperties(), containsInAnyOrder(
             new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
                 Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
@@ -158,18 +160,22 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomGetterDefaultSetter() {}
+    public void onePropertyWithCustomGetterDefaultSetter() {
+    }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomSetterNoGetter() {}
+    public void onePropertyWithCustomSetterNoGetter() {
+    }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomSetterDefaultGetter() {}
+    public void onePropertyWithCustomSetterDefaultGetter() {
+    }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomGetterCustomSetter() {}
+    public void onePropertyWithCustomGetterCustomSetter() {
+    }
 
 }
