@@ -35,6 +35,21 @@ You need a [Java 8][java8] VM and a Bash compatible shell to run the CLI.
 
 - [ANTLR Cheat Sheet](antlr_cheat_sheet.md)
 
+## Design Considerations
+
+Some thoughts or questions about basic language stuff.
+
+### The Difference Between Expressions and Statements
+
+In Python it is defined as:
+
+> Expressions only contain identifiers, literals and operators, where operators include arithmetic and boolean operators, the function call operator () the subscription operator [] and similar, and can be reduced to some kind of "value", which can be any Python object. ([source](https://stackoverflow.com/questions/4728073/what-is-the-difference-between-an-expression-and-a-statement-in-python))
+
+Conclusions:
+
+- Should add a method invocation operator `()` such as the existing subscript operator `[]`.
+- Define the difference between expressions and statements. The Python way is nearly the same.
+ 
 [antlr]:        http://www.antlr.org/
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-distribution/target/distribution-1.0.0-SNAPSHOT.zip
 [java8]:        https://java.com/en/download/
