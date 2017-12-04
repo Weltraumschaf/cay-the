@@ -49,6 +49,10 @@ Conclusions:
 
 - Should add a method invocation operator `()` such as the existing subscript operator `[]`.
 - Define the difference between expressions and statements. The Python way is nearly the same.
+
+## Multiline Strings / Heredoc
+
+TODO
  
 [antlr]:        http://www.antlr.org/
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-distribution/target/distribution-1.0.0-SNAPSHOT.zip
