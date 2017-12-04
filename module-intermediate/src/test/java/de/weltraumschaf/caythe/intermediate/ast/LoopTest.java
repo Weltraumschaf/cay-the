@@ -22,7 +22,6 @@ public class LoopTest {
     }
 
     @Test
-    @Ignore
     public void serialize_endlessLoop() {
         final Loop sut = new Loop(
             bool(true, 1, 2),
