@@ -73,6 +73,7 @@
         <module>module-core</module>
         <module>module-distribution</module>
         <module>module-documentation</module>
+        <module>module-experiments</module>
         <module>module-frontend</module>
         <module>module-intermediate</module>
         <module>module-stdlib</module>
