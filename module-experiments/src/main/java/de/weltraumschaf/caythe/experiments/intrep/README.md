@@ -1,6 +1,4 @@
-# Architecture
-
-## Internal Representation
+# Internal Representation
 
 The basic building unit is a type, which consists of:
 
@@ -16,21 +14,21 @@ Some basic internal data structures:
 - tuple: Contains values of different types in an ordered sequence accessible by index in a fixed sized data structure. 
 - map: Contains values of same type accessible by string name in a variable sized data structure.
 
-### List
+## List
 
 External representation:
 ```
 [ value1, value2, value3, ..., valueN ]
 ```
 
-### Tuple
+## Tuple
 
 External representation:
 ```
 ( type1 : value1, type2 : value2, type3 : value3, ..., typeN : valueN )
 ```
 
-### Map
+## Map
 
 External representation:
 ```

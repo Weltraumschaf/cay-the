@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.experiments;
+package de.weltraumschaf.caythe.experiments.intrep;
 
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -26,12 +26,14 @@ public final class Tuple {
     }
 
     public boolean hasType(final int index, final Class<?> type) {
-        return false;
+        Validate.notNull(type, "type");
+        final Entry entry = store.get(index);
+        return type.isAssignableFrom(entry.type);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(final int index) {
-        return (T) store.get(index);
+        return (T) store.get(index).value;
     }
 
     private static class Entry {
