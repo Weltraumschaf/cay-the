@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationBuilder.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

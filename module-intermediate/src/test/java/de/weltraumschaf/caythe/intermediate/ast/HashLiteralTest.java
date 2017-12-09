@@ -7,8 +7,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.string;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.string;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 

@@ -5,10 +5,9 @@ import de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

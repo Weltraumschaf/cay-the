@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.identifier;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 

@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.*;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.*;
 
 /**
  * Tests for {@link Const}.

@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.identifier;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 

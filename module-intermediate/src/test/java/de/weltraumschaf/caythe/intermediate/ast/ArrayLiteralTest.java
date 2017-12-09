@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.*;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.*;
 
 /**
  * Tests for {@link ArrayLiteral}.

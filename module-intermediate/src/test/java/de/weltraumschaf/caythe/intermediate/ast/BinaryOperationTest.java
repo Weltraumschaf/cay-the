@@ -4,7 +4,7 @@ import de.weltraumschaf.caythe.intermediate.Position;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 

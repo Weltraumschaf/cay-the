@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
+import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
@@ -9,8 +10,8 @@ import java.io.IOException;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.identifier;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.identifier;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
@@ -133,7 +134,6 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     }
 
     @Test
-    @Ignore
     public void onePropertyWithCustomGetterNoSetter() throws IOException {
         final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterNoSetter.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
@@ -146,12 +146,13 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
                 .statements()
                 .returnStatement(
                     addition(
-                        identifier("foo", 7, 16),
-                        integer(42L, 7, 22),
-                        7, 20),
+                        identifier("foo", new Position(file, 7, 16)),
+                        integer(42L, new Position(file, 7, 22)),
+                        new Position(file, 7, 20)),
                     7, 9)
                 .end()
                 .end();
+
         assertThat(result.getProperties(), containsInAnyOrder(
             new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
                 Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),

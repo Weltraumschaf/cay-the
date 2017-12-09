@@ -2,12 +2,11 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.addition;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.bool;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralBuilder.integer;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.bool;
+import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
