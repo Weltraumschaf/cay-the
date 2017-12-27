@@ -75,6 +75,7 @@
         <module>module-documentation</module>
         <module>module-experiments</module>
         <module>module-frontend</module>
+        <module>module-idea-plugin</module>
         <module>module-intermediate</module>
         <module>module-stdlib</module>
         <module>module-testing</module>
