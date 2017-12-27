@@ -25,7 +25,6 @@ type
       importDeclaration*
       delegateDeclaration*
       propertyDeclaration*
-      constructorDeclaration*
       methodDeclaration*
       EOF
     ;
@@ -82,12 +81,6 @@ propertySetter
 
 propertyVisibility
     : KW_EXPORT | KW_PUBLIC | KW_PROTECTED | KW_PACKAGE | KW_PRIVATE
-    ;
-
-constructorDeclaration
-    : visibility=constructorVisibility
-      KW_CONSTRUCTOR L_PAREN methodArguments? R_PAREN
-      block NL+
     ;
 
 // Constructors can't be private because it make no sense to not instantiate
@@ -230,7 +223,7 @@ methodCallExpression
     ;
 
 newObjectExpression
-    : KW_NEW typeName=IDENTIFIER L_PAREN arguments=methodParameters? R_PAREN
+    : typeName=IDENTIFIER DOT KW_NEW L_PAREN R_PAREN
     ;
 
 methodParameters
