@@ -3,25 +3,52 @@
 skinparam componentStyle uml2
 
 class Object {
-    type: Class
+    +toString()
+    +hashCode()
+    +equals(Any)
 }
 
-class Class
-Class -|> Object
+interface Type<T> <<Native>> {
+    + List<Property> properties <<Property>>
+    + List<Method> methods <<Method>>
+    --
+    +T new()
+    +String name()
+    +String fullQualifiedName()
+}
 
-class String
-String -|> Object
+class Property <<Native>>
+class Method <<Native>>
 
-class Number
-Number -|> Object
+Type -- Property
+Type -- Method
 
-class Integer
-Integer -|> Number
+object SomethingType <<Native, Dynamic>> {
+    +Something new()
+    ...
+}
 
-class Real
-Real -|> Number
+class Something {
+    + String foo <<Property>>
+    + String bar <<Property>>
+    --
+    + initWith(String foo, String bar)
+}
 
-class Bool
-Bool -|> Object
+SomethingType ..|> Type
+
+Something ..> Object : delegate
+Something -> Type : type
+
+note left of Something {
+    var s = Something.type.new()
+    // or shorthand:
+    var s = Something.new()
+    s.initWith("foo", "bar")
+
+    var t = Something.type
+    ... t.properties
+    ... t.methods
+}
 
 @enduml
