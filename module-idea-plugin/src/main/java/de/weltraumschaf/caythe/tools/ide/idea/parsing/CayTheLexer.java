@@ -8,7 +8,6 @@ import java.io.Reader;
  */
 public class CayTheLexer extends FlexAdapter {
   public CayTheLexer() {
-//    super(new _CayTheLexer((Reader)null));
-    super(null);
+    super(new _CayTheLexer((Reader)null));
   }
 }
