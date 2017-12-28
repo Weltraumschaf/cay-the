@@ -221,6 +221,27 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <!-- put the default-jar in the none phase to skip it from being created -->
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+
+                <configuration>
+                    <!-- Do not generate a source jar -->
+                    <skipSource>true</skipSource>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
