@@ -1,0 +1,15 @@
+= Cay-The Conceptional Ideas
+
+include::config.adoc[]
+
+// numbering from here on
+:numbered:
+
+<<<<
+include::conceptional_ideas/01_introduction.adoc[]
+
+<<<<
+include::conceptional_ideas/02_type_system.adoc[]
+
+<<<<
+include::conceptional_ideas/03_glossary.adoc[]

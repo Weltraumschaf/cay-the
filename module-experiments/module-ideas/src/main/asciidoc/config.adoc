@@ -1,0 +1,7 @@
+// enable table-of-contents
+:toc:
+
+// where are images located?
+:imagesdir: ./images
+
+:media: print

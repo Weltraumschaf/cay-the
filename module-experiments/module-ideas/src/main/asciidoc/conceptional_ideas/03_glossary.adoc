@@ -1,0 +1,6 @@
+[[section-glossary]]
+
+== Glossar
+
+Example::
+    Lorem ipsum dolor
