@@ -14,4 +14,11 @@ include::conceptional_ideas/01_introduction.adoc[]
 include::conceptional_ideas/02_type_system.adoc[]
 
 <<<<
-include::conceptional_ideas/03_glossary.adoc[]
+include::conceptional_ideas/03_ideas_from_go-lang.adoc[]
+
+<<<<
+include::conceptional_ideas/04_language_tool_chain.adoc[]
+
+// Appendix stuff.
+<<<<
+include::conceptional_ideas/a1_glossary.adoc[]

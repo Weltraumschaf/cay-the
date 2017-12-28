@@ -1,0 +1,6 @@
+== Ideas from Go
+
+* Compile errors for
+** unused variables
+** unused imports
+* `switch` w/o fallthrough
