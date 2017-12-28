@@ -1,3 +1,5 @@
+:title-logo-image: image:logo.png[pdfwidth=3.5in,align=center]
+
 = Cay-The Conceptional Ideas
 
 include::config.adoc[]
