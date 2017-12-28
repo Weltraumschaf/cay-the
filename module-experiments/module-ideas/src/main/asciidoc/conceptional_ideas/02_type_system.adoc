@@ -1,4 +1,4 @@
-:imagesdir: ../images
+//:imagesdir: ../images
 
 [[section-type-system]]
 
@@ -25,11 +25,17 @@ Accessor::
 Method::
     A named code block associated to a runtime object with access to the class' private properties.
 Delegate::
-    This type system does not provide inheritance. To enforce the pragmatic rule "favour composition over inheritance", it only provides a delegating mechanism. An class may delegate to another class, which means at runtime the object has an instance of the object to delegate to. All methods of the delegate become methods with its original visibility of the delegating object.
+    This type system does not provide inheritance. To enforce the pragmatic rule "`favour composition over inheritance`", it only provides a delegating mechanism. An class may delegate to another class, which means at runtime the object has an instance of the object to delegate to. All methods of the delegate become methods with its original visibility of the delegating object.
+Native::
+    Native are things which are not programmed in the language itself, but in the host language.
+Dynamic::
+    Everything which is done at runtime and not compile time.
+Host Language::
+    The language(s) in which the whole environment( parser, interpreter, compiler etc.) is written in.
 
 === Example
 
-Let's show a simple example of a class type definition:
+Let's see a simple example of a class type definition:
 
 .Something.ct
 [source]
@@ -39,10 +45,157 @@ public class # <1>
 use org.caythe.core.basetypes.Object
 
 delegate Object # <2>
+
+export Type<Something> type { get } # <3>
 ----
 <1> Declares the facet and visibility of the type `Something`.
 <2> Declares a delegate to `Object`.
+<3> Unmodifiable type property.
+
+The source above declares a type of facet class with the name _Something_ and the visibility public. Also it delegates to _Object_ and it has a public readonly type property. The type property holds a singleton unmodifiable object which describes the type of an object.
+
+==== Object Creation
+
+To create a new instance we need the following code:
+
+.Main.ct
+[source]
+----
+...
+var instance = Something.new()
+...
+----
+
+The name of the type _Something_ always refers to `Type<Something>`.
+
+There are no explicit constructors. A new instance is created by the method `new()` of it's type object. The `new()` method does no allow parameters. This has two consequences:
+
+. All properties must have a sane default value.
+. Initialization parameters must be given in a second step.
+
+For initialization a pattern called _initializers_ ist used:
+
+.Something.ct
+[source]
+----
+public class
+...
+
+public String foo # <1>
+public String bar # <2>
+
+public initWith(String newFoo, String newBar) {
+    foo = newFoo
+    bar = newBar
+}
+----
+
+.Main.ct
+[source]
+----
+...
+var instance = Something.type.new()
+instance.initWith(newFoo: "foo", newBar: "bar")
+...
+----
+
+==== Delegates
+
+The example above has a delegate to _Object_. The type _Object_ looks like:
+
+.Object.ct
+[source]
+----
+export class
+
+...
+
+export String toString() {
+    ...
+}
+
+export Integer hashCode() {
+    ...
+}
+
+export Boolean equals(Object other) {
+    ...
+}
+----
+
+The _Object_ type expot several methods. Now we can do this:
+
+.Main.ct
+[source]
+----
+...
+var instance = Something.type.new()
+var string = instance.toString()
+...
+----
+
+The type _Something_ itself does not have a method _toString()_, but it's delegate of type _Object_ does provide it. So at runtime the method call is passed over to the delegate transparently. The delegating object augments all methods from the delegate like they are own methods. It is prohibited to bring in two methods with same signature by two delegates, This leads in to an compile error.
+
+To avoid conflicts by delegates which provide duplicate signatures the delegate syntax may be extended so that:
+
+* The methods to augment can be filtered by name/RegEx.
+* The methods to agamunt can by aliased to a different name.
+
+=== Definitions
+
+In this section all the properties the type system must hold are enumerated:
+
+. TODO
+
 
 [#img-type-system]
 .Basic Type System
 image::uml/type_system.png["Language Tool Chain", align="center"]
+
+=== Convenience
+
+For convenience some "`syntactic stuff`" should be simplified.
+
+==== Delegate Declaration for Object
+
+Every type needs the _Object_ delegate because it provides basic functionality for all types. So the code snippet necessary to declare this delegate:
+
+.Something.ct
+[source]
+----
+public class
+
+use org.caythe.core.basetypes.Object # <1>
+
+delegate Object # <1>
+
+...
+----
+<1> Should not be necessary.
+
+Can be omitted. This source code snippet has the same effect:
+
+.Something.ct
+[source]
+----
+public class
+
+...
+----
+
+==== Type Property Declaration
+
+Every instance needs a type property. So instead of writing:
+
+.Something.ct
+[source]
+----
+public class
+
+...
+
+export Type<Something> type { get } # <1>
+----
+<1> Should not be necessary.
+
+It is there by default and must not be added manually.

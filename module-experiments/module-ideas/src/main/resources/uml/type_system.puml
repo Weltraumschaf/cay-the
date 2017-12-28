@@ -2,12 +2,6 @@
 
 skinparam componentStyle uml2
 
-class Object {
-    +toString()
-    +hashCode()
-    +equals(Any)
-}
-
 interface Type<T> <<Native>> {
     + List<Property> properties <<Property>>
     + List<Method> methods <<Method>>
@@ -19,26 +13,49 @@ interface Type<T> <<Native>> {
 
 class Property <<Native>>
 class Method <<Native>>
+enum Facet <<Native>> {
+    +INTERFACE
+    +CLASS
+    +ENUMERATION
+    +ANNOTATION
+}
 
 Type -- Property
 Type -- Method
+Type -- Facet
+
+object ObjectType <<Native, Dynamic>> {
+    +Object new()
+    ...
+}
+ObjectType ..|> Type
+
+class Object {
+    + Type<Object> type <<native>>
+    --
+    +toString()
+    +hashCode()
+    +equals(Any)
+}
+Object -> ObjectType : type
 
 object SomethingType <<Native, Dynamic>> {
     +Something new()
     ...
 }
+SomethingType ..|> Type
 
 class Something {
+    + Type<Something> type <<native>>
+    --
     + String foo <<Property>>
     + String bar <<Property>>
     --
     + initWith(String foo, String bar)
 }
 
-SomethingType ..|> Type
-
 Something ..> Object : delegate
-Something -> Type : type
+Something -> SomethingType : type
 
 note left of Something {
     var s = Something.type.new()
