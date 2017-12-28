@@ -19,6 +19,9 @@
 
     <properties>
         <asciidoc.dir>${project.main.directory}/asciidoc</asciidoc.dir>
+        <!-- Intermediate location because the tool/config of Asciidoctor wants
+        the files by the sources. -->
+        <asciidoc.images.dir>${project.main.directory}/asciidoc/images</asciidoc.images.dir>
 
         <images.source.dir>${project.main.resources.directory}/images</images.source.dir>
         <images.target.dir>${project.output.dir}/images</images.target.dir>
@@ -52,6 +55,21 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${asciidoc.images.dir}</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>com.kryshchuk.maven.plugins</groupId>
                 <artifactId>umlet-maven-plugin</artifactId>
@@ -128,7 +146,7 @@
 
                         <configuration>
                             <target>
-                                <copy todir="${asciidoc.dir}/images">
+                                <copy todir="${asciidoc.images.dir}">
                                     <fileset dir="${images.target.dir}"/>
                                 </copy>
                             </target>
