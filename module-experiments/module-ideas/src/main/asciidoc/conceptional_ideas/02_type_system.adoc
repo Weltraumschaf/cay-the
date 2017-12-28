@@ -1,11 +1,48 @@
-//:imagesdir: ../images
+:imagesdir: ../images
 
 [[section-type-system]]
 
 == Type System
 
-This chapter contains the basic consideration for a type system.
+This chapter describes how a basic types system may look like. First we will cover some basic names for the concepts described in this chapter:
+
+Type::
+    A type is the basic building block of the language: Everything declared by the programming language is a type. There are different facets of types: Interface, class, enumeration, annotation.
+Interface::
+    An interface is a facet of a type which defines the methods and/or properties an other type, which implements the interface, must provide.
+Class::
+    A class is a type facet which acts as a blueprint for objects to create. Every runtime object was created from a class. A class may provide properties and methods. Also it may implement an interface.
+Enumeration::
+    An enumeration facet of a type is a specialized class which is immutable and the runtime guruanties that there will be only one instance of such a type at runtime.
+Annotation::
+    An annotation facet of a type is used to declare annotations to apply at other types, methods or properties.
+Instance::
+    A runtime object created by a class or enumeration type.
+Property::
+    A property of a type is a filed of a type and with definitions if it supports (custom) getter and setter accessors.
+Accessor::
+    An accessor is a special kind of method especially used for the setter and getter of a property.
+Method::
+    A named code block associated to a runtime object with access to the class' private properties.
+Delegate::
+    This type system does not provide inheritance. To enforce the pragmatic rule "favour composition over inheritance", it only provides a delegating mechanism. An class may delegate to another class, which means at runtime the object has an instance of the object to delegate to. All methods of the delegate become methods with its original visibility of the delegating object.
+
+=== Example
+
+Let's show a simple example of a class type definition:
+
+.Something.ct
+[source]
+----
+public class # <1>
+
+use org.caythe.core.basetypes.Object
+
+delegate Object # <2>
+----
+<1> Declares the facet and visibility of the type `Something`.
+<2> Declares a delegate to `Object`.
 
 [#img-type-system]
-.Beispiel
-image::uml/type_system.png["Type System", align="center"]
+.Basic Type System
+image::uml/type_system.png["Language Tool Chain", align="center"]
