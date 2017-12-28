@@ -159,6 +159,7 @@
                     <sourceDirectory>${asciidoc.dir}</sourceDirectory>
                     <sourceDocumentName>cay-the_conceptional_ideas.adoc</sourceDocumentName>
                     <sourceHighlighter>coderay</sourceHighlighter>
+                    <encoding>utf-8</encoding>
 
                     <attributes>
                         <icons>font</icons>
