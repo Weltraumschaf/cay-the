@@ -1,3 +1,5 @@
+[[section-language-tool-chain]]
+
 == Language Tool Chain
 
 * Sub commands

@@ -1,3 +1,5 @@
+[[section-ideas-from-go]]
+
 == Ideas from Go
 
 * Compile errors for
