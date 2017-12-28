@@ -30,7 +30,7 @@
         <uml.target.dir>${images.target.dir}/uml</uml.target.dir>
 
         <pdf.theme.dir>${asciidoc.dir}/pdfTheme</pdf.theme.dir>
-        <pdf.output.dir>${project.output.dir}/docs/pdf</pdf.output.dir>
+        <pdf.output.dir>${project.output.dir}/generated-docs/pdf</pdf.output.dir>
 
         <plantuml.version>1.2017.13</plantuml.version>
         <asciidoctor.maven.plugin.version>1.5.5</asciidoctor.maven.plugin.version>
@@ -204,7 +204,7 @@
 
                         <configuration>
                             <backend>pdf</backend>
-                            <outputDirectory>${doc.output.dir}</outputDirectory>
+                            <outputDirectory>${pdf.output.dir}</outputDirectory>
                             <sourceHighlighter>rouge</sourceHighlighter>
                             <doctype>book</doctype>
 
