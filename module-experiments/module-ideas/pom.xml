@@ -33,10 +33,6 @@
         <pdf.output.dir>${project.output.dir}/generated-docs/pdf</pdf.output.dir>
 
         <plantuml.version>1.2017.13</plantuml.version>
-        <asciidoctor.maven.plugin.version>1.5.5</asciidoctor.maven.plugin.version>
-        <asciidoctorj.diagram.version>1.5.4</asciidoctorj.diagram.version>
-        <asciidoctorj.pdf.version>1.5.0-alpha.15</asciidoctorj.pdf.version>
-        <asciidoctorj.jruby-complete.version>1.7.21</asciidoctorj.jruby-complete.version>
     </properties>
 
     <build>
@@ -158,26 +154,6 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>${asciidoctor.maven.plugin.version}</version>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-diagram</artifactId>
-                        <version>${asciidoctorj.diagram.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jruby</groupId>
-                        <artifactId>jruby-complete</artifactId>
-                        <version>${asciidoctorj.jruby-complete.version}
-                        </version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-pdf</artifactId>
-                        <version>${asciidoctorj.pdf.version}</version>
-                    </dependency>
-                </dependencies>
 
                 <configuration>
                     <sourceDirectory>${asciidoc.dir}</sourceDirectory>
