@@ -81,8 +81,8 @@ For initialization a pattern called _initializers_ ist used:
 public class
 ...
 
-public String foo # <1>
-public String bar # <2>
+public String foo
+public String bar
 
 public initWith(String newFoo, String newBar) {
     foo = newFoo
@@ -94,7 +94,7 @@ public initWith(String newFoo, String newBar) {
 [source]
 ----
 ...
-var instance = Something.type.new()
+var instance = Something.new()
 instance.initWith(newFoo: "foo", newBar: "bar")
 ...
 ----
@@ -129,7 +129,7 @@ The _Object_ type expot several methods. Now we can do this:
 [source]
 ----
 ...
-var instance = Something.type.new()
+var instance = Something.new()
 var string = instance.toString()
 ...
 ----
