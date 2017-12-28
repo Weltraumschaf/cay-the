@@ -4,19 +4,15 @@
 
     <parent>
         <groupId>de.weltraumschaf.caythe</groupId>
-        <artifactId>caythe</artifactId>
+        <artifactId>experiments</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>experiments</artifactId>
+    <artifactId>ideas</artifactId>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <name>Cay-The :: Experiments</name>
-    <description>Space ideas and experiments.</description>
-    
-    <modules>
-        <module>module-ideas</module>
-        <module>module-implementation</module>
-    </modules>
+    <name>Cay-The :: Experiments :: Ideas</name>
+    <description>Space to write up new ideas.</description>
+
 </project>
