@@ -181,8 +181,7 @@
 
                 <configuration>
                     <sourceDirectory>${asciidoc.dir}</sourceDirectory>
-                    <sourceDocumentName>Cay-The_Conceptional_Ideas.adoc
-                    </sourceDocumentName>
+                    <sourceDocumentName>cay-the_conceptional_ideas.adoc</sourceDocumentName>
                     <sourceHighlighter>coderay</sourceHighlighter>
 
                     <attributes>
