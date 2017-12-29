@@ -76,7 +76,7 @@ propertyGetter
     ;
 
 propertySetter
-    : KW_SET (L_PAREN argumentName=IDENTIFIER R_PAREN block)?
+    : KW_SET block?
     ;
 
 propertyVisibility
