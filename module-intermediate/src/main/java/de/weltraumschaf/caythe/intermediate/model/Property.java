@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.caythe.StringUtil;
+import de.weltraumschaf.caythe.intermediate.Equivalence;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
@@ -14,7 +16,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Property {
+public final class Property implements Equivalence<Property> {
 
     private final Visibility visibility;
     private final TypeName type;
@@ -101,4 +103,35 @@ public final class Property {
             ", setter=" + setter +
             '}';
     }
+
+    @Override
+    public void probeEquivalence(final Property other, final Notification result) {
+        if (isNotEqual(visibility, other.visibility)) {
+            result.error(
+                difference(
+                    "Visibility",
+                    "This has visibility '%s' but other has visibility '%s'"),
+                visibility, other.visibility);
+        }
+
+        if (isNotEqual(type, other.type)) {
+            result.error(
+                difference(
+                    "Type",
+                    "This has type '%s' but other has type '%s'"),
+                type.getFullQualifiedName(), other.type.getFullQualifiedName());
+        }
+
+        if (isNotEqual(name, other.name)) {
+            result.error(
+                difference(
+                    "Name",
+                    "This has name '%s' but other has name '%s'"),
+                name, other.name);
+        }
+
+        getter.probeEquivalence(other.getter, result);
+        setter.probeEquivalence(other.setter, result);
+    }
+
 }

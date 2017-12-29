@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
+import de.weltraumschaf.caythe.intermediate.Equivalence;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.io.File;
@@ -17,7 +19,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class TypeName {
+public final class TypeName implements Equivalence<TypeName> {
     public static final TypeName NONE = new TypeName("none", "NONE");
     private final String namespace;
     private final String basename;
@@ -108,5 +110,25 @@ public final class TypeName {
             "namespace='" + namespace + '\'' +
             ", basename='" + basename + '\'' +
             '}';
+    }
+
+    @Override
+    public void probeEquivalence(final TypeName other, final Notification result) {
+        // TODO Write tests for this method.
+        if (isNotEqual(namespace, other.namespace)) {
+            result.error(
+                difference(
+                    "Namespace",
+                    "This has namespace '%s' but other has namespace '%s'"),
+                namespace, other.namespace);
+        }
+
+        if (isNotEqual(basename, other.basename)) {
+            result.error(
+                difference(
+                    "Basename",
+                    "This has basename '%s' but other has basename '%s'"),
+                basename, other.basename);
+        }
     }
 }

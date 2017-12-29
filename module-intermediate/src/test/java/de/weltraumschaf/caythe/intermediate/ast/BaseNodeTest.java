@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import org.junit.Test;
 
@@ -45,6 +46,11 @@ public class BaseNodeTest {
         @Override
         public <R> R accept(final AstVisitor<? extends R> visitor) {
             return null;
+        }
+
+        @Override
+        public void probeEquivalence(final AstNode other, final Notification result) {
+
         }
     }
 }

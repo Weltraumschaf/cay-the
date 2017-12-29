@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -63,4 +64,18 @@ public final class Identifier extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Identifier.class, other, result, otherIdentifier -> {
+            if (isNotEqual(name, otherIdentifier.name)) {
+                result.error(
+                    difference(
+                        "Name",
+                        "This has name %d but other has name %d"),
+                    name, otherIdentifier.name
+                );
+            }
+        });
+    }
 }

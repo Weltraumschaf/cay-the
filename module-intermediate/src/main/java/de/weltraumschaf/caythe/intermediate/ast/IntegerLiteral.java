@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
@@ -62,4 +63,18 @@ public final class IntegerLiteral extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(IntegerLiteral.class, other, result, otherIntegerLiteral -> {
+            if (isNotEqual(value, otherIntegerLiteral.value)) {
+                result.error(
+                    difference(
+                        "Value",
+                        "This has value %d but other has value %d"),
+                    value, otherIntegerLiteral.value
+                );
+            }
+        });
+    }
 }

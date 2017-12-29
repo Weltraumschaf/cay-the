@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -84,6 +85,23 @@ public final class BinaryOperation extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(BinaryOperation.class, other, result, otherBinOp -> {
+            if (isNotEqual(operator, otherBinOp.operator)) {
+                result.error(
+                    difference(
+                        "Operator",
+                        "This has operator %s but other has operator %d"),
+                    operator, otherBinOp.operator
+                );
+            }
+
+            leftOperand.probeEquivalence(otherBinOp.leftOperand, result);
+            rightOperand.probeEquivalence(otherBinOp.rightOperand, result);
+        });
+    }
 
     public enum Operator {
         ASSIGN("="),

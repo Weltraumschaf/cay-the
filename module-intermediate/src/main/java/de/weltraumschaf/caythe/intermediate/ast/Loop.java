@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
 
@@ -83,4 +84,8 @@ public final class Loop extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
 }

@@ -1,7 +1,9 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Argument;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.List;
@@ -64,4 +66,11 @@ public final class ArrayLiteral extends BaseNode  {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(ArrayLiteral.class, other, result, otherArray -> {
+            probeEquivalences(AstNode.class, values, otherArray.values, result);
+        });
+    }
 }

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static de.weltraumschaf.caythe.frontend.transform.IntermediateModelIsEquivalent.equivalent;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.addition;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
 import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.identifier;
@@ -134,6 +135,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     }
 
     @Test
+    @Ignore("TODO")
     public void onePropertyWithCustomGetterNoSetter() throws IOException {
         final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterNoSetter.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
@@ -153,11 +155,12 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
                 .end()
                 .end();
 
-        assertThat(result.getProperties(),
-            containsInAnyOrder(
-                new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
-                Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
-                Method.NONE)));
+        final Property expected = new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
+            Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
+            Method.NONE);
+
+        assertThat(result.getProperties(), containsInAnyOrder(expected));
+        assertThat(result.getProperty(0), equivalent(expected));
     }
 
     @Test

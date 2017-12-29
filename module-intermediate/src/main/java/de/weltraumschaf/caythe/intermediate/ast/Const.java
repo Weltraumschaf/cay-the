@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import de.weltraumschaf.commons.validate.Validate;
@@ -68,4 +69,12 @@ public final class Const extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Const.class, other, result, otherConst -> {
+            type.probeEquivalence(otherConst.type, result);
+            assignment.probeEquivalence(otherConst.assignment, result);
+        });
+    }
 }

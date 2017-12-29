@@ -2,10 +2,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The information from a module type.
@@ -23,7 +20,7 @@ public final class Type {
     private Visibility visibility;
     private Method constructor;
     private Collection<Import> imports;
-    private Collection<Property> properties ;
+    private List<Property> properties ;
     private Collection<Method> methods  ;
     private Collection<Delegate> delegates ;
 
@@ -56,6 +53,10 @@ public final class Type {
 
     public Collection<Property> getProperties() {
         return Collections.unmodifiableCollection(properties);
+    }
+
+    public Property getProperty(final int index) {
+        return properties.get(index);
     }
 
     public Collection<Method> getMethods() {

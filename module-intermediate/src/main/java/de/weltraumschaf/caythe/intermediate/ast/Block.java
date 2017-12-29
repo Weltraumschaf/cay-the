@@ -1,12 +1,11 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Represents a block which is a set of statements.
@@ -15,11 +14,11 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Block extends BaseNode {
-    private final Collection<AstNode> children;
+    private final List<AstNode> children;
 
     public Block(final Collection<AstNode> children, final Position sourcePosition) {
         super(sourcePosition);
-        this.children = Validate.notNull(children, "children");
+        this.children = new ArrayList<>(Validate.notNull(children, "children"));
     }
 
     public Collection<AstNode> getStatements() {
@@ -64,4 +63,11 @@ public final class Block extends BaseNode {
             '}';
     }
 
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Block.class, other, result, otherBlock -> {
+            probeEquivalences(AstNode.class, children, otherBlock.children, result);
+        });
+    }
 }

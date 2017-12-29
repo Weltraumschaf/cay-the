@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import org.junit.Test;
 
@@ -12,6 +13,11 @@ import static org.hamcrest.Matchers.*;
  */
 public class AstNodeTest {
     private final AstNode sut = new AstNode() {
+        @Override
+        public void probeEquivalence(final AstNode other, final Notification result) {
+
+        }
+
         @Override
         public <R> R accept(final AstVisitor<? extends R> visitor) {
             return null;

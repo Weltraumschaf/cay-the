@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
 
@@ -65,5 +66,14 @@ public final class Let extends BaseNode {
             ", assignment=" + assignment +
             ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Let.class, other, result, otherLet -> {
+            type.probeEquivalence(otherLet.type, result);
+            assignment.probeEquivalence(otherLet.assignment, result);
+        });
     }
 }

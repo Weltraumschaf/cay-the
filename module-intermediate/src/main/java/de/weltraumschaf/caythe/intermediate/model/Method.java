@@ -1,13 +1,12 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
+import de.weltraumschaf.caythe.intermediate.Equivalence;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Method of a {@link Type}.
@@ -15,12 +14,12 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Method {
+public final class Method implements Equivalence<Method> {
     public static final Method NONE = new Method("NONE", Visibility.PRIVATE, TypeName.NONE, Collections.emptyList(), new NoOperation());
     private final String name;
-    private final Visibility  visibility;
+    private final Visibility visibility;
     private final TypeName returnType;
-    private final Collection<Argument> arguments;
+    private final List<Argument> arguments;
     private final AstNode body;
 
     public Method(final String name, final Visibility visibility, final TypeName returnType, final Collection<Argument> arguments, final AstNode body) {
@@ -80,5 +79,30 @@ public final class Method {
             ", arguments=" + arguments +
             ", body=" + body +
             '}';
+    }
+
+    @Override
+    public void probeEquivalence(final Method other, final Notification result) {
+        if (isNotEqual(visibility, other.visibility)) {
+            result.error(
+                difference(
+                    "Visibility",
+                    "This has visibility '%s' but other has visibility '%s'"),
+                visibility, other.visibility);
+        }
+
+        if (isNotEqual(name, other.name)) {
+            result.error(
+                difference(
+                    "Name",
+                    "This has name '%s' but other has name '%s'"),
+                name, other.name);
+        }
+
+        returnType.probeEquivalence(other.returnType, result);
+
+        probeEquivalences(Argument.class, arguments, other.arguments, result);
+
+        body.probeEquivalence(other.body, result);
     }
 }

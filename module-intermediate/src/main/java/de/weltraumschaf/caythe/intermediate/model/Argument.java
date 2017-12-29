@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
+import de.weltraumschaf.caythe.intermediate.Equivalence;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.commons.validate.Validate;
 
 import java.util.Objects;
@@ -7,7 +9,7 @@ import java.util.Objects;
 /**
  * Represents a method argument.
  */
-public final class Argument {
+public final class Argument implements Equivalence<Argument> {
     private final String name;
     private final TypeName type;
 
@@ -47,5 +49,10 @@ public final class Argument {
             "name='" + name + '\'' +
             ", type=" + type +
             '}';
+    }
+
+    @Override
+    public void probeEquivalence(final Argument other, final Notification result) {
+
     }
 }

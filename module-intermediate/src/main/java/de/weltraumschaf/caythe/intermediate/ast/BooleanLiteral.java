@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
+import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 
 import java.util.Objects;
@@ -62,6 +63,21 @@ public final class BooleanLiteral extends BaseNode {
             "value=" + value +
             ", sourcePosition=" + sourcePosition() +
             '}';
+    }
+
+    @Override
+    public void probeEquivalence(final AstNode other, final Notification result) {
+        // TODO Write tests for this method.
+        probeEquivalenceFor(BooleanLiteral.class, other, result, otherBooleanLiteral -> {
+            if (isNotEqual(value, otherBooleanLiteral.value)) {
+                result.error(
+                    difference(
+                        "Value",
+                        "This has value %s but other has value %s"),
+                    value, otherBooleanLiteral.value
+                );
+            }
+        });
     }
 
 }
