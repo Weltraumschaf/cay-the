@@ -6,4 +6,5 @@ public Integer foo {
     get {
         return foo + 42
     }
+    set
 }

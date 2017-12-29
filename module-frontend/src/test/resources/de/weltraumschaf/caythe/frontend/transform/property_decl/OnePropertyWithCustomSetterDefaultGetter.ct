@@ -3,7 +3,8 @@ export class
 use org.caythe.core.basetypes.Integer
 
 public Integer foo {
-    get {
-        return foo + 42
+    get
+    set {
+        foo = newFoo - 42
     }
 }

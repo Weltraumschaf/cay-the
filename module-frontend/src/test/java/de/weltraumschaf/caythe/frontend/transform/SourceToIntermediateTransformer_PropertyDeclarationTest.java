@@ -146,37 +146,54 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
                 .statements()
                 .returnStatement(
                     addition(
-                        identifier("foo", new Position(file, 7, 16)),
-                        integer(42L, new Position(file, 7, 22)),
-                        new Position(file, 7, 20)),
-                    7, 9)
+                        identifier("foo", new Position(file, 7, 15)),
+                        integer(42L, new Position(file, 7, 21)),
+                        new Position(file, 7, 19)),
+                    7, 8)
                 .end()
                 .end();
 
-        assertThat(result.getProperties(), containsInAnyOrder(
-            new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
+        assertThat(result.getProperties(),
+            containsInAnyOrder(
+                new Property("foo", Visibility.PUBLIC, TYPE_INTEGER,
                 Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
                 Method.NONE)));
     }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomGetterDefaultSetter() {
+    public void onePropertyWithCustomGetterDefaultSetter() throws IOException {
+        final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterDefaultSetter.ct");
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
     }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomSetterNoGetter() {
+    public void onePropertyWithCustomSetterNoGetter() throws IOException {
+        final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomSetterNoGetter.ct");
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
     }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomSetterDefaultGetter() {
+    public void onePropertyWithCustomSetterDefaultGetter() throws IOException {
+        final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomSetterDefaultGetter.ct");
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
     }
 
     @Test
     @Ignore("TODO")
-    public void onePropertyWithCustomGetterCustomSetter() {
+    public void onePropertyWithCustomGetterCustomSetter() throws IOException {
+        final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterCustomSetter.ct");
+        final SourceToIntermediateTransformer sut = createSut(file);
+
+        final Type result = sut.visit(parseFile(file));
     }
 
 }
