@@ -1,5 +1,7 @@
 package de.weltraumschaf.caythe.intermediate;
 
+import de.weltraumschaf.commons.validate.Validate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,9 +20,9 @@ public final class Notification {
 
     /**
      * Collect an line of error.
-     *
+     * <p>
      * The first parameter is a sprintf style format string.
-     *
+     * <p>
      * Example:
      * error(format, arg1, arg2 .. argN)
      *
@@ -28,6 +30,7 @@ public final class Notification {
      * @param args   Variable number of objects referenced in the format string.
      */
     public void error(final String format, final Object... args) {
+        Validate.notEmpty(format, "format");
         errors.add(String.format(format, args));
     }
 
@@ -44,7 +47,7 @@ public final class Notification {
      * Returns all errors concatenated as string.
      *
      * @return Returns empty string if {@link #isOk()} returns true, unless it returns all
-     *        error messages concatenated.
+     * error messages concatenated.
      */
     public String report() {
         if (isOk()) {
