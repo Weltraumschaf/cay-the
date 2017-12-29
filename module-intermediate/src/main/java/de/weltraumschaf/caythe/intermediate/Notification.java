@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Used to notify collected intermediate model errors.
@@ -50,17 +51,7 @@ public final class Notification {
             return "";
         }
 
-        final StringBuilder report = new StringBuilder();
-
-        for (int i = 0; i < errors.size(); ++i) {
-            if (i > 0) {
-                report.append(String.format("%n"));
-            }
-
-            report.append(errors.get(i));
-        }
-
-        return report.toString();
+        return errors.stream().collect(Collectors.joining("\n"));
     }
 
 }
