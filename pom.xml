@@ -93,7 +93,15 @@
         <commons.version>2.2.0</commons.version>
         <stringtemplate.version>4.0.2</stringtemplate.version>
         <junit-addons.version>1.4</junit-addons.version>
+        <projectlombok.version>1.16.16</projectlombok.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>projectlombok.org</id>
+            <url>http://projectlombok.org/mavenrepo</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -149,6 +157,12 @@
                 <groupId>junit-addons</groupId>
                 <artifactId>junit-addons</artifactId>
                 <version>${junit-addons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${projectlombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
