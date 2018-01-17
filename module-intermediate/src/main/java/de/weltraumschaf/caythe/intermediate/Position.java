@@ -1,11 +1,12 @@
 package de.weltraumschaf.caythe.intermediate;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
 /**
- * The position in the sourcefrom where an intermediate object origins.
+ * The position in the source from where an intermediate object origins.
  * <p>
  * By default {@link #getLine() line} and {@link #getColumn() column} starts by one. If one of them is zero it means that
  * it is unknown.
@@ -23,8 +24,11 @@ public final class Position implements Serializable {
      */
     public static final Position UNKNOWN = new Position(0, 0);
     private static final String UNKNOWN_FILE = "n/a";
+    @Getter
     private final String file;
+    @Getter
     private final int line;
+    @Getter
     private final int column;
 
     /**
@@ -49,33 +53,6 @@ public final class Position implements Serializable {
         this.file = Validate.notEmpty(file, "file");
         this.line = Validate.greaterThanOrEqual(line, 0, "line");
         this.column = Validate.greaterThanOrEqual(column, 0, "column");
-    }
-
-    /**
-     * Get the file of this position.
-     *
-     * @return never {@code null} nor empty
-     */
-    public String getFile() {
-        return file;
-    }
-
-    /**
-     * Get the line of this position.
-     *
-     * @return not negative
-     */
-    public int getLine() {
-        return line;
-    }
-
-    /**
-     * Get the column of this position.
-     *
-     * @return not negative
-     */
-    public int getColumn() {
-        return column;
     }
 
     @Override
