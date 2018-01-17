@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
-import de.weltraumschaf.caythe.intermediate.Equivalence;
+import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.Serializable;
 

@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.intermediate.Equivalence;
-import de.weltraumschaf.caythe.intermediate.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
+import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.commons.validate.Validate;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;

@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.equivalence;
 
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class EquivalenceTest {
         });
 
         assertThat(result.isOk(), is(false));
-        assertThat(result.report(), is("Probed node types mismatch: 'class de.weltraumschaf.caythe.intermediate.EquivalenceTest$Bar' != 'class de.weltraumschaf.caythe.intermediate.EquivalenceTest$Baz'!"));
+        assertThat(result.report(), is("Probed node types mismatch: 'class de.weltraumschaf.caythe.intermediate.equivalence.EquivalenceTest$Bar' != 'class de.weltraumschaf.caythe.intermediate.equivalence.EquivalenceTest$Baz'!"));
     }
 
     @Test

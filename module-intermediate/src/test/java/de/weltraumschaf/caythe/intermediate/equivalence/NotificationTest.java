@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.equivalence;
 
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
-import de.weltraumschaf.caythe.intermediate.Equivalence;
-import de.weltraumschaf.caythe.intermediate.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
+import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
