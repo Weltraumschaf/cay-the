@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.equivalence;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -52,6 +53,7 @@ public interface Equivalence<T> {
         }
 
         int i = 0;
+
         for (final R value : a) {
             try {
                 value.probeEquivalence(b.get(i), result);
@@ -72,6 +74,10 @@ public interface Equivalence<T> {
     }
 
     default boolean isNotSameSize(final Collection<?> a, final Collection<?> b) {
+        return a.size() != b.size();
+    }
+
+    default boolean isNotSameSize(final Map<?, ?> a, final Map<?, ?> b) {
         return a.size() != b.size();
     }
 }

@@ -5,8 +5,10 @@ import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -62,6 +64,37 @@ public final class HashLiteral extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(HashLiteral.class, other, result, otherHash -> {
+            if (isNotSameSize(values, otherHash.values)) {
+                result.error(
+                    difference(
+                        "Value count",
+                        "This has %d values but other has %d values"),
+                    values.size(), otherHash.values.size()
+                );
+            }
+
+            final ArrayList<Map.Entry<AstNode, AstNode>> otherEntries = new ArrayList<>(otherHash.values.entrySet());
+            int i = 0;
+
+            for (final Map.Entry<AstNode, AstNode> thisEntry : values.entrySet()) {
+                final Map.Entry<AstNode, AstNode> otherEntry = otherEntries.get(i);
+
+                try {
+                    thisEntry.getKey().probeEquivalence(otherEntry.getKey(), result);
+                } catch (final IndexOutOfBoundsException ex) {
+                    result.error("Other has not the expected key at index %d!", i);
+                }
+
+                try {
+                    thisEntry.getValue().probeEquivalence(otherEntry.getValue(), result);
+                } catch (final IndexOutOfBoundsException ex) {
+                    result.error("Other has not the expected value at index %d!", i);
+                }
+
+                i++;
+            }
+        });
     }
 }
