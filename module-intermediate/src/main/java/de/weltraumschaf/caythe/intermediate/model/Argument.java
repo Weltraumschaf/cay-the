@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Represents a method argument.
  */
-public final class Argument implements Equivalence<Argument> {
+public final class Argument implements IntermediateModel, Equivalence<Argument> {
     @Getter
     private final String name;
     @Getter

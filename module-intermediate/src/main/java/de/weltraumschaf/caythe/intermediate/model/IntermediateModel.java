@@ -1,15 +1,10 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 /**
- * The facet of a {@link Type}.
+ * All implementing types are part of the intermedaite model.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public enum Facet implements IntermediateModel {
-    UNDEFINED,
-    CLASS,
-    INTERFACE,
-    ANNOTATION,
-    ENUM;
+public interface IntermediateModel {
 }

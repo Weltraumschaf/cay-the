@@ -15,7 +15,7 @@ import java.util.*;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Method implements Equivalence<Method> {
+public final class Method implements IntermediateModel, Equivalence<Method> {
     public static final Method NONE = new Method("NONE", Visibility.PRIVATE, TypeName.NONE, Collections.emptyList(), new NoOperation());
     @Getter
     private final String name;

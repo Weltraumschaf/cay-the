@@ -14,7 +14,7 @@ import java.util.*;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Type {
+public final class Type implements IntermediateModel {
     public static final Type NONE = new TypeBuilder().create();
     @Getter
     private TypeName name;

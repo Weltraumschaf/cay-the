@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Coordinate {
+public final class Coordinate implements IntermediateModel {
     public static final Coordinate NONE = new Coordinate("unknown", "unknown", Version.NONE);
     @Getter
     private final String group;

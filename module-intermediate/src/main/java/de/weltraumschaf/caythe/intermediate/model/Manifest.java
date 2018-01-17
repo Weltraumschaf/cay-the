@@ -14,7 +14,7 @@ import java.util.*;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Manifest {
+public final class Manifest implements IntermediateModel {
     public static final Manifest NONE = new Manifest(Coordinate.NONE, "unknown", Collections.emptyList());
     @Getter
     private final Coordinate coordinate;

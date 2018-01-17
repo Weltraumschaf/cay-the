@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Version {
+public final class Version implements IntermediateModel {
     public static final Version NONE = new Version(0, 0, 0);
     @Getter
     private final int major;

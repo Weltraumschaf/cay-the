@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Delegate {
+public final class Delegate implements IntermediateModel {
 
     @Getter
     private final String name; // TODO should be a {@link TypeName}

@@ -14,7 +14,7 @@ import java.util.Objects;
  * A module is the top level artifact.
  * </p>
  */
-public final class Module {
+public final class Module implements IntermediateModel {
     public static final Module NONE = new Module(Manifest.NONE, Collections.emptyList(), Collections.emptyList());
     @Getter
     private final Manifest manifest;

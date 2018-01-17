@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Property implements Equivalence<Property> {
+public final class Property implements IntermediateModel, Equivalence<Property> {
     @Getter
     private final Visibility visibility;
     @Getter

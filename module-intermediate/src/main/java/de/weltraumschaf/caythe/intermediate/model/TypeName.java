@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class TypeName implements Equivalence<TypeName> {
+public final class TypeName implements IntermediateModel, Equivalence<TypeName> {
     public static final TypeName NONE = new TypeName("none", "NONE");
     @Getter
     private final String namespace;

@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public final class Import {
+public final class Import implements IntermediateModel {
     @Getter
     private final TypeName name;
     @Getter

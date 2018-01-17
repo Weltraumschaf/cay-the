@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
+import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.Serializable;
 
@@ -10,7 +11,7 @@ import de.weltraumschaf.caythe.intermediate.model.Serializable;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-public interface AstNode extends Serializable, Equivalence<AstNode> {
+public interface AstNode extends IntermediateModel, Serializable, Equivalence<AstNode> {
     /**
      * Returns the position of the token in source from where this node origins.
      *
