@@ -55,10 +55,6 @@ public final class StringLiteral extends BaseNode {
         return Objects.hash(value, getSourcePosition());
     }
 
-    public String getValue() {
-        return value;
-    }
-
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
         throw new UnsupportedOperationException("Not implemented yet!");
