@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.cli.run;
 
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.ast.Block;
 import org.junit.Test;
 

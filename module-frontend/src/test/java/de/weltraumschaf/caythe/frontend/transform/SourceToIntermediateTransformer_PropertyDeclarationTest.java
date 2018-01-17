@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;

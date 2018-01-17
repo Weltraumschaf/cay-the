@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;

@@ -1,8 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
-import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import lombok.Getter;
 

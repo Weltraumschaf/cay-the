@@ -1,8 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast.builder;
 
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.model.ast.BinaryOperation;
 import de.weltraumschaf.commons.validate.Validate;
 
 public final class BinaryOperationBuilder {

@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.intermediate;
+package de.weltraumschaf.caythe.intermediate.model;
 
 /**
  * Implementors can serialize them self into a string representation.

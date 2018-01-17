@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe.frontend.transform;
 import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.SyntaxError;
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.ast.*;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import de.weltraumschaf.commons.validate.Validate;

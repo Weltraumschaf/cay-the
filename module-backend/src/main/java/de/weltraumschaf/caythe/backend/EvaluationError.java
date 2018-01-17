@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.backend;
 
 import de.weltraumschaf.caythe.CayTheError;
-import de.weltraumschaf.caythe.intermediate.Position;
+import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 
 /**
