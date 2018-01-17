@@ -87,6 +87,9 @@ public final class BinaryOperation extends BaseNode {
         });
     }
 
+    /**
+     * All supported binary operators.
+     */
     public enum Operator implements IntermediateModel {
         ASSIGN("="),
         ADDITION("+"),

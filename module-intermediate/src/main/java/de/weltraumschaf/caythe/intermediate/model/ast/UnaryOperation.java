@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -69,8 +70,10 @@ public final class UnaryOperation extends BaseNode {
         throw new UnsupportedOperationException("Not implemented yet!");
     }
 
-
-    public static enum Operator {
+    /**
+     * All supported unary operators.
+     */
+    public enum Operator implements IntermediateModel {
         NEG("-"),
         NOT("!");
 
