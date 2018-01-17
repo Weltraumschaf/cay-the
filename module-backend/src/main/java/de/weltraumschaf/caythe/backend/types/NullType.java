@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe.backend.types;
 public final class NullType implements ObjectType {
     public static final NullType NULL = new NullType();
 
-    private NullType() {
+    public NullType() {
         super();
     }
 

@@ -60,6 +60,11 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     }
 
     @Override
+    public ObjectType defaultReturn() {
+        return new NullType();
+    }
+
+    @Override
     public ObjectType visit(final ArrayLiteral node) {
         final List<ObjectType> values = new ArrayList<>();
 
