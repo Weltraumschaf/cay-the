@@ -264,13 +264,13 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 
     @Override
     public ObjectType visit(final Loop node) {
-        boolean isConditionTrue = node.condition().accept(this).castToBoolean().value();
+        boolean isConditionTrue = node.getCondition().accept(this).castToBoolean().value();
         ObjectType result = defaultResult();
 
         // FIXME Loop interpretation.
 //        while (isConditionTrue) {
 //            // This inner loop executes the loop body.
-//            for (final AstNode statement : node.statements()) {
+//            for (final AstNode statement : node.getStatements()) {
 //                final ObjectType statementResult = statement.accept(this);
 //
 //                if (statementResult.isOf(Type.CONTINUE)) {
@@ -281,12 +281,12 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
 //                result = statementResult;
 //
 //                if (result.isOneOf(Type.BREAK, Type.RETURN_VALUE)) {
-//                    // Prevent further looping regardless to what the condition will evaluate.
+//                    // Prevent further looping regardless to what the getCondition will evaluate.
 //                    return result;
 //                }
 //            }
 //
-//            isConditionTrue = node.condition().accept(this).castToBoolean().value();
+//            isConditionTrue = node.getCondition().accept(this).castToBoolean().value();
 //        }
 
         return result;
@@ -367,7 +367,7 @@ public final class AstWalkingInterpreter implements AstVisitor<ObjectType> {
     public ObjectType visit(final Block node) {
         ObjectType result = defaultResult();
 
-        for (final AstNode statement : node.getStatements()) {
+        for (final AstNode statement : node.getChildren()) {
             result = statement.accept(this);
 
             if (result instanceof ReturnValueType) {

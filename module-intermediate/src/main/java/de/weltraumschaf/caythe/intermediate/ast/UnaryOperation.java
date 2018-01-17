@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,21 +20,15 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 public final class UnaryOperation extends BaseNode {
+    @Getter
     private final Operator operator;
+    @Getter
     private final AstNode operand;
 
     public UnaryOperation(final Operator operator, final AstNode operand, final Position sourcePosition) {
         super(sourcePosition);
         this.operator = Validate.notNull(operator, "operator");
         this.operand = Validate.notNull(operand, "operand");
-    }
-
-    public Operator getOperator() {
-        return operator;
-    }
-
-    public AstNode getOperand() {
-        return operand;
     }
 
     @Override
@@ -60,12 +55,12 @@ public final class UnaryOperation extends BaseNode {
         final UnaryOperation that = (UnaryOperation) o;
         return operator == that.operator
             && Objects.equals(operand, that.operand)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operator, operand, sourcePosition());
+        return Objects.hash(operator, operand, getSourcePosition());
     }
 
     @Override
@@ -73,7 +68,7 @@ public final class UnaryOperation extends BaseNode {
         return "UnaryOperation{" +
             "operator=" + operator +
             ", operand=" + operand +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

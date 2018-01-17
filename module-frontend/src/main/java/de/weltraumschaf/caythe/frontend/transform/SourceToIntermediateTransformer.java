@@ -273,7 +273,7 @@ public final class SourceToIntermediateTransformer extends CayTheSourceBaseVisit
     public Type visitEndlessLoopExpression(final CayTheSourceParser.EndlessLoopExpressionContext ctx) {
         visitLoopBody(ctx.body.statement());
         final AstNode body = currentNode.pop();
-        // In the endless loop version the condition is always true.
+        // In the endless loop version the getCondition is always true.
         currentNode.push(new Loop(BooleanLiteral.TRUE, body, cretePosition(ctx.getStart())));
         return defaultResult();
     }

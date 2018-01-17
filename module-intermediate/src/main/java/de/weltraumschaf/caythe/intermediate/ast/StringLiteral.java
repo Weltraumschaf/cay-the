@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class StringLiteral extends BaseNode {
+    @Getter
     private final String value;
 
     public StringLiteral(final String value, final Position sourcePosition) {
@@ -44,19 +46,19 @@ public final class StringLiteral extends BaseNode {
 
         final StringLiteral that = (StringLiteral) o;
         return Objects.equals(value, that.value)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, sourcePosition());
+        return Objects.hash(value, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "StringLiteral{" +
             "value='" + value + '\'' +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

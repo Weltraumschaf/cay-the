@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -14,9 +15,13 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Loop extends BaseNode {
+    @Getter
     private final AstNode init;
+    @Getter
     private final AstNode condition;
+    @Getter
     private final AstNode post;
+    @Getter
     private final AstNode statements;
 
     public Loop(final AstNode condition, final AstNode statements, final Position sourcePosition) {
@@ -26,17 +31,9 @@ public final class Loop extends BaseNode {
     public Loop(final AstNode init, final AstNode condition, final AstNode post, final AstNode statements, final Position sourcePosition) {
         super(sourcePosition);
         this.init = Validate.notNull(init, "init");
-        this.condition = Validate.notNull(condition, "condition");
-        this.statements = Validate.notNull(statements, "statements");
+        this.condition = Validate.notNull(condition, "getCondition");
+        this.statements = Validate.notNull(statements, "getStatements");
         this.post = Validate.notNull(post, "post");
-    }
-
-    public AstNode statements() {
-        return statements;
-    }
-
-    public AstNode condition() {
-        return condition;
     }
 
     @Override
@@ -65,22 +62,22 @@ public final class Loop extends BaseNode {
             && Objects.equals(condition, that.condition)
             && Objects.equals(post, that.post)
             && Objects.equals(statements, that.statements)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(init, condition, post, statements, sourcePosition());
+        return Objects.hash(init, condition, post, statements, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "Loop{" +
             "init=" + init +
-            ", condition=" + condition +
+            ", getCondition=" + condition +
             ", post=" + post +
-            ", statements=" + statements +
-            ", sourcePosition=" + sourcePosition() +
+            ", getStatements=" + statements +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

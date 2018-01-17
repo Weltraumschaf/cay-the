@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -15,8 +16,11 @@ import java.util.*;
  */
 public final class Manifest {
     public static final Manifest NONE = new Manifest(Coordinate.NONE, "unknown", Collections.emptyList());
+    @Getter
     private final Coordinate coordinate;
+    @Getter
     private final String namespace;
+    @Getter
     private final Collection<Coordinate> imports;
 
     /**

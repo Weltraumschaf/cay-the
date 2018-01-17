@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -15,9 +16,11 @@ import java.util.Objects;
  */
 public final class Module {
     public static final Module NONE = new Module(Manifest.NONE, Collections.emptyList(), Collections.emptyList());
-
+    @Getter
     private final Manifest manifest;
+    @Getter
     private final Collection<Type> types;
+    @Getter
     private final Collection<Path> resources;
 
     public Module(final Manifest manifest, final Collection<Type> types, final Collection<Path> resources) {

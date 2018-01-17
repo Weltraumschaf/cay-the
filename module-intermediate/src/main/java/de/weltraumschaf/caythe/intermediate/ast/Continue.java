@@ -35,18 +35,18 @@ public final class Continue extends BaseNode  {
         }
 
         final Continue that = (Continue) o;
-        return Objects.equals(sourcePosition(), that.sourcePosition());
+        return Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sourcePosition());
+        return Objects.hash(getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "Continue{" +
-            "sourcePosition=" + sourcePosition() +
+            "getSourcePosition=" + getSourcePosition() +
             "}";
     }
 

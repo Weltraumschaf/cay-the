@@ -35,18 +35,18 @@ public final class NilLiteral extends BaseNode {
         }
 
         final NilLiteral that = (NilLiteral) o;
-        return Objects.equals(sourcePosition(), that.sourcePosition());
+        return Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sourcePosition());
+        return Objects.hash(getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "NilLiteral{" +
-            "sourcePosition=" + sourcePosition() +
+            "getSourcePosition=" + getSourcePosition() +
             "}";
     }
 

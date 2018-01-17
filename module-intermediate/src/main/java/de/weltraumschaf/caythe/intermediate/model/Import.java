@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -11,7 +12,9 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Import {
+    @Getter
     private final TypeName name;
+    @Getter
     private final String alias;
 
     public Import(final TypeName name) {
@@ -22,14 +25,6 @@ public final class Import {
         super();
         this.name = Validate.notNull(name, "name");
         this.alias = Validate.notNull(alias, "alias");
-    }
-
-    public TypeName getName() {
-        return name;
-    }
-
-    public String getAlias() {
-        return alias;
     }
 
     public boolean hasAlias() {

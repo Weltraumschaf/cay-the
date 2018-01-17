@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -15,9 +16,13 @@ import java.util.Objects;
  */
 public final class Version {
     public static final Version NONE = new Version(0, 0, 0);
+    @Getter
     private final int major;
+    @Getter
     private final int minor;
+    @Getter
     private final int patch;
+    @Getter
     private final String identifiers;
 
     public Version(final int major, final int minor, final int patch) {
@@ -30,22 +35,6 @@ public final class Version {
         this.minor = Validate.greaterThanOrEqual(minor, 0, "minor");
         this.patch = Validate.greaterThanOrEqual(patch, 0, "patch");
         this.identifiers = Validate.notNull(identifiers, "identifiers");
-    }
-
-    public int getMajor() {
-        return major;
-    }
-
-    public int getMinor() {
-        return minor;
-    }
-
-    public int getPatch() {
-        return patch;
-    }
-
-    public String getIdentifiers() {
-        return identifiers;
     }
 
     @Override

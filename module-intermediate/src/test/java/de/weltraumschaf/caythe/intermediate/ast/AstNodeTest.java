@@ -36,7 +36,7 @@ public class AstNodeTest {
 
     @Test
     public void sourcePosition() throws Exception {
-        assertThat(sut.sourcePosition(), is(Position.UNKNOWN));
+        assertThat(sut.getSourcePosition(), is(Position.UNKNOWN));
     }
 
 }

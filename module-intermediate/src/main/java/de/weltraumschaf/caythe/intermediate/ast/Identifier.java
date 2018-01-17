@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -14,15 +15,12 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Identifier extends BaseNode {
+    @Getter
     private final String name;
 
     public Identifier(final String name, final Position sourcePosition) {
         super(sourcePosition);
         this.name = Validate.notEmpty(name,"name");
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -48,19 +46,19 @@ public final class Identifier extends BaseNode {
 
         final Identifier that = (Identifier) o;
         return Objects.equals(name, that.name)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, sourcePosition());
+        return Objects.hash(name, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "Identifier{" +
             "name='" + name + '\'' +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

@@ -17,7 +17,7 @@ public interface AstNode extends Serializable, Equivalence<AstNode> {
      *
      * @return never {@code null}, maybe {@link Position#UNKNOWN_FILE}
      */
-    default Position sourcePosition() {
+    default Position getSourcePosition() {
         return Position.UNKNOWN;
     }
 

@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -11,7 +12,9 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Delegate {
-    private final String name;
+
+    @Getter
+    private final String name; // TODO should be a {@link TypeName}
 
     /**
      * Dedicated constructor.
@@ -21,15 +24,6 @@ public final class Delegate {
     public Delegate(final String name) {
         super();
         this.name = Validate.notNull(name, "name");
-    }
-
-    /**
-     * The delegates type basename.
-     *
-     * @return never {@code null} or empty
-     */
-    public String getName() {
-        return name;
     }
 
     @Override

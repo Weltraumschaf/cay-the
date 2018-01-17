@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,16 +14,12 @@ import java.util.stream.Collectors;
  */
 abstract class BaseNode implements AstNode {
     private static final String SERIALIZATION_FORMAT = "(%s%s%s)";
+    @Getter
     private final Position sourcePosition;
 
     BaseNode(final Position sourcePosition) {
         super();
-        this.sourcePosition = Validate.notNull(sourcePosition, "sourcePosition");
-    }
-
-    @Override
-    public final Position sourcePosition() {
-        return sourcePosition;
+        this.sourcePosition = Validate.notNull(sourcePosition, "getSourcePosition");
     }
 
     @Override

@@ -36,7 +36,7 @@ public class AstSpecificationFormatterTest {
     @Test
     public void format_withNewlines() {
         final String ast = "(block\n" +
-            "  (statements\n" +
+            "  (getStatements\n" +
             "    (let\n" +
             "      (=\n" +
             "        (identifier a [1:4])\n" +

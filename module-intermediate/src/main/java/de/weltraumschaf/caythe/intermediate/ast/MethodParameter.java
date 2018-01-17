@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -14,7 +15,9 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class MethodParameter extends BaseNode {
+    @Getter
     private final Identifier name;
+    @Getter
     private final AstNode value;
 
     public MethodParameter(final Identifier name, final AstNode value, final Position sourcePosition) {
@@ -47,12 +50,12 @@ public final class MethodParameter extends BaseNode {
         final MethodParameter that = (MethodParameter) o;
         return Objects.equals(name, that.name)
             && Objects.equals(value, that.value)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value, sourcePosition());
+        return Objects.hash(name, value, getSourcePosition());
     }
 
     @Override
@@ -60,7 +63,7 @@ public final class MethodParameter extends BaseNode {
         return "MethodParameter{" +
             "name=" + name +
             ", value=" + value +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

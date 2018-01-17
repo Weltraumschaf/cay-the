@@ -3,8 +3,8 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
-import de.weltraumschaf.caythe.intermediate.model.Argument;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,15 +16,12 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class ArrayLiteral extends BaseNode  {
+    @Getter
     private final List<AstNode> values;
 
     public ArrayLiteral(final List<AstNode> values, final Position sourcePosition) {
         super(sourcePosition);
         this.values = Validate.notNull(values, "values");
-    }
-
-    public List<AstNode> getValues() {
-        return values;
     }
 
     @Override
@@ -50,19 +47,19 @@ public final class ArrayLiteral extends BaseNode  {
 
         final ArrayLiteral that = (ArrayLiteral) o;
         return Objects.equals(values, that.values)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(values, sourcePosition());
+        return Objects.hash(values, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "ArrayLiteral{" +
             "values=" + values +
-            "sourcePosition=" + sourcePosition() +
+            "getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

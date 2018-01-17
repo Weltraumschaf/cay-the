@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,8 +20,11 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 public final class BinaryOperation extends BaseNode {
+    @Getter
     private final Operator operator;
+    @Getter
     private final AstNode leftOperand;
+    @Getter
     private final AstNode rightOperand;
 
     public BinaryOperation(final Operator operator, final AstNode leftOperand, final AstNode rightOperand, final Position sourcePosition) {
@@ -28,18 +32,6 @@ public final class BinaryOperation extends BaseNode {
         this.operator = Validate.notNull(operator, "operator");
         this.leftOperand = Validate.notNull(leftOperand, "leftOperand");
         this.rightOperand = Validate.notNull(rightOperand, "rightOperand");
-    }
-
-    public Operator getOperator() {
-        return operator;
-    }
-
-    public AstNode getLeftOperand() {
-        return leftOperand;
-    }
-
-    public AstNode getRightOperand() {
-        return rightOperand;
     }
 
     @Override
@@ -67,12 +59,12 @@ public final class BinaryOperation extends BaseNode {
         return operator == that.operator &&
             Objects.equals(leftOperand, that.leftOperand) &&
             Objects.equals(rightOperand, that.rightOperand) &&
-            Objects.equals(sourcePosition(), that.sourcePosition());
+            Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operator, leftOperand, rightOperand, sourcePosition());
+        return Objects.hash(operator, leftOperand, rightOperand, getSourcePosition());
     }
 
     @Override
@@ -81,7 +73,7 @@ public final class BinaryOperation extends BaseNode {
             "operator=" + operator +
             ", leftOperand=" + leftOperand +
             ", rightOperand=" + rightOperand +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

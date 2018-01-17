@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 import de.weltraumschaf.caythe.intermediate.Equivalence;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -21,31 +22,15 @@ import java.util.Objects;
  */
 public final class TypeName implements Equivalence<TypeName> {
     public static final TypeName NONE = new TypeName("none", "NONE");
+    @Getter
     private final String namespace;
+    @Getter
     private final String basename;
 
     public TypeName(final String namespace, final String basename) {
         super();
         this.namespace = Validate.notEmpty(namespace, "namespace");
         this.basename = Validate.notNull(basename, "basename");
-    }
-
-    /**
-     * The name namespace of the type.
-     *
-     * @return never {@code null} or empty
-     */
-    public String getNamespace() {
-        return namespace;
-    }
-
-    /**
-     * The name basename of the type.
-     *
-     * @return never {@code null} or empty
-     */
-    public String getBasename() {
-        return basename;
     }
 
     /**

@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -14,17 +15,15 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Let extends BaseNode {
+    @Getter
     private final TypeName type;
+    @Getter
     private final BinaryOperation assignment;
 
     public Let(final TypeName type, final BinaryOperation assignment, final Position sourcePosition) {
         super(sourcePosition);
         this.type = type;
         this.assignment = assignment;
-    }
-
-    public BinaryOperation getAssignment() {
-        return assignment;
     }
 
     @Override
@@ -49,14 +48,14 @@ public final class Let extends BaseNode {
         }
 
         final Let let = (Let) o;
-        return  Objects.equals(sourcePosition(), let.sourcePosition()) &&
+        return  Objects.equals(getSourcePosition(), let.getSourcePosition()) &&
             Objects.equals(type, let.type) &&
             Objects.equals(assignment, let.assignment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sourcePosition(), type, assignment);
+        return Objects.hash(getSourcePosition(), type, assignment);
     }
 
     @Override
@@ -64,7 +63,7 @@ public final class Let extends BaseNode {
         return "Let{" +
             "type=" + type +
             ", assignment=" + assignment +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

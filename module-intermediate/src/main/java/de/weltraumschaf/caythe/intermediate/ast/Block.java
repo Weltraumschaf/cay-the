@@ -4,25 +4,23 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.*;
 
 /**
- * Represents a block which is a set of statements.
+ * Represents a block which is a set of getStatements.
  *
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
 public final class Block extends BaseNode {
+    @Getter
     private final List<AstNode> children;
 
     public Block(final Collection<AstNode> children, final Position sourcePosition) {
         super(sourcePosition);
         this.children = new ArrayList<>(Validate.notNull(children, "children"));
-    }
-
-    public Collection<AstNode> getStatements() {
-        return Collections.unmodifiableCollection(children);
     }
 
     @Override
@@ -48,12 +46,12 @@ public final class Block extends BaseNode {
 
         final Block that = (Block) o;
         return Objects.equals(children, that.children)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(children, sourcePosition());
+        return Objects.hash(children, getSourcePosition());
     }
 
     @Override

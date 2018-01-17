@@ -5,6 +5,7 @@ import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -16,10 +17,15 @@ import java.util.*;
  */
 public final class Method implements Equivalence<Method> {
     public static final Method NONE = new Method("NONE", Visibility.PRIVATE, TypeName.NONE, Collections.emptyList(), new NoOperation());
+    @Getter
     private final String name;
+    @Getter
     private final Visibility visibility;
+    @Getter
     private final TypeName returnType;
+    @Getter
     private final List<Argument> arguments;
+    @Getter
     private final AstNode body;
 
     public Method(final String name, final Visibility visibility, final TypeName returnType, final Collection<Argument> arguments, final AstNode body) {
@@ -29,26 +35,6 @@ public final class Method implements Equivalence<Method> {
         this.returnType = returnType;
         this.arguments = new ArrayList<>(Validate.notNull(arguments, "arguments"));
         this.body = Validate.notNull(body, "body");
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public TypeName getReturnType() {
-        return returnType;
-    }
-
-    public Collection<Argument> getArguments() {
-        return Collections.unmodifiableCollection(arguments);
-    }
-
-    public AstNode getBody() {
-        return body;
     }
 
     @Override

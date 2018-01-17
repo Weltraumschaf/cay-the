@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -17,11 +18,15 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class Property implements Equivalence<Property> {
-
+    @Getter
     private final Visibility visibility;
+    @Getter
     private final TypeName type;
+    @Getter
     private final String name;
+    @Getter
     private final Method getter;
+    @Getter
     private final Method setter;
 
     public Property(final String name, final Visibility visibility, final TypeName type) {

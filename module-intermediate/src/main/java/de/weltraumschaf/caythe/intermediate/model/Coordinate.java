@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -15,8 +16,11 @@ import java.util.Objects;
  */
 public final class Coordinate {
     public static final Coordinate NONE = new Coordinate("unknown", "unknown", Version.NONE);
+    @Getter
     private final String group;
+    @Getter
     private final String artifact;
+    @Getter
     private final Version version;
 
     public Coordinate(final String group, final String artifact, final Version version) {
@@ -24,18 +28,6 @@ public final class Coordinate {
         this.group = Validate.notEmpty(group, "group");
         this.artifact = Validate.notEmpty(artifact, "artifact");
         this.version = Validate.notNull(version, "version");
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public String getArtifact() {
-        return artifact;
-    }
-
-    public Version getVersion() {
-        return version;
     }
 
     public String toLiteral() {

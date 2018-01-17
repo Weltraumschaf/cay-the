@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 import de.weltraumschaf.caythe.intermediate.Equivalence;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -10,21 +11,15 @@ import java.util.Objects;
  * Represents a method argument.
  */
 public final class Argument implements Equivalence<Argument> {
+    @Getter
     private final String name;
+    @Getter
     private final TypeName type;
 
     public Argument(final String name, final TypeName type) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.type = Validate.notNull(type, "type");
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public TypeName getType() {
-        return type;
     }
 
     @Override

@@ -196,7 +196,7 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotNode(ifDotNode);
         appendDotEdge(currentNode.peek(), ifDotNode);
         currentNode.push(ifDotNode);
-        currentEdgeLabel = "condition";
+        currentEdgeLabel = "getCondition";
         node.getCondition().accept(this);
         currentEdgeLabel = "consequence";
         node.getConsequence().accept(this);
@@ -233,8 +233,8 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotEdge(currentNode.peek(), dotNode);
         currentNode.push(dotNode);
 
-        // FIXME Fix loop statements.
-//        for (final AstNode statement : node.statements()) {
+        // FIXME Fix loop getStatements.
+//        for (final AstNode statement : node.getStatements()) {
 //            statement.accept(this);
 //        }
 
@@ -307,7 +307,7 @@ final class DotGenerator implements AstVisitor<Void> {
         appendDotNode(dotNode);
         currentNode.push(dotNode);
 
-        for (final AstNode statement : node.getStatements()) {
+        for (final AstNode statement : node.getChildren()) {
             statement.accept(this);
         }
 

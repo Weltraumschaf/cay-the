@@ -16,7 +16,7 @@ public final class EvaluationError extends CayTheError {
     }
 
     public static EvaluationError newError(final AstNode position, final String messageFormat, final Object... args) {
-        return newError(position.sourcePosition(), messageFormat, args);
+        return newError(position.getSourcePosition(), messageFormat, args);
     }
 
     public static EvaluationError newError(final String messageFormat, final Object... args) {

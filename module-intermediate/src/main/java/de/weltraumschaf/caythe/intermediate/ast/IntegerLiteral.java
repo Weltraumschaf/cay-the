@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -13,15 +14,12 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class IntegerLiteral extends BaseNode {
+    @Getter
     private final long value;
 
     public IntegerLiteral(final long value, final Position sourcePosition) {
         super(sourcePosition);
         this.value = value;
-    }
-
-    public long getValue() {
-        return value;
     }
 
     @Override
@@ -47,19 +45,19 @@ public final class IntegerLiteral extends BaseNode {
 
         final IntegerLiteral that = (IntegerLiteral) o;
         return value == that.value
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, sourcePosition());
+        return Objects.hash(value, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "IntegerLiteral{" +
             "value=" + value +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

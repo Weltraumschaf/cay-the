@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -15,56 +16,28 @@ import java.util.*;
  */
 public final class Type {
     public static final Type NONE = new TypeBuilder().create();
+    @Getter
     private TypeName name;
+    @Getter
     private Facet facet;
+    @Getter
     private Visibility visibility;
+    @Getter
     private Method constructor;
+    @Getter
     private Collection<Import> imports;
-    private List<Property> properties ;
-    private Collection<Method> methods  ;
-    private Collection<Delegate> delegates ;
+    @Getter
+    private List<Property> properties;
+    @Getter
+    private Collection<Method> methods;
+    @Getter
+    private Collection<Delegate> delegates;
 
     /**
      * Use the {@link TypeBuilder builder} to create instances.
      */
     private Type() {
         super();
-    }
-
-    public TypeName getName() {
-        return name;
-    }
-
-    public Facet getFacet() {
-        return facet;
-    }
-
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public Method getConstructor() {
-        return constructor;
-    }
-
-    public Collection<Import> getImports() {
-        return Collections.unmodifiableCollection(imports);
-    }
-
-    public Collection<Property> getProperties() {
-        return Collections.unmodifiableCollection(properties);
-    }
-
-    public Property getProperty(final int index) {
-        return properties.get(index);
-    }
-
-    public Collection<Method> getMethods() {
-        return Collections.unmodifiableCollection(methods);
-    }
-
-    public Collection<Delegate> getDelegates() {
-        return Collections.unmodifiableCollection(delegates);
     }
 
     @Override
@@ -99,6 +72,10 @@ public final class Type {
             ", methods=" + methods +
             ", delegates=" + delegates +
             '}';
+    }
+
+    public Property getProperty(final int index) {
+        return properties.get(index);
     }
 
     public static final class TypeBuilder {
@@ -143,6 +120,7 @@ public final class Type {
             Validate.notNull(i, "i");
             imports.add(i);
         }
+
         public void addProperty(final Property p) {
             Validate.notNull(p, "p");
             properties.add(p);

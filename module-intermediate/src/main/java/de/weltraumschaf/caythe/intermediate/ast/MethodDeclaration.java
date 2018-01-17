@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,21 +17,15 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 public final class MethodDeclaration extends BaseNode {
+    @Getter
     private final List<Identifier> arguments;
+    @Getter
     private final List<AstNode> body;
 
     public MethodDeclaration(final List<Identifier> arguments, final List<AstNode> body, final Position sourcePosition) {
         super(sourcePosition);
         this.arguments = Validate.notNull(arguments, "arguments");
         this.body = Validate.notNull(body, "body");
-    }
-
-    public List<Identifier> getArguments() {
-        return arguments;
-    }
-
-    public List<AstNode> getBody() {
-        return body;
     }
 
     @Override
@@ -59,12 +54,12 @@ public final class MethodDeclaration extends BaseNode {
         final MethodDeclaration that = (MethodDeclaration) o;
         return Objects.equals(arguments, that.arguments)
             && Objects.equals(body, that.body)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(arguments, body, sourcePosition());
+        return Objects.hash(arguments, body, getSourcePosition());
     }
 
     @Override
@@ -72,7 +67,7 @@ public final class MethodDeclaration extends BaseNode {
         return "MethodDeclaration{" +
             "arguments=" + arguments +
             ", body=" + body +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 

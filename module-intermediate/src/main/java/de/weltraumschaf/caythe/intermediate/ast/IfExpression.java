@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.ast;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
 import de.weltraumschaf.caythe.intermediate.Notification;
 import de.weltraumschaf.caythe.intermediate.Position;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -13,8 +14,11 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public final class IfExpression extends BaseNode {
+    @Getter
     private final AstNode condition;
+    @Getter
     private final AstNode consequence;
+    @Getter
     private final AstNode alternative;
 
     public IfExpression(final AstNode condition, final AstNode consequence, final AstNode alternative, final Position sourcePosition) {
@@ -22,18 +26,6 @@ public final class IfExpression extends BaseNode {
         this.condition = condition;
         this.consequence = consequence;
         this.alternative = alternative;
-    }
-
-    public AstNode getCondition() {
-        return condition;
-    }
-
-    public AstNode getConsequence() {
-        return consequence;
-    }
-
-    public AstNode getAlternative() {
-        return alternative;
     }
 
     @Override
@@ -61,21 +53,21 @@ public final class IfExpression extends BaseNode {
         return Objects.equals(condition, that.condition)
             && Objects.equals(consequence, that.consequence)
             && Objects.equals(alternative, that.alternative)
-            && Objects.equals(sourcePosition(), that.sourcePosition());
+            && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(condition, consequence, alternative, sourcePosition());
+        return Objects.hash(condition, consequence, alternative, getSourcePosition());
     }
 
     @Override
     public String toString() {
         return "IfExpression{" +
-            "condition=" + condition +
+            "getCondition=" + condition +
             ", consequence=" + consequence +
             ", alternative=" + alternative +
-            ", sourcePosition=" + sourcePosition() +
+            ", getSourcePosition=" + getSourcePosition() +
             '}';
     }
 
