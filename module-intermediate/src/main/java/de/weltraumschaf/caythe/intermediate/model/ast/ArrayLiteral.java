@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class ArrayLiteral extends BaseNode  {
     @Getter
     private final List<AstNode> values;
@@ -52,14 +54,6 @@ public final class ArrayLiteral extends BaseNode  {
     @Override
     public int hashCode() {
         return Objects.hash(values, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "ArrayLiteral{" +
-            "values=" + values +
-            "getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

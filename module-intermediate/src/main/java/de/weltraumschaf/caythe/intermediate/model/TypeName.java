@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -20,6 +21,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 public final class TypeName implements IntermediateModel, Equivalence<TypeName> {
     public static final TypeName NONE = new TypeName("none", "NONE");
     @Getter
@@ -87,14 +89,6 @@ public final class TypeName implements IntermediateModel, Equivalence<TypeName> 
     @Override
     public int hashCode() {
         return Objects.hash(namespace, basename);
-    }
-
-    @Override
-    public String toString() {
-        return "TypeName{" +
-            "namespace='" + namespace + '\'' +
-            ", basename='" + basename + '\'' +
-            '}';
     }
 
     @Override

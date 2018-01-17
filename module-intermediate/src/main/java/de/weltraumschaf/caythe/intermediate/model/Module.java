@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import java.util.Objects;
  * A module is the top level artifact.
  * </p>
  */
+@ToString
 public final class Module implements IntermediateModel {
     public static final Module NONE = new Module(Manifest.NONE, Collections.emptyList(), Collections.emptyList());
     @Getter
@@ -28,18 +30,6 @@ public final class Module implements IntermediateModel {
         this.manifest = Validate.notNull(manifest, "manifest");
         this.types = Validate.notNull(types, "types");
         this.resources = Validate.notNull(resources, "resources");
-    }
-
-    public Manifest getManifest() {
-        return manifest;
-    }
-
-    public Collection<Type> getTypes() {
-        return types;
-    }
-
-    public Collection<Path> getResources() {
-        return resources;
     }
 
     @Override
@@ -59,12 +49,4 @@ public final class Module implements IntermediateModel {
         return Objects.hash(manifest, types, resources);
     }
 
-    @Override
-    public String toString() {
-        return "Module{" +
-            "manifest=" + manifest +
-            ", types=" + types +
-            ", resources=" + resources +
-            '}';
-    }
 }

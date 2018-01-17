@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class Let extends BaseNode {
     @Getter
     private final TypeName type;
@@ -55,15 +57,6 @@ public final class Let extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(getSourcePosition(), type, assignment);
-    }
-
-    @Override
-    public String toString() {
-        return "Let{" +
-            "type=" + type +
-            ", assignment=" + assignment +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

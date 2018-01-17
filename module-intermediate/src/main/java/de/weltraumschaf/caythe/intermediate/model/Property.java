@@ -7,6 +7,7 @@ import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 public final class Property implements IntermediateModel, Equivalence<Property> {
     @Getter
     private final Visibility visibility;
@@ -59,26 +61,6 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
         return customSetter(name, visibility, argumentType, new NoOperation());
     }
 
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public TypeName getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Method getGetter() {
-        return getter;
-    }
-
-    public Method getSetter() {
-        return setter;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Property)) {
@@ -96,17 +78,6 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
     @Override
     public int hashCode() {
         return Objects.hash(visibility, type, name, getter, setter);
-    }
-
-    @Override
-    public String toString() {
-        return "Property{" +
-            "visibility=" + visibility +
-            ", type='" + type + '\'' +
-            ", name='" + name + '\'' +
-            ", getter=" + getter +
-            ", setter=" + setter +
-            '}';
     }
 
     @Override

@@ -4,12 +4,17 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Equivalence;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 /**
  * Represents a method argument.
+ *
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
+@ToString
 public final class Argument implements IntermediateModel, Equivalence<Argument> {
     @Getter
     private final String name;
@@ -36,14 +41,6 @@ public final class Argument implements IntermediateModel, Equivalence<Argument> 
     @Override
     public int hashCode() {
         return Objects.hash(name, type);
-    }
-
-    @Override
-    public String toString() {
-        return "Argument{" +
-            "name='" + name + '\'' +
-            ", type=" + type +
-            '}';
     }
 
     @Override

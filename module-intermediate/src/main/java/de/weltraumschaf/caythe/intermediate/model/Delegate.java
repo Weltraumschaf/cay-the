@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 public final class Delegate implements IntermediateModel {
 
     @Getter
@@ -41,10 +43,4 @@ public final class Delegate implements IntermediateModel {
         return Objects.hash(name);
     }
 
-    @Override
-    public String toString() {
-        return "Delegate{" +
-            "name='" + name + '\'' +
-            '}';
-    }
 }

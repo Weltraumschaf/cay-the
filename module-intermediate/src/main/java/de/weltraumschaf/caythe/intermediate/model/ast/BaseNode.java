@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model.ast;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 abstract class BaseNode implements AstNode {
     private static final String SERIALIZATION_FORMAT = "(%s%s%s)";
     @Getter

@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model.ast;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class BooleanLiteral extends BaseNode {
     public static final BooleanLiteral TRUE = new BooleanLiteral(true, Position.UNKNOWN);
     public static final BooleanLiteral FALSE = new BooleanLiteral(false, Position.UNKNOWN);
@@ -52,14 +54,6 @@ public final class BooleanLiteral extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(value, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "BooleanLiteral{" +
-            "value=" + value +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

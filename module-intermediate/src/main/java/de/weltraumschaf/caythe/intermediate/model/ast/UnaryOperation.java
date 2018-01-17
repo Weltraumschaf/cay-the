@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class UnaryOperation extends BaseNode {
     @Getter
     private final Operator operator;
@@ -60,15 +62,6 @@ public final class UnaryOperation extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(operator, operand, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "UnaryOperation{" +
-            "operator=" + operator +
-            ", operand=" + operand +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

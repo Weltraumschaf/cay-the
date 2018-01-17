@@ -1,9 +1,11 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class BinaryOperation extends BaseNode {
     @Getter
     private final Operator operator;
@@ -67,16 +70,6 @@ public final class BinaryOperation extends BaseNode {
     }
 
     @Override
-    public String toString() {
-        return "BinaryOperation{" +
-            "operator=" + operator +
-            ", leftOperand=" + leftOperand +
-            ", rightOperand=" + rightOperand +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
-    }
-
-    @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(BinaryOperation.class, other, result, otherBinOp -> {
@@ -94,7 +87,7 @@ public final class BinaryOperation extends BaseNode {
         });
     }
 
-    public enum Operator {
+    public enum Operator implements IntermediateModel {
         ASSIGN("="),
         ADDITION("+"),
         SUBTRACTION("-"),

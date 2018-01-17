@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model.ast;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Map;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class HashLiteral extends BaseNode {
     @Getter
     private final Map<AstNode, AstNode> values;
@@ -56,14 +58,6 @@ public final class HashLiteral extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(values, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "HashLiteral{" +
-            "values=" + values +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

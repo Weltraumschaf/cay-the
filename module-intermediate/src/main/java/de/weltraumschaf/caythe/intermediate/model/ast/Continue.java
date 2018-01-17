@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class Continue extends BaseNode  {
 
     public Continue(final Position sourcePosition) {
@@ -40,13 +42,6 @@ public final class Continue extends BaseNode  {
     @Override
     public int hashCode() {
         return Objects.hash(getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "Continue{" +
-            "getSourcePosition=" + getSourcePosition() +
-            "}";
     }
 
     @Override

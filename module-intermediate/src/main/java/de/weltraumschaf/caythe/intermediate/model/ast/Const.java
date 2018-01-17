@@ -5,6 +5,7 @@ import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.caythe.intermediate.model.TypeName;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class Const extends BaseNode {
     @Getter
     private final TypeName type;
@@ -56,15 +58,6 @@ public final class Const extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(type, assignment, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "Const{" +
-            "type='" + type + '\'' +
-            ", assignment=" + assignment +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

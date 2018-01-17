@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.*;
 
@@ -15,6 +16,7 @@ import java.util.*;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 public final class Method implements IntermediateModel, Equivalence<Method> {
     public static final Method NONE = new Method("NONE", Visibility.PRIVATE, TypeName.NONE, Collections.emptyList(), new NoOperation());
     @Getter
@@ -54,17 +56,6 @@ public final class Method implements IntermediateModel, Equivalence<Method> {
     @Override
     public int hashCode() {
         return Objects.hash(name, visibility, returnType, arguments, body);
-    }
-
-    @Override
-    public String toString() {
-        return "Method{" +
-            "name='" + name + '\'' +
-            ", visibility=" + visibility +
-            ", returnType=" + returnType +
-            ", arguments=" + arguments +
-            ", body=" + body +
-            '}';
     }
 
     @Override

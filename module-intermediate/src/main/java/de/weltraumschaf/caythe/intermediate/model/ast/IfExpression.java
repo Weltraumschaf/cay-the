@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model.ast;
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class IfExpression extends BaseNode {
     @Getter
     private final AstNode condition;
@@ -58,16 +60,6 @@ public final class IfExpression extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(condition, consequence, alternative, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "IfExpression{" +
-            "getCondition=" + condition +
-            ", consequence=" + consequence +
-            ", alternative=" + alternative +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

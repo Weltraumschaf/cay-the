@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class MethodDeclaration extends BaseNode {
     @Getter
     private final List<Identifier> arguments;
@@ -59,15 +61,6 @@ public final class MethodDeclaration extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(arguments, body, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "MethodDeclaration{" +
-            "arguments=" + arguments +
-            ", body=" + body +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override

@@ -4,6 +4,7 @@ import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString(callSuper = true)
 public final class Subscript extends BaseNode {
     @Getter
     private final AstNode identifier;
@@ -55,15 +57,6 @@ public final class Subscript extends BaseNode {
     @Override
     public int hashCode() {
         return Objects.hash(identifier, index, getSourcePosition());
-    }
-
-    @Override
-    public String toString() {
-        return "Subscript{" +
-            "identifier=" + identifier +
-            ", index=" + index +
-            ", getSourcePosition=" + getSourcePosition() +
-            '}';
     }
 
     @Override
