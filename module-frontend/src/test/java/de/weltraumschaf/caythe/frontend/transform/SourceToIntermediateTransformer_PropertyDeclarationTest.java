@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
 import de.weltraumschaf.caythe.intermediate.Position;
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,10 +9,10 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static de.weltraumschaf.caythe.frontend.transform.IntermediateModelIsEquivalent.equivalent;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BinaryOperationFactory.addition;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder.block;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.identifier;
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
+import static de.weltraumschaf.caythe.intermediate.model.ast.builder.BinaryOperationFactory.addition;
+import static de.weltraumschaf.caythe.intermediate.model.ast.builder.BlockBuilder.block;
+import static de.weltraumschaf.caythe.intermediate.model.ast.builder.LiteralFactory.identifier;
+import static de.weltraumschaf.caythe.intermediate.model.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;

@@ -3,8 +3,8 @@ package de.weltraumschaf.caythe.intermediate.model;
 import de.weltraumschaf.caythe.StringUtil;
 import de.weltraumschaf.caythe.intermediate.Equivalence;
 import de.weltraumschaf.caythe.intermediate.Notification;
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
+import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.model.ast.NoOperation;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
 

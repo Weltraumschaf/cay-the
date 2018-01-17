@@ -4,7 +4,7 @@ import de.weltraumschaf.caythe.frontend.CayTheSourceBaseVisitor;
 import de.weltraumschaf.caythe.frontend.CayTheSourceParser;
 import de.weltraumschaf.caythe.frontend.SyntaxError;
 import de.weltraumschaf.caythe.intermediate.Position;
-import de.weltraumschaf.caythe.intermediate.ast.*;
+import de.weltraumschaf.caythe.intermediate.model.ast.*;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import de.weltraumschaf.commons.validate.Validate;
 import org.antlr.v4.runtime.Token;

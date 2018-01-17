@@ -3,7 +3,7 @@ package de.weltraumschaf.caythe.backend;
 import de.weltraumschaf.caythe.backend.operations.Operations;
 import de.weltraumschaf.caythe.backend.types.*;
 import de.weltraumschaf.caythe.intermediate.AstVisitor;
-import de.weltraumschaf.caythe.intermediate.ast.*;
+import de.weltraumschaf.caythe.intermediate.model.ast.*;
 
 import java.util.*;
 

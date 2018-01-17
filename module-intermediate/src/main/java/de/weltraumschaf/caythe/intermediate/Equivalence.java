@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.intermediate;
 
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.BooleanLiteral;
+import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.model.ast.BooleanLiteral;
 
 import java.util.Collection;
 import java.util.List;

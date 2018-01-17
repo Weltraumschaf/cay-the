@@ -1,7 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
 import de.weltraumschaf.caythe.intermediate.Notification;
-import de.weltraumschaf.caythe.intermediate.ast.NoOperation;
+import de.weltraumschaf.caythe.intermediate.model.ast.NoOperation;
 import org.junit.Ignore;
 import org.junit.Test;
 

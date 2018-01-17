@@ -1,14 +1,14 @@
 package de.weltraumschaf.caythe.frontend.transform;
 
-import de.weltraumschaf.caythe.intermediate.ast.Block;
-import de.weltraumschaf.caythe.intermediate.ast.builder.BlockBuilder;
+import de.weltraumschaf.caythe.intermediate.model.ast.Block;
+import de.weltraumschaf.caythe.intermediate.model.ast.builder.BlockBuilder;
 import de.weltraumschaf.caythe.intermediate.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static de.weltraumschaf.caythe.intermediate.ast.builder.LiteralFactory.integer;
+import static de.weltraumschaf.caythe.intermediate.model.ast.builder.LiteralFactory.integer;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 

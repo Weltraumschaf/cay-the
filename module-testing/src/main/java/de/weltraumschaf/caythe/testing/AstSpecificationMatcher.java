@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.testing;
 
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
 import de.weltraumschaf.commons.validate.Validate;
 import org.hamcrest.*;
 

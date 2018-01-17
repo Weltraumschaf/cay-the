@@ -1,8 +1,8 @@
 package de.weltraumschaf.caythe.backend.types;
 
 import de.weltraumschaf.caythe.backend.Environment;
-import de.weltraumschaf.caythe.intermediate.ast.AstNode;
-import de.weltraumschaf.caythe.intermediate.ast.Identifier;
+import de.weltraumschaf.caythe.intermediate.model.ast.AstNode;
+import de.weltraumschaf.caythe.intermediate.model.ast.Identifier;
 
 import java.util.List;
 

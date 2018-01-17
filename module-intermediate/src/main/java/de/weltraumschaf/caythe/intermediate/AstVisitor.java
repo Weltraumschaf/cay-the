@@ -1,6 +1,6 @@
 package de.weltraumschaf.caythe.intermediate;
 
-import de.weltraumschaf.caythe.intermediate.ast.*;
+import de.weltraumschaf.caythe.intermediate.model.ast.*;
 
 /**
  * Interface for a visitor to traverse AST nodes.
