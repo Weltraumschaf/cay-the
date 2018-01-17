@@ -7,6 +7,7 @@ import de.weltraumschaf.caythe.cli.CommonCliOptions;
 import de.weltraumschaf.caythe.cli.SubCommandName;
 import de.weltraumschaf.caythe.cli.helper.ExampleBuilder;
 import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
+import lombok.Getter;
 
 @Parameters(commandDescription = "Interprets the given module.")
 @SuppressWarnings( {"unused", "FieldCanBeLocal"})
@@ -17,12 +18,9 @@ public final class RunCliOptions extends CommonCliOptions {
         .command("TODO").nl()
         .toString();
 
+    @Getter
     @Parameter(names = {"-m", "--module"}, description = "The module to run", required = true)
     private String module = "";
-
-    String getModule() {
-        return module;
-    }
 
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {

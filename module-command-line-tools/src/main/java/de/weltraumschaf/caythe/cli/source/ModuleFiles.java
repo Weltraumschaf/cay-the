@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.cli.source;
 
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -16,9 +18,13 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
+@ToString
 public final class ModuleFiles {
+    @Getter
     private final Path manifestFile;
+    @Getter
     private final Collection<Path> sourceFiles;
+    @Getter
     private final Collection<Path> otherFiles;
 
     /**
@@ -33,33 +39,6 @@ public final class ModuleFiles {
         this.manifestFile = Validate.notNull(manifestFile, "manifestFile");
         this.sourceFiles = Collections.unmodifiableCollection(Validate.notNull(sourceFiles, "sourceFiles"));
         this.otherFiles = Collections.unmodifiableCollection(Validate.notNull(otherFiles, "otherFiles"));
-    }
-
-    /**
-     * Get module the manifest file.
-     *
-     * @return never {@code null}
-     */
-    public Path getManifestFile() {
-        return manifestFile;
-    }
-
-    /**
-     * Get all found zsource files.
-     *
-     * @return never {@code null}, unmodifiable
-     */
-    public Collection<Path> getSourceFiles() {
-        return sourceFiles;
-    }
-
-    /**
-     * Get all other other files.
-     *
-     * @return never {@code null}, unmodifiable
-     */
-    public Collection<Path> getOtherFiles() {
-        return otherFiles;
     }
 
     @Override
@@ -79,12 +58,4 @@ public final class ModuleFiles {
         return Objects.hash(manifestFile, sourceFiles, otherFiles);
     }
 
-    @Override
-    public String toString() {
-        return "ModuleFiles{" +
-            "manifestFile=" + manifestFile +
-            ", sourceFiles=" + sourceFiles +
-            ", otherFiles=" + otherFiles +
-            '}';
-    }
 }

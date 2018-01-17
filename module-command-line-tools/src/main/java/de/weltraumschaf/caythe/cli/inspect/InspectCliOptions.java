@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.cli.CommonCliOptions;
 import de.weltraumschaf.caythe.cli.SubCommandName;
 import de.weltraumschaf.caythe.cli.helper.ExampleBuilder;
 import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
+import lombok.Getter;
 
 /**
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
@@ -20,37 +21,25 @@ public final class InspectCliOptions extends CommonCliOptions {
         .command("TODO").nl()
         .toString();
 
+    @Getter
     @Parameter(names = {"-m", "--module"}, description = "Path to the module to inspect.", required = true)
     private String module = "";
 
+    @Getter
     @Parameter(names = {"-i", "--inspect"}, description = "Inspects the given module and print the information to STDOUT.")
     private boolean inspect;
 
+    @Getter
     @Parameter(
         names = {"-t", "--ast-trees"},
         description = "Writes the abstract syntax trees of each parsed file into a separate GraphViz file in the current working directory.")
     private boolean astTree;
 
+    @Getter
     @Parameter(
         names = {"-p", "--parse-trees"},
         description = "Writes the parse trees of each parsed file into a separate PostScript file in the current working directory.")
     private boolean parseTree;
-
-    String getModule() {
-        return module;
-    }
-
-    boolean isInspect() {
-        return inspect;
-    }
-
-    boolean isAstTree() {
-        return astTree;
-    }
-
-    boolean isParseTree() {
-        return parseTree;
-    }
 
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {

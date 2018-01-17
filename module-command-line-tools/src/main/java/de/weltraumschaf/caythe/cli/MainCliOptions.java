@@ -4,6 +4,7 @@ import com.beust.jcommander.Parameter;
 import de.weltraumschaf.caythe.cli.create.CreateCliOptions;
 import de.weltraumschaf.caythe.cli.helper.ExampleBuilder;
 import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -20,13 +21,10 @@ final class MainCliOptions extends CommonCliOptions {
         .text(CreateCliOptions.EXAMPLE)
         .toString();
 
+    @Getter
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"--version"}, description = "Show version.")
     private boolean version;
-
-    public boolean isVersion() {
-        return version;
-    }
 
     static String delimitedSubcommandNames() {
         return Arrays.stream(SubCommandName.values())

@@ -9,6 +9,7 @@ import de.weltraumschaf.caythe.cli.repl.ReplCliOptions;
 import de.weltraumschaf.caythe.cli.run.RunCliOptions;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.commons.validate.Validate;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -26,13 +27,18 @@ public final class CliOptions {
     /**
      * Holds the main program options.
      */
+    @Getter
     private MainCliOptions main;
     /**
      * Holds the create command options.
      */
+    @Getter
     private CreateCliOptions create;
+    @Getter
     private ReplCliOptions repl;
+    @Getter
     private RunCliOptions run;
+    @Getter
     private InspectCliOptions inspect;
 
     /**
@@ -41,36 +47,6 @@ public final class CliOptions {
     CliOptions() {
         super();
         reset();
-    }
-
-    /**
-     * Get the main program options.
-     *
-     * @return never {@code null}
-     */
-    public MainCliOptions getMain() {
-        return main;
-    }
-
-    /**
-     * Get the create command options.
-     *
-     * @return never {@code null}
-     */
-    public CreateCliOptions getCreate() {
-        return create;
-    }
-
-    public InspectCliOptions getInspect() {
-        return inspect;
-    }
-
-    public ReplCliOptions getRepl() {
-        return repl;
-    }
-
-    public RunCliOptions getRun() {
-        return run;
     }
 
     /**

@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.cli;
 
 import de.weltraumschaf.commons.system.ExitCode;
+import lombok.Getter;
 
 /**
  * Exit codes for application.
@@ -25,6 +26,7 @@ enum ExitCodeImpl implements ExitCode {
     /**
      * Exit code number returned as exit code to JVM.
      */
+    @Getter
     private final int code;
 
     /**
@@ -36,8 +38,4 @@ enum ExitCodeImpl implements ExitCode {
         this.code = code;
     }
 
-    @Override
-    public int getCode() {
-        return code;
-    }
 }

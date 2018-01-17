@@ -6,6 +6,7 @@ import de.weltraumschaf.caythe.cli.CommonCliOptions;
 import de.weltraumschaf.caythe.cli.SubCommandName;
 import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
 import de.weltraumschaf.caythe.cli.helper.ExampleBuilder;
+import lombok.Getter;
 
 /**
  * CliOptions for the create sub command.
@@ -23,42 +24,33 @@ public final class CreateCliOptions extends CommonCliOptions {
         .command("...").nl()
         .toString();
 
+    @Getter
     @Parameter(
         required = true,
         names = {"-d", "--directory"},
         description = "Where to store the scaffold. If the directory does not exists it will be created.")
     private String directory = "";
+
+    @Getter
     @Parameter(
         required = true,
         names = {"-g", "--group"},
         description = "The group identifier of the module. Allowed identifiers contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String group = "";
+
+    @Getter
     @Parameter(
         required = true,
         names = {"-a", "--artifact"},
         description = "The artifact identifier of the module. Allowed identifiers contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String artifact = "";
+
+    @Getter
     @Parameter(
         required = true,
         names = {"-n", "--namespace"},
         description = "The namespace of the module. Allowed namespaces contain [a-z] optionally separated by dot and dash, e.g. 'foo.bar.baz'.")
     private String namespace = "";
-
-    public String getDirectory() {
-        return directory;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public String getArtifact() {
-        return artifact;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
 
     @SuppressWarnings("StringBufferReplaceableByString")
     public static String usage() {

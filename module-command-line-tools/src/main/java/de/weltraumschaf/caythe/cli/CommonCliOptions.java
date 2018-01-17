@@ -2,6 +2,7 @@ package de.weltraumschaf.caythe.cli;
 
 import com.beust.jcommander.Parameter;
 import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
+import lombok.Getter;
 
 /**
  * General available options.
@@ -10,21 +11,15 @@ import de.weltraumschaf.caythe.cli.helper.UsageBuilder;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public abstract class CommonCliOptions {
+    @Getter
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-h", "--help"}, description = "Show help.", help = true)
     private boolean help;
 
+    @Getter
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"--debug"}, description = "Print debug output such as stack traces to STDOUT.")
     private boolean debug;
-
-    public final boolean isHelp() {
-        return help;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
 
     @SuppressWarnings("SameReturnValue")
     public static String usage() {
