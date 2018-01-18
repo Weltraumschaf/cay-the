@@ -64,6 +64,11 @@ public final class IfExpression extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(IfExpression.class, other, result, otherLoop-> {
+            condition.probeEquivalence(otherLoop.condition, result);
+            consequence.probeEquivalence(otherLoop.consequence, result);
+            alternative.probeEquivalence(otherLoop.alternative, result);
+        });
     }
 }

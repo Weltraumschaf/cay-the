@@ -61,6 +61,25 @@ public final class Subscript extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Subscript.class, other, result, otherSubscript -> {
+            if (isNotEqual(identifier, otherSubscript.identifier)) {
+                result.error(
+                    difference(
+                        "Subscript identifier",
+                        "This has identifier %s but other has identifier %s"),
+                    identifier, otherSubscript.identifier
+                );
+            }
+
+            if (isNotEqual(index, otherSubscript.index)) {
+                result.error(
+                    difference(
+                        "Subscript index",
+                        "This has index %s but other has index %s"),
+                    index, otherSubscript.index
+                );
+            }
+        });
     }
 }

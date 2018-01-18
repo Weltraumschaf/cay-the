@@ -56,6 +56,16 @@ public final class RealLiteral extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(RealLiteral.class, other, result, otherRealLiteral -> {
+            if (isNotEqual(value, otherRealLiteral.value)) {
+                result.error(
+                    difference(
+                        "Value",
+                        "This has value %s but other has value %s"),
+                    value, otherRealLiteral.value
+                );
+            }
+        });
     }
 }

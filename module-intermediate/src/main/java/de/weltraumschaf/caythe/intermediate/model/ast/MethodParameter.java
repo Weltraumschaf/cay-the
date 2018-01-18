@@ -61,6 +61,18 @@ public final class MethodParameter extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(MethodParameter.class, other, result, otherMethodParam-> {
+            if (isNotEqual(name, otherMethodParam.name)) {
+                result.error(
+                    difference(
+                        "Name",
+                        "This has name %s but other has name %s"),
+                    name, otherMethodParam.name
+                );
+            }
+
+            value.probeEquivalence(otherMethodParam.value, result);
+        });
     }
 }

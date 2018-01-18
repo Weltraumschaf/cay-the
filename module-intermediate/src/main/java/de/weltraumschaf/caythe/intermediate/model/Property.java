@@ -82,6 +82,7 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
 
     @Override
     public void probeEquivalence(final Property other, final Notification result) {
+        // TODO Write tests for this method.
         if (isNotEqual(visibility, other.visibility)) {
             result.error(
                 difference(

@@ -73,6 +73,12 @@ public final class Loop extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Loop.class, other, result, otherLoop-> {
+            init.probeEquivalence(otherLoop.init, result);
+            condition.probeEquivalence(otherLoop.condition, result);
+            post.probeEquivalence(otherLoop.post, result);
+            statements.probeEquivalence(otherLoop.statements, result);
+        });
     }
 }

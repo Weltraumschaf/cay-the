@@ -60,6 +60,7 @@ public final class Method implements IntermediateModel, Equivalence<Method> {
 
     @Override
     public void probeEquivalence(final Method other, final Notification result) {
+        // TODO Write tests for this method.
         if (isNotEqual(visibility, other.visibility)) {
             result.error(
                 difference(

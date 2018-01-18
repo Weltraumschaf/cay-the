@@ -57,6 +57,16 @@ public final class StringLiteral extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(StringLiteral.class, other, result, otherStringLiteral -> {
+            if (isNotEqual(value, otherStringLiteral.value)) {
+                result.error(
+                    difference(
+                        "Value",
+                        "This has value %s but other has value %s"),
+                    value, otherStringLiteral.value
+                );
+            }
+        });
     }
 }

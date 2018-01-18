@@ -67,7 +67,19 @@ public final class UnaryOperation extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(UnaryOperation.class, other, result, otherUnOp -> {
+            if (isNotEqual(operator, otherUnOp.operator)) {
+                result.error(
+                    difference(
+                        "Operator",
+                        "This has operator %s but other has operator %s"),
+                    operator, otherUnOp.operator
+                );
+            }
+
+            operand.probeEquivalence(otherUnOp.operand, result);
+        });
     }
 
     /**

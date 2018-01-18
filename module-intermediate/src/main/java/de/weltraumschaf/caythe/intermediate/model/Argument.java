@@ -45,6 +45,16 @@ public final class Argument implements IntermediateModel, Equivalence<Argument> 
 
     @Override
     public void probeEquivalence(final Argument other, final Notification result) {
+        // TODO Write tests for this method.
+        if (isNotEqual(name, other.name)) {
+            result.error(
+                difference(
+                    "Name",
+                    "This has name %s but other has name %s"),
+                name, other.name
+            );
+        }
 
+        type.probeEquivalence(other.type, result);
     }
 }

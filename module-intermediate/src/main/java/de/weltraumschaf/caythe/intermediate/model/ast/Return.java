@@ -17,11 +17,11 @@ import java.util.Objects;
 @ToString(callSuper = true)
 public final class Return extends BaseNode {
     @Getter
-    private final AstNode result;
+    private final AstNode value;
 
     public Return(final AstNode result, final Position sourcePosition) {
         super(sourcePosition);
-        this.result = Validate.notNull(result, "result");
+        this.value = Validate.notNull(result, "value");
     }
 
     @Override
@@ -31,7 +31,7 @@ public final class Return extends BaseNode {
 
     @Override
     public String serialize() {
-        return serialize(serialize(result));
+        return serialize(serialize(value));
     }
 
     @Override
@@ -46,17 +46,27 @@ public final class Return extends BaseNode {
         }
 
         final Return that = (Return) o;
-        return Objects.equals(result, that.result)
+        return Objects.equals(value, that.value)
             && Objects.equals(getSourcePosition(), that.getSourcePosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(result, getSourcePosition());
+        return Objects.hash(value, getSourcePosition());
     }
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(Return.class, other, result, otherReturn -> {
+            if (isNotEqual(result, otherReturn.value)) {
+                result.error(
+                    difference(
+                        "Value",
+                        "This has value %s but other has value %s"),
+                    value, otherReturn.value
+                );
+            }
+        });
     }
 }

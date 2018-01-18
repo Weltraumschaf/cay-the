@@ -77,7 +77,7 @@ public final class BinaryOperation extends BaseNode {
                 result.error(
                     difference(
                         "Operator",
-                        "This has operator %s but other has operator %d"),
+                        "This has operator %s but other has operator %s"),
                     operator, otherBinOp.operator
                 );
             }

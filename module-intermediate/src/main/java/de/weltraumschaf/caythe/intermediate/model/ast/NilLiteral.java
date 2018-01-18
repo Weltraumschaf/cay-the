@@ -46,6 +46,7 @@ public final class NilLiteral extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalentType(NoOperation.class, other, result);
     }
 }

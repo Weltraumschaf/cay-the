@@ -65,6 +65,10 @@ public final class MethodDeclaration extends BaseNode {
 
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        // TODO Write tests for this method.
+        probeEquivalenceFor(MethodDeclaration.class, other, result, otherMethodDecl-> {
+            probeEquivalences(Identifier.class, arguments, otherMethodDecl.arguments, result);
+            probeEquivalences(AstNode.class, body, otherMethodDecl.body, result);
+        });
     }
 }
