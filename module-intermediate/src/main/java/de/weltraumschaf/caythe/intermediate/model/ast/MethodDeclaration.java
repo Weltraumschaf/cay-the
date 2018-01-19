@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class MethodDeclaration extends BaseNode {
     @Getter
     private final List<Identifier> arguments;

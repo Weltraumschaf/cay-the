@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class MethodParameter extends BaseNode {
     @Getter
     private final Identifier name;
@@ -67,7 +67,7 @@ public final class MethodParameter extends BaseNode {
                 result.error(
                     difference(
                         "Name",
-                        "This has name %s but other has name %s"),
+                        "This has name%n%s%nbut other has name%n%s%n"),
                     name, otherMethodParam.name
                 );
             }

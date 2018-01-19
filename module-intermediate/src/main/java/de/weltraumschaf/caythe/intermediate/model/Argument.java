@@ -50,7 +50,7 @@ public final class Argument implements IntermediateModel, Equivalence<Argument> 
             result.error(
                 difference(
                     "Name",
-                    "This has name %s but other has name %s"),
+                    "This has name%n%s%nbut other has name%n%s%n"),
                 name, other.name
             );
         }

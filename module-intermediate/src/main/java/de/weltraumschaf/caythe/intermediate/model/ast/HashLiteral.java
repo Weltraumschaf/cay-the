@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class HashLiteral extends BaseNode {
     @Getter
     private final Map<AstNode, AstNode> values;
@@ -70,7 +70,7 @@ public final class HashLiteral extends BaseNode {
                 result.error(
                     difference(
                         "Value count",
-                        "This has %d values but other has %d values"),
+                        "This has%n%d%nvalues but other has%n%d%nvalues"),
                     values.size(), otherHash.values.size()
                 );
             }

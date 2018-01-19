@@ -98,7 +98,7 @@ public final class TypeName implements IntermediateModel, Equivalence<TypeName> 
             result.error(
                 difference(
                     "Namespace",
-                    "This has namespace '%s' but other has namespace '%s'"),
+                    "This has namespace%n%s%nbut other has namespace%n%s%n"),
                 namespace, other.namespace);
         }
 
@@ -106,7 +106,7 @@ public final class TypeName implements IntermediateModel, Equivalence<TypeName> 
             result.error(
                 difference(
                     "Basename",
-                    "This has basename '%s' but other has basename '%s'"),
+                    "This has basename%n%s%nbut other has basename%n%s%n"),
                 basename, other.basename);
         }
     }

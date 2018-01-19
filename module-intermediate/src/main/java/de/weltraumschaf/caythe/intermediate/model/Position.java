@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.model;
 
+import de.weltraumschaf.caythe.StringUtil;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,7 +17,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString
+@ToString(exclude = {"file"})
 public final class Position implements IntermediateModel, Serializable {
     /**
      * Constant for unknown position.
@@ -77,5 +78,13 @@ public final class Position implements IntermediateModel, Serializable {
     @Override
     public String serialize() {
         return String.format("[%d:%d]", line, column);
+    }
+
+    public String toStringWithFile() {
+        return "Position(" +
+            "file='" + StringUtil.shorten(file) + '\'' +
+            ", line=" + line +
+            ", column=" + column +
+            ')';
     }
 }

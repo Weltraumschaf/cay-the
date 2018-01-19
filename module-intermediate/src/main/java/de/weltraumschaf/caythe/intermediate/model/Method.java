@@ -65,7 +65,7 @@ public final class Method implements IntermediateModel, Equivalence<Method> {
             result.error(
                 difference(
                     "Visibility",
-                    "This has visibility '%s' but other has visibility '%s'"),
+                    "This has visibility%n%s%nbut other has visibility%n%s%n"),
                 visibility, other.visibility);
         }
 
@@ -73,7 +73,7 @@ public final class Method implements IntermediateModel, Equivalence<Method> {
             result.error(
                 difference(
                     "Name",
-                    "This has name '%s' but other has name '%s'"),
+                    "This has name%n%s%nbut other has name%n%s%n"),
                 name, other.name);
         }
 

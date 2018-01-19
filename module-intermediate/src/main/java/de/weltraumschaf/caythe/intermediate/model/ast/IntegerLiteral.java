@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class IntegerLiteral extends BaseNode {
     @Getter
     private final long value;
@@ -62,7 +62,7 @@ public final class IntegerLiteral extends BaseNode {
                 result.error(
                     difference(
                         "Value",
-                        "This has value %d but other has value %d"),
+                        "This has value%n%d%nbut other has value%n%d%n"),
                     value, otherIntegerLiteral.value
                 );
             }

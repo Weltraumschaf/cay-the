@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class Subscript extends BaseNode {
     @Getter
     private final AstNode identifier;
@@ -67,7 +67,7 @@ public final class Subscript extends BaseNode {
                 result.error(
                     difference(
                         "Subscript identifier",
-                        "This has identifier %s but other has identifier %s"),
+                        "This has identifier%n%s%nbut other has identifier%n%s%n"),
                     identifier, otherSubscript.identifier
                 );
             }
@@ -76,7 +76,7 @@ public final class Subscript extends BaseNode {
                 result.error(
                     difference(
                         "Subscript index",
-                        "This has index %s but other has index %s"),
+                        "This has index%n%s%nbut other has index%n%s%n"),
                     index, otherSubscript.index
                 );
             }

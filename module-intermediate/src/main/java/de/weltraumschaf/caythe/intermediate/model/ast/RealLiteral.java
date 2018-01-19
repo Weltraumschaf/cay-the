@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class RealLiteral extends BaseNode {
     @Getter
     private final double value;
@@ -62,7 +62,7 @@ public final class RealLiteral extends BaseNode {
                 result.error(
                     difference(
                         "Value",
-                        "This has value %s but other has value %s"),
+                        "This has value%n%s%nbut other has value%n%s%n"),
                     value, otherRealLiteral.value
                 );
             }

@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class Identifier extends BaseNode {
     @Getter
     private final String name;
@@ -63,7 +63,7 @@ public final class Identifier extends BaseNode {
                 result.error(
                     difference(
                         "Name",
-                        "This has name %d but other has name %d"),
+                        "This has name%n%s%nbut other has name%n%s%n"),
                     name, otherIdentifier.name
                 );
             }

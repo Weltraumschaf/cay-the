@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class ArrayLiteral extends BaseNode  {
     @Getter
     private final List<AstNode> values;

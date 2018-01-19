@@ -135,7 +135,6 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
     }
 
     @Test
-    @Ignore("TODO")
     public void onePropertyWithCustomGetterNoSetter() throws IOException {
         final String file = createFixtureFile(FIXTURE_DIR + "/OnePropertyWithCustomGetterNoSetter.ct");
         final SourceToIntermediateTransformer sut = createSut(file);
@@ -160,6 +159,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
             Method.NONE);
 
         assertThat(result.getProperties(), containsInAnyOrder(expected));
+        assertThat(result.getProperties(), hasSize(1));
         assertThat(result.getProperty(0), equivalent(expected));
     }
 

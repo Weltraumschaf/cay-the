@@ -7,6 +7,9 @@ package de.weltraumschaf.caythe;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 public final class StringUtil {
+
+    static final int MAX_LENGTH_TO_SHORTEN = 60;
+
     private StringUtil() {
         super();
     }
@@ -27,5 +30,25 @@ public final class StringUtil {
         }
 
         return Character.toUpperCase(input.charAt(0)) + input.substring(1);
+    }
+
+    public static String shorten(final String input) {
+        if (null == input) {
+            return "";
+        }
+
+        final String trimmedInput = input.trim();
+
+        if (trimmedInput.isEmpty()) {
+            return "";
+        }
+
+        if (trimmedInput.length() < MAX_LENGTH_TO_SHORTEN) {
+            return trimmedInput;
+        }
+
+        final String begin = trimmedInput.substring(0, 7) + "...";
+        final int start = trimmedInput.length() - (MAX_LENGTH_TO_SHORTEN - begin.length());
+        return begin + trimmedInput.substring(start);
     }
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  * @since 1.0.0
  */
-@ToString(callSuper = true)
+@ToString
 public final class UnaryOperation extends BaseNode {
     @Getter
     private final Operator operator;
@@ -73,7 +73,7 @@ public final class UnaryOperation extends BaseNode {
                 result.error(
                     difference(
                         "Operator",
-                        "This has operator %s but other has operator %s"),
+                        "This has operator%n%s%nbut other has operator%n%s%n"),
                     operator, otherUnOp.operator
                 );
             }

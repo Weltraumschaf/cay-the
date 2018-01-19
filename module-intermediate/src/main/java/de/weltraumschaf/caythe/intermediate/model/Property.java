@@ -87,7 +87,7 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
             result.error(
                 difference(
                     "Visibility",
-                    "This has visibility '%s' but other has visibility '%s'"),
+                    "This has visibility%n%s%nbut other has visibility%n%s%n"),
                 visibility, other.visibility);
         }
 
@@ -95,7 +95,7 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
             result.error(
                 difference(
                     "Type",
-                    "This has type '%s' but other has type '%s'"),
+                    "This has type %n%s%nbut other has type%n%s%n"),
                 type.getFullQualifiedName(), other.type.getFullQualifiedName());
         }
 
@@ -103,7 +103,7 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
             result.error(
                 difference(
                     "Name",
-                    "This has name '%s' but other has name '%s'"),
+                    "This has name %n%s%n but other has name %n%s%n"),
                 name, other.name);
         }
 

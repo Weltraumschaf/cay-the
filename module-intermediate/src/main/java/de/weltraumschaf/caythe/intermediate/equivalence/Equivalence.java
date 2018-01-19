@@ -34,7 +34,7 @@ public interface Equivalence<T> {
             return true;
         } else {
             result.error(
-                "Probed node types mismatch: '%s' != '%s'!",
+                "Probed node types mismatch:%n %s%n != %s%n!",
                 getClass(),
                 other.getClass()
             );
@@ -66,7 +66,7 @@ public interface Equivalence<T> {
     }
 
     default String difference(final String what, final String format) {
-        return what + " differ: " + format + "!";
+        return what + " differ%n" + format;
     }
 
     default boolean isNotEqual(final Object a, final Object b) {

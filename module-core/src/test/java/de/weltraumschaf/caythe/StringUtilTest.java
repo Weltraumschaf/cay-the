@@ -8,8 +8,8 @@ import static org.hamcrest.Matchers.*;
 /**
  * Tests for {@link StringUtil}.
  *
- * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ * @since 1.0.0
  */
 public class StringUtilTest {
 
@@ -36,5 +36,33 @@ public class StringUtilTest {
     @Test
     public void upperCaseFirst_firstCharacterLowerCase() {
         assertThat(StringUtil.upperCaseFirst("foobar"), is("Foobar"));
+    }
+
+    @Test
+    public void shorten_nullGiven() {
+        assertThat(StringUtil.shorten(null), is(""));
+    }
+
+    @Test
+    public void shorten_emptyGiven() {
+        assertThat(StringUtil.shorten(""), is(""));
+    }
+
+    @Test
+    public void shorten_blankGiven() {
+        assertThat(StringUtil.shorten("  "), is(""));
+    }
+
+    @Test
+    public void shorten_smallerThanTwentyChars() {
+        assertThat(StringUtil.shorten("/foo/bar/baz.ct"), is("/foo/bar/baz.ct"));
+    }
+
+    @Test
+    public void shorten_longerThanTwentyChars() {
+        final String input = "/de/weltraumschaf/caythe/frontend/transform/property_decl/OnePropertyWithCustomGetterNoSetter.ct";
+
+        assertThat(StringUtil.shorten(input).length(), is(StringUtil.MAX_LENGTH_TO_SHORTEN));
+        assertThat(StringUtil.shorten(input), is("/de/wel...operty_decl/OnePropertyWithCustomGetterNoSetter.ct"));
     }
 }
