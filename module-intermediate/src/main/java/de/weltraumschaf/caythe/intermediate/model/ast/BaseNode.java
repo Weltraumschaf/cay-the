@@ -1,5 +1,6 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -61,4 +62,8 @@ abstract class BaseNode implements AstNode {
             .collect(Collectors.joining(" "));
     }
 
+    @Override
+    public ModelDescription describe() {
+        return new ModelDescription(this);
+    }
 }

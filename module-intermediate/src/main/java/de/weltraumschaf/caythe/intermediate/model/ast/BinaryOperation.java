@@ -1,7 +1,10 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
+import de.weltraumschaf.caythe.intermediate.model.Describable;
 import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -72,14 +75,17 @@ public final class BinaryOperation extends BaseNode {
     @Override
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
+        Validate.notNull(other,"other");
+        Validate.notNull(result,"result");
+
         probeEquivalenceFor(BinaryOperation.class, other, result, otherBinOp -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotEqual(operator, otherBinOp.operator)) {
                 result.error(
                     difference(
                         "Operator",
-                        "This has operator%n%s%nbut other has operator%n%s%n"),
-                    operator, otherBinOp.operator
-                );
+                        describer.difference(operator, otherBinOp.operator)));
             }
 
             leftOperand.probeEquivalence(otherBinOp.leftOperand, result);
@@ -90,7 +96,7 @@ public final class BinaryOperation extends BaseNode {
     /**
      * All supported binary operators.
      */
-    public enum Operator implements IntermediateModel {
+    public enum Operator implements IntermediateModel, Describable {
         ASSIGN("="),
         ADDITION("+"),
         SUBTRACTION("-"),
@@ -134,6 +140,16 @@ public final class BinaryOperation extends BaseNode {
             }
 
             throw new IllegalArgumentException(String.format("No such operator: %s!", literal));
+        }
+
+        @Override
+        public String getNodeName() {
+            return literal;
+        }
+
+        @Override
+        public ModelDescription describe() {
+            return new ModelDescription(this);
         }
     }
 }

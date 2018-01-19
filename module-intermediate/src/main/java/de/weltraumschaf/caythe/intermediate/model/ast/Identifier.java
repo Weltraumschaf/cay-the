@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public final class Identifier extends BaseNode {
 
     public Identifier(final String name, final Position sourcePosition) {
         super(sourcePosition);
-        this.name = Validate.notEmpty(name,"name");
+        this.name = Validate.notEmpty(name, "name");
     }
 
     @Override
@@ -59,12 +60,13 @@ public final class Identifier extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(Identifier.class, other, result, otherIdentifier -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotEqual(name, otherIdentifier.name)) {
                 result.error(
                     difference(
                         "Name",
-                        "This has name%n%s%nbut other has name%n%s%n"),
-                    name, otherIdentifier.name
+                        describer.difference(name, otherIdentifier.name))
                 );
             }
         });

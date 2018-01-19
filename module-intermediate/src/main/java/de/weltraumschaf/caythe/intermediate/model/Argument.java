@@ -28,6 +28,11 @@ public final class Argument implements IntermediateModel, Equivalence<Argument> 
     }
 
     @Override
+    public ModelDescription describe() {
+        return new ModelDescription(this);
+    }
+    
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Argument)) {
             return false;

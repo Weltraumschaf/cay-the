@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  * Used to notify collected intermediate model errors.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
+ * @since 1.0.0
  */
 public final class Notification {
 

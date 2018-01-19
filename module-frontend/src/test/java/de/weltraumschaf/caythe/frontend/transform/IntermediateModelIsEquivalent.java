@@ -19,14 +19,22 @@ public final class IntermediateModelIsEquivalent<T extends Equivalence> extends 
 
     private IntermediateModelIsEquivalent(final T expected) {
         super();
-        this.expected = expected;
+        this.expected = Validate.notNull(expected, "expected");
+    }
+
+    boolean isOk() {
+        return result.isOk();
+    }
+
+    String report() {
+        return result.report();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean matchesSafely(final T actual) {
         expected.probeEquivalence(actual, result);
-        return result.isOk();
+        return isOk();
     }
 
     @Override
@@ -36,7 +44,7 @@ public final class IntermediateModelIsEquivalent<T extends Equivalence> extends 
 
     @Override
     protected void describeMismatchSafely(final T item, final Description description) {
-        description.appendText(result.report());
+        description.appendText(report());
     }
 
     @Factory

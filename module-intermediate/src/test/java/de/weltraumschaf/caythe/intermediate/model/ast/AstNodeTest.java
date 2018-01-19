@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import org.junit.Test;
 
@@ -12,6 +13,11 @@ import static org.hamcrest.Matchers.*;
  */
 public class AstNodeTest {
     private final AstNode sut = new AstNode() {
+        @Override
+        public ModelDescription describe() {
+            return null;
+        }
+
         @Override
         public void probeEquivalence(final AstNode other, final Notification result) {
 

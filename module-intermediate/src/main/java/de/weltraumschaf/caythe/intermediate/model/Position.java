@@ -18,7 +18,7 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @ToString(exclude = {"file"})
-public final class Position implements IntermediateModel, Serializable {
+public final class Position implements Serializable {
     /**
      * Constant for unknown position.
      * <p>
@@ -28,6 +28,7 @@ public final class Position implements IntermediateModel, Serializable {
     public static final Position UNKNOWN = new Position(0, 0);
     private static final String UNKNOWN_FILE = "n/a";
     @Getter
+    @Deprecated // TODO Move into the module class.
     private final String file;
     @Getter
     private final int line;
@@ -87,4 +88,5 @@ public final class Position implements IntermediateModel, Serializable {
             ", column=" + column +
             ')';
     }
+
 }

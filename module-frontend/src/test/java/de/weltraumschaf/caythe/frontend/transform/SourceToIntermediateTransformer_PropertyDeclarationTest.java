@@ -48,7 +48,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        assertThat(result.getProperties(), containsInAnyOrder(
+        assertThat(result.getProperty(0), equivalent(
             new Property("foo", Visibility.PRIVATE, new TypeName("org.caythe.core.basetypes", "String"))
         ));
     }
@@ -61,9 +61,13 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(3));
-        assertThat(result.getProperties(), containsInAnyOrder(
-            new Property("foo", Visibility.PRIVATE, TYPE_STRING),
-            new Property("bar", Visibility.PUBLIC, TYPE_INTEGER),
+        assertThat(result.getProperty(0), equivalent(
+            new Property("foo", Visibility.PRIVATE, TYPE_STRING)
+        ));
+        assertThat(result.getProperty(1), equivalent(
+            new Property("bar", Visibility.PUBLIC, TYPE_INTEGER)
+        ));
+        assertThat(result.getProperty(2), equivalent(
             new Property("baz", Visibility.EXPORT, TYPE_REAL)
         ));
     }
@@ -76,7 +80,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        assertThat(result.getProperties(), containsInAnyOrder(
+        assertThat(result.getProperty(0), equivalent(
             new Property("foo", Visibility.PUBLIC, TYPE_STRING,
                 Property.defaultGetter("foo", Visibility.PUBLIC, TYPE_STRING),
                 Method.NONE)
@@ -91,7 +95,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        assertThat(result.getProperties(), containsInAnyOrder(
+        assertThat(result.getProperty(0), equivalent(
             new Property("foo", Visibility.PUBLIC, TYPE_STRING,
                 Method.NONE,
                 Property.defaultSetter("foo", Visibility.PUBLIC, TYPE_STRING))
@@ -106,7 +110,7 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(1));
-        assertThat(result.getProperties(), containsInAnyOrder(
+        assertThat(result.getProperty(0), equivalent(
             new Property("foo", Visibility.PUBLIC, TYPE_STRING,
                 Property.defaultGetter("foo", Visibility.PUBLIC, TYPE_STRING),
                 Property.defaultSetter("foo", Visibility.PUBLIC, TYPE_STRING))
@@ -121,16 +125,15 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
         final Type result = sut.visit(parseFile(file));
 
         assertThat(result.getProperties(), hasSize(3));
-        assertThat(result.getProperties(), containsInAnyOrder(
-            new Property("foo", Visibility.PRIVATE, TYPE_STRING,
-                Property.defaultGetter("foo", Visibility.PRIVATE, TYPE_STRING),
-                Method.NONE),
-            new Property("bar", Visibility.PUBLIC, TYPE_INTEGER,
-                Property.defaultGetter("bar", Visibility.PUBLIC, TYPE_INTEGER),
-                Property.defaultSetter("bar", Visibility.PUBLIC, TYPE_INTEGER)),
-            new Property("baz", Visibility.EXPORT, TYPE_REAL,
-                Method.NONE,
-                Property.defaultSetter("baz", Visibility.EXPORT, TYPE_REAL))
+        assertThat(result.getProperty(0), equivalent(new Property("foo", Visibility.PRIVATE, TYPE_STRING,
+            Property.defaultGetter("foo", Visibility.PRIVATE, TYPE_STRING),
+            Method.NONE)));
+        assertThat(result.getProperty(1), equivalent(new Property("bar", Visibility.PUBLIC, TYPE_INTEGER,
+            Property.defaultGetter("bar", Visibility.PUBLIC, TYPE_INTEGER),
+            Property.defaultSetter("bar", Visibility.PUBLIC, TYPE_INTEGER))));
+        assertThat(result.getProperty(2), equivalent(new Property("baz", Visibility.EXPORT, TYPE_REAL,
+            Method.NONE,
+            Property.defaultSetter("baz", Visibility.EXPORT, TYPE_REAL))
         ));
     }
 
@@ -158,7 +161,6 @@ public class SourceToIntermediateTransformer_PropertyDeclarationTest extends Tra
             Property.customGetter("foo", Visibility.PUBLIC, TYPE_INTEGER, getterBody),
             Method.NONE);
 
-        assertThat(result.getProperties(), containsInAnyOrder(expected));
         assertThat(result.getProperties(), hasSize(1));
         assertThat(result.getProperty(0), equivalent(expected));
     }

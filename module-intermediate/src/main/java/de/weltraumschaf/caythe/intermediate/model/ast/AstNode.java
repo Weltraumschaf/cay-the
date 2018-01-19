@@ -30,13 +30,4 @@ public interface AstNode extends IntermediateModel, Serializable, Equivalence<As
      */
     <R> R accept(final AstVisitor<? extends R> visitor);
 
-    /**
-     * Returns the name of the method.
-     * <p>
-     * The name may be used for textual representations.
-     * </p>
-     *
-     * @return never {@code null} nor empty
-     */
-    String getNodeName();
 }

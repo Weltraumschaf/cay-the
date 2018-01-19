@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
 import lombok.ToString;
@@ -60,11 +61,13 @@ public final class BooleanLiteral extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(BooleanLiteral.class, other, result, otherBooleanLiteral -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotEqual(value, otherBooleanLiteral.value)) {
                 result.error(
                     difference(
                         "Value",
-                        "This has value%n%s%nbut other has value%n%s%n"),
+                        describer.difference(this, other)),
                     value, otherBooleanLiteral.value
                 );
             }

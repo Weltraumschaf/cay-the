@@ -1,5 +1,8 @@
 package de.weltraumschaf.caythe.intermediate.equivalence;
 
+import de.weltraumschaf.caythe.intermediate.model.Describable;
+import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,9 +16,14 @@ import static org.hamcrest.Matchers.*;
  */
 public class EquivalenceTest {
 
-    private final Equivalence<Object> sut = new Equivalence<Object>() {
+    private final Equivalence<Describable> sut = new Equivalence<Describable>() {
         @Override
-        public void probeEquivalence(final Object other, final Notification result) {
+        public ModelDescription describe() {
+            return null;
+        }
+
+        @Override
+        public void probeEquivalence(final Describable other, final Notification result) {
             throw new UnsupportedOperationException("Not implemented in test stub!");
         }
     };
@@ -24,7 +32,7 @@ public class EquivalenceTest {
     public void difference() {
         assertThat(
             sut.difference("Foo", "bar %s baz s%"),
-            is("Foo differ: bar %s baz s%!"));
+            is("Foo differ: bar %s baz s%"));
     }
 
     @Test
@@ -63,7 +71,7 @@ public class EquivalenceTest {
         });
 
         assertThat(result.isOk(), is(false));
-        assertThat(result.report(), is("Probed node types mismatch: 'class de.weltraumschaf.caythe.intermediate.equivalence.EquivalenceTest$Bar' != 'class de.weltraumschaf.caythe.intermediate.equivalence.EquivalenceTest$Baz'!"));
+        assertThat(result.report(), is("Probed node types differ: (bar) != (baz)"));
     }
 
     @Test
@@ -79,7 +87,7 @@ public class EquivalenceTest {
         assertThat(result.report(), is(""));
     }
 
-    private interface Foo extends Equivalence<Foo> {
+    private interface Foo extends Equivalence<Foo>, IntermediateModel {
     }
 
     private static class Bar implements Foo {
@@ -94,12 +102,22 @@ public class EquivalenceTest {
         public void probeEquivalence(final Foo other, final Notification result) {
             throw new UnsupportedOperationException("Not implemented in test stub!");
         }
+
+        @Override
+        public ModelDescription describe() {
+            return new ModelDescription(this);
+        }
     }
 
     private static class Baz implements Foo {
         @Override
         public void probeEquivalence(final Foo other, final Notification result) {
             throw new UnsupportedOperationException("Not implemented in test stub!");
+        }
+
+        @Override
+        public ModelDescription describe() {
+            return new ModelDescription(this);
         }
     }
 }

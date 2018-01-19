@@ -83,4 +83,9 @@ public final class Method implements IntermediateModel, Equivalence<Method> {
 
         body.probeEquivalence(other.body, result);
     }
+
+    @Override
+    public ModelDescription describe() {
+        return new ModelDescription(this);
+    }
 }

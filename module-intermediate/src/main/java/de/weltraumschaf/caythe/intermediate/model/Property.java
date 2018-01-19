@@ -62,6 +62,11 @@ public final class Property implements IntermediateModel, Equivalence<Property> 
     }
 
     @Override
+    public ModelDescription describe() {
+        return new ModelDescription(this);
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof Property)) {
             return false;

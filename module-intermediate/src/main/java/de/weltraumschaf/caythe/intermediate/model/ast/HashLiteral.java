@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import lombok.Getter;
 import lombok.ToString;
@@ -36,7 +37,7 @@ public final class HashLiteral extends BaseNode {
     public String serialize() {
         final String serializedValues = values.entrySet()
             .stream()
-            .map(e -> "("+ serialize(e.getKey(), e.getValue()) + ")")
+            .map(e -> "(" + serialize(e.getKey(), e.getValue()) + ")")
             .collect(Collectors.joining(" "));
         return serialize(serializedValues);
     }
@@ -66,13 +67,13 @@ public final class HashLiteral extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(HashLiteral.class, other, result, otherHash -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotSameSize(values, otherHash.values)) {
                 result.error(
                     difference(
                         "Value count",
-                        "This has%n%d%nvalues but other has%n%d%nvalues"),
-                    values.size(), otherHash.values.size()
-                );
+                        describer.valueCountMismatch(values, otherHash.values)));
             }
 
             final ArrayList<Map.Entry<AstNode, AstNode>> otherEntries = new ArrayList<>(otherHash.values.entrySet());

@@ -1,7 +1,10 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
+import de.weltraumschaf.caythe.intermediate.model.Describable;
 import de.weltraumschaf.caythe.intermediate.model.IntermediateModel;
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -69,13 +72,13 @@ public final class UnaryOperation extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(UnaryOperation.class, other, result, otherUnOp -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotEqual(operator, otherUnOp.operator)) {
                 result.error(
                     difference(
                         "Operator",
-                        "This has operator%n%s%nbut other has operator%n%s%n"),
-                    operator, otherUnOp.operator
-                );
+                        describer.difference(operator, otherUnOp.operator)));
             }
 
             operand.probeEquivalence(otherUnOp.operand, result);
@@ -85,7 +88,7 @@ public final class UnaryOperation extends BaseNode {
     /**
      * All supported unary operators.
      */
-    public enum Operator implements IntermediateModel {
+    public enum Operator implements IntermediateModel, Describable {
         NEG("-"),
         NOT("!");
 
@@ -113,6 +116,16 @@ public final class UnaryOperation extends BaseNode {
             }
 
             throw new IllegalArgumentException(String.format("No such operator: %s!", literal));
+        }
+
+        @Override
+        public String getNodeName() {
+            return literal;
+        }
+
+        @Override
+        public ModelDescription describe() {
+            return new ModelDescription(this);
         }
     }
 }

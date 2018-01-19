@@ -76,6 +76,11 @@ public final class TypeName implements IntermediateModel, Equivalence<TypeName> 
     }
 
     @Override
+    public String getNodeName() {
+        return "type-name";
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (!(o instanceof TypeName)) {
             return false;
@@ -109,5 +114,10 @@ public final class TypeName implements IntermediateModel, Equivalence<TypeName> 
                     "This has basename%n%s%nbut other has basename%n%s%n"),
                 basename, other.basename);
         }
+    }
+
+    @Override
+    public ModelDescription describe() {
+        return new ModelDescription(this);
     }
 }

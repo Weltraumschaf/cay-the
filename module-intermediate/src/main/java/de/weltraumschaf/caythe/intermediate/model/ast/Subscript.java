@@ -1,6 +1,7 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -63,22 +64,20 @@ public final class Subscript extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(Subscript.class, other, result, otherSubscript -> {
+            final ResultDescriber describer = new ResultDescriber();
+
             if (isNotEqual(identifier, otherSubscript.identifier)) {
                 result.error(
                     difference(
                         "Subscript identifier",
-                        "This has identifier%n%s%nbut other has identifier%n%s%n"),
-                    identifier, otherSubscript.identifier
-                );
+                        describer.difference(identifier, otherSubscript.identifier)));
             }
 
             if (isNotEqual(index, otherSubscript.index)) {
                 result.error(
                     difference(
                         "Subscript index",
-                        "This has index%n%s%nbut other has index%n%s%n"),
-                    index, otherSubscript.index
-                );
+                        describer.difference(index, otherSubscript.index)));
             }
         });
     }

@@ -1,6 +1,8 @@
 package de.weltraumschaf.caythe.intermediate.model.ast;
 
 import de.weltraumschaf.caythe.intermediate.equivalence.Notification;
+import de.weltraumschaf.caythe.intermediate.equivalence.ResultDescriber;
+import de.weltraumschaf.caythe.intermediate.model.ModelDescription;
 import de.weltraumschaf.caythe.intermediate.model.Position;
 import de.weltraumschaf.commons.validate.Validate;
 import lombok.Getter;
@@ -59,14 +61,8 @@ public final class Return extends BaseNode {
     public void probeEquivalence(final AstNode other, final Notification result) {
         // TODO Write tests for this method.
         probeEquivalenceFor(Return.class, other, result, otherReturn -> {
-            if (isNotEqual(result, otherReturn.value)) {
-                result.error(
-                    difference(
-                        "Value",
-                        "This has value%n%s%nbut other has value%n%s%n"),
-                    value, otherReturn.value
-                );
-            }
+            value.probeEquivalence(otherReturn.value, result);
         });
     }
+
 }
