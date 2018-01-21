@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 import de.weltraumschaf.caythe.intermediate.model.ast.BooleanLiteral;
 import de.weltraumschaf.caythe.intermediate.model.ast.IntegerLiteral;
 import de.weltraumschaf.caythe.intermediate.model.ast.RealLiteral;
+import de.weltraumschaf.caythe.intermediate.model.ast.StringLiteral;
 import de.weltraumschaf.commons.validate.Validate;
 
 /**
@@ -21,6 +22,8 @@ final class ModelDescriber {
             return describe((RealLiteral) described);
         } else if (described instanceof BooleanLiteral) {
             return describe((BooleanLiteral) described);
+        } else if (described instanceof StringLiteral) {
+            return describe((StringLiteral) described);
         }
 
         return formatNode(described.getNodeName());
@@ -36,6 +39,10 @@ final class ModelDescriber {
 
     private String describe(final BooleanLiteral described) {
         return formatNode(described.getNodeName(), String.valueOf(described.getValue()));
+    }
+
+    private String describe(final StringLiteral described) {
+        return formatNode(described.getNodeName(), '"' + String.valueOf(described.getValue()) + '"');
     }
 
     private String formatNode(final String nodeName) {

@@ -3,6 +3,7 @@ package de.weltraumschaf.caythe.intermediate.model;
 import de.weltraumschaf.caythe.intermediate.model.ast.BooleanLiteral;
 import de.weltraumschaf.caythe.intermediate.model.ast.IntegerLiteral;
 import de.weltraumschaf.caythe.intermediate.model.ast.RealLiteral;
+import de.weltraumschaf.caythe.intermediate.model.ast.StringLiteral;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -34,5 +35,12 @@ public class ModelDescriberTest {
         assertThat(
             sut.describe(new BooleanLiteral(true, Position.UNKNOWN)),
             is("(boolean true)"));
+    }
+
+    @Test
+    public void describe_stringLiteral() {
+        assertThat(
+            sut.describe(new StringLiteral("snafu", Position.UNKNOWN)),
+            is("(string \"snafu\")"));
     }
 }
