@@ -1,5 +1,7 @@
 # Cay-The
 
+![This project is not actively maintained!](https://img.shields.io/badge/Development-inactive-red?style=for-the-badge)
+
 With  this  project  I  play  around   with  [ANTLR4][antlr]  to  create  a  own
 programinglanguage. First  for learning purposes,  but second also to  build the
 next worlds best programming language ;)
@@ -53,7 +55,7 @@ Conclusions:
 ## Multiline Strings / Heredoc
 
 TODO
- 
+
 [antlr]:        http://www.antlr.org/
 [dist]:         https://ci.weltraumschaf.de/job/cay-the/lastSuccessfulBuild/artifact/module-distribution/target/distribution-1.0.0-SNAPSHOT.zip
 [java8]:        https://java.com/en/download/
